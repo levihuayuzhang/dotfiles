@@ -5,8 +5,8 @@
     font-size: 16px;
     font-weight: 500;
     font-weight: bold;
-    transition-property: background;
-    transition-duration: 0.2s;
+    transition-property: background-color;
+    transition-duration: 0.3s;
     border-radius: 20px;
 }
 
@@ -22,7 +22,8 @@ window#waybar.hidden {
     margin: 8px;
     padding-left: 8px;
     padding-right: 8px;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: @sapphire;
+    color: rgba(0, 0, 0, 1);
 }
 
 button {
@@ -52,8 +53,9 @@ button:hover {
 }
 
 #workspaces button.active {
-    background-color: rgba(0, 0, 0, 0.3);
+    /* color: black; */
     color: @mauve;
+    background-color: black;
     border-top: 2px solid @mauve;
     border-left: 2px solid @mauve;
     border-right: 2px solid @mauve;
@@ -64,6 +66,7 @@ button:hover {
     background-color: #eb4d4b;
 }
 
+#custom-arch,
 #cpu,
 #memory,
 #temperature,
@@ -79,16 +82,27 @@ button:hover {
 #scratchpad {
   margin-top: 2px;
   margin-bottom: 2px;
-  /* margin-left: 4px;
-  margin-right: 4px; */
-  padding-left: 4px;
-  padding-right: 4px;
-  background-color: rgba(0, 0, 0, 0.5);
+  margin-left: 2px;
+  margin-right: 2px;
+  padding-left: 2px;
+  padding-right: 2px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+#custom-arch {
+    font-size: 20px;
+    font-weight: 500;
+    font-weight: bold;
+    color: @teal;
+    border-top: 1px solid @teal;
+    border-left: 1px solid @teal;
+    border-right: 1px solid @teal;
+    border-bottom: 1px solid @teal;
 }
 
 #backlight {
-    color: @rosewater;
-    border-bottom: 2px solid @rosewater;
+    color: rgba(255, 255, 255, 255);
+    border-bottom: 2px solid rgba(255, 255, 255, 255);
 }
 
 #cpu {
@@ -107,9 +121,9 @@ button:hover {
 }
 
 #tray {
-    color: @mauve;
-    border-bottom: 2px solid @mauve;
-    background-color: rgba(0, 0, 0, 0.1);
+    /* color: @mauve; */
+    background-color: rgba(255, 255, 255, 255);
+    border-bottom: 2px solid teal;
 }
 
 #clock {

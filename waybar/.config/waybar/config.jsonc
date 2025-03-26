@@ -1,11 +1,11 @@
 {
     "position": "top",
-    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-left": ["custom/arch", "hyprland/workspaces", "hyprland/window"],
     "modules-center": ["cpu", "memory", "temperature", "network"],
     "modules-right": ["tray", "pulseaudio", "backlight", "battery", "clock"],
     "clock": {
       "interval": 1,
-      "format": "<span foreground='#f5c2e7'> </span> {:%M-%d %a %H:%M:%OS} ",
+      "format": " {:%Y-%m-%d %a %H:%M:%OS} ",
       "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
     "backlight": {
@@ -21,7 +21,7 @@
     },
     "memory": {
         "interval": 3,
-        "format": "  {}% ",
+        "format": "  {}% ",
         "tooltip": true,
         "on-click": "gnome-system-monitor"
     },
@@ -32,7 +32,7 @@
         "critical-threshold": 80,
         // "format-critical": "{temperatureC}°C  {icon} ",
         // "format": "{temperatureC}°C  {icon} ",
-        "format": " {icon} {temperatureC}°C ",
+        "format": " {icon} {temperatureC} 󰔄 ",
         "format-icons": ["", "", ""]
     },
     "tray": {
@@ -58,7 +58,7 @@
     "network": {
       "interval": 2,
     //   "format-wifi": "{essid} ({signalStrength}%) ",
-      "format-wifi": " {icon} {bandwidthDownBytes}  {bandwidthUpBytes} <span size='13000' foreground='#f5e0dc'> {signalStrength}% {essid}</span> ",
+      "format-wifi": " {icon} {bandwidthDownBytes}  {bandwidthUpBytes} <span size='13000' foreground='#f5e0dc'> {signalStrength}% {essid}</span> ",
       "format-ethernet": " {icon} {bandwidthDownBytes}  {bandwidthUpBytes} <span size='13000' foreground='#f5e0dc'>󰌘  </span> ",
       "format-linked": " {ifname} (No IP) ",
       "format-disconnected": " <span size='13000' foreground='#F60002'>  </span>Disconnected",
@@ -84,5 +84,14 @@
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
+    },
+    "hyprland/workspaces": {
+        "persistent-workspaces": {
+             "*": 3 // 5 workspaces by default on every monitor
+            //  "HDMI-A-1": 3 // but only three on HDMI-A-1
+        }
+    },
+    "custom/arch": {
+        "format": "  "
     }
-  }
+}
