@@ -1,0 +1,8 @@
+patch:
+  "menu/page_size": 9
+  "translator/enable_user_dict": true
+  "translator/enable_encoder": true #是否开启自动造词〔仅table_translator有效〕
+  "translator/encode_commit_history": true #是否对已上屛词自动成词〔仅table_translator效〕
+  "translator/enable_sentence": true #是否开启自动造句
+  "translator/enable_completion": true    #编码逐渐提示开关；编码提示
+  "translator/enable_charset_filter": true    #字符集过滤，低重形码用不着

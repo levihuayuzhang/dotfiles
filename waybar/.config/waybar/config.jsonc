@@ -1,0 +1,88 @@
+{
+    "position": "top",
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-center": ["cpu", "memory", "temperature", "network"],
+    "modules-right": ["tray", "pulseaudio", "backlight", "battery", "clock"],
+    "clock": {
+      "interval": 1,
+      "format": "<span foreground='#f5c2e7'> </span> {:%M-%d %a %H:%M:%OS} ",
+      "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": " {icon} {percent}% ",
+        "format-icons": ["", "", "", "", "", "", "", "", ""]
+    },
+    "cpu": {
+        "interval": 2,
+        "format": "  {usage}% ",
+        "tooltip": true,
+        "on-click": "gnome-system-monitor"
+    },
+    "memory": {
+        "interval": 3,
+        "format": "  {}% ",
+        "tooltip": true,
+        "on-click": "gnome-system-monitor"
+    },
+    "temperature": {
+        "interval": 3,
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C  {icon} ",
+        // "format": "{temperatureC}°C  {icon} ",
+        "format": " {icon} {temperatureC}°C ",
+        "format-icons": ["", "", ""]
+    },
+    "tray": {
+        "icon-size": 16,
+        "spacing": 10
+    },
+    "battery": {
+      "states": {
+        // "good": 95,
+        "warning": 30,
+        "critical": 15
+      },
+      "format": " <span size='13000' foreground='#a6e3a1'> {icon} </span>{capacity}% ",
+      "format-warning": "<span size='13000' foreground='#B1E3AD'> {icon} </span>{capacity}% ",
+      "format-critical": "<span size='13000' foreground='#E38C8F'> {icon} </span>{capacity}% ",
+      "format-charging": "<span size='13000' foreground='#B1E3AD'>  {icon} </span>{capacity}% ",
+      "format-plugged": "<span size='13000' foreground='#B1E3AD'>  {icon} </span>{capacity}% ",
+      "format-alt": "<span size='13000' foreground='#B1E3AD'> {icon} </span> {time} ",
+      "format-full": "<span size='13000' foreground='#B1E3AD'>  {icon} </span>{capacity}% ",
+      "format-icons": ["", "", "", "", ""],
+      "tooltip-format": "{time}"
+    },
+    "network": {
+      "interval": 2,
+    //   "format-wifi": "{essid} ({signalStrength}%) ",
+      "format-wifi": " {icon} {bandwidthDownBytes}  {bandwidthUpBytes} <span size='13000' foreground='#f5e0dc'> {signalStrength}% {essid}</span> ",
+      "format-ethernet": " {icon} {bandwidthDownBytes}  {bandwidthUpBytes} <span size='13000' foreground='#f5e0dc'>󰌘  </span> ",
+      "format-linked": " {ifname} (No IP) ",
+      "format-disconnected": " <span size='13000' foreground='#F60002'>  </span>Disconnected",
+      "tooltip-format-wifi": " {ifname} via {gwaddr} , Signal Strenght: {signalStrength}%",
+      "tooltip-format-ethernet": "{ifname} 󰌘",
+      "tooltip-format-disconnected": "󰌙 Disconnected",
+      "format-alt": " {ifname}: {ipaddr}/{cidr}"
+    },
+    "pulseaudio": {
+        "format": " {icon} {volume}% {format_source} ",
+        "format-bluetooth": " {icon} {volume}% {format_source} ",
+        "format-bluetooth-muted": "  {icon} {format_source} ",
+        "format-source": " {volume}%",
+        "format-source-muted": "",
+        "format-muted": "  {format_source} ",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    }
+  }
