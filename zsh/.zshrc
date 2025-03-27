@@ -130,7 +130,7 @@ export http_proxy="http://127.0.0.1:7890"
 export https_proxy="http://127.0.0.1:7890"
 export all_proxy="socks5://127.0.0.1:7891"
 
-export EDITOR="vim"
+export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
