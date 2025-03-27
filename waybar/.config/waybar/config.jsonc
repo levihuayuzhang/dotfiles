@@ -1,8 +1,13 @@
 {
     "position": "top",
-    "modules-left": ["custom/arch", "hyprland/workspaces", "hyprland/window"],
-    "modules-center": ["cpu", "memory", "temperature", "network"],
-    "modules-right": ["tray", "pulseaudio", "backlight", "battery", "clock"],
+    // full
+    // "modules-left": ["custom/arch", "hyprland/workspaces", "hyprland/window"],
+    // "modules-center": ["cpu", "memory", "temperature", "network"],
+    // "modules-right": ["tray", "pulseaudio", "backlight", "battery", "clock"],
+    // simple
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["tray", "cpu", "memory", "temperature", "network", "pulseaudio", "backlight", "battery"],
     "clock": {
       "interval": 1,
       "format": " {:%Y-%m-%d %a %H:%M:%OS} ",
@@ -23,6 +28,7 @@
         "interval": 3,
         "format": "  {}% ",
         "tooltip": true,
+        "tooltip-format": "{used}GB/{total}GB",
         "on-click": "gnome-system-monitor"
     },
     "temperature": {
@@ -33,39 +39,38 @@
         // "format-critical": "{temperatureC}°C  {icon} ",
         // "format": "{temperatureC}°C  {icon} ",
         "format": " {icon} {temperatureC} 󰔄 ",
-        "format-icons": ["", "", ""]
+        "format-icons": ["", "", "󰈸"]
     },
     "tray": {
-        "icon-size": 16,
-        "spacing": 10
+        // "icon-size": 16,
+        "spacing": 5
     },
     "battery": {
       "states": {
-        // "good": 95,
+        "good": 95,
         "warning": 30,
         "critical": 15
       },
-      "format": " <span size='13000' foreground='#a6e3a1'> {icon} </span>{capacity}% ",
-      "format-warning": "<span size='13000' foreground='#B1E3AD'> {icon} </span>{capacity}% ",
-      "format-critical": "<span size='13000' foreground='#E38C8F'> {icon} </span>{capacity}% ",
-      "format-charging": "<span size='13000' foreground='#B1E3AD'>  {icon} </span>{capacity}% ",
-      "format-plugged": "<span size='13000' foreground='#B1E3AD'>  {icon} </span>{capacity}% ",
-      "format-alt": "<span size='13000' foreground='#B1E3AD'> {icon} </span> {time} ",
-      "format-full": "<span size='13000' foreground='#B1E3AD'>  {icon} </span>{capacity}% ",
+      "format": " {icon} {capacity}% ",
+      "format-warning": " {icon} {capacity}% ",
+      "format-critical": " {icon} {capacity}% ",
+      "format-charging": "  󱐋 {icon} {capacity}% ",
+      "format-plugged": "  {icon} {capacity}% ",
+      "format-alt": " {icon}  {time} ",
+      "format-full": "  {icon} {capacity}% ",
       "format-icons": ["", "", "", "", ""],
       "tooltip-format": "{time}"
     },
     "network": {
       "interval": 2,
-    //   "format-wifi": "{essid} ({signalStrength}%) ",
-      "format-wifi": " {icon} {bandwidthDownBytes}  {bandwidthUpBytes} <span size='13000' foreground='#f5e0dc'> {signalStrength}% {essid}</span> ",
-      "format-ethernet": " {icon} {bandwidthDownBytes}  {bandwidthUpBytes} <span size='13000' foreground='#f5e0dc'>󰌘  </span> ",
-      "format-linked": " {ifname} (No IP) ",
-      "format-disconnected": " <span size='13000' foreground='#F60002'>  </span>Disconnected",
-      "tooltip-format-wifi": " {ifname} via {gwaddr} , Signal Strenght: {signalStrength}%",
-      "tooltip-format-ethernet": "{ifname} 󰌘",
-      "tooltip-format-disconnected": "󰌙 Disconnected",
-      "format-alt": " {ifname}: {ipaddr}/{cidr}"
+      "format-wifi": " {icon} ",
+      "format-ethernet": " {icon}󰌘 ",
+      "format-linked": "  {ifname} (No IP) ",
+      "format-disconnected": "  󰌺  Disconnected",
+      "tooltip-format-wifi": " {ifname}  {essid}: {signalStrength}%  {bandwidthDownBytes}  {bandwidthUpBytes} ",
+      "tooltip-format-ethernet": "{ifname} 󰌘  {bandwidthDownBytes}  {bandwidthUpBytes} ",
+      "tooltip-format-disconnected": "󰌙 󰌺 Disconnected",
+      "format-alt": " {ifname}: {ipaddr}/{cidr}  {bandwidthDownBytes}  {bandwidthUpBytes} "
     },
     "pulseaudio": {
         "format": " {icon} {volume}% {format_source} ",

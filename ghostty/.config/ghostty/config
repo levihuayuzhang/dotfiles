@@ -51,7 +51,7 @@ window-theme = auto
 window-height = 33
 window-width = 110
 window-colorspace = display-p3
-background-opacity = 0.8
+background-opacity = 0.9
 background-blur = 10
 
 macos-icon = holographic
