@@ -1,11 +1,15 @@
 {
     "position": "top",
-    // full
+    // full hyprland
     // "modules-left": ["custom/arch", "hyprland/workspaces", "hyprland/window"],
     // "modules-center": ["cpu", "memory", "temperature", "network"],
     // "modules-right": ["tray", "pulseaudio", "backlight", "battery", "clock"],
-    // simple
-    "modules-left": ["hyprland/workspaces"],
+    // simple hyprland
+    // "modules-left": ["hyprland/workspaces"],
+    // "modules-center": ["clock"],
+    // "modules-right": ["tray", "cpu", "memory", "temperature", "network", "pulseaudio", "backlight", "battery"],
+    // simple niri
+    "modules-left": ["niri/workspaces"],
     "modules-center": ["clock"],
     "modules-right": ["tray", "cpu", "memory", "temperature", "network", "pulseaudio", "backlight", "battery"],
     "clock": {
