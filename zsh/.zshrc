@@ -102,29 +102,14 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias vi="nvim"
+alias vim="nvim"
 
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # starship, replace p10k-level 
 eval "$(starship init zsh)"
-
-# HISTFILE=~/.history
-# HISTSIZE=10000
-# SAVEHIST=50000
-
-######################################################
-# start hyprland after login into tty1
-# this should located in ~/.zprofile
-#if uwsm check may-start && uwsm select; then
-#	exec uwsm start default
-#fi
-
-#######################################################
-# alias l="ls -la"
-# alias vi="nvim"
-# alias vim="nvim"
-# alias hl="hyprland"
 
 export http_proxy="http://127.0.0.1:7890"
 export https_proxy="http://127.0.0.1:7890"
@@ -134,5 +119,4 @@ export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
-
 
