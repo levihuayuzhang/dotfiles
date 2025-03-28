@@ -42,6 +42,7 @@ return {
           'doxygen',
           'dockerfile',
           'desktop',
+          'hyprlang',
         },
 
         sync_install = false,
