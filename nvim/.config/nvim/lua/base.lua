@@ -1,4 +1,3 @@
-
 local opt = vim.opt
 local api = vim.api
 
@@ -29,18 +28,20 @@ opt.vb = true
 opt.wrap = false
 opt.signcolumn = yes
 opt.colorcolumn = '80'
-api.nvim_create_autocmd('Filetype', { pattern = 'rust', command = 'set colorcolumn=100' })
+api.nvim_create_autocmd(
+    'Filetype',
+    { pattern = 'rust', command = 'set colorcolumn=100' }
+)
 
 api.nvim_create_autocmd('TextYankPost', {
-        callback=function ()
-                vim.highlight.on_yank({
-                        timeout=300
-                })
-        end
+    callback = function()
+        vim.highlight.on_yank {
+            timeout = 300,
+        }
+    end,
 })
 
--- opt.scrolloff = 5
--- opt.sidescrolloff = 5
-
+opt.scrolloff = 5
+opt.sidescrolloff = 5
 opt.cursorline = true
-opt.termguicolors = true
+--- opt.termguicolors = true
