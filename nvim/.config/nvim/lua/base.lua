@@ -44,4 +44,4 @@ api.nvim_create_autocmd('TextYankPost', {
 opt.scrolloff = 5
 opt.sidescrolloff = 5
 opt.cursorline = true
---- opt.termguicolors = true
+opt.termguicolors = true

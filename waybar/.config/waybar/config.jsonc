@@ -9,9 +9,9 @@
     // "modules-center": ["clock"],
     // "modules-right": ["tray", "cpu", "memory", "temperature", "network", "pulseaudio", "backlight", "battery"],
     // simple niri
-    "modules-left": ["niri/workspaces"],
+    "modules-left": ["custom/arch", "niri/workspaces", "tray"],
     "modules-center": ["clock"],
-    "modules-right": ["tray", "cpu", "memory", "temperature", "network", "pulseaudio", "backlight", "battery"],
+    "modules-right": ["cpu", "memory", "temperature", "network", "pulseaudio", "backlight", "battery"],
     "clock": {
       "interval": 1,
       "format": " {:%Y-%m-%d %a %H:%M:%OS} ",
