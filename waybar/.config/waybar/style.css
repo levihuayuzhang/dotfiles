@@ -108,8 +108,8 @@ button:hover {
 #scratchpad {
   margin-top: 2px;
   margin-bottom: 2px;
-  margin-left: 2px;
-  margin-right: 2px;
+  /* margin-left: 2px;
+  margin-right: 2px; */
   /* padding-left: 2px; */
   /* padding-right: 2px; */
   /* background-color: rgba(0, 0, 0, 0.6); */

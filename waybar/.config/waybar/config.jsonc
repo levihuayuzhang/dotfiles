@@ -1,5 +1,5 @@
 {
-    "position": "top",
+    "position": "bottom",// "top",
     // full hyprland
     // "modules-left": ["custom/arch", "hyprland/workspaces", "hyprland/window"],
     // "modules-center": ["cpu", "memory", "temperature", "network"],

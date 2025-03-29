@@ -11,6 +11,9 @@ return {
                     cargo = {
                         allFeatures = true,
                     },
+                    checkOnSave = {
+                        command = 'clippy',
+                    },
                     imports = {
                         group = {
                             enable = false,
