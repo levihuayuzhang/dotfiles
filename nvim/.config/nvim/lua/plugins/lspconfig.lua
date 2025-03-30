@@ -28,6 +28,9 @@ return {
             },
         }
 
+        -- Python ruff: https://docs.astral.sh/ruff/editors/setup/
+        lspconfig.ruff.setup {}
+
         -- golang
         vim.api.nvim_create_autocmd('BufWritePre', {
             pattern = '*.go',

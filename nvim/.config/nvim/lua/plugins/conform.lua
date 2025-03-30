@@ -28,6 +28,11 @@ return {
                 timeout_ms = 500,
                 lsp_format = 'fallback',
             },
+            formatters = {
+                black = {
+                    prepend_args = { '--fast' },
+                },
+            },
         }
     end,
 }
