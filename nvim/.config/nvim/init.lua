@@ -1,4 +1,3 @@
-require 'base'
-require 'keymap'
-
 require 'config.lazy'
+require 'config.base'
+require 'config.keymap'
