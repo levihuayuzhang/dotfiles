@@ -43,6 +43,7 @@ return {
           'dockerfile',
           'desktop',
           'hyprlang',
+          'latex',
         },
 
         sync_install = false,
@@ -67,7 +68,6 @@ return {
           },
         },
       }
-
     end,
   },
 }
