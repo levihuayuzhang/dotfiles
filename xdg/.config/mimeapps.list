@@ -1,0 +1,18 @@
+[Default Applications]
+image/png=org.kde.gwenview.desktop
+image/jpeg=org.kde.gwenview.desktop
+# application/pdf=okularApplication_pdf.desktop
+application/pdf=sioyek.desktop
+text/html=firefox-developer-edition.desktop
+x-scheme-handler/http=firefox-developer-edition.desktop
+x-scheme-handler/https=firefox-developer-edition.desktop
+x-scheme-handler/about=firefox-developer-edition.desktop
+x-scheme-handler/unknown=firefox-developer-edition.desktop
+video/mp4=mpv.desktop
+
+[Added Associations]
+image/png=org.kde.gwenview.desktop;
+image/jpeg=org.kde.gwenview.desktop;
+# application/pdf=okularApplication_pdf.desktop;
+application/pdf=sioyek.desktop
+video/mp4=mpv.desktop;
