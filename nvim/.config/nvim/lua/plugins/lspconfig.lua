@@ -1,6 +1,16 @@
 return {
   'neovim/nvim-lspconfig',
-  config = function()
+  dependencies = {
+    'mason.nvim',
+  },
+  opts = {
+    -- should have been enabled but but showing on buffer open
+    -- thus, have to manually enable inlay hint again or use defer func
+    inlay_hints = {
+      enabled = true,
+    },
+  },
+  config = function(_, opts)
     local lspconfig = require 'lspconfig'
 
     -- Rust
