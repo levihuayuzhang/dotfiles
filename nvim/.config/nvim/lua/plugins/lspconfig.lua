@@ -166,10 +166,10 @@ return {
 
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
 
-        --[[ -- inlay hints not working (not showing but loaded)
+        -- inlay hints not working (not showing but loaded)
         if client.server_capabilities.inlayHintProvider then
           vim.lsp.inlay_hint.enable(true, { ev.buf })
-        end ]]
+        end
 
         client.server_capabilities.semanticTokensProvider = nil
 
