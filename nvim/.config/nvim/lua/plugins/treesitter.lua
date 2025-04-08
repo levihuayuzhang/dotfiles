@@ -6,7 +6,8 @@ return {
     config = function()
       require('nvim-treesitter.configs').setup {
         ensure_installed = {
-          'rust',
+          -- 'rust',
+          -- 'latex',
           'toml',
           'zig',
           'python',
@@ -43,7 +44,6 @@ return {
           'dockerfile',
           'desktop',
           'hyprlang',
-          -- 'latex',
         },
 
         sync_install = false,
@@ -52,8 +52,11 @@ return {
 
         highlight = {
           enable = true,
-          disable = { 'latex' }, -- using vimtex
-          additional_vim_regex_highlighting = false,
+          disable = {
+            'latex', -- use vimtex
+            'rust', -- use rust-analyzer
+          },
+          additional_vim_regex_highlighting = true,
         },
         autotag = {
           enable = true,
@@ -61,7 +64,7 @@ return {
         indent = {
           enable = true,
         },
-        incremental_selection = {
+        --[[ incremental_selection = {
           enable = true,
           keymaps = {
             init_selection = '<enter>',
@@ -69,7 +72,7 @@ return {
             scope_incremental = false,
             node_decremental = '<bs>',
           },
-        },
+        }, ]]
       }
     end,
   },
