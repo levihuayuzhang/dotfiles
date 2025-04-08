@@ -52,7 +52,7 @@ return {
 
         highlight = {
           enable = true,
-
+          disable = { 'latex' }, -- using vimtex
           additional_vim_regex_highlighting = false,
         },
         autotag = {
