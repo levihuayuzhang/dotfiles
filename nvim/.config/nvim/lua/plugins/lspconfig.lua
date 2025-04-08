@@ -18,12 +18,21 @@ return {
     lspconfig.rust_analyzer.setup {
 
       on_attach = function(client, bufnr)
-        -- use defer func as workaround for start with inlay hint
-        -- (which enabled but not shown)
-        -- so use this for now as a late loding
-        vim.defer_fn(function()
-          vim.lsp.inlay_hint.enable(true)
-        end, 2500)
+        if opts.inlay_hints.enabled then
+          if
+            vim.api.nvim_buf_is_valid(bufnr)
+            and vim.bo[bufnr].buftype == ''
+          then
+            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+            -- use defer func as workaround for start with inlay hint
+            -- (which enabled but not shown)
+            -- so use this for now as a late loding
+            vim.defer_fn(function()
+              -- vim.lsp.inlay_hint.enable(true)
+              vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+            end, 2500)
+          end
+        end
       end,
 
       capabilities = capabilities,
