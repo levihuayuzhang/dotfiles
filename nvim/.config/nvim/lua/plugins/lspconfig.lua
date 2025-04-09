@@ -12,6 +12,7 @@ return {
     local lspconfig = require 'lspconfig'
     -- local capabilities = require('blink.cmp').get_lsp_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
+    local methods = vim.lsp.protocol.Methods
 
     -- Rust
     lspconfig.rust_analyzer.setup {
@@ -74,20 +75,25 @@ return {
           },
         },
       },
-      --[[ on_attach = function(client, bufnr)
-        if opts.inlay_hints.enabled then
-          if
-            vim.api.nvim_buf_is_valid(bufnr)
-            and vim.bo[bufnr].buftype == ''
-          then
+      --[[ -- provide inlay hint on buffer open
+      -- but disable inlay hints by default
+      -- trigger it using <leader>h instead
+      -- rust one could be annoying sometimes
+      -- and make the line to long to show in terminal
+      on_attach = function(client, bufnr)
+        if
+          opts.inlay_hints.enabled
+          and vim.api.nvim_buf_is_valid(bufnr)
+          and vim.bo[bufnr].buftype == ''
+          and client.server_capabilities.inlayHintProvider
+          and client:supports_method(methods.textDocument_inlayHint)
+        then
+          -- use defer func as workaround for start with inlay hint
+          -- (which enabled but not shown on buffer open)
+          -- so use this for now as a late loding
+          vim.defer_fn(function()
             vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-            -- use defer func as workaround for start with inlay hint
-            -- (which enabled but not shown)
-            -- so use this for now as a late loding
-            vim.defer_fn(function()
-              vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-            end, 2500)
-          end
+          end, 2500)
         end
       end, ]]
     }
@@ -195,24 +201,13 @@ return {
         vim.keymap.set('n', '<leader>f', function()
           vim.lsp.buf.format { async = true }
         end, opts)
-
-        -- local client = vim.lsp.get_client_by_id(ev.data.client_id)
-
-        -- disable inlay hints by default
-        -- trigger it using <leader>h instead
-        -- rust one could be annoying sometimes
-        -- and make the line to long to show in terminal
-        --[[ -- inlay hints not working (not showing at buffer open but loaded)
-        if client.server_capabilities.inlayHintProvider then
-          vim.lsp.inlay_hint.enable(true, { ev.buf })
-        end ]]
-
-        -- client.server_capabilities.semanticTokensProvider = nil
-
         -- keymap for inlay hint switch
         vim.keymap.set('n', '<leader>h', function()
           vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
         end, { desc = 'Toggle inlay hints' })
+
+        -- local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        -- client.server_capabilities.semanticTokensProvider = nil
       end,
     })
   end,
