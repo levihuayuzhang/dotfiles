@@ -4,20 +4,77 @@ return {
     'mason.nvim',
   },
   opts = {
-    -- should have been enabled but but showing on buffer open
-    -- thus, have to manually enable inlay hint again or use defer func
     inlay_hints = {
-      enabled = true,
+      enabled = true, -- globally set to true
     },
   },
   config = function(_, opts)
     local lspconfig = require 'lspconfig'
+    -- local capabilities = require('blink.cmp').get_lsp_capabilities()
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
 
     -- Rust
-    local capabilities = require('blink.cmp').get_lsp_capabilities()
     lspconfig.rust_analyzer.setup {
-
-      on_attach = function(client, bufnr)
+      capabilities = capabilities,
+      -- filetypes = { 'rust' },
+      settings = {
+        ['rust-analyzer'] = {
+          cargo = {
+            autoreload = true,
+            features = 'all',
+          },
+          diagnostics = {
+            enable = true,
+            styleLints = { enable = true },
+          },
+          checkOnSave = {
+            enable = true,
+          },
+          check = {
+            command = 'clippy',
+            features = 'all',
+          },
+          --[[ imports = {
+            group = {
+              enable = false,
+            },
+          }, ]]
+          --[[ assist = {
+            importEnforceGranularity = true,
+            importPrefix = 'create',
+          }, ]]
+          --[[ completion = {
+            postfix = {
+              enable = false,
+            },
+          }, ]]
+          inlayHints = {
+            typeHints = { enable = true },
+            chainingHints = { enable = true },
+            closingBraceHints = { enable = true },
+            bindingModeHints = { enable = true },
+            closureCaptureHints = { enable = true },
+            closureReturnTypeHints = { enable = 'always' },
+            discriminantHints = { enable = 'always' },
+            expressionAdjustmentHints = { enable = 'always' },
+            genericParameterHints = {
+              const = { enable = true },
+              lifetime = { enable = true },
+              type = { enable = true },
+            },
+            implicitDrops = { enable = true },
+            implicitSizedBoundHints = { enable = true },
+            maxLength = { nil },
+            reborrowHints = { enable = 'always' },
+            renderColons = { enable = true },
+            lifetimeElisionHints = {
+              enable = true,
+              useParameterNames = true,
+            },
+          },
+        },
+      },
+      --[[ on_attach = function(client, bufnr)
         if opts.inlay_hints.enabled then
           if
             vim.api.nvim_buf_is_valid(bufnr)
@@ -28,53 +85,11 @@ return {
             -- (which enabled but not shown)
             -- so use this for now as a late loding
             vim.defer_fn(function()
-              -- vim.lsp.inlay_hint.enable(true)
               vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
             end, 2500)
           end
         end
-      end,
-
-      capabilities = capabilities,
-      filetypes = { 'rust' },
-      settings = {
-        ['rust-analyzer'] = {
-          cargo = { allFeatures = true },
-          diagnostics = {
-            enable = true,
-          },
-          checkOnSave = {
-            command = 'clippy',
-            allFeatures = true,
-          },
-          imports = {
-            group = {
-              enable = false,
-            },
-          },
-          assist = {
-            importEnforceGranularity = true,
-            importPrefix = 'create',
-          },
-          completion = {
-            postfix = {
-              enable = false,
-            },
-          },
-          inlayHints = {
-            typeHints = { enable = true },
-            renderColons = { enable = true },
-            chainingHints = { enable = true },
-            closingBraceHints = { enable = true },
-            bindingModeHints = { enable = true },
-            closureCaptureHints = { enable = true },
-            lifetimeElisionHints = {
-              enable = true,
-              useParameterNames = true,
-            },
-          },
-        },
-      },
+      end, ]]
     }
 
     -- Python ruff: https://docs.astral.sh/ruff/editors/setup/
@@ -106,11 +121,6 @@ return {
       end,
     })
 
-    local on_attach = function(client, bufnr)
-      -- Enable completion triggered by <c-x><c-o>
-      vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-    end
-
     lspconfig.gopls.setup {
       settings = {
         gopls = {
@@ -121,7 +131,10 @@ return {
           gofumpt = true,
         },
       },
-      on_attach = on_attach,
+      on_attach = function(client, bufnr)
+        -- Enable completion triggered by <c-x><c-o>
+        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+      end,
     }
 
     -- lua
@@ -183,14 +196,18 @@ return {
           vim.lsp.buf.format { async = true }
         end, opts)
 
-        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        -- local client = vim.lsp.get_client_by_id(ev.data.client_id)
 
-        -- inlay hints not working (not showing but loaded)
+        -- disable inlay hints by default
+        -- trigger it using <leader>h instead
+        -- rust one could be annoying sometimes
+        -- and make the line to long to show in terminal
+        --[[ -- inlay hints not working (not showing at buffer open but loaded)
         if client.server_capabilities.inlayHintProvider then
           vim.lsp.inlay_hint.enable(true, { ev.buf })
-        end
+        end ]]
 
-        client.server_capabilities.semanticTokensProvider = nil
+        -- client.server_capabilities.semanticTokensProvider = nil
 
         -- keymap for inlay hint switch
         vim.keymap.set('n', '<leader>h', function()
