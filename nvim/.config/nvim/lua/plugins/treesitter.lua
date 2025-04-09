@@ -15,6 +15,8 @@ return {
           'gomod',
           'gosum',
           'c',
+          'make',
+          'cmake',
           'asm',
           'glsl',
           'sql',

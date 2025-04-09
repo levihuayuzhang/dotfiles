@@ -102,7 +102,19 @@ return {
     lspconfig.ruff.setup {}
 
     -- clangd
-    require('lspconfig').clangd.setup {}
+    require('lspconfig').clangd.setup {
+      on_attach = function(client, bufnr)
+        if
+          opts.inlay_hints.enabled
+          and vim.api.nvim_buf_is_valid(bufnr)
+          and vim.bo[bufnr].buftype == ''
+          and client.server_capabilities.inlayHintProvider
+          and client:supports_method(methods.textDocument_inlayHint)
+        then
+          vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        end
+      end,
+    }
 
     -- golang
     vim.api.nvim_create_autocmd('BufWritePre', {
