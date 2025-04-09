@@ -90,7 +90,7 @@ return {
         then
           -- use defer func as workaround for start with inlay hint
           -- (which enabled but not shown on buffer open)
-          -- so use this for now as a late loding
+          -- so use this for now as a late loading
           vim.defer_fn(function()
             vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
           end, 2500)
