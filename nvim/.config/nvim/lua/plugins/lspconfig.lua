@@ -180,7 +180,8 @@ return {
         -- use <c-t> or <c-o> or <c-i> to jump back
         vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, optss)
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, optss)
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, optss)
+        -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, optss)
+        vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, optss)
         vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, optss)
         vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, optss)
         vim.keymap.set(
