@@ -101,6 +101,9 @@ return {
     -- Python ruff: https://docs.astral.sh/ruff/editors/setup/
     lspconfig.ruff.setup {}
 
+    -- clangd
+    require('lspconfig').clangd.setup {}
+
     -- golang
     vim.api.nvim_create_autocmd('BufWritePre', {
       pattern = '*.go',
@@ -173,34 +176,40 @@ return {
 
         -- Buffer local mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
-        local opts = { buffer = ev.buf }
-        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+        local optss = { buffer = ev.buf }
+        -- use <c-t> or <c-o> or <c-i> to jump back
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, optss)
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, optss)
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, optss)
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, optss)
+        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, optss)
         vim.keymap.set(
           'n',
           '<leader>wa',
           vim.lsp.buf.add_workspace_folder,
-          opts
+          optss
         )
         vim.keymap.set(
           'n',
           '<leader>wr',
           vim.lsp.buf.remove_workspace_folder,
-          opts
+          optss
         )
         vim.keymap.set('n', '<leader>wl', function()
           print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, opts)
-        --vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-        vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, opts)
-        vim.keymap.set({ 'n', 'v' }, '<leader>a', vim.lsp.buf.code_action, opts)
-        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+        end, optss)
+        --vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, optss)
+        vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, optss)
+        vim.keymap.set(
+          { 'n', 'v' },
+          '<leader>a',
+          vim.lsp.buf.code_action,
+          optss
+        )
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, optss)
         vim.keymap.set('n', '<leader>f', function()
           vim.lsp.buf.format { async = true }
-        end, opts)
+        end, optss)
         -- keymap for inlay hint switch
         vim.keymap.set('n', '<leader>h', function()
           vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
