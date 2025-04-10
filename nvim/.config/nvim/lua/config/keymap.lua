@@ -1,3 +1,5 @@
+-- use gx to open link in browser
+
 local keymap = vim.keymap
 -- force not using arrow keys
 -- keymap.set('n', '<up>', '<nop>')
