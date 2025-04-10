@@ -304,8 +304,10 @@ window-rule {
     // This app-id regular expression will work for both:
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    // match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id="firefox" title="^Picture-in-Picture$"
     open-floating true
+    default-floating-position x=30 y=30 relative-to="bottom-right"
 }
 window-rule {
     match app-id="firefox"
