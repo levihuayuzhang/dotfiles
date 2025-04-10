@@ -111,15 +111,18 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 # starship, replace p10k-level 
 eval "$(starship init zsh)"
 
-export http_proxy="http://127.0.0.1:7890"
-export https_proxy="http://127.0.0.1:7890"
-export all_proxy="socks5://127.0.0.1:7891"
+alias hx="helix"
+alias vim="nvim"
+alias vi="nvim"
 
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 
-export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+export http_proxy="http://127.0.0.1:7890"
+export https_proxy="http://127.0.0.1:7890"
+export all_proxy="socks5://127.0.0.1:7891"
 
+export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 
 # pnpm
 export PNPM_HOME="~/.local/share/pnpm"
@@ -128,3 +131,4 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
