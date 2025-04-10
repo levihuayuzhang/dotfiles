@@ -1,6 +1,7 @@
 local opt = vim.opt
 local api = vim.api
 
+-- opt.syntax = 'on'
 opt.number = true
 opt.relativenumber = true
 
@@ -15,6 +16,9 @@ opt.tabstop = 4
 opt.softtabstop = 4
 opt.expandtab = true
 opt.autoindent = true
+opt.listchars =
+  'space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢'
+opt.list = true
 
 opt.ignorecase = true
 opt.smartcase = true
@@ -26,7 +30,7 @@ vim.bo.autoread = true
 
 opt.vb = true
 opt.wrap = false
-opt.signcolumn = yes
+opt.signcolumn = 'yes'
 opt.colorcolumn = '80'
 api.nvim_create_autocmd(
   'Filetype',
