@@ -17,7 +17,7 @@ opt.softtabstop = 4
 opt.expandtab = true
 opt.autoindent = true
 opt.listchars =
-  'space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢'
+    'space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢'
 opt.list = true
 
 opt.ignorecase = true
@@ -33,19 +33,20 @@ opt.wrap = false
 opt.signcolumn = 'yes'
 opt.colorcolumn = '80'
 api.nvim_create_autocmd(
-  'Filetype',
-  { pattern = 'rust', command = 'set colorcolumn=100' }
+    'Filetype',
+    { pattern = 'rust', command = 'set colorcolumn=100' }
 )
 
 api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank {
-      timeout = 300,
-    }
-  end,
+    callback = function()
+        vim.highlight.on_yank {
+            timeout = 300,
+        }
+    end,
 })
 
 opt.scrolloff = 5
 opt.sidescrolloff = 5
 opt.cursorline = true
 opt.termguicolors = true
+vim.diagnostic.config { virtual_text = true }
