@@ -1,12 +1,46 @@
-# [[language]]
-# name = "rust"
-# auto-format = true
 
-[language-server.rust-analyzer]
-command = "rust-analyzer"
+[language-server]
+clangd = { command = "clangd", args = [
+    "--background-index",
+    "-j=10",
+    "--clang-tidy",
+    "--all-scopes-completion",
+    "--completion-style=detailed",
+    "--header-insertion=iwyu",
+    "--function-arg-placeholders",
+    "--pch-storage=memory",
+    "--offset-encoding=utf-8",
+    "--fallback-style=LLVM",
+    "--compile-commands-dir=build"] }
 
-[language-server.rust-analyzer.config]
-check = "clippy"
-cargo.features = "all"
-inlayHints.bindingModeHints.enable = true
-inlayHints.typeHints.hideClosureInitialization = true
+
+[language-server.taplo.config]
+# Workaround for nonsense of being nonfunctional outside git directories
+# (https://github.com/helix-editor/helix/issues/3897#issuecomment-2361674437)
+root_dir = [".git", "*.toml"]
+
+
+[language-server.rust-analyzer.config.check]
+command = "clippy"
+features = "all"
+[language-server.rust-analyzer.config.cargo]
+features = "all"
+[language-server.rust-analyzer.config.inlayHints]
+bindingModeHints.enable = "true"
+typeHints.enable = "true"
+closureCaptureHints.enable = "true"
+closureReturnTypeHints.enable = "always"
+discriminantHints.enable = "always"
+expressionAdjustmentHints.enable = "always"
+genericParameterHints.lifetime.enable = "true"
+genericParameterHints.type.enable = "true"
+implicitDrops.enable = "true"
+implicitSizedBoundHints.enable = "true"
+lifetimeElisionHints.enable = "always"
+lifetimeElisionHints.useParameterNames = "true"
+maxLength = ""
+parameterHints.enable = "true"
+rangeExclusiveHints.enable = "true"
+reborrowHints.enable = "always"
+renderColons = "true"
+

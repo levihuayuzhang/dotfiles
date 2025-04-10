@@ -44,9 +44,9 @@ render = true
 cursor-line = "warning" # show warnings and errors on the cursorline inline
 
 [editor.statusline]
-left = ["mode", "spinner", "version-control", "file-name", "read-only-indicator", "file-modification-indicator"]
+left = ["mode", "spinner", "file-name", "read-only-indicator", "file-modification-indicator"]
 center = ["position", "position-percentage", "total-line-numbers"]
-right = ["diagnostics", "workspace-diagnostics", "selections", "register", "file-encoding", "file-type"]
+right = ["diagnostics", "workspace-diagnostics", "selections", "register", "file-encoding", "file-type", "version-control"]
 
 [keys.normal.space]
 i = ":toggle lsp.display-inlay-hints" # toggle inlay hints
