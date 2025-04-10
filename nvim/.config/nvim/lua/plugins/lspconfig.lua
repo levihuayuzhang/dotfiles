@@ -10,6 +10,7 @@ return {
   },
   config = function(_, opts)
     local lspconfig = require 'lspconfig'
+    -- local util = require 'lspconfig.util'
     -- local capabilities = require('blink.cmp').get_lsp_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local methods = vim.lsp.protocol.Methods
@@ -102,7 +103,22 @@ return {
     lspconfig.ruff.setup {}
 
     -- clangd
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/clangd.lua
     require('lspconfig').clangd.setup {
+      cmd = {
+        'clangd',
+        '--background-index',
+        '-j=10',
+        '--clang-tidy',
+        '--all-scopes-completion',
+        '--completion-style=detailed',
+        '--header-insertion=iwyu',
+        '--function-arg-placeholders',
+        '--pch-storage=memory',
+        '--offset-encoding=utf-8',
+        '--fallback-style=LLVM',
+        '--compile-commands-dir=build',
+      },
       on_attach = function(client, bufnr)
         if
           opts.inlay_hints.enabled
