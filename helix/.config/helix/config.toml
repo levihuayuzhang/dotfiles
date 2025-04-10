@@ -1,6 +1,5 @@
 # ~/.config/helix/config.toml
 
-# theme = "onedark"
 # theme = "everforest_dark"
 theme = "gruvbox"
 
@@ -10,8 +9,15 @@ mouse = true
 cursorline = true
 middle-click-paste = true
 scrolloff = 6
+auto-format = true
 auto-pairs = true
+auto-completion = true
+path-completion = true
 end-of-line-diagnostics = "hint"
+true-color = true
+bufferline = "multiple"
+rulers = [80,100]
+# auto-info = false
 
 [editor.cursor-shape]
 insert = "bar"
@@ -28,22 +34,6 @@ display-progress-messages = true
 [editor.whitespace]
 render = "all"
 
-# # or control each character
-# [editor.whitespace.render]
-# space = "all"
-# tab = "all"
-# nbsp = "none"
-# nnbsp = "none"
-# newline = "none"
-
-[editor.whitespace.characters]
-space = "·"
-nbsp = "⍽"
-nnbsp = "␣"
-tab = "→"
-newline = "⏎"
-tabpad = "·" # Tabs will look like "→···" (depending on tab width)
-
 [editor.auto-save]
 focus-lost = true
 
@@ -52,6 +42,11 @@ render = true
 
 [editor.inline-diagnostics]
 cursor-line = "warning" # show warnings and errors on the cursorline inline
+
+[editor.statusline]
+left = ["mode", "spinner", "version-control", "file-name", "read-only-indicator", "file-modification-indicator"]
+center = ["position", "position-percentage", "total-line-numbers"]
+right = ["diagnostics", "workspace-diagnostics", "selections", "register", "file-encoding", "file-type"]
 
 [keys.normal.space]
 i = ":toggle lsp.display-inlay-hints" # toggle inlay hints
