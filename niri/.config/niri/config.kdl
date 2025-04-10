@@ -82,7 +82,7 @@ output "eDP-1" {
     mode "2240x1400@60"
 
     // You can use integer or fractional scale, for example use 1.5 for 150% scale.
-    scale 1.5 
+    scale 1.5 // 1493.3x933.3
 
     // Transform allows to rotate the output counter-clockwise, valid values are:
     // normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
@@ -102,8 +102,12 @@ output "eDP-1" {
 
 output "DP-1" {
     mode "3840x2160@60"
-    scale 2.0
-    position x=-240 y=-1080
+    // scale 2.0
+    // position x=-213 y=-1080
+
+    scale 1.5 // 2560x1440
+    position x=-533 y=-1440
+
 }
 
 // Settings that influence how windows are positioned and sized.
@@ -270,6 +274,7 @@ prefer-no-csd
 // A ~ at the front will be expanded to the home directory.
 // The path is formatted with strftime(3) to give you the screenshot date and time.
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+    // This app-id regular expression will work for both:
 
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
@@ -291,12 +296,17 @@ animations {
 
 // Work around WezTerm's initial configure bug
 // by setting an empty default-column-width.
-window-rule {
+/- window-rule {
     // This regular expression is intentionally made as specific as possible,
     // since this is the default config, and we want no false positives.
     // You can get away with just app-id="wezterm" if you want.
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
+}
+
+window-rule {
+    match app-id="Calculator"
+    open-floating true
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
@@ -335,7 +345,7 @@ window-rule {
 
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
-/-window-rule {
+window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
 }
