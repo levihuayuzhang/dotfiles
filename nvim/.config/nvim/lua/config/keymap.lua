@@ -73,10 +73,26 @@ vim.keymap.set(
     { desc = 'code action' }
 )
 vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = 'references' })
-vim.keymap.set('n', '<leader>f', function()
+--[[ vim.keymap.set('n', '<leader>f', function()
     vim.lsp.buf.format { async = true }
-end, { desc = 'format buffer' })
+end, { desc = 'format buffer' }) ]]
+
 -- keymap for inlay hint switch
 vim.keymap.set('n', '<leader>i', function()
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end, { desc = 'Toggle inlay hints' })
+
+-- ctrl w + h,j,k to move among splited window buffer
+vim.keymap.set(
+    'n',
+    '<leader>to',
+    ':NvimTreeOpen<enter>',
+    { desc = 'Open Tree' }
+)
+
+vim.keymap.set(
+    'n',
+    '<leader>tq',
+    ':NvimTreeClose<enter>',
+    { desc = 'Close Tree' }
+)

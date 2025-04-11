@@ -48,5 +48,6 @@ api.nvim_create_autocmd('TextYankPost', {
 opt.scrolloff = 5
 opt.sidescrolloff = 5
 opt.cursorline = true
+-- enable 24-bit colour
 opt.termguicolors = true
 vim.diagnostic.config { virtual_text = true }
