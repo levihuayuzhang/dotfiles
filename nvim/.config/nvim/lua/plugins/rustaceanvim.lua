@@ -76,7 +76,7 @@ return {
                 },
             },
             -- DAP configuration
-            -- dap = {},
+            dap = {},
         }
     end,
 }
