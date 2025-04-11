@@ -324,6 +324,12 @@ window-rule {
     open-maximized true
     open-focused true
 }
+
+window-rule {
+    match app-id="chromium"
+    open-maximized true
+    open-focused true
+}
 window-rule {
     match app-id="code"
     open-maximized true
