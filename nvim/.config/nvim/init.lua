@@ -771,14 +771,6 @@ require('lazy').setup {
         {
             'nvim-tree/nvim-tree.lua',
             event = 'VeryLazy',
-            --[[ keys = {
-                {
-                    '<leader>t',
-                    ':NvimTreeToggle<enter>',
-                    'n',
-                    desc = 'Toggle Tree',
-                },
-            }, ]]
             config = function()
                 require('nvim-tree').setup()
             end,
