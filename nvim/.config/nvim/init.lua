@@ -130,6 +130,7 @@ require('lazy').setup {
         -- manage tools
         {
             'williamboman/mason.nvim',
+            event = 'VeryLazy',
             config = function()
                 require('mason').setup {
                     ui = {
@@ -145,6 +146,8 @@ require('lazy').setup {
         -- install and update manson tools
         {
             'WhoIsSethDaniel/mason-tool-installer.nvim',
+            lazy = true,
+            -- event = 'VeryLazy',
             dependencies = {
                 'williamboman/mason.nvim',
             },
@@ -179,6 +182,7 @@ require('lazy').setup {
         -- make mason work with nvim lsp
         {
             'williamboman/mason-lspconfig.nvim',
+            lazy = true,
             dependencies = {
                 'williamboman/mason.nvim',
             },
@@ -201,6 +205,8 @@ require('lazy').setup {
         -- lsp config
         {
             'neovim/nvim-lspconfig',
+            event = { 'BufReadPost', 'BufNewFile' },
+            cmd = { 'LspInfo', 'LspInstall', 'LspUninstall' },
             dependencies = {
                 'williamboman/mason-lspconfig.nvim',
             },
@@ -364,6 +370,7 @@ require('lazy').setup {
         -- make mason work with nvim dap
         {
             'jay-babu/mason-nvim-dap.nvim',
+            lazy = true,
             dependencies = {
                 'williamboman/mason.nvim',
             },
@@ -380,6 +387,7 @@ require('lazy').setup {
         -- dap
         {
             'mfussenegger/nvim-dap',
+            lazy = true,
             dependencies = {
                 'rcarriga/nvim-dap-ui',
                 'nvim-neotest/nvim-nio',
@@ -515,6 +523,8 @@ require('lazy').setup {
         -- completion
         {
             'saghen/blink.cmp',
+            event = 'InsertEnter',
+            -- event = { 'BufReadPost', 'BufNewFile' },
             dependencies = { 'rafamadriz/friendly-snippets' },
             version = '1.*',
             opts = {
@@ -662,6 +672,15 @@ require('lazy').setup {
         -- file viewer
         {
             'nvim-tree/nvim-tree.lua',
+            event = 'VeryLazy',
+            --[[ keys = {
+                {
+                    '<leader>t',
+                    ':NvimTreeToggle<enter>',
+                    'n',
+                    desc = 'Toggle Tree',
+                },
+            }, ]]
             config = function()
                 require('nvim-tree').setup()
             end,
@@ -669,7 +688,6 @@ require('lazy').setup {
         -- quick search and jump to char in screen
         {
             'folke/flash.nvim',
-            event = 'VeryLazy',
             opts = {},
             keys = {
                 {
@@ -721,6 +739,7 @@ require('lazy').setup {
             -- tag = '0.1.8',
             -- or                              , branch = '0.1.x',
             dependencies = { 'nvim-lua/plenary.nvim' },
+            event = 'VeryLazy',
             config = function()
                 local builtin = require 'telescope.builtin'
                 vim.keymap.set(
@@ -783,6 +802,7 @@ require('lazy').setup {
         -- fuzzy finding, lua version of fzf
         {
             'ibhagwan/fzf-lua',
+            event = 'VeryLazy',
             -- optional for icon support
             dependencies = { 'nvim-tree/nvim-web-devicons' },
             -- or if using mini.icons/mini.nvim
@@ -850,6 +870,7 @@ require('lazy').setup {
         -- comment
         {
             'numToStr/Comment.nvim',
+            event = { 'BufReadPost', 'BufNewFile' },
             opts = {},
         },
         -- pairs
@@ -861,6 +882,7 @@ require('lazy').setup {
         -- rainbow indent
         {
             'folke/snacks.nvim',
+            event = { 'BufReadPost', 'BufNewFile' },
             opts = {
                 indent = {
                     indent = {
@@ -895,6 +917,7 @@ require('lazy').setup {
         {
             'MeanderingProgrammer/render-markdown.nvim',
             -- lazy = true,
+            ft = 'markdown',
             dependencies = {
                 'nvim-treesitter/nvim-treesitter',
                 'nvim-tree/nvim-web-devicons',
@@ -905,7 +928,8 @@ require('lazy').setup {
         -- latex support
         {
             'lervag/vimtex',
-            lazy = false, -- we don't want to lazy load VimTeX
+            -- lazy = false, -- we don't want to lazy load VimTeX
+            ft = 'tex',
             tag = 'v2.15', -- uncomment to pin to a specific release
             init = function()
                 -- VimTeX configuration goes here, e.g.
@@ -935,7 +959,8 @@ require('lazy').setup {
         {
             'mrcjkb/rustaceanvim',
             -- version = '^6', -- Recommended
-            lazy = false, -- This plugin is already lazy
+            lazy = true, -- This plugin is already lazy
+            ft = 'rust',
             config = function()
                 vim.g.rustaceanvim = {
                     -- Plugin configuration
@@ -1018,10 +1043,38 @@ require('lazy').setup {
                 }
             end,
         },
+        -- git commands
+        {
+            'tpope/vim-fugitive',
+            event = 'VeryLazy',
+        },
+        -- git signs
+        {
+            'lewis6991/gitsigns.nvim',
+            enabled = false,
+            event = 'VeryLazy',
+            config = function()
+                require('gitsigns').setup {
+                    vim.keymap.set(
+                        'n',
+                        '<leader>gp',
+                        ':Gitsigns preview_hunk<cr>',
+                        { desc = 'gitsigns - preview hunk' }
+                    ),
+                    vim.keymap.set(
+                        'n',
+                        '<leader>gt',
+                        ':Gitsigns toggle_current_line_blame<cr>',
+                        { desc = 'gitsigns - toggle current line blame' }
+                    ),
+                }
+            end,
+        },
         -- { import = 'plugins' },
     },
     checker = { enabled = true, notify = false },
     change_detection = { enabled = true, notify = false },
+    lazy = true,
 }
 
 -------------------------------------------------------------------------------
