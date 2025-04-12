@@ -577,8 +577,19 @@ require('lazy').setup {
             config = function()
                 require('conform').setup {
                     formatters_by_ft = {
-                        -- rust = { 'rustfmt', lsp_format = 'fallback' },
-                        -- python = { 'black', 'isort', lsp_format = 'fallback' }, -- comment to use fallback lsp
+                        rust = { 'rustfmt', lsp_format = 'fallback' },
+                        python = function(bufnr)
+                            if
+                                require('conform').get_formatter_info(
+                                    'ruff_format',
+                                    bufnr
+                                ).available
+                            then
+                                return { 'ruff_format' }
+                            else
+                                return { 'isort', 'black' }
+                            end
+                        end,
                         lua = { 'stylua' },
                         javascript = {
                             'prettierd',
@@ -595,12 +606,20 @@ require('lazy').setup {
                         markdown = { 'prettierd' },
                         graphql = { 'prettierd' },
                     },
+                    default_format_opts = {
+                        lsp_format = 'fallback',
+                    },
                     format_on_save = {
                         timeout_ms = 500,
                         async = false,
                         quiet = false,
                         lsp_format = 'fallback',
                     },
+                    format_after_save = {
+                        lsp_format = 'fallback',
+                    },
+                    notify_on_error = true,
+                    notify_no_formatters = true,
                     formatters = {
                         black = {
                             prepend_args = { '--fast' },
