@@ -933,6 +933,12 @@ require('lazy').setup {
                         ':FzfLua manpages<enter>',
                         { desc = 'fzf-lua -  manpages' }
                     ),
+                    vim.keymap.set(
+                        'n',
+                        '<leader>fc',
+                        ':FzfLua commands<enter>',
+                        { desc = 'fzf-lua -  commands' }
+                    ),
                 }
             end,
         },
