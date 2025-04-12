@@ -158,7 +158,7 @@ require('lazy').setup {
                         'rust-analyzer',
                         'clangd',
                         'gopls',
-                        -- 'pyright',
+                        'pyright',
                         'lua-language-server',
                         -- lint
                         'ruff',
@@ -226,10 +226,31 @@ require('lazy').setup {
                 -- Python
                 -- https://docs.astral.sh/ruff/editors/setup/#neovim
                 lspconfig.ruff.setup {
-                    init_options = {
+                    --[[ init_options = {
                         settings = {
                             -- Ruff language server settings go here
                         },
+                    }, ]]
+                }
+                lspconfig.pyright.setup {
+                    capabilities = vim.lsp.protocol.make_client_capabilities(),
+                    settings = {
+                        python = {
+                            analysis = {
+                                typeCheckingMode = 'off',
+                                autoSearchPaths = true,
+                                useLibraryCodeForTypes = true,
+                                diagnosticMode = 'off',
+                                autoImportCompletions = false,
+                            },
+                            linting = {
+                                enabled = false,
+                            },
+                        },
+                    },
+                    -- Disable all diagnostics from Pyright
+                    handlers = {
+                        ['textDocument/publishDiagnostics'] = function() end,
                     },
                 }
 
@@ -551,12 +572,13 @@ require('lazy').setup {
         {
             'stevearc/conform.nvim',
             lazy = true,
+            cmd = 'ConformInfo',
             event = { 'BufWritePre', 'BufReadPre', 'BufNewFile' }, -- to disable, comment this out
             config = function()
                 require('conform').setup {
                     formatters_by_ft = {
-                        rust = { 'rustfmt', lsp_format = 'fallback' },
-                        python = { 'isort', 'black' },
+                        -- rust = { 'rustfmt', lsp_format = 'fallback' },
+                        -- python = { 'black', 'isort', lsp_format = 'fallback' }, -- comment to use fallback lsp
                         lua = { 'stylua' },
                         javascript = {
                             'prettierd',
@@ -574,8 +596,9 @@ require('lazy').setup {
                         graphql = { 'prettierd' },
                     },
                     format_on_save = {
-                        -- These options will be passed to conform.format()
-                        -- timeout_ms = 500,
+                        timeout_ms = 500,
+                        async = false,
+                        quiet = false,
                         lsp_format = 'fallback',
                     },
                     formatters = {
