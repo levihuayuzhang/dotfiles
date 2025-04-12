@@ -1,3 +1,59 @@
+-- base config
+local opt = vim.opt
+local api = vim.api
+
+-- opt.syntax = 'on'
+opt.number = true
+opt.relativenumber = true
+
+opt.mouse:append 'a'
+opt.clipboard = 'unnamedplus,unnamed'
+
+opt.hlsearch = true
+opt.incsearch = true
+
+opt.shiftwidth = 4
+opt.tabstop = 4
+opt.softtabstop = 4
+opt.expandtab = true
+opt.autoindent = true
+opt.listchars =
+    'space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢'
+opt.list = true
+
+opt.ignorecase = true
+opt.smartcase = true
+
+opt.undofile = true
+opt.swapfile = true
+opt.autoread = true
+vim.bo.autoread = true
+
+opt.vb = true
+opt.wrap = false
+opt.signcolumn = 'yes'
+opt.colorcolumn = '80'
+api.nvim_create_autocmd(
+    'Filetype',
+    { pattern = 'rust', command = 'set colorcolumn=100' }
+)
+
+api.nvim_create_autocmd('TextYankPost', {
+    callback = function()
+        vim.highlight.on_yank {
+            timeout = 300,
+        }
+    end,
+})
+
+opt.scrolloff = 5
+opt.sidescrolloff = 5
+opt.cursorline = true
+-- enable 24-bit colour
+opt.termguicolors = true
+vim.diagnostic.config { virtual_text = true }
+
+-------------------------------------------------------------------------------
 -- set leader keys before lazy
 vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
@@ -1120,62 +1176,6 @@ require('lazy').setup {
 }
 
 -------------------------------------------------------------------------------
--- base config
-local opt = vim.opt
-local api = vim.api
-
--- opt.syntax = 'on'
-opt.number = true
-opt.relativenumber = true
-
-opt.mouse:append 'a'
-opt.clipboard = 'unnamedplus,unnamed'
-
-opt.hlsearch = true
-opt.incsearch = true
-
-opt.shiftwidth = 4
-opt.tabstop = 4
-opt.softtabstop = 4
-opt.expandtab = true
-opt.autoindent = true
-opt.listchars =
-    'space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢'
-opt.list = true
-
-opt.ignorecase = true
-opt.smartcase = true
-
-opt.undofile = true
-opt.swapfile = true
-opt.autoread = true
-vim.bo.autoread = true
-
-opt.vb = true
-opt.wrap = false
-opt.signcolumn = 'yes'
-opt.colorcolumn = '80'
-api.nvim_create_autocmd(
-    'Filetype',
-    { pattern = 'rust', command = 'set colorcolumn=100' }
-)
-
-api.nvim_create_autocmd('TextYankPost', {
-    callback = function()
-        vim.highlight.on_yank {
-            timeout = 300,
-        }
-    end,
-})
-
-opt.scrolloff = 5
-opt.sidescrolloff = 5
-opt.cursorline = true
--- enable 24-bit colour
-opt.termguicolors = true
-vim.diagnostic.config { virtual_text = true }
-
--------------------------------------------------------------------------------
 -- keymap config
 -- tip: use gx to open link in browser
 local keymap = vim.keymap
@@ -1255,11 +1255,7 @@ vim.keymap.set(
     { desc = 'code action' }
 )
 vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = 'references' })
---[[ vim.keymap.set('n', '<leader>f', function()
-    vim.lsp.buf.format { async = true }
-end, { desc = 'format buffer' }) ]]
 
--- keymap for inlay hint switch
 vim.keymap.set('n', '<leader>i', function()
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end, { desc = 'Toggle inlay hints' })
