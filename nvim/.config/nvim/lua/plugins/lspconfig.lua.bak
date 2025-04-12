@@ -1,8 +1,5 @@
 return {
     'neovim/nvim-lspconfig',
-    dependencies = {
-        'mason.nvim',
-    },
     opts = {
         inlay_hints = {
             enabled = true, -- globally set to true
