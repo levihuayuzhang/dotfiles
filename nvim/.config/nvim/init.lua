@@ -17,7 +17,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     if vim.v.shell_error ~= 0 then
         vim.api.nvim_echo({
             { 'Failed to clone lazy.nvim:\n', 'ErrorMsg' },
-            { out,                            'WarningMsg' },
+            { out, 'WarningMsg' },
             { '\nPress any key to exit...' },
         }, true, {})
         vim.fn.getchar()
@@ -155,9 +155,10 @@ require('lazy').setup {
                         'rust-analyzer',
                         'clangd',
                         'gopls',
-                        'ruff',
                         -- 'pyright',
                         'lua-language-server',
+                        -- lint
+                        'ruff',
                         -- fmt
                         'black',
                         'stylua',
@@ -173,7 +174,7 @@ require('lazy').setup {
                         ['mason-nvim-dap'] = true,
                     },
                 }
-            end
+            end,
         },
         -- make mason work with nvim lsp
         {
@@ -191,11 +192,11 @@ require('lazy').setup {
                         -- 'pyright',
                         'lua_ls',
                         'eslint',
-                        "marksman"
+                        'marksman',
                     },
                     automatic_installation = true,
                 }
-            end
+            end,
         },
         -- lsp config
         {
@@ -216,8 +217,15 @@ require('lazy').setup {
 
                 vim.diagnostic.config { virtual_text = true }
 
-                -- Python ruff: https://docs.astral.sh/ruff/editors/setup/
-                lspconfig.ruff.setup {}
+                -- Python
+                -- https://docs.astral.sh/ruff/editors/setup/#neovim
+                lspconfig.ruff.setup {
+                    init_options = {
+                        settings = {
+                            -- Ruff language server settings go here
+                        },
+                    },
+                }
 
                 -- clangd
                 -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/clangd.lua
@@ -242,7 +250,9 @@ require('lazy').setup {
                             and vim.api.nvim_buf_is_valid(bufnr)
                             and vim.bo[bufnr].buftype == ''
                             and client.server_capabilities.inlayHintProvider
-                            and client:supports_method(methods.textDocument_inlayHint)
+                            and client:supports_method(
+                                methods.textDocument_inlayHint
+                            )
                         then
                             vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
                         end
@@ -268,9 +278,13 @@ require('lazy').setup {
                         for cid, res in pairs(result or {}) do
                             for _, r in pairs(res.result or {}) do
                                 if r.edit then
-                                    local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding
-                                        or 'utf-16'
-                                    vim.lsp.util.apply_workspace_edit(r.edit, enc)
+                                    local enc = (
+                                        vim.lsp.get_client_by_id(cid) or {}
+                                    ).offset_encoding or 'utf-16'
+                                    vim.lsp.util.apply_workspace_edit(
+                                        r.edit,
+                                        enc
+                                    )
                                 end
                             end
                         end
@@ -311,9 +325,45 @@ require('lazy').setup {
                 }
             end,
         },
+        --[[ -- make mason work with null-ls
+        {
+            'jay-babu/mason-null-ls.nvim',
+            event = { 'BufReadPre', 'BufNewFile' },
+            dependencies = {
+                'williamboman/mason.nvim',
+            },
+            config = function()
+                require('mason-null-ls').setup {
+                    ensure_installed = {
+                        -- 'ruff',
+                        'stylua',
+                    },
+                    automatic_installation = true,
+                }
+            end,
+        },
+        -- replacing null-ls
+        {
+            'nvimtools/none-ls.nvim',
+            dependencies = {
+                'jay-babu/mason-null-ls.nvim',
+                'nvim-lua/plenary.nvim',
+            },
+            config = function()
+                local null_ls = require 'null-ls'
+
+                null_ls.setup {
+                    sources = {
+                        null_ls.builtins.formatting.stylua,
+                        null_ls.builtins.completion.spell,
+                        -- require 'none-ls.diagnostics.eslint', -- requires none-ls-extras.nvim
+                    },
+                }
+            end,
+        }, ]]
         -- make mason work with nvim dap
         {
-            "jay-babu/mason-nvim-dap.nvim",
+            'jay-babu/mason-nvim-dap.nvim',
             dependencies = {
                 'williamboman/mason.nvim',
             },
@@ -325,7 +375,7 @@ require('lazy').setup {
                         'delve',
                     },
                 }
-            end
+            end,
         },
         -- dap
         {
@@ -399,7 +449,11 @@ require('lazy').setup {
                     -- Set icons to characters that are more likely to work in every terminal.
                     --    Feel free to remove or use ones that you like more! :)
                     --    Don't feel like these are good choices.
-                    icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+                    icons = {
+                        expanded = '▾',
+                        collapsed = '▸',
+                        current_frame = '*',
+                    },
                     controls = {
                         icons = {
                             pause = '⏸',
@@ -419,13 +473,13 @@ require('lazy').setup {
                 vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
                 vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
                 local breakpoint_icons = vim.g.have_nerd_font
-                    and {
-                        Breakpoint = '',
-                        BreakpointCondition = '',
-                        BreakpointRejected = '',
-                        LogPoint = '',
-                        Stopped = '',
-                    }
+                        and {
+                            Breakpoint = '',
+                            BreakpointCondition = '',
+                            BreakpointRejected = '',
+                            LogPoint = '',
+                            Stopped = '',
+                        }
                     or {
                         Breakpoint = '●',
                         BreakpointCondition = '⊜',
@@ -436,11 +490,16 @@ require('lazy').setup {
                 for type, icon in pairs(breakpoint_icons) do
                     local tp = 'Dap' .. type
                     local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
-                    vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
+                    vim.fn.sign_define(
+                        tp,
+                        { text = icon, texthl = hl, numhl = hl }
+                    )
                 end
 
-                dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-                dap.listeners.before.event_terminated['dapui_config'] = dapui.close
+                dap.listeners.after.event_initialized['dapui_config'] =
+                    dapui.open
+                dap.listeners.before.event_terminated['dapui_config'] =
+                    dapui.close
                 dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
                 -- -- Install golang specific config
@@ -609,15 +668,50 @@ require('lazy').setup {
         },
         -- quick search and jump to char in screen
         {
-            "folke/flash.nvim",
-            event = "VeryLazy",
+            'folke/flash.nvim',
+            event = 'VeryLazy',
             opts = {},
             keys = {
-                { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
-                { "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
-                { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
-                { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-                { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
+                {
+                    's',
+                    mode = { 'n', 'x', 'o' },
+                    function()
+                        require('flash').jump()
+                    end,
+                    desc = 'Flash',
+                },
+                {
+                    'S',
+                    mode = { 'n', 'x', 'o' },
+                    function()
+                        require('flash').treesitter()
+                    end,
+                    desc = 'Flash Treesitter',
+                },
+                {
+                    'r',
+                    mode = 'o',
+                    function()
+                        require('flash').remote()
+                    end,
+                    desc = 'Remote Flash',
+                },
+                {
+                    'R',
+                    mode = { 'o', 'x' },
+                    function()
+                        require('flash').treesitter_search()
+                    end,
+                    desc = 'Treesitter Search',
+                },
+                {
+                    '<c-s>',
+                    mode = { 'c' },
+                    function()
+                        require('flash').toggle()
+                    end,
+                    desc = 'Toggle Flash Search',
+                },
             },
         },
         -- search stuff
@@ -806,15 +900,13 @@ require('lazy').setup {
                 'nvim-tree/nvim-web-devicons',
             }, -- if you prefer nvim-web-devicons
             -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-            ---@module 'render-markdown'
-            ---@type render.md.UserConfig
             opts = {},
         },
         -- latex support
         {
             'lervag/vimtex',
             lazy = false, -- we don't want to lazy load VimTeX
-            -- tag = "v2.15", -- uncomment to pin to a specific release
+            tag = 'v2.15', -- uncomment to pin to a specific release
             init = function()
                 -- VimTeX configuration goes here, e.g.
                 vim.g.vimtex_mappings_disable = { ['n'] = { 'K' } } -- disable `K` as it conflicts with LSP hover
@@ -896,9 +988,13 @@ require('lazy').setup {
                                     closingBraceHints = { enable = true },
                                     bindingModeHints = { enable = true },
                                     closureCaptureHints = { enable = true },
-                                    closureReturnTypeHints = { enable = 'always' },
+                                    closureReturnTypeHints = {
+                                        enable = 'always',
+                                    },
                                     discriminantHints = { enable = 'always' },
-                                    expressionAdjustmentHints = { enable = 'always' },
+                                    expressionAdjustmentHints = {
+                                        enable = 'always',
+                                    },
                                     genericParameterHints = {
                                         const = { enable = true },
                                         lifetime = { enable = true },
@@ -949,7 +1045,7 @@ opt.softtabstop = 4
 opt.expandtab = true
 opt.autoindent = true
 opt.listchars =
-'space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢'
+    'space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢'
 opt.list = true
 
 opt.ignorecase = true
@@ -1076,14 +1172,7 @@ end, { desc = 'Toggle inlay hints' })
 -- ctrl w + h,j,k to move among splited window buffer
 vim.keymap.set(
     'n',
-    '<leader>to',
-    ':NvimTreeOpen<enter>',
-    { desc = 'Open Tree' }
-)
-
-vim.keymap.set(
-    'n',
-    '<leader>tq',
-    ':NvimTreeClose<enter>',
-    { desc = 'Close Tree' }
+    '<leader>t',
+    ':NvimTreeToggle<enter>',
+    { desc = 'Toggle Tree' }
 )
