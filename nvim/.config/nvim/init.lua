@@ -58,10 +58,11 @@ api.nvim_create_autocmd('TextYankPost', {
 
 -------------------------------------------------------------------------------
 vim.diagnostic.config { virtual_text = true }
-vim.lsp.inlay_hint.enable(true) -- enable globally
+-- vim.lsp.inlay_hint.enable(true) -- enable globally
 
 -- lsp manual config after nvim 0.11
 -- :h lsp
+-- https://neovim.io/doc/user/lsp.html#lsp-config
 -- specific setting located at lsp directory
 -- (will over write settings in init.lua)
 -- other way to config: use nvim-lspconfig to work with config presets
@@ -292,11 +293,9 @@ require('lazy').setup {
             },
             config = function(_, opts)
                 local lspconfig = require 'lspconfig'
-                -- local util = require 'lspconfig.util'
-                local methods = vim.lsp.protocol.Methods
 
                 -- rust
-                local _ran_once = {}
+                -- local _ran_once = {}
                 lspconfig.rust_analyzer.setup {
                     settings = {
                         ['rust-analyzer'] = {
@@ -331,7 +330,7 @@ require('lazy').setup {
                                 },
                                 implicitDrops = { enable = true },
                                 implicitSizedBoundHints = { enable = true },
-                                maxLength = { nil },
+                                maxLength = { '' },
                                 reborrowHints = { enable = 'always' },
                                 renderColons = { enable = true },
                                 lifetimeElisionHints = {
@@ -341,47 +340,50 @@ require('lazy').setup {
                             },
                         },
                     },
-                    capabilities = {
-                        experimental = {
-                            serverStatusNotification = true,
-                        },
-                    },
-                    handlers = {
-                        ['experimental/serverStatus'] = function(
-                            _,
-                            result,
-                            ctx
-                        )
-                            if
-                                result.quiescent
-                                and not _ran_once[ctx.client_id]
-                            then
-                                for _, bufnr in
-                                    ipairs(
-                                        vim.lsp.get_buffers_by_client_id(
-                                            ctx.client_id
-                                        )
-                                    )
-                                do
-                                    if
-                                        vim.lsp.inlay_hint.is_enabled {
-                                            bufnr = bufnr,
-                                        }
-                                    then
-                                        vim.lsp.inlay_hint.enable(
-                                            false,
-                                            { bufnr = bufnr }
-                                        )
-                                        vim.lsp.inlay_hint.enable(
-                                            true,
-                                            { bufnr = bufnr }
-                                        )
-                                    end
-                                end
-                                _ran_once[ctx.client_id] = true
-                            end
-                        end,
-                    },
+                    -- following is for enable inlay hints from rust-analyzer
+                    -- at buffer open
+                    -- which is disabled by default, use key shortcut to toggle
+                    -- capabilities = {
+                    --     experimental = {
+                    --         serverStatusNotification = true,
+                    --     },
+                    -- },
+                    -- handlers = {
+                    --     ['experimental/serverStatus'] = function(
+                    --         _,
+                    --         result,
+                    --         ctx
+                    --     )
+                    --         if
+                    --             result.quiescent
+                    --             and not _ran_once[ctx.client_id]
+                    --         then
+                    --             for _, bufnr in
+                    --                 ipairs(
+                    --                     vim.lsp.get_buffers_by_client_id(
+                    --                         ctx.client_id
+                    --                     )
+                    --                 )
+                    --             do
+                    --                 if
+                    --                     vim.lsp.inlay_hint.is_enabled {
+                    --                         bufnr = bufnr,
+                    --                     }
+                    --                 then
+                    --                     vim.lsp.inlay_hint.enable(
+                    --                         false,
+                    --                         { bufnr = bufnr }
+                    --                     )
+                    --                     vim.lsp.inlay_hint.enable(
+                    --                         true,
+                    --                         { bufnr = bufnr }
+                    --                     )
+                    --                 end
+                    --             end
+                    --             _ran_once[ctx.client_id] = true
+                    --         end
+                    --     end,
+                    -- },
                 }
 
                 -- Python
@@ -427,16 +429,8 @@ require('lazy').setup {
                         '--fallback-style=LLVM',
                         '--compile-commands-dir=build',
                     },
-                    on_attach = function(client, bufnr)
-                        if
-                            opts.inlay_hints.enabled
-                            and vim.api.nvim_buf_is_valid(bufnr)
-                            and vim.bo[bufnr].buftype == ''
-                            and client.server_capabilities.inlayHintProvider
-                            and client:supports_method(
-                                methods.textDocument_inlayHint
-                            )
-                        then
+                    on_attach = function(_, bufnr)
+                        if opts.inlay_hints.enabled then
                             vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
                         end
                     end,
@@ -495,6 +489,7 @@ require('lazy').setup {
                     end,
                 }
 
+                -- lua
                 lspconfig.lua_ls.setup {
                     settings = {
                         Lua = {
@@ -1083,8 +1078,6 @@ require('lazy').setup {
             },
         },
         --[[ -- more than rust lsp, rust specific settings
-        -- (disable vim.lsp.enable 'rust-analyzer' (manual config) first
-        -- to avoid conflicts)
         {
             'mrcjkb/rustaceanvim',
             -- version = '^6', -- Recommended
