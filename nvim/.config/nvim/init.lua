@@ -56,20 +56,8 @@ api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
--------------------------------------------------------------------------------
 vim.diagnostic.config { virtual_text = true }
 -- vim.lsp.inlay_hint.enable(true) -- enable globally
-
--- lsp manual config after nvim 0.11
--- :h lsp
--- https://neovim.io/doc/user/lsp.html#lsp-config
--- specific setting located at lsp directory
--- (will over write settings in init.lua)
--- other way to config: use nvim-lspconfig to work with config presets
-
--- vim.lsp.enable 'rust-analyzer' -- disable manual config to use `rustaceanvim` or `nvim-lspconfig`
--- vim.lsp.enable 'luals'
--- vim.lsp.enable 'pyright'
 
 -------------------------------------------------------------------------------
 -- set leader keys before lazy
