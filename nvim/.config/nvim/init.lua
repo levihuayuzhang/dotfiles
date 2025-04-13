@@ -17,9 +17,12 @@ opt.tabstop = 4
 opt.softtabstop = 4
 opt.expandtab = true
 opt.autoindent = true
+-- opt.copyindent = true
+
 opt.listchars =
     'space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢'
 opt.list = true
+opt.showbreak = '> '
 
 opt.ignorecase = true
 opt.smartcase = true
@@ -32,11 +35,18 @@ vim.bo.autoread = true
 opt.vb = true
 opt.wrap = false
 opt.signcolumn = 'yes'
-opt.colorcolumn = '80'
+--[[ opt.colorcolumn = '80'
 api.nvim_create_autocmd(
     'Filetype',
     { pattern = 'rust', command = 'set colorcolumn=100' }
-)
+) ]]
+opt.colorcolumn = { 80, 100 }
+
+opt.scrolloff = 5
+opt.sidescrolloff = 5
+opt.cursorline = true
+-- enable 24-bit colour
+opt.termguicolors = true
 
 api.nvim_create_autocmd('TextYankPost', {
     callback = function()
@@ -46,12 +56,19 @@ api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
-opt.scrolloff = 5
-opt.sidescrolloff = 5
-opt.cursorline = true
--- enable 24-bit colour
-opt.termguicolors = true
+-------------------------------------------------------------------------------
 vim.diagnostic.config { virtual_text = true }
+vim.lsp.inlay_hint.enable(true) -- enable globally
+
+-- lsp manual config after nvim 0.11
+-- :h lsp
+-- specific setting located at lsp directory
+-- (will over write settings in init.lua)
+-- other way to config: use nvim-lspconfig to work with config presets
+
+-- vim.lsp.enable 'rust-analyzer' -- disable manual config to use `rustaceanvim` or `nvim-lspconfig`
+-- vim.lsp.enable 'luals'
+-- vim.lsp.enable 'pyright'
 
 -------------------------------------------------------------------------------
 -- set leader keys before lazy
@@ -258,7 +275,9 @@ require('lazy').setup {
                 }
             end,
         },
-        -- lsp config
+        -- nvim-lspconfig (work with presets)
+        -- if any tools not available with system package manager
+        -- use mason to install and this to config
         {
             'neovim/nvim-lspconfig',
             event = { 'BufReadPost', 'BufNewFile' },
@@ -268,26 +287,107 @@ require('lazy').setup {
             },
             opts = {
                 inlay_hints = {
-                    enabled = true, -- globally set to true
+                    enabled = true, -- just for nvim-lspconfig
                 },
             },
             config = function(_, opts)
                 local lspconfig = require 'lspconfig'
                 -- local util = require 'lspconfig.util'
-                local capabilities = vim.lsp.protocol.make_client_capabilities()
                 local methods = vim.lsp.protocol.Methods
 
-                vim.diagnostic.config { virtual_text = true }
+                -- rust
+                local _ran_once = {}
+                lspconfig.rust_analyzer.setup {
+                    settings = {
+                        ['rust-analyzer'] = {
+                            diagnostics = {
+                                enable = true,
+                                experimental = { enable = true },
+                                styleLints = { enable = true },
+                            },
+                            cargo = { features = 'all' },
+                            checkOnSave = true,
+                            check = {
+                                command = 'clippy',
+                                features = 'all',
+                            },
+                            inlayHints = {
+                                typeHints = { enable = true },
+                                chainingHints = { enable = true },
+                                closingBraceHints = { enable = true },
+                                bindingModeHints = { enable = true },
+                                closureCaptureHints = { enable = true },
+                                closureReturnTypeHints = {
+                                    enable = 'always',
+                                },
+                                discriminantHints = { enable = 'always' },
+                                expressionAdjustmentHints = {
+                                    enable = 'always',
+                                },
+                                genericParameterHints = {
+                                    const = { enable = true },
+                                    lifetime = { enable = true },
+                                    type = { enable = true },
+                                },
+                                implicitDrops = { enable = true },
+                                implicitSizedBoundHints = { enable = true },
+                                maxLength = { nil },
+                                reborrowHints = { enable = 'always' },
+                                renderColons = { enable = true },
+                                lifetimeElisionHints = {
+                                    enable = true,
+                                    useParameterNames = true,
+                                },
+                            },
+                        },
+                    },
+                    capabilities = {
+                        experimental = {
+                            serverStatusNotification = true,
+                        },
+                    },
+                    handlers = {
+                        ['experimental/serverStatus'] = function(
+                            _,
+                            result,
+                            ctx
+                        )
+                            if
+                                result.quiescent
+                                and not _ran_once[ctx.client_id]
+                            then
+                                for _, bufnr in
+                                    ipairs(
+                                        vim.lsp.get_buffers_by_client_id(
+                                            ctx.client_id
+                                        )
+                                    )
+                                do
+                                    if
+                                        vim.lsp.inlay_hint.is_enabled {
+                                            bufnr = bufnr,
+                                        }
+                                    then
+                                        vim.lsp.inlay_hint.enable(
+                                            false,
+                                            { bufnr = bufnr }
+                                        )
+                                        vim.lsp.inlay_hint.enable(
+                                            true,
+                                            { bufnr = bufnr }
+                                        )
+                                    end
+                                end
+                                _ran_once[ctx.client_id] = true
+                            end
+                        end,
+                    },
+                }
 
                 -- Python
                 -- https://docs.astral.sh/ruff/editors/setup/#neovim
-                lspconfig.ruff.setup {
-                    --[[ init_options = {
-                        settings = {
-                            -- Ruff language server settings go here
-                        },
-                    }, ]]
-                }
+                lspconfig.ruff.setup {}
+                -- pyright
                 lspconfig.pyright.setup {
                     capabilities = vim.lsp.protocol.make_client_capabilities(),
                     settings = {
@@ -312,7 +412,7 @@ require('lazy').setup {
 
                 -- clangd
                 -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/clangd.lua
-                require('lspconfig').clangd.setup {
+                lspconfig.clangd.setup {
                     cmd = {
                         'clangd',
                         '--background-index',
@@ -385,7 +485,7 @@ require('lazy').setup {
                             gofumpt = true,
                         },
                     },
-                    on_attach = function(client, bufnr)
+                    on_attach = function(_, bufnr)
                         -- Enable completion triggered by <c-x><c-o>
                         vim.api.nvim_buf_set_option(
                             bufnr,
@@ -395,55 +495,21 @@ require('lazy').setup {
                     end,
                 }
 
-                -- lua
                 lspconfig.lua_ls.setup {
                     settings = {
                         Lua = {
+                            runtime = {
+                                version = 'LuaJIT',
+                            },
                             diagnostics = {
                                 globals = { 'vim' },
                             },
                         },
                     },
-                    capabilities = capabilities,
+                    capabilities = vim.lsp.protocol.make_client_capabilities(),
                 }
             end,
         },
-        --[[ -- make mason work with null-ls
-        {
-            'jay-babu/mason-null-ls.nvim',
-            event = { 'BufReadPre', 'BufNewFile' },
-            dependencies = {
-                'williamboman/mason.nvim',
-            },
-            config = function()
-                require('mason-null-ls').setup {
-                    ensure_installed = {
-                        -- 'ruff',
-                        'stylua',
-                    },
-                    automatic_installation = true,
-                }
-            end,
-        },
-        -- replacing null-ls
-        {
-            'nvimtools/none-ls.nvim',
-            dependencies = {
-                'jay-babu/mason-null-ls.nvim',
-                'nvim-lua/plenary.nvim',
-            },
-            config = function()
-                local null_ls = require 'null-ls'
-
-                null_ls.setup {
-                    sources = {
-                        null_ls.builtins.formatting.stylua,
-                        null_ls.builtins.completion.spell,
-                        -- require 'none-ls.diagnostics.eslint', -- requires none-ls-extras.nvim
-                    },
-                }
-            end,
-        }, ]]
         -- make mason work with nvim dap
         {
             'jay-babu/mason-nvim-dap.nvim',
@@ -857,36 +923,7 @@ require('lazy').setup {
                     { desc = 'Telescope help tags' }
                 )
 
-                require('telescope').setup {
-                    defaults = {
-                        -- Default configuration for telescope goes here:
-                        -- config_key = value,
-                        mappings = {
-                            i = {
-                                -- map actions.which_key to <C-h> (default: <C-/>)
-                                -- actions.which_key shows the mappings for your picker,
-                                -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-                                ['<C-h>'] = 'which_key',
-                            },
-                        },
-                    },
-                    pickers = {
-                        -- Default configuration for builtin pickers goes here:
-                        -- picker_name = {
-                        --   picker_config_key = value,
-                        --   ...
-                        -- }
-                        -- Now the picker_config_key will be applied every time you call this
-                        -- builtin picker
-                    },
-                    extensions = {
-                        -- Your extension configuration goes here:
-                        -- extension_name = {
-                        --   extension_config_key = value,
-                        -- }
-                        -- please take a look at the readme of the extension you want to configure
-                    },
-                }
+                require('telescope').setup {}
             end,
         },
         -- fuzzy finding, lua version of fzf
@@ -948,11 +985,6 @@ require('lazy').setup {
 
             dependencies = { 'nvim-tree/nvim-web-devicons' },
             event = 'VeryLazy',
-            opts = {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            },
             keys = {
                 {
                     '<leader>?',
@@ -1012,7 +1044,6 @@ require('lazy').setup {
         -- render markdown
         {
             'MeanderingProgrammer/render-markdown.nvim',
-            -- lazy = true,
             ft = 'markdown',
             dependencies = {
                 'nvim-treesitter/nvim-treesitter',
@@ -1051,7 +1082,9 @@ require('lazy').setup {
                 { '<localLeader>l', '', desc = '+vimtex', ft = 'tex' },
             },
         },
-        -- rust lsp
+        --[[ -- more than rust lsp, rust specific settings
+        -- (disable vim.lsp.enable 'rust-analyzer' (manual config) first
+        -- to avoid conflicts)
         {
             'mrcjkb/rustaceanvim',
             -- version = '^6', -- Recommended
@@ -1059,49 +1092,19 @@ require('lazy').setup {
             ft = 'rust',
             config = function()
                 vim.g.rustaceanvim = {
-                    -- Plugin configuration
-                    tools = {},
-                    -- LSP configuration
                     server = {
-                        on_attach = function(client, bufnr)
-                            -- enable inlay hint for rust at buffer open
-                            -- vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-
-                            -- keymaps
-                            vim.keymap.set('n', '<leader>a', function()
-                                vim.cmd.RustLsp 'codeAction' -- supports rust-analyzer's grouping
-                                -- or vim.lsp.buf.codeAction() if you don't want grouping.
-                            end, {
-                                silent = true,
-                                buffer = bufnr,
-                                desc = 'RustLsp codeAction',
-                            })
-                            vim.keymap.set(
-                                'n',
-                                -- 'K', -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
-                                '<leader>k', -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
-                                function()
-                                    vim.cmd.RustLsp { 'hover', 'actions' }
-                                end,
-                                {
-                                    silent = true,
-                                    buffer = bufnr,
-                                    desc = 'RustLsp hover actions',
-                                }
-                            )
-                        end,
                         default_settings = {
-                            -- rust-analyzer language server configuration
                             ['rust-analyzer'] = {
-                                assist = {
-                                    importEnforceGranularity = true,
-                                    importPrefix = 'create',
+                                diagnostics = {
+                                    enable = true,
+                                    experimental = { enable = true },
+                                    styleLints = { enable = true },
                                 },
-                                cargo = { allFeatures = true },
-                                checkOnSave = {
-                                    -- default: `cargo check`
+                                cargo = { features = 'all' },
+                                checkOnSave = true,
+                                check = {
                                     command = 'clippy',
-                                    allFeatures = true,
+                                    features = 'all',
                                 },
                                 inlayHints = {
                                     typeHints = { enable = true },
@@ -1134,14 +1137,13 @@ require('lazy').setup {
                             },
                         },
                     },
-                    -- DAP configuration
-                    dap = {},
                 }
             end,
-        },
+        }, ]]
         -- git commands
         {
             'tpope/vim-fugitive',
+            enabled = false,
             event = 'VeryLazy',
         },
         -- git signs
