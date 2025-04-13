@@ -282,7 +282,7 @@ require('lazy').setup {
             config = function(_, opts)
                 local lspconfig = require 'lspconfig'
 
-                -- rust
+                --[[ -- rust
                 -- local _ran_once = {}
                 lspconfig.rust_analyzer.setup {
                     settings = {
@@ -372,7 +372,7 @@ require('lazy').setup {
                     --         end
                     --     end,
                     -- },
-                }
+                } ]]
 
                 -- Python
                 -- https://docs.astral.sh/ruff/editors/setup/#neovim
@@ -707,6 +707,7 @@ require('lazy').setup {
                         css = { 'prettierd' },
                         html = { 'prettierd' },
                         jsonc = { 'prettierd' },
+                        json = { 'prettierd' },
                         yaml = { 'prettierd' },
                         markdown = { 'prettierd' },
                         graphql = { 'prettierd' },
@@ -819,6 +820,7 @@ require('lazy').setup {
         -- file viewer
         {
             'nvim-tree/nvim-tree.lua',
+            enabled = false,
             event = 'VeryLazy',
             config = function()
                 require('nvim-tree').setup()
@@ -874,9 +876,7 @@ require('lazy').setup {
         -- search stuff
         {
             'nvim-telescope/telescope.nvim',
-            enabled = false, -- use fzf-lua
-            -- tag = '0.1.8',
-            -- or                              , branch = '0.1.x',
+            enabled = false, -- use fzf-lua instead
             dependencies = { 'nvim-lua/plenary.nvim' },
             event = 'VeryLazy',
             config = function()
@@ -965,7 +965,7 @@ require('lazy').setup {
         -- keymap hints
         {
             'folke/which-key.nvim',
-
+            -- enabled = false,
             dependencies = { 'nvim-tree/nvim-web-devicons' },
             event = 'VeryLazy',
             keys = {
@@ -1065,7 +1065,7 @@ require('lazy').setup {
                 { '<localLeader>l', '', desc = '+vimtex', ft = 'tex' },
             },
         },
-        --[[ -- more than rust lsp, rust specific settings
+        -- more than rust lsp, rust specific settings
         {
             'mrcjkb/rustaceanvim',
             -- version = '^6', -- Recommended
@@ -1074,6 +1074,31 @@ require('lazy').setup {
             config = function()
                 vim.g.rustaceanvim = {
                     server = {
+                        on_attach = function(client, bufnr)
+                            -- you can also put keymaps in here
+                            -- local bufnr = vim.api.nvim_get_current_buf()
+                            vim.keymap.set('n', '<leader>a', function()
+                                vim.cmd.RustLsp 'codeAction' -- supports rust-analyzer's grouping
+                                -- or vim.lsp.buf.codeAction() if you don't want grouping.
+                            end, {
+                                silent = true,
+                                buffer = bufnr,
+                                desc = 'RustLsp Code Action',
+                            })
+                            vim.keymap.set(
+                                'n',
+                                -- 'K', -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
+                                '<leader>k',
+                                function()
+                                    vim.cmd.RustLsp { 'hover', 'actions' }
+                                end,
+                                {
+                                    silent = true,
+                                    buffer = bufnr,
+                                    desc = 'RustLsp Hover Action',
+                                }
+                            )
+                        end,
                         default_settings = {
                             ['rust-analyzer'] = {
                                 diagnostics = {
@@ -1120,7 +1145,7 @@ require('lazy').setup {
                     },
                 }
             end,
-        }, ]]
+        },
         -- git commands
         {
             'tpope/vim-fugitive',
@@ -1171,7 +1196,7 @@ keymap.set('i', '<down>', '<nop>')
 keymap.set('i', '<left>', '<nop>')
 keymap.set('i', '<right>', '<nop>') ]]
 
-keymap.set('n', '<leader>l', ':Lazy<enter>')
+keymap.set('n', '<leader>ll', ':Lazy<enter>')
 keymap.set('n', '<leader>m', ':Mason<enter>')
 keymap.set('n', '<leader>e', ':Explore<enter>')
 
@@ -1248,3 +1273,5 @@ vim.keymap.set(
     ':NvimTreeToggle<enter>',
     { desc = 'Toggle Tree' }
 )
+
+vim.keymap.set('n', '<leader>li', ':LspInfo<enter>', { desc = 'LSP info' })
