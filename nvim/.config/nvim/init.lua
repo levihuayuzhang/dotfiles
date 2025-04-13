@@ -19,8 +19,7 @@ opt.expandtab = true
 opt.autoindent = true
 -- opt.copyindent = true
 
-opt.listchars =
-    'space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢'
+opt.listchars = 'space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢'
 opt.list = true
 opt.showbreak = '> '
 
@@ -42,8 +41,8 @@ api.nvim_create_autocmd(
 ) ]]
 opt.colorcolumn = { 80, 100 }
 
-opt.scrolloff = 5
-opt.sidescrolloff = 5
+opt.scrolloff = 6
+opt.sidescrolloff = 6
 opt.cursorline = true
 -- enable 24-bit colour
 opt.termguicolors = true
@@ -435,21 +434,14 @@ require('lazy').setup {
                         -- argument after params if you find that you have to write the file
                         -- twice for changes to be saved.
                         -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
-                        local result = vim.lsp.buf_request_sync(
-                            0,
-                            'textDocument/codeAction',
-                            params
-                        )
+                        local result =
+                            vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params)
                         for cid, res in pairs(result or {}) do
                             for _, r in pairs(res.result or {}) do
                                 if r.edit then
-                                    local enc = (
-                                        vim.lsp.get_client_by_id(cid) or {}
-                                    ).offset_encoding or 'utf-16'
-                                    vim.lsp.util.apply_workspace_edit(
-                                        r.edit,
-                                        enc
-                                    )
+                                    local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding
+                                        or 'utf-16'
+                                    vim.lsp.util.apply_workspace_edit(r.edit, enc)
                                 end
                             end
                         end
@@ -469,11 +461,7 @@ require('lazy').setup {
                     },
                     on_attach = function(_, bufnr)
                         -- Enable completion triggered by <c-x><c-o>
-                        vim.api.nvim_buf_set_option(
-                            bufnr,
-                            'omnifunc',
-                            'v:lua.vim.lsp.omnifunc'
-                        )
+                        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
                     end,
                 }
 
@@ -559,9 +547,7 @@ require('lazy').setup {
                 {
                     '<leader>B',
                     function()
-                        require('dap').set_breakpoint(
-                            vim.fn.input 'Breakpoint condition: '
-                        )
+                        require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
                     end,
                     desc = 'Debug: Set Breakpoint',
                 },
@@ -624,16 +610,11 @@ require('lazy').setup {
                 for type, icon in pairs(breakpoint_icons) do
                     local tp = 'Dap' .. type
                     local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
-                    vim.fn.sign_define(
-                        tp,
-                        { text = icon, texthl = hl, numhl = hl }
-                    )
+                    vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
                 end
 
-                dap.listeners.after.event_initialized['dapui_config'] =
-                    dapui.open
-                dap.listeners.before.event_terminated['dapui_config'] =
-                    dapui.close
+                dap.listeners.after.event_initialized['dapui_config'] = dapui.open
+                dap.listeners.before.event_terminated['dapui_config'] = dapui.close
                 dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
                 -- -- Install golang specific config
@@ -685,10 +666,7 @@ require('lazy').setup {
                         rust = { 'rustfmt', lsp_format = 'fallback' },
                         python = function(bufnr)
                             if
-                                require('conform').get_formatter_info(
-                                    'ruff_format',
-                                    bufnr
-                                ).available
+                                require('conform').get_formatter_info('ruff_format', bufnr).available
                             then
                                 return { 'ruff_format' }
                             else
@@ -893,12 +871,7 @@ require('lazy').setup {
                     builtin.live_grep,
                     { desc = 'Telescope live grep' }
                 )
-                vim.keymap.set(
-                    'n',
-                    '<leader>fb',
-                    builtin.buffers,
-                    { desc = 'Telescope buffers' }
-                )
+                vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
                 vim.keymap.set(
                     'n',
                     '<leader>fh',
@@ -1200,18 +1173,8 @@ keymap.set('n', '<leader>ll', ':Lazy<enter>')
 keymap.set('n', '<leader>m', ':Mason<enter>')
 keymap.set('n', '<leader>e', ':Explore<enter>')
 
-keymap.set(
-    'n',
-    '<leader>df',
-    vim.diagnostic.open_float,
-    { desc = 'open float diagnostic' }
-)
-keymap.set(
-    'n',
-    '<leader>q',
-    vim.diagnostic.setloclist,
-    { desc = 'diagnostic set loc list' }
-)
+keymap.set('n', '<leader>df', vim.diagnostic.open_float, { desc = 'open float diagnostic' })
+keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'diagnostic set loc list' })
 keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = 'go to declaration' })
 keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'go to definition' })
 keymap.set(
@@ -1220,18 +1183,8 @@ keymap.set(
     vim.lsp.buf.hover,
     { desc = 'open hover, x2 into hover window, q to exit' }
 )
-keymap.set(
-    'n',
-    'gi',
-    vim.lsp.buf.implementation,
-    { desc = 'go to implementation' }
-)
-keymap.set(
-    'n',
-    '<C-k>',
-    vim.lsp.buf.signature_help,
-    { desc = 'signature help' }
-)
+keymap.set('n', 'gi', vim.lsp.buf.implementation, { desc = 'go to implementation' })
+keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { desc = 'signature help' })
 vim.keymap.set(
     'n',
     '<leader>wa',
@@ -1247,19 +1200,9 @@ vim.keymap.set(
 vim.keymap.set('n', '<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 end, { desc = 'list workspace folders' })
-vim.keymap.set(
-    'n',
-    '<space>D',
-    vim.lsp.buf.type_definition,
-    { desc = 'type definition' }
-)
+vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, { desc = 'type definition' })
 vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, { desc = 'rename buffer' })
-vim.keymap.set(
-    { 'n', 'v' },
-    '<leader>a',
-    vim.lsp.buf.code_action,
-    { desc = 'code action' }
-)
+vim.keymap.set({ 'n', 'v' }, '<leader>a', vim.lsp.buf.code_action, { desc = 'code action' })
 vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = 'references' })
 
 vim.keymap.set('n', '<leader>i', function()
@@ -1267,11 +1210,6 @@ vim.keymap.set('n', '<leader>i', function()
 end, { desc = 'Toggle inlay hints' })
 
 -- ctrl w + h,j,k to move among splited window buffer
-vim.keymap.set(
-    'n',
-    '<leader>t',
-    ':NvimTreeToggle<enter>',
-    { desc = 'Toggle Tree' }
-)
+vim.keymap.set('n', '<leader>t', ':NvimTreeToggle<enter>', { desc = 'Toggle Tree' })
 
 vim.keymap.set('n', '<leader>li', ':LspInfo<enter>', { desc = 'LSP info' })
