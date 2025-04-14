@@ -307,58 +307,6 @@ require('lazy').setup {
               },
             },
           },
-          -- -- use auto_cmd to enable inlay hints at buffer open
-          -- on_attach = function(_, bufnr)
-          --     pcall(vim.api.nvim_create_autocmd, 'LspProgress', {
-          --         callback = function(event)
-          --             local kind = event.data.params.value.kind
-          --             local client_id = event.data.client_id
-          --             local work = lsp_work_by_client_id[client_id] or 0
-          --             local work_change = kind == 'begin' and 1
-          --                 or (kind == 'end' and -1 or 0)
-          --             lsp_work_by_client_id[client_id] = math.max(work + work_change, 0)
-          --
-          --             if
-          --                 vim.lsp.inlay_hint.is_enabled {
-          --                     bufnr = bufnr,
-          --                 }
-          --                 and lsp_work_by_client_id[client_id] == 0
-          --             then
-          --                 vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
-          --                 vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-          --                 time = time + 1
-          --                 print(string.format('inlay hints redrew %d times', time))
-          --             end
-          --         end,
-          --     })
-          -- end,
-          -- -- following is for enable inlay hints from rust-analyzer
-          -- -- at buffer open
-          -- -- which is disabled by default, use key shortcut to toggle
-          -- capabilities = {
-          --     experimental = {
-          --         serverStatusNotification = true,
-          --     },
-          -- },
-          -- handlers = {
-          --     ['experimental/serverStatus'] = function(_, result, ctx)
-          --         if result.quiescent and not _ran_once[ctx.client_id] then
-          --             for _, bufnr in
-          --                 ipairs(vim.lsp.get_buffers_by_client_id(ctx.client_id))
-          --             do
-          --                 if
-          --                     vim.lsp.inlay_hint.is_enabled {
-          --                         bufnr = bufnr,
-          --                     }
-          --                 then
-          --                     vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
-          --                     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-          --                 end
-          --             end
-          --             _ran_once[ctx.client_id] = true
-          --         end
-          --     end,
-          -- },
         }
 
         -- Python
