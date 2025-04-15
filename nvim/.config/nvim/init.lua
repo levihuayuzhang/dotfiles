@@ -640,59 +640,67 @@ require('lazy').setup {
         },
       },
     },
-    -- fuzzy finding, lua version of fzf
     {
-      'ibhagwan/fzf-lua',
-      event = 'VeryLazy',
-      -- optional for icon support
-      dependencies = { 'nvim-tree/nvim-web-devicons' },
-      -- or if using mini.icons/mini.nvim
-      -- dependencies = { "echasnovski/mini.icons" },
-      -- opts = {},
-      config = function()
-        require('fzf-lua').setup {
-          'hide',
-          -- your other settings here
-          -- fzf-lua
-          vim.keymap.set(
-            'n',
-            '<leader>ff',
-            ':FzfLua files<enter>',
-            { desc = 'fzf-lua - files' }
-          ),
-          vim.keymap.set(
-            'n',
-            '<leader>fr',
-            ':FzfLua resume<enter>',
-            { desc = 'fzf-lua - resume' }
-          ),
-          vim.keymap.set(
-            'n',
-            '<leader>fb',
-            ':FzfLua buffers<enter>',
-            { desc = 'fzf-lua - buffers' }
-          ),
-          vim.keymap.set(
-            'n',
-            '<leader>fh',
-            ':FzfLua helptags<enter>',
-            { desc = 'fzf-lua -  helptags' }
-          ),
-          vim.keymap.set(
-            'n',
-            '<leader>fm',
-            ':FzfLua manpages<enter>',
-            { desc = 'fzf-lua -  manpages' }
-          ),
-          vim.keymap.set(
-            'n',
-            '<leader>fc',
-            ':FzfLua commands<enter>',
-            { desc = 'fzf-lua -  commands' }
-          ),
-        }
-      end,
+      'junegunn/fzf.vim',
+      dependencies = {
+        {
+          'junegunn/fzf',
+          -- dir = '~/.fzf',
+          build = './install --all',
+        }, -- git clone first
+      },
     },
+    -- -- fuzzy finding, lua version
+    -- {
+    --   'ibhagwan/fzf-lua',
+    --   event = 'VeryLazy',
+    --   -- optional for icon support
+    --   dependencies = { 'nvim-tree/nvim-web-devicons' },
+    --   -- opts = {},
+    --   config = function()
+    --     require('fzf-lua').setup {
+    --       'hide',
+    --       -- your other settings here
+    --       -- fzf-lua
+    --       vim.keymap.set(
+    --         'n',
+    --         '<leader>ff',
+    --         ':FzfLua files<enter>',
+    --         { desc = 'fzf-lua - files' }
+    --       ),
+    --       vim.keymap.set(
+    --         'n',
+    --         '<leader>fr',
+    --         ':FzfLua resume<enter>',
+    --         { desc = 'fzf-lua - resume' }
+    --       ),
+    --       vim.keymap.set(
+    --         'n',
+    --         '<leader>fb',
+    --         ':FzfLua buffers<enter>',
+    --         { desc = 'fzf-lua - buffers' }
+    --       ),
+    --       vim.keymap.set(
+    --         'n',
+    --         '<leader>fh',
+    --         ':FzfLua helptags<enter>',
+    --         { desc = 'fzf-lua -  helptags' }
+    --       ),
+    --       vim.keymap.set(
+    --         'n',
+    --         '<leader>fm',
+    --         ':FzfLua manpages<enter>',
+    --         { desc = 'fzf-lua -  manpages' }
+    --       ),
+    --       vim.keymap.set(
+    --         'n',
+    --         '<leader>fc',
+    --         ':FzfLua commands<enter>',
+    --         { desc = 'fzf-lua -  commands' }
+    --       ),
+    --     }
+    --   end,
+    -- },
     -- keymap hints
     {
       'folke/which-key.nvim',
@@ -772,6 +780,10 @@ require('lazy').setup {
       keys = {
         { '<localLeader>l', '', desc = '+vimtex', ft = 'tex' },
       },
+    },
+    {
+      'tpope/vim-fugitive',
+      -- enabled = false,
     },
   },
   checker = { enabled = true, notify = false },
@@ -873,3 +885,57 @@ vim.keymap.set(
 )
 
 vim.keymap.set('n', '<leader>li', ':LspInfo<enter>', { desc = 'LSP info' })
+-- fzf
+vim.keymap.set('n', '<leader>ff', '<cmd>Files<cr>', { desc = 'fzf - Files' })
+vim.api.nvim_set_keymap('n', '<Leader>fg', ':Rg<CR>', { noremap = true }) -- 全局内容搜索
+vim.keymap.set(
+  'n',
+  '<leader>gf',
+  '<cmd>GFiles<cr>',
+  { desc = 'fzf - `git ls-files`' }
+)
+
+vim.keymap.set(
+  'n',
+  '<leader>gs',
+  '<cmd>GFiles?<cr>',
+  { desc = 'fzf - `git status`' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>gc',
+  '<cmd>Commits<cr>',
+  { desc = 'fzf - Commits' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>gb',
+  '<cmd>BCommits<cr>',
+  { desc = 'fzf - Current Buffer Commits(visual select)' }
+)
+
+vim.keymap.set(
+  'n',
+  '<leader>fb',
+  '<cmd>Buffers<cr>',
+  { desc = 'fzf - Buffers' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>fs',
+  '<cmd>Colors<cr>',
+  { desc = 'fzf - Color schemes' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>fc',
+  '<cmd>Commands<cr>',
+  { desc = 'fzf - Commands' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>fh',
+  '<cmd>Helptags<cr>',
+  { desc = 'fzf - Helptags' }
+)
+vim.keymap.set('n', '<leader>fl', '<cmd>Lines<cr>', { desc = 'fzf - Lines' })
