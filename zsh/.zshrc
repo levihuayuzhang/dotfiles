@@ -132,3 +132,5 @@ case ":$PATH:" in
 esac
 # pnpm end
 
+export BAT_THEME="gruvbox-dark"
+
