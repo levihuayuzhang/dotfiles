@@ -17,7 +17,7 @@ opt.tabstop = 4
 opt.softtabstop = 4
 opt.expandtab = true
 opt.autoindent = true
--- opt.copyindent = true
+opt.copyindent = false
 
 opt.listchars =
   'space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢'
@@ -114,8 +114,6 @@ require('lazy').setup {
     -- :help everforest.txt
     {
       'sainnhe/everforest',
-      enabled = false,
-      priority = 1000,
       config = function()
         if vim.o.termguicolors then
           vim.o.termguicolors = true
@@ -155,6 +153,7 @@ require('lazy').setup {
     -- status line below
     {
       'nvim-lualine/lualine.nvim',
+      lazy = false,
       dependencies = { 'nvim-tree/nvim-web-devicons' },
       config = function()
         require('lualine').setup {
@@ -584,15 +583,6 @@ require('lazy').setup {
         end,
       },
     },
-    -- file viewer
-    {
-      'nvim-tree/nvim-tree.lua',
-      enabled = false,
-      event = 'VeryLazy',
-      config = function()
-        require('nvim-tree').setup()
-      end,
-    },
     -- quick search and jump to char in screen
     {
       'folke/flash.nvim',
@@ -640,67 +630,32 @@ require('lazy').setup {
         },
       },
     },
+    -- fuzzy finding, lua version
     {
-      'junegunn/fzf.vim',
+      'ibhagwan/fzf-lua',
+      event = 'VeryLazy',
       dependencies = {
+        'nvim-tree/nvim-web-devicons',
+        {
+          'skim-rs/skim',
+          build = './install',
+        },
         {
           'junegunn/fzf',
-          -- dir = '~/.fzf',
           build = './install --all',
-        }, -- git clone first
+        },
       },
+      config = function()
+        require('fzf-lua').setup {
+          'fzf-native', -- https://github.com/ibhagwan/fzf-lua/tree/main/lua/fzf-lua/profiles
+
+          -- fzf_bin = 'sk',
+
+          -- opens in a tmux popup (requires tmux > 3.2)
+          fzf_opts = { ['--border'] = 'rounded', ['--tmux'] = 'center,80%,60%' },
+        }
+      end,
     },
-    -- -- fuzzy finding, lua version
-    -- {
-    --   'ibhagwan/fzf-lua',
-    --   event = 'VeryLazy',
-    --   -- optional for icon support
-    --   dependencies = { 'nvim-tree/nvim-web-devicons' },
-    --   -- opts = {},
-    --   config = function()
-    --     require('fzf-lua').setup {
-    --       'hide',
-    --       -- your other settings here
-    --       -- fzf-lua
-    --       vim.keymap.set(
-    --         'n',
-    --         '<leader>ff',
-    --         ':FzfLua files<enter>',
-    --         { desc = 'fzf-lua - files' }
-    --       ),
-    --       vim.keymap.set(
-    --         'n',
-    --         '<leader>fr',
-    --         ':FzfLua resume<enter>',
-    --         { desc = 'fzf-lua - resume' }
-    --       ),
-    --       vim.keymap.set(
-    --         'n',
-    --         '<leader>fb',
-    --         ':FzfLua buffers<enter>',
-    --         { desc = 'fzf-lua - buffers' }
-    --       ),
-    --       vim.keymap.set(
-    --         'n',
-    --         '<leader>fh',
-    --         ':FzfLua helptags<enter>',
-    --         { desc = 'fzf-lua -  helptags' }
-    --       ),
-    --       vim.keymap.set(
-    --         'n',
-    --         '<leader>fm',
-    --         ':FzfLua manpages<enter>',
-    --         { desc = 'fzf-lua -  manpages' }
-    --       ),
-    --       vim.keymap.set(
-    --         'n',
-    --         '<leader>fc',
-    --         ':FzfLua commands<enter>',
-    --         { desc = 'fzf-lua -  commands' }
-    --       ),
-    --     }
-    --   end,
-    -- },
     -- keymap hints
     {
       'folke/which-key.nvim',
@@ -781,14 +736,11 @@ require('lazy').setup {
         { '<localLeader>l', '', desc = '+vimtex', ft = 'tex' },
       },
     },
-    {
-      'tpope/vim-fugitive',
-      -- enabled = false,
-    },
   },
+  install = { colorscheme = { 'everforest' } },
   checker = { enabled = true, notify = false },
   change_detection = { enabled = true, notify = false },
-  lazy = true,
+  defaults = { lazy = true },
 }
 
 -------------------------------------------------------------------------------
@@ -885,57 +837,100 @@ vim.keymap.set(
 )
 
 vim.keymap.set('n', '<leader>li', ':LspInfo<enter>', { desc = 'LSP info' })
--- fzf
-vim.keymap.set('n', '<leader>ff', '<cmd>Files<cr>', { desc = 'fzf - Files' })
-vim.api.nvim_set_keymap('n', '<Leader>fg', ':Rg<CR>', { noremap = true }) -- 全局内容搜索
-vim.keymap.set(
-  'n',
-  '<leader>gf',
-  '<cmd>GFiles<cr>',
-  { desc = 'fzf - `git ls-files`' }
-)
 
 vim.keymap.set(
   'n',
-  '<leader>gs',
-  '<cmd>GFiles?<cr>',
-  { desc = 'fzf - `git status`' }
+  '<leader>ff',
+  '<cmd>FzfLua files<cr>',
+  { desc = 'Find Files' }
 )
 vim.keymap.set(
   'n',
-  '<leader>gc',
-  '<cmd>Commits<cr>',
-  { desc = 'fzf - Commits' }
+  '<leader>fll',
+  '<cmd>FzfLua lines<cr>',
+  { desc = 'Open Buffers Lines' }
 )
 vim.keymap.set(
   'n',
-  '<leader>gb',
-  '<cmd>BCommits<cr>',
-  { desc = 'fzf - Current Buffer Commits(visual select)' }
+  '<leader>flb',
+  '<cmd>FzfLua blines<cr>',
+  { desc = 'Current Buffer Lines' }
 )
-
+vim.keymap.set(
+  'n',
+  '<leader>fg',
+  '<cmd>FzfLua live_grep<cr>',
+  { desc = 'Live grep current project' }
+)
 vim.keymap.set(
   'n',
   '<leader>fb',
-  '<cmd>Buffers<cr>',
-  { desc = 'fzf - Buffers' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>fs',
-  '<cmd>Colors<cr>',
-  { desc = 'fzf - Color schemes' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>fc',
-  '<cmd>Commands<cr>',
-  { desc = 'fzf - Commands' }
+  '<cmd>FzfLua buffers<cr>',
+  { desc = 'Find Buffers' }
 )
 vim.keymap.set(
   'n',
   '<leader>fh',
-  '<cmd>Helptags<cr>',
-  { desc = 'fzf - Helptags' }
+  '<cmd>FzfLua helptags<cr>',
+  { desc = 'Find Helptags' }
 )
-vim.keymap.set('n', '<leader>fl', '<cmd>Lines<cr>', { desc = 'fzf - Lines' })
+vim.keymap.set(
+  'n',
+  '<leader>fm',
+  ':FzfLua manpages<enter>',
+  { desc = 'Find Manpages' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>fc',
+  ':FzfLua commands<enter>',
+  { desc = 'Find Commands' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>fs',
+  '<cmd>FzfLua colorschemes<cr>',
+  { desc = 'Color Schemes' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>gf',
+  '<cmd>FzfLua git_files<enter>',
+  { desc = 'Git Files' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>gst',
+  '<cmd>FzfLua git_status<enter>',
+  { desc = 'Git Status' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>gc',
+  '<cmd>FzfLua git_commits<enter>',
+  { desc = 'Git Commits' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>gbc',
+  '<cmd>FzfLua git_bcommits<enter>',
+  { desc = 'Git Buffer Commits' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>gbb',
+  '<cmd>FzfLua git_blame<enter>',
+  { desc = 'Git Buffer Blame' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>gss',
+  '<cmd>FzfLua git_stash<enter>',
+  { desc = 'Git Stash' }
+)
+vim.keymap.set(
+  'n',
+  '<leader>gbr',
+  '<cmd>FzfLua git_branches	<enter>',
+  { desc = 'Git Branches' }
+)
