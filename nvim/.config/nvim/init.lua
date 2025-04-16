@@ -30,7 +30,6 @@ opt.softtabstop = 4
 opt.expandtab = true
 opt.autoindent = true
 opt.copyindent = false
-opt.showtabline = 2 -- 2 means always
 
 opt.listchars =
   'space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢'
