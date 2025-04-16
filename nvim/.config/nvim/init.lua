@@ -1440,7 +1440,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- lsp keymap
     keymap.set('n', '<leader>li', ':LspInfo<enter>', { desc = 'LSP info' })
-
+    keymap.set('n', '<leader>i', function()
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+    end, { desc = 'Toggle inlay hints', buffer = buffer })
     keymap.set(
       'n',
       '<leader>df',
@@ -1538,8 +1540,36 @@ vim.api.nvim_create_autocmd('LspAttach', {
       { desc = 'Goto Child', buffer = buffer }
     )
 
-    keymap.set('n', '<leader>i', function()
-      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-    end, { desc = 'Toggle inlay hints', buffer = buffer })
+    -- dap fzf
+    keymap.set(
+      'n',
+      '<leader>fdc',
+      '<cmd>FzfLua dap_commands<cr>',
+      { desc = 'Dap Commands', buffer = buffer }
+    )
+    keymap.set(
+      'n',
+      '<leader>fdb',
+      '<cmd>FzfLua dap_breakpoints<cr>',
+      { desc = 'Dap Breakpoints', buffer = buffer }
+    )
+    keymap.set(
+      'n',
+      '<leader>fda',
+      '<cmd>FzfLua dap_configurations<cr>',
+      { desc = 'Dap Configurations', buffer = buffer }
+    )
+    keymap.set(
+      'n',
+      '<leader>fdv',
+      '<cmd>FzfLua dap_variables<cr>',
+      { desc = 'Dap Variables', buffer = buffer }
+    )
+    keymap.set(
+      'n',
+      '<leader>fdf',
+      '<cmd>FzfLua dap_frames<cr>',
+      { desc = 'Dap Frames', buffer = buffer }
+    )
   end,
 })
