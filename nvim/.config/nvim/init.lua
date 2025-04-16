@@ -1,16 +1,28 @@
 -- base config
+
+-- enable cache to speed up nvim load
+vim.loader.enable()
+
+-- -- disable netrw
+-- vim.g.loaded_netrw = 1
+-- vim.g.loaded_netrwPlugin = 1
+
+vim.g.tex_flavor = 'latex'
+
 local opt = vim.opt
 local api = vim.api
 
--- opt.syntax = 'on'
+-- https://neovim.io/doc/user/options.html
 opt.number = true
 opt.relativenumber = true
 
 opt.mouse:append 'a'
+opt.mousemoveevent = true
 opt.clipboard = 'unnamedplus,unnamed'
 
 opt.hlsearch = true
 opt.incsearch = true
+opt.jumpoptions = 'stack' -- helps jumps out of the definition without too many C-o
 
 opt.shiftwidth = 4
 opt.tabstop = 4
@@ -18,6 +30,7 @@ opt.softtabstop = 4
 opt.expandtab = true
 opt.autoindent = true
 opt.copyindent = false
+opt.showtabline = 2 -- 2 means always
 
 opt.listchars =
   'space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢'
@@ -29,27 +42,46 @@ opt.smartcase = true
 
 opt.undofile = true
 opt.swapfile = true
+opt.backup = false
 opt.autoread = true
+opt.updatetime = 300
 
 opt.vb = true
-opt.wrap = false
+opt.laststatus = 3 -- means statuscolumn will only on the bottom
+opt.wrap = false -- display lines as one long line
 opt.signcolumn = 'yes'
 opt.colorcolumn = '80'
 -- opt.colorcolumn = { 80, 100 }
+opt.fileencoding = 'utf-8'
+opt.completeopt = { 'menuone', 'noselect' } -- completion will pop up when there is only one match
+opt.conceallevel = 0 -- no hide for ``
+opt.sessionoptions =
+  'blank,buffers,curdir,folds,help,tabpages,winsize,terminal,globals'
+opt.splitbelow = true -- force window to be splited into the bottom
+opt.splitright = true
 
-opt.scrolloff = 6
-opt.sidescrolloff = 6
+opt.scrolloff = 8
+opt.sidescrolloff = 8
 opt.cursorline = true
 -- enable 24-bit colour
 opt.termguicolors = true
 
-api.nvim_set_hl(0, 'RainbowRed', { fg = '#E06C75' })
-api.nvim_set_hl(0, 'RainbowYellow', { fg = '#E5C07B' })
-api.nvim_set_hl(0, 'RainbowBlue', { fg = '#61AFEF' })
-api.nvim_set_hl(0, 'RainbowOrange', { fg = '#D19A66' })
-api.nvim_set_hl(0, 'RainbowGreen', { fg = '#98C379' })
-api.nvim_set_hl(0, 'RainbowViolet', { fg = '#C678DD' })
-api.nvim_set_hl(0, 'RainbowCyan', { fg = '#56B6C2' })
+vim.api.nvim_create_autocmd({ 'ColorScheme' }, {
+  pattern = { '*' },
+  callback = function()
+    api.nvim_set_hl(0, 'IlluminatedWordText', { underline = true })
+    api.nvim_set_hl(0, 'IlluminatedWordRead', { underline = true })
+    api.nvim_set_hl(0, 'IlluminatedWordWrite', { underline = true })
+
+    api.nvim_set_hl(0, 'RainbowRed', { fg = '#E06C75' })
+    api.nvim_set_hl(0, 'RainbowYellow', { fg = '#E5C07B' })
+    api.nvim_set_hl(0, 'RainbowBlue', { fg = '#61AFEF' })
+    api.nvim_set_hl(0, 'RainbowOrange', { fg = '#D19A66' })
+    api.nvim_set_hl(0, 'RainbowGreen', { fg = '#98C379' })
+    api.nvim_set_hl(0, 'RainbowViolet', { fg = '#C678DD' })
+    api.nvim_set_hl(0, 'RainbowCyan', { fg = '#56B6C2' })
+  end,
+})
 
 api.nvim_create_autocmd('TextYankPost', {
   callback = function()
@@ -74,10 +106,37 @@ api.nvim_create_autocmd('Filetype', {
 
 vim.diagnostic.config {
   virtual_text = true,
+  underline = true,
   -- virtual_lines = true,
   -- update_in_insert = true,
+  severity_sort = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = '',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.HINT] = '󰌶',
+      [vim.diagnostic.severity.INFO] = '',
+    },
+    float = {
+      -- focusable = false,
+      -- style = 'minimal',
+      border = 'rounded',
+      source = 'always',
+      -- header = '',
+      -- prefix = '',
+    },
+  },
 }
+
 -- vim.lsp.inlay_hint.enable(true) -- enable globally
+
+-- vim.lsp.set_log_level 'off'
+-- vim.lsp.handlers['textDocument/hover'] = vim.lsp.buf.hover {
+--   border = 'rounded',
+-- }
+-- vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.buf.signature_help {
+--   border = 'rounded',
+-- }
 
 -------------------------------------------------------------------------------
 -- set leader keys before lazy
@@ -249,6 +308,7 @@ require('lazy').setup {
       cmd = { 'LspInfo', 'LspInstall', 'LspUninstall' },
       dependencies = {
         'williamboman/mason-lspconfig.nvim',
+        'saghen/blink.cmp',
       },
       opts = {
         inlay_hints = {
@@ -257,63 +317,69 @@ require('lazy').setup {
       },
       config = function(_, opts)
         local lspconfig = require 'lspconfig'
+        local lsp_capabilities = require('blink.cmp').get_lsp_capabilities()
+        require('lspconfig.ui.windows').default_options.border = 'rounded'
 
-        -- rust
-        -- local lsp_work_by_client_id = {}
-        -- local time = 0
-        -- local _ran_once = {}
-        lspconfig.rust_analyzer.setup {
-          settings = {
-            ['rust-analyzer'] = {
-              diagnostics = {
-                enable = true,
-                experimental = { enable = true },
-                styleLints = { enable = true },
-              },
-              cargo = { features = 'all' },
-              checkOnSave = true,
-              check = {
-                command = 'clippy',
-                features = 'all',
-              },
-              inlayHints = {
-                typeHints = { enable = true },
-                chainingHints = { enable = true },
-                closingBraceHints = { enable = true },
-                bindingModeHints = { enable = true },
-                closureCaptureHints = { enable = true },
-                closureReturnTypeHints = {
-                  enable = 'always',
-                },
-                discriminantHints = { enable = 'always' },
-                expressionAdjustmentHints = {
-                  enable = 'always',
-                },
-                genericParameterHints = {
-                  const = { enable = true },
-                  lifetime = { enable = true },
-                  type = { enable = true },
-                },
-                implicitDrops = { enable = true },
-                implicitSizedBoundHints = { enable = true },
-                maxLength = { '' },
-                reborrowHints = { enable = 'always' },
-                renderColons = { enable = true },
-                lifetimeElisionHints = {
-                  enable = true,
-                  useParameterNames = true,
-                },
-              },
-            },
-          },
-        }
+        -- -- rust
+        -- lspconfig.rust_analyzer.setup {
+        --   settings = {
+        --     ['rust-analyzer'] = {
+        --       diagnostics = {
+        --         enable = true,
+        --         experimental = { enable = true },
+        --         styleLints = { enable = true },
+        --       },
+        --       cargo = { features = 'all' },
+        --       checkOnSave = true,
+        --       check = {
+        --         command = 'clippy',
+        --         features = 'all',
+        --       },
+        --       files = {
+        --         -- watcher = 'server',
+        --         watcher = 'client',
+        --       },
+        --       inlayHints = {
+        --         typeHints = { enable = true },
+        --         chainingHints = { enable = true },
+        --         closingBraceHints = { enable = true },
+        --         bindingModeHints = { enable = true },
+        --         closureCaptureHints = { enable = true },
+        --         closureReturnTypeHints = {
+        --           enable = 'always',
+        --         },
+        --         discriminantHints = { enable = 'always' },
+        --         expressionAdjustmentHints = {
+        --           enable = 'always',
+        --         },
+        --         genericParameterHints = {
+        --           const = { enable = true },
+        --           lifetime = { enable = true },
+        --           type = { enable = true },
+        --         },
+        --         implicitDrops = { enable = true },
+        --         implicitSizedBoundHints = { enable = true },
+        --         maxLength = { '' },
+        --         reborrowHints = { enable = 'always' },
+        --         renderColons = { enable = true },
+        --         lifetimeElisionHints = {
+        --           enable = true,
+        --           useParameterNames = true,
+        --         },
+        --       },
+        --     },
+        --   },
+        --   capabilities = lsp_capabilities,
+        -- }
 
         -- Python
         -- https://docs.astral.sh/ruff/editors/setup/#neovim
-        lspconfig.ruff.setup {}
+        lspconfig.ruff.setup {
+          capabilities = lsp_capabilities,
+        }
         -- pyright
         lspconfig.pyright.setup {
-          capabilities = vim.lsp.protocol.make_client_capabilities(),
+          -- capabilities = vim.lsp.protocol.make_client_capabilities(),
           settings = {
             python = {
               analysis = {
@@ -332,15 +398,24 @@ require('lazy').setup {
           handlers = {
             ['textDocument/publishDiagnostics'] = function() end,
           },
+          capabilities = lsp_capabilities,
         }
 
         -- clangd
         -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/clangd.lua
+        local nproc
+        local jit = require 'jit'
+        if jit.os == 'OSX' then
+          nproc = vim.fn.systemlist('sysctl -n hw.physicalcpu')[1]
+        elseif jit.os == 'Linux' then
+          nproc = vim.fn.systemlist('nproc')[1]
+        end
         lspconfig.clangd.setup {
           cmd = {
             'clangd',
             '--background-index',
-            '-j=10',
+            '--background-index-priority=normal',
+            '-j=' .. nproc,
             '--clang-tidy',
             '--all-scopes-completion',
             '--completion-style=detailed',
@@ -354,54 +429,10 @@ require('lazy').setup {
           on_attach = function(_, bufnr)
             if opts.inlay_hints.enabled then
               vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+              -- print(nproc)
             end
           end,
-        }
-
-        -- golang
-        vim.api.nvim_create_autocmd('BufWritePre', {
-          pattern = '*.go',
-          callback = function()
-            local params = vim.lsp.util.make_range_params()
-            params.context = { only = { 'source.organizeImports' } }
-            -- buf_request_sync defaults to a 1000ms timeout. Depending on your
-            -- machine and codebase, you may want longer. Add an additional
-            -- argument after params if you find that you have to write the file
-            -- twice for changes to be saved.
-            -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
-            local result =
-              vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params)
-            for cid, res in pairs(result or {}) do
-              for _, r in pairs(res.result or {}) do
-                if r.edit then
-                  local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding
-                    or 'utf-16'
-                  vim.lsp.util.apply_workspace_edit(r.edit, enc)
-                end
-              end
-            end
-            vim.lsp.buf.format { async = false }
-          end,
-        })
-
-        lspconfig.gopls.setup {
-          settings = {
-            gopls = {
-              analyses = {
-                unusedparams = true,
-              },
-              staticcheck = true,
-              gofumpt = true,
-            },
-          },
-          on_attach = function(_, bufnr)
-            -- Enable completion triggered by <c-x><c-o>
-            vim.api.nvim_buf_set_option(
-              bufnr,
-              'omnifunc',
-              'v:lua.vim.lsp.omnifunc'
-            )
-          end,
+          capabilities = lsp_capabilities,
         }
 
         -- lua
@@ -414,9 +445,17 @@ require('lazy').setup {
               diagnostics = {
                 globals = { 'vim' },
               },
+              -- make server aware of Neovim runtime files
+              workspace = {
+                library = {
+                  vim.env.VIMRUNTIME,
+                  vim.fn.stdpath 'data' .. '/lazy/',
+                },
+              },
             },
           },
-          capabilities = vim.lsp.protocol.make_client_capabilities(),
+          capabilities = lsp_capabilities,
+          -- capabilities = vim.lsp.protocol.make_client_capabilities(),
         }
       end,
     },
@@ -649,10 +688,239 @@ require('lazy').setup {
         require('fzf-lua').setup {
           'fzf-native', -- https://github.com/ibhagwan/fzf-lua/tree/main/lua/fzf-lua/profiles
 
-          -- fzf_bin = 'sk',
+          fzf_bin = 'sk',
 
           -- opens in a tmux popup (requires tmux > 3.2)
-          fzf_opts = { ['--border'] = 'rounded', ['--tmux'] = 'center,80%,60%' },
+          -- fzf_opts = { ['--border'] = 'rounded', ['--tmux'] = 'center,80%,60%' },
+        }
+
+        vim.keymap.set(
+          'n',
+          '<leader>ff',
+          '<cmd>FzfLua files<cr>',
+          { desc = 'Find Files' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>fll',
+          '<cmd>FzfLua lines<cr>',
+          { desc = 'Open Buffers Lines' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>flb',
+          '<cmd>FzfLua blines<cr>',
+          { desc = 'Current Buffer Lines' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>fg',
+          '<cmd>FzfLua live_grep<cr>',
+          { desc = 'Live grep current project' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>fb',
+          '<cmd>FzfLua buffers<cr>',
+          { desc = 'Find Buffers' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>fh',
+          '<cmd>FzfLua helptags<cr>',
+          { desc = 'Find Helptags' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>fm',
+          '<cmd>FzfLua manpages<cr>',
+          { desc = 'Find Manpages' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>fc',
+          '<cmd>FzfLua commands<cr>',
+          { desc = 'Find Commands' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>fs',
+          '<cmd>FzfLua colorschemes<cr>',
+          { desc = 'Color Schemes' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>gf',
+          '<cmd>FzfLua git_files<cr>',
+          { desc = 'Git Files' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>gst',
+          '<cmd>FzfLua git_status<cr>',
+          { desc = 'Git Status' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>gc',
+          '<cmd>FzfLua git_commits<cr>',
+          { desc = 'Git Commits' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>gbc',
+          '<cmd>FzfLua git_bcommits<cr>',
+          { desc = 'Git Buffer Commits' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>gbb',
+          '<cmd>FzfLua git_blame<cr>',
+          { desc = 'Git Buffer Blame' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>gss',
+          '<cmd>FzfLua git_stash<cr>',
+          { desc = 'Git Stash' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>gbr',
+          '<cmd>FzfLua git_branches<cr>',
+          { desc = 'Git Branches' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>ft',
+          -- vim.lsp.buf.declaration,
+          '<cmd>FzfLua tmux_buffers<cr>',
+          { desc = 'list tmux paste buffers' }
+        )
+      end,
+    },
+    {
+      'saecki/crates.nvim',
+      event = { 'BufRead Cargo.toml' },
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+        'folke/which-key.nvim',
+      },
+      config = function()
+        local crates = require 'crates'
+        crates.setup { -- https://github.com/YaQia/.dotfile/blob/master/nvim/lua/plugins/crates.lua
+          popup = {
+            border = 'rounded',
+          },
+          lsp = {
+            enabled = true,
+            on_attach = function(_, bufnr)
+              require('lsp_signature').on_attach({
+                hint_enable = true, -- virtual hint enable
+                hint_prefix = '• ',
+              }, bufnr)
+            end,
+            actions = true,
+            completion = true,
+            hover = true,
+          },
+          completion = {
+            crates = {
+              enabled = true, -- disabled by default
+              max_results = 8, -- The maximum number of search results to display
+              min_chars = 3, -- The minimum number of charaters to type before completions begin appearing
+            },
+            cmp = {
+              enabled = true,
+            },
+          },
+        }
+
+        local function show_documentation()
+          local filetype = vim.bo.filetype
+          if vim.tbl_contains({ 'vim', 'help' }, filetype) then
+            vim.cmd('h ' .. vim.fn.expand '<cword>')
+          elseif vim.tbl_contains({ 'man' }, filetype) then
+            vim.cmd('Man ' .. vim.fn.expand '<cword>')
+          elseif
+            vim.fn.expand '%:t' == 'Cargo.toml'
+            and require('crates').popup_available()
+          then
+            require('crates').show_popup()
+          else
+            vim.lsp.buf.hover()
+          end
+        end
+        vim.keymap.set('n', 'K', show_documentation, { silent = true })
+
+        local wk = require 'which-key'
+        wk.add {
+          { '<leader>C', group = 'Crates', remap = false },
+          {
+            '<leader>CA',
+            crates.upgrade_all_crates,
+            desc = 'Upgrade All',
+            remap = false,
+          },
+          {
+            '<leader>CU',
+            crates.upgrade_crate,
+            desc = 'Upgrade',
+            remap = false,
+          },
+          {
+            '<leader>Ca',
+            crates.update_all_crates,
+            desc = 'Update All',
+            remap = false,
+          },
+          {
+            '<leader>Cd',
+            crates.show_dependencies_popup,
+            desc = 'Dependencies',
+            remap = false,
+          },
+          {
+            '<leader>Cf',
+            crates.show_features_popup,
+            desc = 'Features',
+            remap = false,
+          },
+          {
+            '<leader>Cr',
+            crates.show_features_popup,
+            desc = 'Reload',
+            remap = false,
+          },
+          { '<leader>Ct', crates.toggle, desc = 'Toggle', remap = false },
+          { '<leader>Cu', crates.update_crate, desc = 'Update', remap = false },
+          {
+            '<leader>Cv',
+            crates.show_versions_popup,
+            desc = 'Version',
+            remap = false,
+          },
+        }
+
+        wk.add {
+          {
+            mode = { 'x' },
+            { '<leader>C', group = 'Crates', nowait = true, remap = false },
+            {
+              '<leader>CU',
+              crates.upgrade_crates,
+              desc = 'Upgrade',
+              nowait = true,
+              remap = false,
+            },
+            {
+              '<leader>Cu',
+              crates.update_crates,
+              desc = 'Update',
+              nowait = true,
+              remap = false,
+            },
+          },
         }
       end,
     },
@@ -683,6 +951,15 @@ require('lazy').setup {
       'folke/snacks.nvim',
       event = { 'BufReadPost', 'BufNewFile' },
       opts = {
+        animate = {
+          enabled = true,
+          fps = 240,
+        },
+        bigfile = { enabled = true },
+        dashboard = { enabled = false },
+        git = { enabled = false },
+        explorer = { enabled = true },
+        image = { enabled = true },
         indent = {
           indent = {
             enabled = true,
@@ -700,7 +977,391 @@ require('lazy').setup {
             },
           },
         },
+        input = { enabled = true },
+        picker = { enabled = true },
+        layout = { enabled = true },
+        notifier = { enabled = true },
+        notify = { enabled = true },
+        quickfile = { enabled = true },
+        scope = { enabled = true },
+        scroll = {
+          enabled = false,
+          animate = {
+            duration = { step = 30, total = 210 },
+            easing = 'outQuad',
+          },
+        },
+        statuscolumn = {
+          enabled = true,
+          left = { 'mark', 'sign' }, -- priority of signs on the left (high to low)
+          right = { 'git', 'fold' }, -- priority of signs on the right (high to low)
+          folds = {
+            open = false, -- show open fold icons
+            git_hl = true, -- use Git Signs hl for fold icons
+          },
+          git = {
+            -- patterns to match Git signs
+            patterns = { 'GitSign', 'MiniDiffSign' },
+          },
+          refresh = 50, -- refresh at most every 50ms
+        },
+        styles = {
+          ['input'] = {
+            relative = 'cursor',
+            width = 25,
+            row = -3,
+          },
+        },
+        toggle = {
+          enabled = true,
+          which_key = true,
+          notify = true,
+        },
+        win = {
+          enabled = true,
+        },
+        words = {
+          enabled = false,
+        },
+        zen = {
+          enabled = true,
+        },
       },
+    },
+    -- usage indication
+    {
+      'RRethy/vim-illuminate',
+      event = {
+        'CursorHold',
+        'CursorHoldI',
+        -- "LspAttach"
+      },
+      -- dependencies = { "neovim/nvim-lspconfig" },
+      config = function()
+        require('illuminate').configure {
+          providers = {
+            'lsp',
+            -- 'treesitter',
+            -- 'regex',
+          },
+          modes_denylist = { 'i', 'v', 'V' },
+        }
+      end,
+    },
+    --better explore
+    {
+      'stevearc/oil.nvim',
+      dependencies = { 'nvim-tree/nvim-web-devicons' },
+      event = 'VeryLazy',
+      opts = {
+        float = {
+          -- max_width = 50,
+          -- max_height = 35,
+          border = 'rounded',
+          preview_split = 'right',
+        },
+        view_options = {
+          show_hidden = true,
+        },
+      },
+    },
+    -- rust specific
+    {
+      'mrcjkb/rustaceanvim',
+      -- version = '^6', -- Recommended
+      ft = 'rust',
+      dependencies = {},
+      -- lazy = false, -- This plugin is already lazy
+      config = function()
+        vim.g.rustaceanvim = {
+          -- ra_multiplex = {
+          --   Opts = {
+          --     enable = true,
+          --   },
+          -- },
+
+          -- -- Plugin configuration
+          -- tools = {},
+
+          -- LSP configuration
+          server = {
+            on_attach = function(_, bufnr)
+              vim.keymap.set(
+                'n',
+                '<leader>a',
+                function()
+                  vim.cmd.RustLsp 'codeAction' -- supports rust-analyzer's grouping
+                  -- or vim.lsp.buf.codeAction() if you don't want grouping.
+                end,
+                { silent = true, buffer = bufnr, desc = 'Rust Code Actions' }
+              )
+
+              vim.keymap.set(
+                'n',
+                -- 'K', -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
+                '<leader>k',
+                function()
+                  vim.cmd.RustLsp { 'hover', 'actions' }
+                end,
+                { silent = true, buffer = bufnr, desc = 'Rust Hover Actions' }
+              )
+
+              vim.keymap.set('n', '<leader>oc', function()
+                vim.cmd.RustLsp 'openCargo'
+              end, {
+                silent = true,
+                buffer = bufnr,
+                desc = 'Open Cargo.toml',
+              })
+
+              vim.keymap.set('n', '<leader>oe', function()
+                vim.cmd.RustLsp { 'explainError', 'current' }
+              end, {
+                silent = true,
+                buffer = bufnr,
+                desc = 'Rust Explain Current Line',
+              })
+
+              vim.keymap.set('n', '<leader>r', function()
+                vim.cmd.RustLsp 'runnables'
+              end, {
+                silent = true,
+                buffer = bufnr,
+                desc = 'Rust Runnables',
+              })
+
+              vim.keymap.set('n', '<leader>jd', function()
+                vim.cmd.RustLsp 'relatedDiagnostics'
+              end, {
+                silent = true,
+                buffer = bufnr,
+                desc = 'Rust Jump to related Diagnostics',
+              })
+
+              vim.keymap.set('n', '<leader>dd', function()
+                vim.cmd.RustLsp { 'renderDiagnostic', 'cycle' }
+              end, {
+                silent = true,
+                buffer = bufnr,
+                desc = 'Rust Render Diagnostics (cycle)',
+              })
+
+              vim.keymap.set('n', '<leader>od', function()
+                vim.cmd.RustLsp 'openDocs'
+              end, {
+                silent = true,
+                buffer = bufnr,
+                desc = 'Rust docs.rs for current symbol',
+              })
+
+              vim.keymap.set('n', '<leader>p', function()
+                vim.cmd.RustLsp 'parentModule'
+              end, {
+                silent = true,
+                buffer = bufnr,
+                desc = 'Rust Parent Module',
+              })
+
+              -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-lldb-vscode
+              -- vim.keymap.set('n', '<F5>', ':RustLsp debuggables<cr>', { desc = 'DAP: Launching debug sessions' })
+
+              -- vim.keymap.set('n', '<leader>cr', function()
+              --   vim.cmd.RustLsp { 'flyCheck', 'run' }
+              -- end, {
+              --   silent = true,
+              --   buffer = bufnr,
+              --   desc = 'Rust Fly check run',
+              -- })
+              -- vim.keymap.set('n', '<leader>cc', function()
+              --   vim.cmd.RustLsp { 'flyCheck', 'clear' }
+              -- end, {
+              --   silent = true,
+              --   buffer = bufnr,
+              --   desc = 'Rust Fly check clear',
+              -- })
+              -- vim.keymap.set('n', '<leader>cx', function()
+              --   vim.cmd.RustLsp { 'flyCheck', 'cancel' }
+              -- end, {
+              --   silent = true,
+              --   buffer = bufnr,
+              --   desc = 'Rust Fly check cancel',
+              -- })
+              vim.keymap.set('n', '<leader>c', function()
+                vim.cmd.RustLsp 'flyCheck'
+              end, {
+                silent = true,
+                buffer = bufnr,
+                desc = 'Rust Fly Check',
+              })
+            end,
+            default_settings = {
+              -- rust-analyzer language server configuration
+              ['rust-analyzer'] = {
+                diagnostics = {
+                  enable = true,
+                  experimental = { enable = true },
+                  styleLints = { enable = true },
+                },
+                cargo = { features = 'all' },
+                -- checkOnSave = true, -- costly on large project
+                checkOnSave = false, -- use Fly check: <leader>c
+                check = {
+                  command = 'clippy',
+                  features = 'all',
+                },
+                files = {
+                  -- watcher = 'server',
+                  watcher = 'client',
+                },
+                inlayHints = {
+                  typeHints = { enable = true },
+                  chainingHints = { enable = true },
+                  closingBraceHints = { enable = true },
+                  bindingModeHints = { enable = true },
+                  closureCaptureHints = { enable = true },
+                  closureReturnTypeHints = {
+                    enable = 'always',
+                  },
+                  discriminantHints = { enable = 'always' },
+                  expressionAdjustmentHints = {
+                    enable = 'always',
+                  },
+                  genericParameterHints = {
+                    const = { enable = true },
+                    lifetime = { enable = true },
+                    type = { enable = true },
+                  },
+                  implicitDrops = { enable = true },
+                  implicitSizedBoundHints = { enable = true },
+                  maxLength = { '' },
+                  reborrowHints = { enable = 'always' },
+                  renderColons = { enable = true },
+                  lifetimeElisionHints = {
+                    enable = true,
+                    useParameterNames = true,
+                  },
+                },
+              },
+            },
+          },
+
+          -- -- DAP configuration
+          -- dap = {},
+        }
+      end,
+    },
+    {
+      'jay-babu/mason-nvim-dap.nvim',
+      dependencies = {
+        'williamboman/mason.nvim',
+      },
+      cmd = { 'DapInstall', 'DapUninstall' },
+      opts = {
+        automatic_installation = true,
+        handlers = {},
+        ensure_installed = {
+          'codelldb',
+        },
+      },
+      config = function()
+        -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-lldb-vscode
+        -- local dap = require 'dap'
+        -- dap.adapters.lldb = {
+        --   type = 'executable',
+        --   -- command = '/usr/bin/lldb-vscode', -- adjust as needed, must be absolute path
+        --   name = 'lldb',
+        -- }
+      end,
+    },
+    {
+      'rcarriga/nvim-dap-ui',
+      dependencies = { 'nvim-neotest/nvim-nio' },
+      -- stylua: ignore
+      keys = {
+        { "<leader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
+        { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
+      },
+      opts = {},
+      config = function(_, opts)
+        local dap = require 'dap'
+        local dapui = require 'dapui'
+        dapui.setup(opts)
+        dap.listeners.after.event_initialized['dapui_config'] = function()
+          dapui.open {}
+        end
+        dap.listeners.before.event_terminated['dapui_config'] = function()
+          dapui.close {}
+        end
+        dap.listeners.before.event_exited['dapui_config'] = function()
+          dapui.close {}
+        end
+      end,
+    },
+    -- dap
+    {
+      'mfussenegger/nvim-dap',
+      dependencies = {
+        'rcarriga/nvim-dap-ui',
+        'nvim-neotest/nvim-nio',
+        {
+          'theHamsta/nvim-dap-virtual-text',
+          opts = {},
+        },
+        'jay-babu/mason-nvim-dap.nvim',
+      },
+      config = function()
+        -- :help dap-mapping, :help dap-api, :help dap.txt, :help dap-adapter, :help dap-configuration, :h dap-launch.json
+        vim.keymap.set(
+          'n',
+          '<leader>bb',
+          ":lua require'dap'.toggle_breakpoint()<cr>",
+          { desc = 'DAP: Toggle Breakpoint' }
+        )
+        vim.keymap.set('n', '<Leader>lp', function()
+          require('dap').set_breakpoint(
+            nil,
+            nil,
+            vim.fn.input 'Log point message: '
+          )
+        end, { desc = 'DAP: break point with message to log' })
+
+        vim.keymap.set(
+          'n',
+          '<F5>',
+          ":lua require'dap'.continue()<cr>",
+          { desc = 'DAP: Launching debug sessions' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>dr',
+          ":lua require'dap'.restart({terminateDebugee=false})<cr>:lua require'dap'.continue()<cr>",
+          { desc = 'DAP: Restart' }
+        )
+        vim.keymap.set(
+          'n',
+          '<leader>dt',
+          ":lua require'dap'.terminate()<cr>",
+          { desc = 'DAP: Terminate' }
+        )
+        vim.keymap.set(
+          'n',
+          '<F10>',
+          ":lua require'dap'.step_over()<cr>",
+          { desc = 'DAP: Step Over' }
+        )
+        vim.keymap.set(
+          'n',
+          '<F11>',
+          ":lua require'dap'.step_into()<cr>",
+          { desc = 'DAP: Step Into' }
+        )
+        vim.keymap.set('n', '<F12>', function()
+          require('dap').step_out()
+        end, { desc = 'DAP: Step Out' })
+        vim.keymap.set('n', '<Leader>dl', function()
+          require('dap').run_last()
+        end, { desc = 'DAP: run last' })
+      end,
     },
     -- render markdown
     {
@@ -760,177 +1421,125 @@ keymap.set('i', '<right>', '<nop>') ]]
 
 keymap.set('n', '<leader>ll', ':Lazy<enter>')
 keymap.set('n', '<leader>m', ':Mason<enter>')
-keymap.set('n', '<leader>e', ':Explore<enter>')
-
+-- keymap.set('n', '<leader>e', ':Explore<enter>')
 keymap.set(
   'n',
-  '<leader>df',
-  vim.diagnostic.open_float,
-  { desc = 'open float diagnostic' }
+  '<leader>e',
+  '<CMD>Oil --float<CR>',
+  { desc = 'Open parent directory' }
 )
-keymap.set(
-  'n',
-  '<leader>q',
-  vim.diagnostic.setloclist,
-  { desc = 'diagnostic set loc list' }
-)
-keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = 'go to declaration' })
-keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'go to definition' })
-keymap.set(
-  'n',
-  '<leader>k',
-  vim.lsp.buf.hover,
-  { desc = 'open hover, x2 into hover window, q to exit' }
-)
-keymap.set(
-  'n',
-  'gi',
-  vim.lsp.buf.implementation,
-  { desc = 'go to implementation' }
-)
-keymap.set(
-  'n',
-  '<C-k>',
-  vim.lsp.buf.signature_help,
-  { desc = 'signature help' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>wa',
-  vim.lsp.buf.add_workspace_folder,
-  { desc = 'add add workspace folder' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>wr',
-  vim.lsp.buf.remove_workspace_folder,
-  { desc = 'remove workspace folder' }
-)
-vim.keymap.set('n', '<leader>wl', function()
-  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-end, { desc = 'list workspace folders' })
-vim.keymap.set(
-  'n',
-  '<space>D',
-  vim.lsp.buf.type_definition,
-  { desc = 'type definition' }
-)
-vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, { desc = 'rename buffer' })
-vim.keymap.set(
-  { 'n', 'v' },
-  '<leader>a',
-  vim.lsp.buf.code_action,
-  { desc = 'code action' }
-)
-vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = 'references' })
-
-vim.keymap.set('n', '<leader>i', function()
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-end, { desc = 'Toggle inlay hints' })
 
 -- ctrl w + h,j,k to move among splited window buffer
-vim.keymap.set(
-  'n',
-  '<leader>t',
-  ':NvimTreeToggle<enter>',
-  { desc = 'Toggle Tree' }
-)
 
-vim.keymap.set('n', '<leader>li', ':LspInfo<enter>', { desc = 'LSP info' })
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+    local buffer = ev.buf
 
-vim.keymap.set(
-  'n',
-  '<leader>ff',
-  '<cmd>FzfLua files<cr>',
-  { desc = 'Find Files' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>fll',
-  '<cmd>FzfLua lines<cr>',
-  { desc = 'Open Buffers Lines' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>flb',
-  '<cmd>FzfLua blines<cr>',
-  { desc = 'Current Buffer Lines' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>fg',
-  '<cmd>FzfLua live_grep<cr>',
-  { desc = 'Live grep current project' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>fb',
-  '<cmd>FzfLua buffers<cr>',
-  { desc = 'Find Buffers' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>fh',
-  '<cmd>FzfLua helptags<cr>',
-  { desc = 'Find Helptags' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>fm',
-  ':FzfLua manpages<enter>',
-  { desc = 'Find Manpages' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>fc',
-  ':FzfLua commands<enter>',
-  { desc = 'Find Commands' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>fs',
-  '<cmd>FzfLua colorschemes<cr>',
-  { desc = 'Color Schemes' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>gf',
-  '<cmd>FzfLua git_files<enter>',
-  { desc = 'Git Files' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>gst',
-  '<cmd>FzfLua git_status<enter>',
-  { desc = 'Git Status' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>gc',
-  '<cmd>FzfLua git_commits<enter>',
-  { desc = 'Git Commits' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>gbc',
-  '<cmd>FzfLua git_bcommits<enter>',
-  { desc = 'Git Buffer Commits' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>gbb',
-  '<cmd>FzfLua git_blame<enter>',
-  { desc = 'Git Buffer Blame' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>gss',
-  '<cmd>FzfLua git_stash<enter>',
-  { desc = 'Git Stash' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>gbr',
-  '<cmd>FzfLua git_branches	<enter>',
-  { desc = 'Git Branches' }
-)
+    -- lsp keymap
+    keymap.set('n', '<leader>li', ':LspInfo<enter>', { desc = 'LSP info' })
+
+    keymap.set(
+      'n',
+      '<leader>df',
+      vim.diagnostic.open_float,
+      { desc = 'open float diagnostic', buffer = buffer }
+    )
+    keymap.set(
+      'n',
+      '<leader>q',
+      vim.diagnostic.setloclist,
+      { desc = 'diagnostic set loc list', buffer = buffer }
+    )
+    keymap.set(
+      'n',
+      'gD',
+      -- vim.lsp.buf.declaration,
+      '<cmd>FzfLua lsp_declarations<cr>',
+      { desc = 'go to declaration', buffer = buffer }
+    )
+    keymap.set(
+      'n',
+      'gd',
+      -- vim.lsp.buf.definition,
+      '<cmd>FzfLua lsp_definitions<cr>',
+      { desc = 'go to definition', buffer = buffer }
+    )
+    keymap.set('n', '<leader>k', vim.lsp.buf.hover, {
+      desc = 'open hover, x2 into hover window, q to exit',
+      buffer = buffer,
+    })
+    keymap.set(
+      'n',
+      'gi',
+      -- vim.lsp.buf.implementation,
+      '<cmd>FzfLua lsp_implementations<cr>',
+      { desc = 'go to implementation', buffer = buffer }
+    )
+    keymap.set(
+      'n',
+      '<C-k>',
+      vim.lsp.buf.signature_help,
+      { desc = 'signature help', buffer = buffer }
+    )
+    keymap.set(
+      'n',
+      '<leader>wa',
+      vim.lsp.buf.add_workspace_folder,
+      { desc = 'add add workspace folder', buffer = buffer }
+    )
+    keymap.set(
+      'n',
+      '<leader>wr',
+      vim.lsp.buf.remove_workspace_folder,
+      { desc = 'remove workspace folder', buffer = buffer }
+    )
+    keymap.set('n', '<leader>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, {
+      desc = 'list workspace folders',
+      buffer = buffer,
+    })
+    keymap.set(
+      'n',
+      '<space>D',
+      -- vim.lsp.buf.type_definition,
+      '<cmd>FzfLua lsp_typedefs<cr>',
+      { desc = 'type definition', buffer = buffer }
+    )
+    -- keymap.set('n', '<leader>br', vim.lsp.buf.rename, { desc = 'rename buffer', buffer = buffer })
+    keymap.set(
+      { 'n', 'v' },
+      '<leader>a',
+      -- vim.lsp.buf.code_action,
+      '<cmd>FzfLua lsp_code_actions<cr>',
+      { desc = 'code action', buffer = buffer }
+    )
+    keymap.set(
+      'n',
+      'gr',
+      -- vim.lsp.buf.references,
+      '<cmd>FzfLua lsp_references<cr>',
+      { desc = 'references', buffer = buffer }
+    )
+
+    keymap.set(
+      'n',
+      'gI',
+      '<cmd>FzfLua lsp_incoming_calls<cr>',
+      { desc = 'Goto Parent', buffer = buffer }
+    )
+    keymap.set(
+      'n',
+      'gO',
+      '<cmd>FzfLua lsp_outgoing_calls<cr>',
+      { desc = 'Goto Child', buffer = buffer }
+    )
+
+    keymap.set('n', '<leader>i', function()
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+    end, { desc = 'Toggle inlay hints', buffer = buffer })
+  end,
+})
