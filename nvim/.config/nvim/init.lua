@@ -319,57 +319,57 @@ require('lazy').setup {
         local lsp_capabilities = require('blink.cmp').get_lsp_capabilities()
         require('lspconfig.ui.windows').default_options.border = 'rounded'
 
-        -- -- rust
-        -- lspconfig.rust_analyzer.setup {
-        --   settings = {
-        --     ['rust-analyzer'] = {
-        --       diagnostics = {
-        --         enable = true,
-        --         experimental = { enable = true },
-        --         styleLints = { enable = true },
-        --       },
-        --       cargo = { features = 'all' },
-        --       checkOnSave = true,
-        --       check = {
-        --         command = 'clippy',
-        --         features = 'all',
-        --       },
-        --       files = {
-        --         -- watcher = 'server',
-        --         watcher = 'client',
-        --       },
-        --       inlayHints = {
-        --         typeHints = { enable = true },
-        --         chainingHints = { enable = true },
-        --         closingBraceHints = { enable = true },
-        --         bindingModeHints = { enable = true },
-        --         closureCaptureHints = { enable = true },
-        --         closureReturnTypeHints = {
-        --           enable = 'always',
-        --         },
-        --         discriminantHints = { enable = 'always' },
-        --         expressionAdjustmentHints = {
-        --           enable = 'always',
-        --         },
-        --         genericParameterHints = {
-        --           const = { enable = true },
-        --           lifetime = { enable = true },
-        --           type = { enable = true },
-        --         },
-        --         implicitDrops = { enable = true },
-        --         implicitSizedBoundHints = { enable = true },
-        --         maxLength = { '' },
-        --         reborrowHints = { enable = 'always' },
-        --         renderColons = { enable = true },
-        --         lifetimeElisionHints = {
-        --           enable = true,
-        --           useParameterNames = true,
-        --         },
-        --       },
-        --     },
-        --   },
-        --   capabilities = lsp_capabilities,
-        -- }
+        -- rust
+        lspconfig.rust_analyzer.setup {
+          settings = {
+            ['rust-analyzer'] = {
+              diagnostics = {
+                enable = true,
+                experimental = { enable = true },
+                styleLints = { enable = true },
+              },
+              cargo = { features = 'all' },
+              checkOnSave = true,
+              check = {
+                command = 'clippy',
+                features = 'all',
+              },
+              files = {
+                -- watcher = 'server',
+                watcher = 'client',
+              },
+              inlayHints = {
+                typeHints = { enable = true },
+                chainingHints = { enable = true },
+                closingBraceHints = { enable = true },
+                bindingModeHints = { enable = true },
+                closureCaptureHints = { enable = true },
+                closureReturnTypeHints = {
+                  enable = 'always',
+                },
+                discriminantHints = { enable = 'always' },
+                expressionAdjustmentHints = {
+                  enable = 'always',
+                },
+                genericParameterHints = {
+                  const = { enable = true },
+                  lifetime = { enable = true },
+                  type = { enable = true },
+                },
+                implicitDrops = { enable = true },
+                implicitSizedBoundHints = { enable = true },
+                maxLength = { '' },
+                reborrowHints = { enable = 'always' },
+                renderColons = { enable = true },
+                lifetimeElisionHints = {
+                  enable = true,
+                  useParameterNames = true,
+                },
+              },
+            },
+          },
+          capabilities = lsp_capabilities,
+        }
 
         -- Python
         -- https://docs.astral.sh/ruff/editors/setup/#neovim
@@ -1064,304 +1064,304 @@ require('lazy').setup {
         },
       },
     },
-    -- rust specific
-    {
-      'mrcjkb/rustaceanvim',
-      -- version = '^6', -- Recommended
-      ft = 'rust',
-      dependencies = {},
-      -- lazy = false, -- This plugin is already lazy
-      config = function()
-        vim.g.rustaceanvim = {
-          -- ra_multiplex = {
-          --   Opts = {
-          --     enable = true,
-          --   },
-          -- },
-
-          -- -- Plugin configuration
-          -- tools = {},
-
-          -- LSP configuration
-          server = {
-            on_attach = function(_, bufnr)
-              vim.keymap.set(
-                'n',
-                '<leader>a',
-                function()
-                  vim.cmd.RustLsp 'codeAction' -- supports rust-analyzer's grouping
-                  -- or vim.lsp.buf.codeAction() if you don't want grouping.
-                end,
-                { silent = true, buffer = bufnr, desc = 'Rust Code Actions' }
-              )
-
-              vim.keymap.set(
-                'n',
-                -- 'K', -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
-                '<leader>k',
-                function()
-                  vim.cmd.RustLsp { 'hover', 'actions' }
-                end,
-                { silent = true, buffer = bufnr, desc = 'Rust Hover Actions' }
-              )
-
-              vim.keymap.set('n', '<leader>oc', function()
-                vim.cmd.RustLsp 'openCargo'
-              end, {
-                silent = true,
-                buffer = bufnr,
-                desc = 'Open Cargo.toml',
-              })
-
-              vim.keymap.set('n', '<leader>oe', function()
-                vim.cmd.RustLsp { 'explainError', 'current' }
-              end, {
-                silent = true,
-                buffer = bufnr,
-                desc = 'Rust Explain Current Line',
-              })
-
-              vim.keymap.set('n', '<leader>r', function()
-                vim.cmd.RustLsp 'runnables'
-              end, {
-                silent = true,
-                buffer = bufnr,
-                desc = 'Rust Runnables',
-              })
-
-              vim.keymap.set('n', '<leader>jd', function()
-                vim.cmd.RustLsp 'relatedDiagnostics'
-              end, {
-                silent = true,
-                buffer = bufnr,
-                desc = 'Rust Jump to related Diagnostics',
-              })
-
-              vim.keymap.set('n', '<leader>dd', function()
-                vim.cmd.RustLsp { 'renderDiagnostic', 'cycle' }
-              end, {
-                silent = true,
-                buffer = bufnr,
-                desc = 'Rust Render Diagnostics (cycle)',
-              })
-
-              vim.keymap.set('n', '<leader>od', function()
-                vim.cmd.RustLsp 'openDocs'
-              end, {
-                silent = true,
-                buffer = bufnr,
-                desc = 'Rust docs.rs for current symbol',
-              })
-
-              vim.keymap.set('n', '<leader>p', function()
-                vim.cmd.RustLsp 'parentModule'
-              end, {
-                silent = true,
-                buffer = bufnr,
-                desc = 'Rust Parent Module',
-              })
-
-              -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-lldb-vscode
-              -- vim.keymap.set('n', '<F5>', ':RustLsp debuggables<cr>', { desc = 'DAP: Launching debug sessions' })
-
-              -- vim.keymap.set('n', '<leader>cr', function()
-              --   vim.cmd.RustLsp { 'flyCheck', 'run' }
-              -- end, {
-              --   silent = true,
-              --   buffer = bufnr,
-              --   desc = 'Rust Fly check run',
-              -- })
-              -- vim.keymap.set('n', '<leader>cc', function()
-              --   vim.cmd.RustLsp { 'flyCheck', 'clear' }
-              -- end, {
-              --   silent = true,
-              --   buffer = bufnr,
-              --   desc = 'Rust Fly check clear',
-              -- })
-              -- vim.keymap.set('n', '<leader>cx', function()
-              --   vim.cmd.RustLsp { 'flyCheck', 'cancel' }
-              -- end, {
-              --   silent = true,
-              --   buffer = bufnr,
-              --   desc = 'Rust Fly check cancel',
-              -- })
-              vim.keymap.set('n', '<leader>c', function()
-                vim.cmd.RustLsp 'flyCheck'
-              end, {
-                silent = true,
-                buffer = bufnr,
-                desc = 'Rust Fly Check',
-              })
-            end,
-            default_settings = {
-              -- rust-analyzer language server configuration
-              ['rust-analyzer'] = {
-                diagnostics = {
-                  enable = true,
-                  experimental = { enable = true },
-                  styleLints = { enable = true },
-                },
-                cargo = { features = 'all' },
-                -- checkOnSave = true, -- costly on large project
-                checkOnSave = false, -- use Fly check: <leader>c
-                check = {
-                  command = 'clippy',
-                  features = 'all',
-                },
-                files = {
-                  -- watcher = 'server',
-                  watcher = 'client',
-                },
-                inlayHints = {
-                  typeHints = { enable = true },
-                  chainingHints = { enable = true },
-                  closingBraceHints = { enable = true },
-                  bindingModeHints = { enable = true },
-                  closureCaptureHints = { enable = true },
-                  closureReturnTypeHints = {
-                    enable = 'always',
-                  },
-                  discriminantHints = { enable = 'always' },
-                  expressionAdjustmentHints = {
-                    enable = 'always',
-                  },
-                  genericParameterHints = {
-                    const = { enable = true },
-                    lifetime = { enable = true },
-                    type = { enable = true },
-                  },
-                  implicitDrops = { enable = true },
-                  implicitSizedBoundHints = { enable = true },
-                  maxLength = { '' },
-                  reborrowHints = { enable = 'always' },
-                  renderColons = { enable = true },
-                  lifetimeElisionHints = {
-                    enable = true,
-                    useParameterNames = true,
-                  },
-                },
-              },
-            },
-          },
-
-          -- -- DAP configuration
-          -- dap = {},
-        }
-      end,
-    },
-    {
-      'jay-babu/mason-nvim-dap.nvim',
-      dependencies = {
-        'williamboman/mason.nvim',
-      },
-      cmd = { 'DapInstall', 'DapUninstall' },
-      opts = {
-        automatic_installation = true,
-        handlers = {},
-        ensure_installed = {
-          'codelldb',
-        },
-      },
-      config = function()
-        -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-lldb-vscode
-        -- local dap = require 'dap'
-        -- dap.adapters.lldb = {
-        --   type = 'executable',
-        --   -- command = '/usr/bin/lldb-vscode', -- adjust as needed, must be absolute path
-        --   name = 'lldb',
-        -- }
-      end,
-    },
-    {
-      'rcarriga/nvim-dap-ui',
-      dependencies = { 'nvim-neotest/nvim-nio' },
-      -- stylua: ignore
-      keys = {
-        { "<leader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
-        { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
-      },
-      opts = {},
-      config = function(_, opts)
-        local dap = require 'dap'
-        local dapui = require 'dapui'
-        dapui.setup(opts)
-        dap.listeners.after.event_initialized['dapui_config'] = function()
-          dapui.open {}
-        end
-        dap.listeners.before.event_terminated['dapui_config'] = function()
-          dapui.close {}
-        end
-        dap.listeners.before.event_exited['dapui_config'] = function()
-          dapui.close {}
-        end
-      end,
-    },
-    -- dap
-    {
-      'mfussenegger/nvim-dap',
-      dependencies = {
-        'rcarriga/nvim-dap-ui',
-        'nvim-neotest/nvim-nio',
-        {
-          'theHamsta/nvim-dap-virtual-text',
-          opts = {},
-        },
-        'jay-babu/mason-nvim-dap.nvim',
-      },
-      config = function()
-        -- :help dap-mapping, :help dap-api, :help dap.txt, :help dap-adapter, :help dap-configuration, :h dap-launch.json
-        vim.keymap.set(
-          'n',
-          '<leader>bb',
-          ":lua require'dap'.toggle_breakpoint()<cr>",
-          { desc = 'DAP: Toggle Breakpoint' }
-        )
-        vim.keymap.set('n', '<Leader>lp', function()
-          require('dap').set_breakpoint(
-            nil,
-            nil,
-            vim.fn.input 'Log point message: '
-          )
-        end, { desc = 'DAP: break point with message to log' })
-
-        vim.keymap.set(
-          'n',
-          '<F5>',
-          ":lua require'dap'.continue()<cr>",
-          { desc = 'DAP: Launching debug sessions' }
-        )
-        vim.keymap.set(
-          'n',
-          '<leader>dr',
-          ":lua require'dap'.restart({terminateDebugee=false})<cr>:lua require'dap'.continue()<cr>",
-          { desc = 'DAP: Restart' }
-        )
-        vim.keymap.set(
-          'n',
-          '<leader>dt',
-          ":lua require'dap'.terminate()<cr>",
-          { desc = 'DAP: Terminate' }
-        )
-        vim.keymap.set(
-          'n',
-          '<F10>',
-          ":lua require'dap'.step_over()<cr>",
-          { desc = 'DAP: Step Over' }
-        )
-        vim.keymap.set(
-          'n',
-          '<F11>',
-          ":lua require'dap'.step_into()<cr>",
-          { desc = 'DAP: Step Into' }
-        )
-        vim.keymap.set('n', '<F12>', function()
-          require('dap').step_out()
-        end, { desc = 'DAP: Step Out' })
-        vim.keymap.set('n', '<Leader>dl', function()
-          require('dap').run_last()
-        end, { desc = 'DAP: run last' })
-      end,
-    },
+    -- -- rust specific
+    -- {
+    --   'mrcjkb/rustaceanvim',
+    --   -- version = '^6', -- Recommended
+    --   ft = 'rust',
+    --   dependencies = {},
+    --   -- lazy = false, -- This plugin is already lazy
+    --   config = function()
+    --     vim.g.rustaceanvim = {
+    --       -- ra_multiplex = {
+    --       --   Opts = {
+    --       --     enable = true,
+    --       --   },
+    --       -- },
+    --
+    --       -- -- Plugin configuration
+    --       -- tools = {},
+    --
+    --       -- LSP configuration
+    --       server = {
+    --         on_attach = function(_, bufnr)
+    --           vim.keymap.set(
+    --             'n',
+    --             '<leader>a',
+    --             function()
+    --               vim.cmd.RustLsp 'codeAction' -- supports rust-analyzer's grouping
+    --               -- or vim.lsp.buf.codeAction() if you don't want grouping.
+    --             end,
+    --             { silent = true, buffer = bufnr, desc = 'Rust Code Actions' }
+    --           )
+    --
+    --           vim.keymap.set(
+    --             'n',
+    --             -- 'K', -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
+    --             '<leader>k',
+    --             function()
+    --               vim.cmd.RustLsp { 'hover', 'actions' }
+    --             end,
+    --             { silent = true, buffer = bufnr, desc = 'Rust Hover Actions' }
+    --           )
+    --
+    --           vim.keymap.set('n', '<leader>oc', function()
+    --             vim.cmd.RustLsp 'openCargo'
+    --           end, {
+    --             silent = true,
+    --             buffer = bufnr,
+    --             desc = 'Open Cargo.toml',
+    --           })
+    --
+    --           vim.keymap.set('n', '<leader>oe', function()
+    --             vim.cmd.RustLsp { 'explainError', 'current' }
+    --           end, {
+    --             silent = true,
+    --             buffer = bufnr,
+    --             desc = 'Rust Explain Current Line',
+    --           })
+    --
+    --           vim.keymap.set('n', '<leader>r', function()
+    --             vim.cmd.RustLsp 'runnables'
+    --           end, {
+    --             silent = true,
+    --             buffer = bufnr,
+    --             desc = 'Rust Runnables',
+    --           })
+    --
+    --           vim.keymap.set('n', '<leader>jd', function()
+    --             vim.cmd.RustLsp 'relatedDiagnostics'
+    --           end, {
+    --             silent = true,
+    --             buffer = bufnr,
+    --             desc = 'Rust Jump to related Diagnostics',
+    --           })
+    --
+    --           vim.keymap.set('n', '<leader>dd', function()
+    --             vim.cmd.RustLsp { 'renderDiagnostic', 'cycle' }
+    --           end, {
+    --             silent = true,
+    --             buffer = bufnr,
+    --             desc = 'Rust Render Diagnostics (cycle)',
+    --           })
+    --
+    --           vim.keymap.set('n', '<leader>od', function()
+    --             vim.cmd.RustLsp 'openDocs'
+    --           end, {
+    --             silent = true,
+    --             buffer = bufnr,
+    --             desc = 'Rust docs.rs for current symbol',
+    --           })
+    --
+    --           vim.keymap.set('n', '<leader>p', function()
+    --             vim.cmd.RustLsp 'parentModule'
+    --           end, {
+    --             silent = true,
+    --             buffer = bufnr,
+    --             desc = 'Rust Parent Module',
+    --           })
+    --
+    --           -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-lldb-vscode
+    --           -- vim.keymap.set('n', '<F5>', ':RustLsp debuggables<cr>', { desc = 'DAP: Launching debug sessions' })
+    --
+    --           -- vim.keymap.set('n', '<leader>cr', function()
+    --           --   vim.cmd.RustLsp { 'flyCheck', 'run' }
+    --           -- end, {
+    --           --   silent = true,
+    --           --   buffer = bufnr,
+    --           --   desc = 'Rust Fly check run',
+    --           -- })
+    --           -- vim.keymap.set('n', '<leader>cc', function()
+    --           --   vim.cmd.RustLsp { 'flyCheck', 'clear' }
+    --           -- end, {
+    --           --   silent = true,
+    --           --   buffer = bufnr,
+    --           --   desc = 'Rust Fly check clear',
+    --           -- })
+    --           -- vim.keymap.set('n', '<leader>cx', function()
+    --           --   vim.cmd.RustLsp { 'flyCheck', 'cancel' }
+    --           -- end, {
+    --           --   silent = true,
+    --           --   buffer = bufnr,
+    --           --   desc = 'Rust Fly check cancel',
+    --           -- })
+    --           vim.keymap.set('n', '<leader>c', function()
+    --             vim.cmd.RustLsp 'flyCheck'
+    --           end, {
+    --             silent = true,
+    --             buffer = bufnr,
+    --             desc = 'Rust Fly Check',
+    --           })
+    --         end,
+    --         default_settings = {
+    --           -- rust-analyzer language server configuration
+    --           ['rust-analyzer'] = {
+    --             diagnostics = {
+    --               enable = true,
+    --               experimental = { enable = true },
+    --               styleLints = { enable = true },
+    --             },
+    --             cargo = { features = 'all' },
+    --             -- checkOnSave = true, -- costly on large project
+    --             checkOnSave = false, -- use Fly check: <leader>c
+    --             check = {
+    --               command = 'clippy',
+    --               features = 'all',
+    --             },
+    --             files = {
+    --               -- watcher = 'server',
+    --               watcher = 'client',
+    --             },
+    --             inlayHints = {
+    --               typeHints = { enable = true },
+    --               chainingHints = { enable = true },
+    --               closingBraceHints = { enable = true },
+    --               bindingModeHints = { enable = true },
+    --               closureCaptureHints = { enable = true },
+    --               closureReturnTypeHints = {
+    --                 enable = 'always',
+    --               },
+    --               discriminantHints = { enable = 'always' },
+    --               expressionAdjustmentHints = {
+    --                 enable = 'always',
+    --               },
+    --               genericParameterHints = {
+    --                 const = { enable = true },
+    --                 lifetime = { enable = true },
+    --                 type = { enable = true },
+    --               },
+    --               implicitDrops = { enable = true },
+    --               implicitSizedBoundHints = { enable = true },
+    --               maxLength = { '' },
+    --               reborrowHints = { enable = 'always' },
+    --               renderColons = { enable = true },
+    --               lifetimeElisionHints = {
+    --                 enable = true,
+    --                 useParameterNames = true,
+    --               },
+    --             },
+    --           },
+    --         },
+    --       },
+    --
+    --       -- -- DAP configuration
+    --       -- dap = {},
+    --     }
+    --   end,
+    -- },
+    -- {
+    --   'jay-babu/mason-nvim-dap.nvim',
+    --   dependencies = {
+    --     'williamboman/mason.nvim',
+    --   },
+    --   cmd = { 'DapInstall', 'DapUninstall' },
+    --   opts = {
+    --     automatic_installation = true,
+    --     handlers = {},
+    --     ensure_installed = {
+    --       'codelldb',
+    --     },
+    --   },
+    --   config = function()
+    --     -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-lldb-vscode
+    --     -- local dap = require 'dap'
+    --     -- dap.adapters.lldb = {
+    --     --   type = 'executable',
+    --     --   -- command = '/usr/bin/lldb-vscode', -- adjust as needed, must be absolute path
+    --     --   name = 'lldb',
+    --     -- }
+    --   end,
+    -- },
+    -- {
+    --   'rcarriga/nvim-dap-ui',
+    --   dependencies = { 'nvim-neotest/nvim-nio' },
+    --   -- stylua: ignore
+    --   keys = {
+    --     { "<leader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
+    --     { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
+    --   },
+    --   opts = {},
+    --   config = function(_, opts)
+    --     local dap = require 'dap'
+    --     local dapui = require 'dapui'
+    --     dapui.setup(opts)
+    --     dap.listeners.after.event_initialized['dapui_config'] = function()
+    --       dapui.open {}
+    --     end
+    --     dap.listeners.before.event_terminated['dapui_config'] = function()
+    --       dapui.close {}
+    --     end
+    --     dap.listeners.before.event_exited['dapui_config'] = function()
+    --       dapui.close {}
+    --     end
+    --   end,
+    -- },
+    -- -- dap
+    -- {
+    --   'mfussenegger/nvim-dap',
+    --   dependencies = {
+    --     'rcarriga/nvim-dap-ui',
+    --     'nvim-neotest/nvim-nio',
+    --     {
+    --       'theHamsta/nvim-dap-virtual-text',
+    --       opts = {},
+    --     },
+    --     'jay-babu/mason-nvim-dap.nvim',
+    --   },
+    --   config = function()
+    --     -- :help dap-mapping, :help dap-api, :help dap.txt, :help dap-adapter, :help dap-configuration, :h dap-launch.json
+    --     vim.keymap.set(
+    --       'n',
+    --       '<leader>bb',
+    --       ":lua require'dap'.toggle_breakpoint()<cr>",
+    --       { desc = 'DAP: Toggle Breakpoint' }
+    --     )
+    --     vim.keymap.set('n', '<Leader>lp', function()
+    --       require('dap').set_breakpoint(
+    --         nil,
+    --         nil,
+    --         vim.fn.input 'Log point message: '
+    --       )
+    --     end, { desc = 'DAP: break point with message to log' })
+    --
+    --     vim.keymap.set(
+    --       'n',
+    --       '<F5>',
+    --       ":lua require'dap'.continue()<cr>",
+    --       { desc = 'DAP: Launching debug sessions' }
+    --     )
+    --     vim.keymap.set(
+    --       'n',
+    --       '<leader>dr',
+    --       ":lua require'dap'.restart({terminateDebugee=false})<cr>:lua require'dap'.continue()<cr>",
+    --       { desc = 'DAP: Restart' }
+    --     )
+    --     vim.keymap.set(
+    --       'n',
+    --       '<leader>dt',
+    --       ":lua require'dap'.terminate()<cr>",
+    --       { desc = 'DAP: Terminate' }
+    --     )
+    --     vim.keymap.set(
+    --       'n',
+    --       '<F10>',
+    --       ":lua require'dap'.step_over()<cr>",
+    --       { desc = 'DAP: Step Over' }
+    --     )
+    --     vim.keymap.set(
+    --       'n',
+    --       '<F11>',
+    --       ":lua require'dap'.step_into()<cr>",
+    --       { desc = 'DAP: Step Into' }
+    --     )
+    --     vim.keymap.set('n', '<F12>', function()
+    --       require('dap').step_out()
+    --     end, { desc = 'DAP: Step Out' })
+    --     vim.keymap.set('n', '<Leader>dl', function()
+    --       require('dap').run_last()
+    --     end, { desc = 'DAP: run last' })
+    --   end,
+    -- },
     -- render markdown
     {
       'MeanderingProgrammer/render-markdown.nvim',
