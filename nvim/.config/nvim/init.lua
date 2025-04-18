@@ -476,38 +476,41 @@ require("lazy").setup({
           settings = {
             texlab = {
               build = {
-                -- executable = "latexmk",
-                -- args = {
-                --   "-synctex=1",
-                --   -- "-pv", -- preview
-                --   "-interaction=nonstopmode",
-                --   -- "-file-line-error",
-                --   "-pdf",
-                --   "-pdflatex=xelatex", -- chinese support
-                --   "-outdir=build",
-                --   "%f",
-                -- },
-
-                -- without Tectonic.toml (signle source file)
-                -- run `mkdir build` first
-                executable = "tectonic",
-                args = {
-                  "-X",
-                  "compile",
-                  "--synctex",
-                  "--keep-logs",
-                  "--keep-intermediates",
-                  "--print",
-                  "--outdir",
-                  "build",
-                  "%f",
-                },
-
+                onSave = false, -- use <leader>tb to build
+                forwardSearchAfter = true,
                 -- fallback if reading .latexmkrc/latexmkrc failed
                 auxDirectory = "build",
                 logDirectory = "build",
                 pdfDirectory = "build",
-
+                executable = "latexmk",
+                args = {
+                  -- "-pv", -- preview
+                  "-synctex=1",
+                  "-interaction=nonstopmode",
+                  "-file-line-error",
+                  "-pdf",
+                  -- -- xelatex seems un-maintained, thus not using it
+                  -- -- no more cjk latex
+                  -- "-pdflatex=xelatex", -- chinese support
+                  "-outdir=build",
+                  "%f",
+                },
+                -- -- xelatex seems un-maintained, thus not using it
+                -- -- no more cjk latex
+                -- -- without Tectonic.toml (signle source file)
+                -- -- run `mkdir build` first
+                -- executable = "tectonic",
+                -- args = {
+                --   "-X",
+                --   "compile",
+                --   "--synctex",
+                --   "--keep-logs",
+                --   "--keep-intermediates",
+                --   "--print",
+                --   "--outdir",
+                --   "build",
+                --   "%f",
+                -- },
                 -- -- using Tectonic.toml
                 -- -- [[output]]
                 -- -- name = "default"
@@ -530,15 +533,12 @@ require("lazy").setup({
                 --   -- "--only-cached",
                 --   -- "--open", -- open the built document using the system handler
                 -- },
-
-                onSave = false, -- use <leader>tb to build
-                forwardSearchAfter = true,
               },
               chktex = {
                 onOpenAndSave = true,
                 onEdit = true,
               },
-              -- <leader>ss to forwardSearch, right click in sioyek to inverse search
+              -- <leader>tt to forwardSearch, right click in sioyek to inverse search
               forwardSearch = {
                 executable = "sioyek",
                 args = {
