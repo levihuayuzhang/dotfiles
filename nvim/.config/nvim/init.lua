@@ -481,22 +481,57 @@ require("lazy").setup({
                 --   "-synctex=1",
                 --   -- "-pv", -- preview
                 --   "-interaction=nonstopmode",
-                --   "-file-line-error",
+                --   -- "-file-line-error",
                 --   "-pdf",
                 --   "-pdflatex=xelatex", -- chinese support
-                --   -- "-outdir=build", -- forwardSearch seems only works when output pdf was in current dir
+                --   "-outdir=build",
                 --   "%f",
                 -- },
+
+                -- without Tectonic.toml (signle source file)
+                -- run `mkdir build` first
                 executable = "tectonic",
                 args = {
                   "-X",
                   "compile",
-                  "%f",
                   "--synctex",
                   "--keep-logs",
                   "--keep-intermediates",
+                  "--print",
+                  "--outdir",
+                  "build",
+                  "%f",
                 },
-                onSave = true,
+
+                -- fallback if reading .latexmkrc/latexmkrc failed
+                auxDirectory = "build",
+                logDirectory = "build",
+                pdfDirectory = "build",
+
+                -- -- using Tectonic.toml
+                -- -- [[output]]
+                -- -- name = "default"
+                -- -- synctex = true
+                -- auxDirectory = "build/default",
+                -- logDirectory = "build/default",
+                -- pdfDirectory = "build/default",
+                -- -- filename = "default.pdf",
+                -- filename = "default/default.pdf", -- for sioyek
+                -- -- with Tectonic.toml (multi source file project)
+                -- -- `cargo install --path .` from git source
+                -- -- located at ~/.cargo/bin/tectonic
+                -- executable = "tectonic",
+                -- args = {
+                --   "-X",
+                --   "build",
+                --   "--keep-intermediates",
+                --   "--keep-logs",
+                --   -- "--print",
+                --   -- "--only-cached",
+                --   -- "--open", -- open the built document using the system handler
+                -- },
+
+                onSave = false, -- use <leader>tb to build
                 forwardSearchAfter = true,
               },
               chktex = {
@@ -509,7 +544,7 @@ require("lazy").setup({
                 args = {
                   "--reuse-window",
                   "--execute-command",
-                  "turn_on_synctex",
+                  "turn_on_synctex;turn_on_presenation_mode",
                   "--inverse-search",
 
                   -- -- stylua: ignore
@@ -1537,7 +1572,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     keymap.set("n", "gO", "<cmd>FzfLua lsp_outgoing_calls<cr>", { desc = "Goto Child", buffer = buffer })
 
     -- texlab
-    vim.keymap.set("n", "<leader>ss", "<cmd>TexlabForward<cr>", { desc = "Texlab Forward Search" })
+    vim.keymap.set("n", "<leader>tt", "<cmd>TexlabForward<cr>", { desc = "Texlab Forward Search" })
+    vim.keymap.set("n", "<leader>tb", "<cmd>TexlabBuild<cr>", { desc = "Texlab Build" })
 
     -- -- dap fzf
     -- keymap.set("n", "<leader>fdc", "<cmd>FzfLua dap_commands<cr>", { desc = "Dap Commands", buffer = buffer })
