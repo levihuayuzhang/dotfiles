@@ -1,3 +1,4 @@
+--
 -- base config
 vim.loader.enable(true)
 
@@ -858,9 +859,7 @@ require("lazy").setup({
 
           winopts = { preview = { layout = "vertical", vertical = "up:75%" } },
 
-          -- sk-tmux not working properly outside tmux, https://github.com/ibhagwan/fzf-lua/issues/1974
-          -- fzf_bin = "sk",
-          -- fzf_opts = { ["--border"] = "rounded", ["--tmux"] = "center,80%,60%" },
+          fzf_bin = "sk",
           fzf_opts = { ["--border"] = "rounded", ["--tmux"] = "center,80%,80%" },
 
           --[[ -- preview code_actions, set in ~/.gitconfig, require `dandavison/delta`
