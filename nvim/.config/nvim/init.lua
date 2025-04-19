@@ -1,13 +1,5 @@
 -- base config
-
--- enable cache to speed up nvim load
-vim.loader.enable()
-
--- -- disable netrw
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
-
-vim.g.tex_flavor = "latex"
+vim.loader.enable(true)
 
 local opt = vim.opt
 local api = vim.api
@@ -60,9 +52,12 @@ opt.splitright = true
 opt.scrolloff = 8
 opt.sidescrolloff = 8
 opt.cursorline = true
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- enable 24-bit colour
 opt.termguicolors = true
-
 -- override color
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
   pattern = { "*" },
@@ -106,15 +101,15 @@ api.nvim_create_autocmd("Filetype", {
 })
 
 -------------------------------------------------------------------------------
--- vim.lsp.set_log_level 'off'
+vim.lsp.set_log_level("OFF") -- "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "OFF"
 -- vim.lsp.inlay_hint.enable(true) -- enable globally
 
 vim.diagnostic.config({
   virtual_text = true,
-  underline = true,
+  -- underline = true,
   -- virtual_lines = true,
   -- update_in_insert = true,
-  severity_sort = true,
+  -- severity_sort = true,
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = "",
@@ -122,16 +117,10 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.HINT] = "󰌶",
       [vim.diagnostic.severity.INFO] = "",
     },
-    float = {
-      -- focusable = false,
-      -- style = 'minimal',
-      border = "rounded",
-      source = "always",
-      -- header = '',
-      -- prefix = '',
-    },
   },
 })
+
+vim.g.tex_flavor = "latex"
 
 -------------------------------------------------------------------------------
 -- set leader keys before lazy
@@ -260,6 +249,9 @@ require("lazy").setup({
     {
       "williamboman/mason.nvim",
       event = "VeryLazy",
+      keys = {
+        { "<leader>m", ":Mason<enter>", desc = "Open Mason" },
+      },
       config = function()
         require("mason").setup({
           ui = {
@@ -308,12 +300,25 @@ require("lazy").setup({
       },
       config = function()
         -- https://neovim.io/doc/user/lsp.html#vim.lsp.config()
+        local servers = {
+          "rust_analyzer",
+          "clangd",
+          "ruff",
+          "pyright",
+          "lua_ls",
+          "asm_lsp",
+          "texlab",
+        }
+        vim.lsp.enable(servers)
+
         vim.lsp.config["*"] = {
           -- common settings (redefine)
           capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities()),
         }
 
         -- rust
+        -- local lsp_work_by_client_id = {}
+        -- local time = 0
         vim.lsp.config("rust_analyzer", {
           settings = {
             ["rust-analyzer"] = {
@@ -362,8 +367,32 @@ require("lazy").setup({
               },
             },
           },
+          -- -- enable inlay hints at buffer open
+          -- on_attach = function(_, bufnr)
+          --   vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          --
+          --   pcall(vim.api.nvim_create_autocmd, "LspProgress", {
+          --     callback = function(event)
+          --       local kind = event.data.params.value.kind
+          --       local client_id = event.data.client_id
+          --       local work = lsp_work_by_client_id[client_id] or 0
+          --       local work_change = kind == "begin" and 1 or (kind == "end" and -1 or 0)
+          --       lsp_work_by_client_id[client_id] = math.max(work + work_change, 0)
+          --
+          --       if
+          --         vim.lsp.inlay_hint.is_enabled({
+          --           bufnr = bufnr,
+          --         }) and lsp_work_by_client_id[client_id] == 0
+          --       then
+          --         vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+          --         vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          --         time = time + 1
+          --         print(string.format("inlay hints redrew %d times", time))
+          --       end
+          --     end,
+          --   })
+          -- end,
         })
-        vim.lsp.enable("rust_analyzer")
 
         -- clangd
         local nproc
@@ -396,13 +425,11 @@ require("lazy").setup({
             end
           end,
         })
-        vim.lsp.enable("clangd")
 
         -- python
         vim.lsp.config("ruff", {
           -- https://docs.astral.sh/ruff/editors/setup/#neovim
         })
-        vim.lsp.enable("ruff")
         -- pyright
         vim.lsp.config("pyright", {
           settings = {
@@ -424,13 +451,21 @@ require("lazy").setup({
             ["textDocument/publishDiagnostics"] = function() end,
           },
         })
-        vim.lsp.enable("pyright")
 
         --lua
         vim.lsp.config("lua_ls", {
           settings = {
-            Lua = {},
+            Lua = {
+              hint = {
+                enable = true,
+                setType = true,
+                arrayIndex = "Enable",
+              },
+            },
           },
+          -- on_attach = function(_, bufnr)
+          --   vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          -- end,
           on_init = function(client)
             if client.workspace_folders then
               local path = client.workspace_folders[1].name
@@ -463,13 +498,11 @@ require("lazy").setup({
             })
           end,
         })
-        vim.lsp.enable("lua_ls")
 
         -- asm
         vim.lsp.config("asm_lsp", {
           -- https://github.com/bergercookie/asm-lsp
         })
-        vim.lsp.enable("asm_lsp")
 
         -- latex
         vim.lsp.config("texlab", {
@@ -489,55 +522,19 @@ require("lazy").setup({
                   "-interaction=nonstopmode",
                   "-file-line-error",
                   "-pdf",
-                  -- -- xelatex seems un-maintained, thus not using it
-                  -- -- no more cjk latex
-                  -- "-pdflatex=xelatex", -- chinese support
                   "-outdir=build",
                   "%f",
                 },
-                -- -- xelatex seems un-maintained, thus not using it
-                -- -- no more cjk latex
-                -- -- without Tectonic.toml (signle source file)
-                -- -- run `mkdir build` first
-                -- executable = "tectonic",
-                -- args = {
-                --   "-X",
-                --   "compile",
-                --   "--synctex",
-                --   "--keep-logs",
-                --   "--keep-intermediates",
-                --   "--print",
-                --   "--outdir",
-                --   "build",
-                --   "%f",
-                -- },
-                -- -- using Tectonic.toml
-                -- -- [[output]]
-                -- -- name = "default"
-                -- -- synctex = true
-                -- auxDirectory = "build/default",
-                -- logDirectory = "build/default",
-                -- pdfDirectory = "build/default",
-                -- -- filename = "default.pdf",
-                -- filename = "default/default.pdf", -- for sioyek
-                -- -- with Tectonic.toml (multi source file project)
-                -- -- `cargo install --path .` from git source
-                -- -- located at ~/.cargo/bin/tectonic
-                -- executable = "tectonic",
-                -- args = {
-                --   "-X",
-                --   "build",
-                --   "--keep-intermediates",
-                --   "--keep-logs",
-                --   -- "--print",
-                --   -- "--only-cached",
-                --   -- "--open", -- open the built document using the system handler
-                -- },
               },
               chktex = {
                 onOpenAndSave = true,
                 onEdit = true,
               },
+              latexFormatter = "none", -- defined in conform config
+              -- latexFormatter = "latexindent",
+              -- latexindent = {
+              --   modifyLineBreaks = true,
+              -- },
               -- <leader>tt to forwardSearch, right click in sioyek to inverse search
               forwardSearch = {
                 executable = "sioyek",
@@ -570,7 +567,6 @@ require("lazy").setup({
             },
           },
         })
-        vim.lsp.enable("texlab")
       end,
     },
     -- completion
@@ -683,6 +679,10 @@ require("lazy").setup({
             yaml = { "prettierd" },
             markdown = { "prettierd" },
             graphql = { "prettierd" },
+            tex = { "tex-fmt" },
+            bib = { "tex-fmt" },
+            cls = { "tex-fmt" },
+            sty = { "tex-fmt" },
           },
           default_format_opts = {
             lsp_format = "fallback",
@@ -769,7 +769,6 @@ require("lazy").setup({
               disable = {
                 "latex",
               },
-              additional_vim_regex_highlighting = false,
             },
             autotag = {
               enable = true,
@@ -854,12 +853,43 @@ require("lazy").setup({
       },
       config = function()
         require("fzf-lua").setup({
+          -- https://github.com/ibhagwan/fzf-lua/blob/main/OPTIONS.md
           "fzf-native", -- https://github.com/ibhagwan/fzf-lua/tree/main/lua/fzf-lua/profiles
 
-          fzf_bin = "sk",
+          winopts = { preview = { layout = "vertical", vertical = "up:75%" } },
 
-          -- opens in a tmux popup (requires tmux > 3.2)
-          -- fzf_opts = { ['--border'] = 'rounded', ['--tmux'] = 'center,80%,60%' },
+          -- sk-tmux not working properly outside tmux, https://github.com/ibhagwan/fzf-lua/issues/1974
+          -- fzf_bin = "sk",
+          -- fzf_opts = { ["--border"] = "rounded", ["--tmux"] = "center,80%,60%" },
+          fzf_opts = { ["--border"] = "rounded", ["--tmux"] = "center,80%,80%" },
+
+          --[[ -- preview code_actions, set in ~/.gitconfig, require `dandavison/delta`
+            [core]
+              editor = nvim
+                pager = delta
+            [interactive]
+                diffFilter = delta --color-only
+            [delta]
+                # dark = true      # or light = true, or omit for auto-detection
+                navigate = true  # use n and N to move between diff sections
+                line-numbers = true
+                side-by-side = true
+                hyperlinks = true
+            [merge]
+                conflictstyle = zdiff3
+          --]]
+          -- lsp = {
+          --   code_actions = {
+          --     -- previewer = "codeaction_native", -- already set in "fzf-native"
+          --
+          --     -- for fzf
+          --     -- preview_pager = "delta --side-by-side --width=$FZF_PREVIEW_COLUMNS",
+          --     -- preview_pager = "delta --navigate --line-numbers --hyperlinks --side-by-side --width=$FZF_PREVIEW_COLUMNS",
+          --
+          --     -- for sk, https://github.com/ibhagwan/fzf-lua/issues/2000
+          --     -- preview_pager = "delta --navigate --line-numbers --hyperlinks --side-by-side --width=$COLUMNS",
+          --   },
+          -- },
         })
 
         vim.keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find Files" })
@@ -1031,7 +1061,20 @@ require("lazy").setup({
       event = "InsertEnter",
       opts = {},
     },
-    -- rainbow indent
+    -- hex color render
+    {
+      "echasnovski/mini.hipatterns",
+      version = false,
+      event = { "BufReadPost", "BufNewFile" },
+      config = function()
+        local hipatterns = require("mini.hipatterns")
+        hipatterns.setup({
+          highlighters = {
+            hex_color = hipatterns.gen_highlighter.hex_color(),
+          },
+        })
+      end,
+    },
     {
       "folke/snacks.nvim",
       event = { "BufReadPost", "BufNewFile" },
@@ -1113,6 +1156,34 @@ require("lazy").setup({
         },
       },
     },
+    -- todo
+    {
+      "folke/todo-comments.nvim",
+      event = { "BufReadPost", "BufNewFile" },
+      dependencies = { "nvim-lua/plenary.nvim" },
+      keys = {
+        {
+          "]t",
+          function()
+            require("todo-comments").jump_next()
+          end,
+          desc = "Next todo comment",
+        },
+        {
+          "[t",
+          function()
+            require("todo-comments").jump_prev()
+          end,
+          desc = "Previous todo comment",
+        },
+        {
+          "<leader>tf",
+          "<cmd>TodoFzfLua<cr>",
+          desc = "TODO Search",
+        },
+      },
+      opts = {},
+    },
     -- usage indication
     {
       "RRethy/vim-illuminate",
@@ -1133,321 +1204,6 @@ require("lazy").setup({
         })
       end,
     },
-    --better explore
-    {
-      "stevearc/oil.nvim",
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-      event = "VeryLazy",
-      opts = {
-        float = {
-          -- max_width = 50,
-          -- max_height = 35,
-          border = "rounded",
-          preview_split = "right",
-        },
-        view_options = {
-          show_hidden = true,
-        },
-      },
-    },
-    -- -- rust specific
-    -- {
-    --   'mrcjkb/rustaceanvim',
-    --   -- version = '^6', -- Recommended
-    --   ft = 'rust',
-    --   dependencies = {},
-    --   -- lazy = false, -- This plugin is already lazy
-    --   config = function()
-    --     vim.g.rustaceanvim = {
-    --       -- ra_multiplex = {
-    --       --   Opts = {
-    --       --     enable = true,
-    --       --   },
-    --       -- },
-    --
-    --       -- -- Plugin configuration
-    --       -- tools = {},
-    --
-    --       -- LSP configuration
-    --       server = {
-    --         on_attach = function(_, bufnr)
-    --           vim.keymap.set(
-    --             'n',
-    --             '<leader>a',
-    --             function()
-    --               vim.cmd.RustLsp 'codeAction' -- supports rust-analyzer's grouping
-    --               -- or vim.lsp.buf.codeAction() if you don't want grouping.
-    --             end,
-    --             { silent = true, buffer = bufnr, desc = 'Rust Code Actions' }
-    --           )
-    --
-    --           vim.keymap.set(
-    --             'n',
-    --             -- 'K', -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
-    --             '<leader>k',
-    --             function()
-    --               vim.cmd.RustLsp { 'hover', 'actions' }
-    --             end,
-    --             { silent = true, buffer = bufnr, desc = 'Rust Hover Actions' }
-    --           )
-    --
-    --           vim.keymap.set('n', '<leader>oc', function()
-    --             vim.cmd.RustLsp 'openCargo'
-    --           end, {
-    --             silent = true,
-    --             buffer = bufnr,
-    --             desc = 'Open Cargo.toml',
-    --           })
-    --
-    --           vim.keymap.set('n', '<leader>oe', function()
-    --             vim.cmd.RustLsp { 'explainError', 'current' }
-    --           end, {
-    --             silent = true,
-    --             buffer = bufnr,
-    --             desc = 'Rust Explain Current Line',
-    --           })
-    --
-    --           vim.keymap.set('n', '<leader>r', function()
-    --             vim.cmd.RustLsp 'runnables'
-    --           end, {
-    --             silent = true,
-    --             buffer = bufnr,
-    --             desc = 'Rust Runnables',
-    --           })
-    --
-    --           vim.keymap.set('n', '<leader>jd', function()
-    --             vim.cmd.RustLsp 'relatedDiagnostics'
-    --           end, {
-    --             silent = true,
-    --             buffer = bufnr,
-    --             desc = 'Rust Jump to related Diagnostics',
-    --           })
-    --
-    --           vim.keymap.set('n', '<leader>dd', function()
-    --             vim.cmd.RustLsp { 'renderDiagnostic', 'cycle' }
-    --           end, {
-    --             silent = true,
-    --             buffer = bufnr,
-    --             desc = 'Rust Render Diagnostics (cycle)',
-    --           })
-    --
-    --           vim.keymap.set('n', '<leader>od', function()
-    --             vim.cmd.RustLsp 'openDocs'
-    --           end, {
-    --             silent = true,
-    --             buffer = bufnr,
-    --             desc = 'Rust docs.rs for current symbol',
-    --           })
-    --
-    --           vim.keymap.set('n', '<leader>p', function()
-    --             vim.cmd.RustLsp 'parentModule'
-    --           end, {
-    --             silent = true,
-    --             buffer = bufnr,
-    --             desc = 'Rust Parent Module',
-    --           })
-    --
-    --           -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-lldb-vscode
-    --           -- vim.keymap.set('n', '<F5>', ':RustLsp debuggables<cr>', { desc = 'DAP: Launching debug sessions' })
-    --
-    --           -- vim.keymap.set('n', '<leader>cr', function()
-    --           --   vim.cmd.RustLsp { 'flyCheck', 'run' }
-    --           -- end, {
-    --           --   silent = true,
-    --           --   buffer = bufnr,
-    --           --   desc = 'Rust Fly check run',
-    --           -- })
-    --           -- vim.keymap.set('n', '<leader>cc', function()
-    --           --   vim.cmd.RustLsp { 'flyCheck', 'clear' }
-    --           -- end, {
-    --           --   silent = true,
-    --           --   buffer = bufnr,
-    --           --   desc = 'Rust Fly check clear',
-    --           -- })
-    --           -- vim.keymap.set('n', '<leader>cx', function()
-    --           --   vim.cmd.RustLsp { 'flyCheck', 'cancel' }
-    --           -- end, {
-    --           --   silent = true,
-    --           --   buffer = bufnr,
-    --           --   desc = 'Rust Fly check cancel',
-    --           -- })
-    --           vim.keymap.set('n', '<leader>c', function()
-    --             vim.cmd.RustLsp 'flyCheck'
-    --           end, {
-    --             silent = true,
-    --             buffer = bufnr,
-    --             desc = 'Rust Fly Check',
-    --           })
-    --         end,
-    --         default_settings = {
-    --           -- rust-analyzer language server configuration
-    --           ['rust-analyzer'] = {
-    --             diagnostics = {
-    --               enable = true,
-    --               experimental = { enable = true },
-    --               styleLints = { enable = true },
-    --             },
-    --             cargo = { features = 'all' },
-    --             -- checkOnSave = true, -- costly on large project
-    --             checkOnSave = false, -- use Fly check: <leader>c
-    --             check = {
-    --               command = 'clippy',
-    --               features = 'all',
-    --             },
-    --             files = {
-    --               -- watcher = 'server',
-    --               watcher = 'client',
-    --             },
-    --             inlayHints = {
-    --               typeHints = { enable = true },
-    --               chainingHints = { enable = true },
-    --               closingBraceHints = { enable = true },
-    --               bindingModeHints = { enable = true },
-    --               closureCaptureHints = { enable = true },
-    --               closureReturnTypeHints = {
-    --                 enable = 'always',
-    --               },
-    --               discriminantHints = { enable = 'always' },
-    --               expressionAdjustmentHints = {
-    --                 enable = 'always',
-    --               },
-    --               genericParameterHints = {
-    --                 const = { enable = true },
-    --                 lifetime = { enable = true },
-    --                 type = { enable = true },
-    --               },
-    --               implicitDrops = { enable = true },
-    --               implicitSizedBoundHints = { enable = true },
-    --               maxLength = { '' },
-    --               reborrowHints = { enable = 'always' },
-    --               renderColons = { enable = true },
-    --               lifetimeElisionHints = {
-    --                 enable = true,
-    --                 useParameterNames = true,
-    --               },
-    --             },
-    --           },
-    --         },
-    --       },
-    --
-    --       -- -- DAP configuration
-    --       -- dap = {},
-    --     }
-    --   end,
-    -- },
-    -- {
-    --   'jay-babu/mason-nvim-dap.nvim',
-    --   dependencies = {
-    --     'williamboman/mason.nvim',
-    --   },
-    --   cmd = { 'DapInstall', 'DapUninstall' },
-    --   opts = {
-    --     automatic_installation = true,
-    --     handlers = {},
-    --     ensure_installed = {
-    --       'codelldb',
-    --     },
-    --   },
-    --   config = function()
-    --     -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-lldb-vscode
-    --     -- local dap = require 'dap'
-    --     -- dap.adapters.lldb = {
-    --     --   type = 'executable',
-    --     --   -- command = '/usr/bin/lldb-vscode', -- adjust as needed, must be absolute path
-    --     --   name = 'lldb',
-    --     -- }
-    --   end,
-    -- },
-    -- {
-    --   'rcarriga/nvim-dap-ui',
-    --   dependencies = { 'nvim-neotest/nvim-nio' },
-    --   -- stylua: ignore
-    --   keys = {
-    --     { "<leader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
-    --     { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
-    --   },
-    --   opts = {},
-    --   config = function(_, opts)
-    --     local dap = require 'dap'
-    --     local dapui = require 'dapui'
-    --     dapui.setup(opts)
-    --     dap.listeners.after.event_initialized['dapui_config'] = function()
-    --       dapui.open {}
-    --     end
-    --     dap.listeners.before.event_terminated['dapui_config'] = function()
-    --       dapui.close {}
-    --     end
-    --     dap.listeners.before.event_exited['dapui_config'] = function()
-    --       dapui.close {}
-    --     end
-    --   end,
-    -- },
-    -- -- dap
-    -- {
-    --   'mfussenegger/nvim-dap',
-    --   dependencies = {
-    --     'rcarriga/nvim-dap-ui',
-    --     'nvim-neotest/nvim-nio',
-    --     {
-    --       'theHamsta/nvim-dap-virtual-text',
-    --       opts = {},
-    --     },
-    --     'jay-babu/mason-nvim-dap.nvim',
-    --   },
-    --   config = function()
-    --     -- :help dap-mapping, :help dap-api, :help dap.txt, :help dap-adapter, :help dap-configuration, :h dap-launch.json
-    --     vim.keymap.set(
-    --       'n',
-    --       '<leader>bb',
-    --       ":lua require'dap'.toggle_breakpoint()<cr>",
-    --       { desc = 'DAP: Toggle Breakpoint' }
-    --     )
-    --     vim.keymap.set('n', '<Leader>lp', function()
-    --       require('dap').set_breakpoint(
-    --         nil,
-    --         nil,
-    --         vim.fn.input 'Log point message: '
-    --       )
-    --     end, { desc = 'DAP: break point with message to log' })
-    --
-    --     vim.keymap.set(
-    --       'n',
-    --       '<F5>',
-    --       ":lua require'dap'.continue()<cr>",
-    --       { desc = 'DAP: Launching debug sessions' }
-    --     )
-    --     vim.keymap.set(
-    --       'n',
-    --       '<leader>dr',
-    --       ":lua require'dap'.restart({terminateDebugee=false})<cr>:lua require'dap'.continue()<cr>",
-    --       { desc = 'DAP: Restart' }
-    --     )
-    --     vim.keymap.set(
-    --       'n',
-    --       '<leader>dt',
-    --       ":lua require'dap'.terminate()<cr>",
-    --       { desc = 'DAP: Terminate' }
-    --     )
-    --     vim.keymap.set(
-    --       'n',
-    --       '<F10>',
-    --       ":lua require'dap'.step_over()<cr>",
-    --       { desc = 'DAP: Step Over' }
-    --     )
-    --     vim.keymap.set(
-    --       'n',
-    --       '<F11>',
-    --       ":lua require'dap'.step_into()<cr>",
-    --       { desc = 'DAP: Step Into' }
-    --     )
-    --     vim.keymap.set('n', '<F12>', function()
-    --       require('dap').step_out()
-    --     end, { desc = 'DAP: Step Out' })
-    --     vim.keymap.set('n', '<Leader>dl', function()
-    --       require('dap').run_last()
-    --     end, { desc = 'DAP: run last' })
-    --   end,
-    -- },
     -- render markdown
     {
       "MeanderingProgrammer/render-markdown.nvim",
@@ -1457,6 +1213,44 @@ require("lazy").setup({
         "nvim-tree/nvim-web-devicons",
       }, -- if you prefer nvim-web-devicons
       opts = {},
+    },
+    -- pretty list for showing diagnostics and more
+    {
+      "folke/trouble.nvim",
+      opts = {}, -- for default options, refer to the configuration section for custom setup.
+      cmd = "Trouble",
+      keys = {
+        {
+          "<leader>xx",
+          "<cmd>Trouble diagnostics toggle<cr>",
+          desc = "Diagnostics (Trouble)",
+        },
+        {
+          "<leader>xX",
+          "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+          desc = "Buffer Diagnostics (Trouble)",
+        },
+        {
+          "<leader>cs",
+          "<cmd>Trouble symbols toggle focus=false<cr>",
+          desc = "Symbols (Trouble)",
+        },
+        {
+          "<leader>cl",
+          "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+          desc = "LSP Definitions / references / ... (Trouble)",
+        },
+        {
+          "<leader>xL",
+          "<cmd>Trouble loclist toggle<cr>",
+          desc = "Location List (Trouble)",
+        },
+        {
+          "<leader>xQ",
+          "<cmd>Trouble qflist toggle<cr>",
+          desc = "Quickfix List (Trouble)",
+        },
+      },
     },
   },
   install = { colorscheme = { "everforest" } },
@@ -1468,6 +1262,8 @@ require("lazy").setup({
 -------------------------------------------------------------------------------
 -- keymap config
 -- tip: use gx to open link in browser
+-- ctrl w + h,j,k,l to move among splited window buffer
+
 local keymap = vim.keymap
 
 --[[ -- force not using arrow keys
@@ -1481,11 +1277,7 @@ keymap.set('i', '<left>', '<nop>')
 keymap.set('i', '<right>', '<nop>') ]]
 
 keymap.set("n", "<leader>ll", ":Lazy<enter>")
-keymap.set("n", "<leader>m", ":Mason<enter>")
--- keymap.set('n', '<leader>e', ':Explore<enter>')
-keymap.set("n", "<leader>e", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
-
--- ctrl w + h,j,k to move among splited window buffer
+keymap.set("n", "<leader>e", ":Explore<enter>")
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -1495,7 +1287,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local buffer = ev.buf
 
     -- lsp keymap
-    keymap.set("n", "<leader>li", ":LspInfo<enter>", { desc = "LSP info" })
+    keymap.set("n", "<leader>li", "<cmd>checkhealth vim.lsp<cr>", { desc = "LSP info" })
     keymap.set("n", "<leader>i", function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
     end, { desc = "Toggle inlay hints", buffer = buffer })
@@ -1553,13 +1345,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
       { desc = "type definition", buffer = buffer }
     )
     -- keymap.set('n', '<leader>br', vim.lsp.buf.rename, { desc = 'rename buffer', buffer = buffer })
-    keymap.set(
-      { "n", "v" },
-      "<leader>a",
-      -- vim.lsp.buf.code_action,
-      "<cmd>FzfLua lsp_code_actions<cr>",
-      { desc = "code action", buffer = buffer }
-    )
+    -- keymap.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, { desc = "Code Actions", buffer = buffer })
+    keymap.set({ "n", "v" }, "<leader>a", "<cmd>FzfLua lsp_code_actions<cr>", { desc = "Code Action", buffer = buffer })
     keymap.set(
       "n",
       "gr",
@@ -1574,17 +1361,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- texlab
     vim.keymap.set("n", "<leader>tt", "<cmd>TexlabForward<cr>", { desc = "Texlab Forward Search" })
     vim.keymap.set("n", "<leader>tb", "<cmd>TexlabBuild<cr>", { desc = "Texlab Build" })
-
-    -- -- dap fzf
-    -- keymap.set("n", "<leader>fdc", "<cmd>FzfLua dap_commands<cr>", { desc = "Dap Commands", buffer = buffer })
-    -- keymap.set("n", "<leader>fdb", "<cmd>FzfLua dap_breakpoints<cr>", { desc = "Dap Breakpoints", buffer = buffer })
-    -- keymap.set(
-    --   "n",
-    --   "<leader>fda",
-    --   "<cmd>FzfLua dap_configurations<cr>",
-    --   { desc = "Dap Configurations", buffer = buffer }
-    -- )
-    -- keymap.set("n", "<leader>fdv", "<cmd>FzfLua dap_variables<cr>", { desc = "Dap Variables", buffer = buffer })
-    -- keymap.set("n", "<leader>fdf", "<cmd>FzfLua dap_frames<cr>", { desc = "Dap Frames", buffer = buffer })
   end,
 })
