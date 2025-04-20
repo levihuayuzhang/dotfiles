@@ -102,11 +102,11 @@ output "eDP-1" {
 
 output "DP-1" {
     mode "3840x2160@60"
-    // scale 2.0
-    // position x=-213 y=-1080
+    scale 2.0
+    position x=-213 y=-1080
 
-    scale 1.5 // 2560x1440
-    position x=-533 y=-1440
+    // scale 1.5 // 2560x1440
+    // position x=-533 y=-1440
 
 }
 
