@@ -134,5 +134,5 @@ esac
 
 export BAT_THEME="gruvbox-dark"
 
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
