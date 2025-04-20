@@ -846,6 +846,7 @@ require("lazy").setup({
         {
           "skim-rs/skim",
           build = "./install",
+          enabled = false, -- pretty buggy, disabled
         },
         {
           "junegunn/fzf",
@@ -855,12 +856,13 @@ require("lazy").setup({
       config = function()
         require("fzf-lua").setup({
           -- https://github.com/ibhagwan/fzf-lua/blob/main/OPTIONS.md
-          "fzf-native", -- https://github.com/ibhagwan/fzf-lua/tree/main/lua/fzf-lua/profiles
+          -- https://github.com/ibhagwan/fzf-lua/tree/main/lua/fzf-lua/profiles
+          { "fzf-native", "hide" }, -- https://github.com/ibhagwan/fzf-lua/issues/1974#issuecomment-2816996592
+
+          -- fzf_bin = "sk", -- pretty buggy, disabled
+          fzf_opts = { ["--tmux"] = "center,80%,80%" },
 
           winopts = { preview = { layout = "vertical", vertical = "up:75%" } },
-
-          fzf_bin = "sk",
-          fzf_opts = { ["--border"] = "rounded", ["--tmux"] = "center,80%,80%" },
 
           --[[ -- preview code_actions, set in ~/.gitconfig, require `dandavison/delta`
             [core]
@@ -877,21 +879,15 @@ require("lazy").setup({
             [merge]
                 conflictstyle = zdiff3
           --]]
-          -- lsp = {
-          --   code_actions = {
-          --     -- previewer = "codeaction_native", -- already set in "fzf-native"
-          --
-          --     -- for fzf
-          --     -- preview_pager = "delta --side-by-side --width=$FZF_PREVIEW_COLUMNS",
-          --     -- preview_pager = "delta --navigate --line-numbers --hyperlinks --side-by-side --width=$FZF_PREVIEW_COLUMNS",
-          --
-          --     -- for sk, https://github.com/ibhagwan/fzf-lua/issues/2000
-          --     -- preview_pager = "delta --navigate --line-numbers --hyperlinks --side-by-side --width=$COLUMNS",
-          --   },
-          -- },
+          lsp = {
+            code_actions = {
+              preview_pager = "delta --navigate --line-numbers --hyperlinks --side-by-side --width=$FZF_PREVIEW_COLUMNS",
+            },
+          },
         })
 
         vim.keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find Files" })
+        vim.keymap.set("n", "<leader>fr", "<cmd>lua require('fzf-lua').resume()<cr>", { desc = "Resume FZF Work" })
         vim.keymap.set("n", "<leader>fll", "<cmd>FzfLua lines<cr>", { desc = "Open Buffers Lines" })
         vim.keymap.set("n", "<leader>flb", "<cmd>FzfLua blines<cr>", { desc = "Current Buffer Lines" })
         vim.keymap.set("n", "<leader>fg", "<cmd>FzfLua live_grep<cr>", { desc = "Live grep current project" })
