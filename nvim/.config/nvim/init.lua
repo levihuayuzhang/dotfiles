@@ -38,15 +38,15 @@ opt.updatetime = 300
 
 opt.vb = true
 opt.laststatus = 3 -- means statuscolumn will only on the bottom
-opt.wrap = false -- display lines as one long line
+opt.wrap = false   -- display lines as one long line
 opt.signcolumn = "yes"
 opt.colorcolumn = "80"
 -- opt.colorcolumn = { 80, 100 }
 opt.fileencoding = "utf-8"
 opt.completeopt = { "menuone", "noselect" } -- completion will pop up when there is only one match
-opt.conceallevel = 0 -- no hide for ``
+opt.conceallevel = 0                        -- no hide for ``
 opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,terminal,globals"
-opt.splitbelow = true -- force window to be splited into the bottom
+opt.splitbelow = true                       -- force window to be splited into the bottom
 opt.splitright = true
 
 opt.scrolloff = 8
@@ -142,7 +142,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
+      { out,                            "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -231,10 +231,10 @@ require("lazy").setup({
                 file_status = true,
                 path = 3,
                 symbols = {
-                  modified = "[+]", -- Text to show when the file is modified.
-                  readonly = "[-]", -- Text to show when the file is non-modifiable or readonly.
+                  modified = "[+]",      -- Text to show when the file is modified.
+                  readonly = "[-]",      -- Text to show when the file is non-modifiable or readonly.
                   unnamed = "[No Name]", -- Text to show for unnamed buffers.
-                  newfile = "[New]", -- Text to show for newly created file before first write
+                  newfile = "[New]",     -- Text to show for newly created file before first write
                 },
               },
             },
@@ -320,6 +320,7 @@ require("lazy").setup({
       dependencies = {
         "williamboman/mason-lspconfig.nvim",
         "saghen/blink.cmp",
+        "fzf-lua",
       },
       config = function()
         -- https://neovim.io/doc/user/lsp.html#vim.lsp.config()
@@ -493,8 +494,8 @@ require("lazy").setup({
             if client.workspace_folders then
               local path = client.workspace_folders[1].name
               if
-                path ~= vim.fn.stdpath("config")
-                and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+                  path ~= vim.fn.stdpath("config")
+                  and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
               then
                 return
               end
@@ -600,6 +601,93 @@ require("lazy").setup({
               },
             },
           },
+        })
+
+        local keymap = vim.keymap
+        vim.api.nvim_create_autocmd("LspAttach", {
+          group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+          callback = function(ev)
+            -- Enable completion triggered by <c-x><c-o>
+            vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+            local buffer = ev.buf
+
+            -- lsp keymap
+            keymap.set("n", "<leader>li", "<cmd>checkhealth vim.lsp<cr>", { desc = "LSP info" })
+            keymap.set("n", "<leader>i", function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+            end, { desc = "Toggle inlay hints", buffer = buffer })
+            keymap.set("n", "<leader>df", vim.diagnostic.open_float, { desc = "open float diagnostic", buffer = buffer })
+            keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "diagnostic set loc list", buffer = buffer })
+            keymap.set(
+              "n",
+              "gD",
+              -- vim.lsp.buf.declaration,
+              "<cmd>FzfLua lsp_declarations<cr>",
+              { desc = "go to declaration", buffer = buffer }
+            )
+            keymap.set(
+              "n",
+              "gd",
+              -- vim.lsp.buf.definition,
+              "<cmd>FzfLua lsp_definitions<cr>",
+              { desc = "go to definition", buffer = buffer }
+            )
+            keymap.set("n", "<leader>k", vim.lsp.buf.hover, {
+              desc = "open hover, x2 into hover window, q to exit",
+              buffer = buffer,
+            })
+            keymap.set(
+              "n",
+              "gi",
+              -- vim.lsp.buf.implementation,
+              "<cmd>FzfLua lsp_implementations<cr>",
+              { desc = "go to implementation", buffer = buffer }
+            )
+            keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "signature help", buffer = buffer })
+            keymap.set(
+              "n",
+              "<leader>wa",
+              vim.lsp.buf.add_workspace_folder,
+              { desc = "add add workspace folder", buffer = buffer }
+            )
+            keymap.set(
+              "n",
+              "<leader>wr",
+              vim.lsp.buf.remove_workspace_folder,
+              { desc = "remove workspace folder", buffer = buffer }
+            )
+            keymap.set("n", "<leader>wl", function()
+              print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+            end, {
+              desc = "list workspace folders",
+              buffer = buffer,
+            })
+            keymap.set(
+              "n",
+              "<space>D",
+              -- vim.lsp.buf.type_definition,
+              "<cmd>FzfLua lsp_typedefs<cr>",
+              { desc = "type definition", buffer = buffer }
+            )
+            -- keymap.set('n', '<leader>br', vim.lsp.buf.rename, { desc = 'rename buffer', buffer = buffer })
+            -- keymap.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, { desc = "Code Actions", buffer = buffer })
+            keymap.set({ "n", "v" }, "<leader>a", "<cmd>FzfLua lsp_code_actions<cr>",
+              { desc = "Code Action", buffer = buffer })
+            keymap.set(
+              "n",
+              "gr",
+              -- vim.lsp.buf.references,
+              "<cmd>FzfLua lsp_references<cr>",
+              { desc = "references", buffer = buffer }
+            )
+
+            keymap.set("n", "gI", "<cmd>FzfLua lsp_incoming_calls<cr>", { desc = "Goto Parent", buffer = buffer })
+            keymap.set("n", "gO", "<cmd>FzfLua lsp_outgoing_calls<cr>", { desc = "Goto Child", buffer = buffer })
+
+            -- texlab
+            vim.keymap.set("n", "<leader>tt", "<cmd>TexlabForward<cr>", { desc = "Texlab Forward Search" })
+            vim.keymap.set("n", "<leader>tb", "<cmd>TexlabBuild<cr>", { desc = "Texlab Build" })
+          end,
         })
       end,
     },
@@ -887,14 +975,10 @@ require("lazy").setup({
       dependencies = {
         "nvim-tree/nvim-web-devicons",
         {
-          "skim-rs/skim",
-          build = "./install",
-          enabled = false, -- pretty buggy, disabled
-        },
-        {
           "junegunn/fzf",
           build = "./install --all",
         },
+        { "neovim/nvim-lspconfig" },
       },
       config = function()
         require("fzf-lua").setup({
@@ -902,7 +986,6 @@ require("lazy").setup({
           -- https://github.com/ibhagwan/fzf-lua/tree/main/lua/fzf-lua/profiles
           { "fzf-native", "hide" }, -- https://github.com/ibhagwan/fzf-lua/issues/1974#issuecomment-2816996592
 
-          -- fzf_bin = "sk", -- pretty buggy, disabled
           fzf_opts = { ["--tmux"] = "center,80%,80%" },
 
           winopts = { preview = { layout = "vertical", vertical = "up:75%" } },
@@ -982,9 +1065,9 @@ require("lazy").setup({
           },
           completion = {
             crates = {
-              enabled = true, -- disabled by default
+              enabled = true,  -- disabled by default
               max_results = 8, -- The maximum number of search results to display
-              min_chars = 3, -- The minimum number of charaters to type before completions begin appearing
+              min_chars = 3,   -- The minimum number of charaters to type before completions begin appearing
             },
             cmp = {
               enabled = true,
@@ -1008,7 +1091,7 @@ require("lazy").setup({
 
         local wk = require("which-key")
         wk.add({
-          { "<leader>C", group = "Crates", remap = false },
+          { "<leader>C",  group = "Crates",    remap = false },
           {
             "<leader>CA",
             crates.upgrade_all_crates,
@@ -1045,7 +1128,7 @@ require("lazy").setup({
             desc = "Reload",
             remap = false,
           },
-          { "<leader>Ct", crates.toggle, desc = "Toggle", remap = false },
+          { "<leader>Ct", crates.toggle,       desc = "Toggle", remap = false },
           { "<leader>Cu", crates.update_crate, desc = "Update", remap = false },
           {
             "<leader>Cv",
@@ -1162,8 +1245,8 @@ require("lazy").setup({
           left = { "mark", "sign" }, -- priority of signs on the left (high to low)
           right = { "git", "fold" }, -- priority of signs on the right (high to low)
           folds = {
-            open = false, -- show open fold icons
-            git_hl = true, -- use Git Signs hl for fold icons
+            open = false,            -- show open fold icons
+            git_hl = true,           -- use Git Signs hl for fold icons
           },
           git = {
             -- patterns to match Git signs
@@ -1334,88 +1417,3 @@ keymap.set('i', '<right>', '<nop>') ]]
 
 keymap.set("n", "<leader>ll", ":Lazy<enter>")
 keymap.set("n", "<leader>e", ":Explore<enter>")
-
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-  callback = function(ev)
-    -- Enable completion triggered by <c-x><c-o>
-    vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-    local buffer = ev.buf
-
-    -- lsp keymap
-    keymap.set("n", "<leader>li", "<cmd>checkhealth vim.lsp<cr>", { desc = "LSP info" })
-    keymap.set("n", "<leader>i", function()
-      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-    end, { desc = "Toggle inlay hints", buffer = buffer })
-    keymap.set("n", "<leader>df", vim.diagnostic.open_float, { desc = "open float diagnostic", buffer = buffer })
-    keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "diagnostic set loc list", buffer = buffer })
-    keymap.set(
-      "n",
-      "gD",
-      -- vim.lsp.buf.declaration,
-      "<cmd>FzfLua lsp_declarations<cr>",
-      { desc = "go to declaration", buffer = buffer }
-    )
-    keymap.set(
-      "n",
-      "gd",
-      -- vim.lsp.buf.definition,
-      "<cmd>FzfLua lsp_definitions<cr>",
-      { desc = "go to definition", buffer = buffer }
-    )
-    keymap.set("n", "<leader>k", vim.lsp.buf.hover, {
-      desc = "open hover, x2 into hover window, q to exit",
-      buffer = buffer,
-    })
-    keymap.set(
-      "n",
-      "gi",
-      -- vim.lsp.buf.implementation,
-      "<cmd>FzfLua lsp_implementations<cr>",
-      { desc = "go to implementation", buffer = buffer }
-    )
-    keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "signature help", buffer = buffer })
-    keymap.set(
-      "n",
-      "<leader>wa",
-      vim.lsp.buf.add_workspace_folder,
-      { desc = "add add workspace folder", buffer = buffer }
-    )
-    keymap.set(
-      "n",
-      "<leader>wr",
-      vim.lsp.buf.remove_workspace_folder,
-      { desc = "remove workspace folder", buffer = buffer }
-    )
-    keymap.set("n", "<leader>wl", function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, {
-      desc = "list workspace folders",
-      buffer = buffer,
-    })
-    keymap.set(
-      "n",
-      "<space>D",
-      -- vim.lsp.buf.type_definition,
-      "<cmd>FzfLua lsp_typedefs<cr>",
-      { desc = "type definition", buffer = buffer }
-    )
-    -- keymap.set('n', '<leader>br', vim.lsp.buf.rename, { desc = 'rename buffer', buffer = buffer })
-    -- keymap.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, { desc = "Code Actions", buffer = buffer })
-    keymap.set({ "n", "v" }, "<leader>a", "<cmd>FzfLua lsp_code_actions<cr>", { desc = "Code Action", buffer = buffer })
-    keymap.set(
-      "n",
-      "gr",
-      -- vim.lsp.buf.references,
-      "<cmd>FzfLua lsp_references<cr>",
-      { desc = "references", buffer = buffer }
-    )
-
-    keymap.set("n", "gI", "<cmd>FzfLua lsp_incoming_calls<cr>", { desc = "Goto Parent", buffer = buffer })
-    keymap.set("n", "gO", "<cmd>FzfLua lsp_outgoing_calls<cr>", { desc = "Goto Child", buffer = buffer })
-
-    -- texlab
-    vim.keymap.set("n", "<leader>tt", "<cmd>TexlabForward<cr>", { desc = "Texlab Forward Search" })
-    vim.keymap.set("n", "<leader>tb", "<cmd>TexlabBuild<cr>", { desc = "Texlab Build" })
-  end,
-})
