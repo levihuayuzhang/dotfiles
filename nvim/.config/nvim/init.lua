@@ -1,4 +1,3 @@
---
 -- base config
 vim.loader.enable(true)
 
@@ -483,18 +482,29 @@ require("lazy").setup({
                 version = "LuaJIT",
               },
               diagnostics = {
-                globals = { "vim" },
+                globals = {
+                  "vim",
+                  "describe",
+                  "pending",
+                  "it",
+                  "before_each",
+                  "after_each",
+                },
                 disable = { "missing-fields" },
               },
               telemetry = { enable = false },
               workspace = {
-                checkThirdParty = false,
                 library = {
+                  "lua",
+                  -- "$VIMRUNTIME/lua",
                   vim.env.VIMRUNTIME,
                   vim.fn.stdpath("data") .. "/lazy/",
-                  -- "${3rd}/luv/library",
+                  -- "${3rd}/luv/library", -- in lazydev
                   -- "${3rd}/busted/library",
                 },
+                checkThirdParty = false,
+                maxPreload = 2000,
+                preloadFileSize = 1000,
               },
             })
           end,
@@ -632,8 +642,10 @@ require("lazy").setup({
         },
         snippets = { preset = "luasnip" },
         sources = {
-          -- add lazydev to your completion providers
-          default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+          default = { "lsp", "lazydev", "path", "snippets", "buffer" },
+          -- per_filetype = {
+          --   org = { "orgmode" },
+          -- },
           providers = {
             lazydev = {
               name = "LazyDev",
@@ -641,6 +653,11 @@ require("lazy").setup({
               -- make lazydev completions top priority (see `:h blink.cmp`)
               score_offset = 100,
             },
+            -- orgmode = {
+            --   name = "Orgmode",
+            --   module = "orgmode.org.autocompletion.blink",
+            --   fallbacks = { "buffer" },
+            -- },
           },
         },
         signature = { enabled = true },
@@ -728,6 +745,8 @@ require("lazy").setup({
               "c",
               "make",
               "cmake",
+              "meson",
+              "ninja",
               "asm",
               "glsl",
               "sql",
@@ -758,6 +777,7 @@ require("lazy").setup({
               "desktop",
               "hyprlang",
               "kdl",
+              "norg",
             },
 
             sync_install = false,
@@ -1209,43 +1229,51 @@ require("lazy").setup({
       }, -- if you prefer nvim-web-devicons
       opts = {},
     },
-    -- pretty list for showing diagnostics and more
+    -- orgmode for nvim
     {
-      "folke/trouble.nvim",
-      opts = {}, -- for default options, refer to the configuration section for custom setup.
-      cmd = "Trouble",
-      keys = {
+      "nvim-orgmode/orgmode",
+      dependencies = {
+        "nvim-orgmode/org-bullets.nvim",
         {
-          "<leader>xx",
-          "<cmd>Trouble diagnostics toggle<cr>",
-          desc = "Diagnostics (Trouble)",
+          "lukas-reineke/headlines.nvim",
+          dependencies = "nvim-treesitter/nvim-treesitter",
+          config = true, -- or `opts = {}`
         },
-        {
-          "<leader>xX",
-          "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-          desc = "Buffer Diagnostics (Trouble)",
-        },
-        {
-          "<leader>cs",
-          "<cmd>Trouble symbols toggle focus=false<cr>",
-          desc = "Symbols (Trouble)",
-        },
-        {
-          "<leader>cl",
-          "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-          desc = "LSP Definitions / references / ... (Trouble)",
-        },
-        {
-          "<leader>xL",
-          "<cmd>Trouble loclist toggle<cr>",
-          desc = "Location List (Trouble)",
-        },
-        {
-          "<leader>xQ",
-          "<cmd>Trouble qflist toggle<cr>",
-          desc = "Quickfix List (Trouble)",
-        },
+        "saghen/blink.cmp",
       },
+      ft = { "org", "orgagenda" },
+      -- event = "VeryLazy",
+      config = function()
+        -- Setup orgmode
+        require("orgmode").setup({
+          org_agenda_files = "~/orgfiles/**/*",
+          org_default_notes_file = "~/orgfiles/refile.org",
+        })
+
+        require("org-bullets").setup()
+
+        require("blink.cmp").setup({
+          sources = {
+            per_filetype = {
+              org = { "orgmode" },
+            },
+            providers = {
+              orgmode = {
+                name = "Orgmode",
+                module = "orgmode.org.autocompletion.blink",
+                fallbacks = { "buffer" },
+              },
+            },
+          },
+        })
+      end,
+    },
+    {
+      "nvim-neorg/neorg",
+      ft = { "norg" },
+      -- lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+      version = "*", -- Pin Neorg to the latest stable release
+      config = true,
     },
   },
   install = { colorscheme = { "everforest" } },
