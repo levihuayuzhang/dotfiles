@@ -225,7 +225,19 @@ require("lazy").setup({
           sections = {
             lualine_a = { "mode" },
             lualine_b = { "branch", "diff", "diagnostics" },
-            lualine_c = { "filename" },
+            lualine_c = {
+              {
+                "filename",
+                file_status = true,
+                path = 3,
+                symbols = {
+                  modified = "[+]", -- Text to show when the file is modified.
+                  readonly = "[-]", -- Text to show when the file is non-modifiable or readonly.
+                  unnamed = "[No Name]", -- Text to show for unnamed buffers.
+                  newfile = "[New]", -- Text to show for newly created file before first write
+                },
+              },
+            },
             lualine_x = { "lsp_status", "encoding", "fileformat", "filetype" },
             lualine_y = { "progress" },
             lualine_z = { "location" },
@@ -241,7 +253,18 @@ require("lazy").setup({
           tabline = {},
           winbar = {},
           inactive_winbar = {},
-          extensions = {},
+          extensions = {
+            "quickfix",
+            "lazy",
+            "fzf",
+            "man",
+            "mason",
+            "fugitive",
+            "neo-tree",
+            "nvim-dap-ui",
+            "oil",
+            "trouble",
+          },
         })
       end,
     },
@@ -1274,6 +1297,16 @@ require("lazy").setup({
       -- lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
       version = "*", -- Pin Neorg to the latest stable release
       config = true,
+    },
+    {
+      "akinsho/toggleterm.nvim",
+      event = "VeryLazy",
+      version = "*",
+      config = function()
+        require("toggleterm").setup({
+          open_mapping = [[<c-\>]],
+        })
+      end,
     },
   },
   install = { colorscheme = { "everforest" } },
