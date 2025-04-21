@@ -29,11 +29,15 @@ opt.showbreak = "> "
 opt.ignorecase = true
 opt.smartcase = true
 
-opt.undofile = true
+opt.undofile = true -- ~/.local/state/nvim/undo/
 opt.swapfile = true
 opt.backup = false
 opt.autoread = true
 opt.updatetime = 300
+
+opt.foldenable = false
+opt.foldmethod = 'manual'
+opt.foldlevelstart = 99
 
 opt.vb = true
 opt.laststatus = 3 -- means statuscolumn will only on the bottom
@@ -42,10 +46,8 @@ opt.signcolumn = "yes"
 opt.colorcolumn = "80"
 -- opt.colorcolumn = { 80, 100 }
 opt.fileencoding = "utf-8"
-opt.completeopt = { "menuone", "noselect" } -- completion will pop up when there is only one match
-opt.conceallevel = 0                        -- no hide for ``
 opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,terminal,globals"
-opt.splitbelow = true                       -- force window to be splited into the bottom
+opt.splitbelow = true
 opt.splitright = true
 
 opt.scrolloff = 8
@@ -54,6 +56,17 @@ opt.cursorline = true
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
+opt.completeopt = { "menuone", "noselect" } -- completion will pop up when there is only one match
+opt.conceallevel = 0                        -- no hide for ``
+
+opt.wildmode = 'list:longest'
+opt.wildignore = '.hg,.svn,*~,*.png,*.jpg,*.gif,*.min.js,*.swp,*.o,vendor,dist,_site'
+
+-- nvim -d
+opt.diffopt:append('iwhite') -- ignoring whitespace
+opt.diffopt:append('algorithm:histogram')
+opt.diffopt:append('indent-heuristic')
 
 -- enable 24-bit colour
 opt.termguicolors = true
@@ -110,15 +123,16 @@ api.nvim_create_autocmd("Filetype", {
 })
 
 -------------------------------------------------------------------------------
-vim.lsp.set_log_level("OFF") -- "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "OFF"
+-- vim.lsp.set_log_level("OFF") -- "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "OFF"
 -- vim.lsp.inlay_hint.enable(true) -- enable globally
 
 vim.diagnostic.config({
   virtual_text = true,
-  -- underline = true,
+  underline = true,
+  float = true,
   -- virtual_lines = true,
   -- update_in_insert = true,
-  -- severity_sort = true,
+  severity_sort = true,
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = "",
@@ -134,23 +148,36 @@ vim.diagnostic.config({
 -- tip: use gx to open link in browser
 -- ctrl w + h,j,k,l to move among splited window buffer
 
-local keymap = vim.keymap
-
---[[ -- force not using arrow keys
-keymap.set('n', '<up>', '<nop>')
-keymap.set('n', '<down>', '<nop>')
-keymap.set('n', '<left>', '<nop>')
-keymap.set('n', '<right>', '<nop>')
-keymap.set('i', '<up>', '<nop>')
-keymap.set('i', '<down>', '<nop>')
-keymap.set('i', '<left>', '<nop>')
-keymap.set('i', '<right>', '<nop>') ]]
-
-keymap.set("n", "<leader>e", ":Explore<enter>")
-
 -- set leader keys before lazy
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+
+local keymap = vim.keymap
+
+-- force not using arrow keys
+keymap.set('i', '<up>', '<nop>')
+keymap.set('i', '<down>', '<nop>')
+keymap.set('i', '<left>', '<nop>')
+keymap.set('i', '<right>', '<nop>')
+keymap.set('n', '<up>', '<nop>')
+keymap.set('n', '<down>', '<nop>')
+-- navigate among buffers
+-- keymap.set('n', '<left>', '<nop>')
+-- keymap.set('n', '<right>', '<nop>')
+vim.keymap.set('n', '<left>', ':bp<cr>')
+vim.keymap.set('n', '<right>', ':bn<cr>')
+-- toggle between (most recent two) buffers
+vim.keymap.set("n", "<Space>", "<Nop>", { silent = true })
+vim.keymap.set('n', '<leader><leader>', '<c-^>')
+
+local jit = require("jit")
+if jit.os == "Linux" then -- wayland clipboard
+  vim.keymap.set('n', '<leader>c', '<cmd>w !wl-copy<cr><cr>')
+  vim.keymap.set('n', '<leader>p', '<cmd>read !wl-paste<cr>')
+end
+
+keymap.set("n", "<leader>e", ":Explore<enter>")
+keymap.set("n", "<leader>ll", ":Lazy<enter>")
 
 -------------------------------------------------------------------------------
 -- lazy config
@@ -447,7 +474,7 @@ require("lazy").setup({
 
         -- clangd
         local nproc
-        local jit = require("jit")
+        -- local jit = require("jit")
         if jit.os == "OSX" then
           nproc = vim.fn.systemlist("sysctl -n hw.physicalcpu")[1]
         elseif jit.os == "Linux" then
@@ -1391,4 +1418,3 @@ require("lazy").setup({
   change_detection = { enabled = true, notify = false },
   defaults = { lazy = true },
 })
-keymap.set("n", "<leader>ll", ":Lazy<enter>")
