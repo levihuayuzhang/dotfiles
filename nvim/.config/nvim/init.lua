@@ -7,8 +7,9 @@ local api = vim.api
 opt.number = true
 opt.relativenumber = true
 
-opt.mouse:append("a")
-opt.mousemoveevent = true
+opt.mouse = "" -- disable mouse
+-- opt.mouse:append("a")
+-- opt.mousemoveevent = true
 opt.clipboard = "unnamedplus,unnamed"
 
 opt.hlsearch = true
@@ -121,6 +122,28 @@ api.nvim_create_autocmd("Filetype", {
     vim.wo.colorcolumn = "81"
   end,
 })
+-- email
+local email = vim.api.nvim_create_augroup('email', { clear = true })
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+  pattern = '/tmp/mutt*',
+  group = email,
+  command = 'setfiletype mail',
+})
+vim.api.nvim_create_autocmd('Filetype', {
+  pattern = 'mail',
+  group = email,
+  command = 'setlocal formatoptions+=w',
+})
+
+-- shorter columns in text because it reads better that way
+local text = vim.api.nvim_create_augroup('text', { clear = true })
+for _, pat in ipairs({ 'text', 'markdown', 'mail', 'gitcommit' }) do
+  vim.api.nvim_create_autocmd('Filetype', {
+    pattern = pat,
+    group = text,
+    command = 'setlocal spell tw=72 colorcolumn=73',
+  })
+end
 
 -------------------------------------------------------------------------------
 -- vim.lsp.set_log_level("OFF") -- "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "OFF"
@@ -494,7 +517,7 @@ require("lazy").setup({
             "--pch-storage=memory",
             "--offset-encoding=utf-8",
             "--fallback-style=LLVM",
-            "--compile-commands-dir=build",
+            -- "--compile-commands-dir=build",
           },
           on_attach = function(_, bufnr)
             if not vim.lsp.inlay_hint.is_enabled() then
@@ -892,7 +915,8 @@ require("lazy").setup({
       "ray-x/lsp_signature.nvim",
       event = "InsertEnter",
       opts = {
-        -- transparency = 10,
+        transparency = 3, -- 1~100
+        hint_prefix = "🦅 ",
         always_trigger = true,
         -- -- Get signatures (and _only_ signatures) when in argument lists.
         -- doc_lines = 0,
@@ -966,7 +990,10 @@ require("lazy").setup({
               enable = true,
               disable = {
                 "latex",
+                "c",
+                "rust",
               },
+              additional_vim_regex_highlighting = false,
             },
             autotag = {
               enable = true,
