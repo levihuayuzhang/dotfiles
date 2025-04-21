@@ -403,6 +403,7 @@ require("lazy").setup({
           "lua_ls",
           "asm_lsp",
           "texlab",
+          "mutt_ls",
         }
         vim.lsp.enable(servers)
 
@@ -679,6 +680,9 @@ require("lazy").setup({
             },
           },
         })
+
+        -- mutt
+        vim.lsp.config("mutt_ls", {})
 
         vim.api.nvim_create_autocmd("LspAttach", {
           group = vim.api.nvim_create_augroup("UserLspConfig", {}),
