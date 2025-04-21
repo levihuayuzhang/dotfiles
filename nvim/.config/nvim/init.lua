@@ -1,4 +1,3 @@
--- base config
 vim.loader.enable(true)
 
 local opt = vim.opt
@@ -99,6 +98,16 @@ api.nvim_create_autocmd("Filetype", {
   pattern = "rust",
   command = "set colorcolumn=100",
 })
+api.nvim_create_autocmd("Filetype", {
+  pattern = "tex",
+  callback = function()
+    vim.g.tex_flavor = "latex"
+    vim.wo.spell = true
+    vim.bo.spelllang = "en_us"
+    vim.bo.textwidth = 80
+    vim.wo.colorcolumn = "81"
+  end,
+})
 
 -------------------------------------------------------------------------------
 vim.lsp.set_log_level("OFF") -- "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "OFF"
@@ -120,13 +129,30 @@ vim.diagnostic.config({
   },
 })
 
-vim.g.tex_flavor = "latex"
-
 -------------------------------------------------------------------------------
+-- keymap config
+-- tip: use gx to open link in browser
+-- ctrl w + h,j,k,l to move among splited window buffer
+
+local keymap = vim.keymap
+
+--[[ -- force not using arrow keys
+keymap.set('n', '<up>', '<nop>')
+keymap.set('n', '<down>', '<nop>')
+keymap.set('n', '<left>', '<nop>')
+keymap.set('n', '<right>', '<nop>')
+keymap.set('i', '<up>', '<nop>')
+keymap.set('i', '<down>', '<nop>')
+keymap.set('i', '<left>', '<nop>')
+keymap.set('i', '<right>', '<nop>') ]]
+
+keymap.set("n", "<leader>e", ":Explore<enter>")
+
 -- set leader keys before lazy
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+-------------------------------------------------------------------------------
 -- lazy config
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -153,7 +179,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = {
-    -- theme
     -- :help everforest.txt
     {
       "sainnhe/everforest",
@@ -194,7 +219,6 @@ require("lazy").setup({
         vim.cmd([[colorscheme gruvbox]])
       end,
     },
-    -- status line below
     {
       "nvim-lualine/lualine.nvim",
       lazy = false,
@@ -268,7 +292,6 @@ require("lazy").setup({
         })
       end,
     },
-    -- manage tools
     {
       "williamboman/mason.nvim",
       event = "VeryLazy",
@@ -287,7 +310,6 @@ require("lazy").setup({
         })
       end,
     },
-    -- make mason work with nvim lsp
     {
       "williamboman/mason-lspconfig.nvim",
       lazy = true,
@@ -312,7 +334,6 @@ require("lazy").setup({
         })
       end,
     },
-    -- nvim-lspconfig (lsp config presets)
     {
       "neovim/nvim-lspconfig",
       event = { "BufReadPost", "BufNewFile" },
@@ -391,30 +412,36 @@ require("lazy").setup({
               },
             },
           },
-          -- -- enable inlay hints at buffer open
-          -- on_attach = function(_, bufnr)
-          --   vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          -- on_attach = function(client, bufnr)
+          --   -- require "lsp_signature".on_attach({
+          --   --   always_trigger = true,
+          --   --   transparency = 10,
+          --   --
+          --   -- }, bufnr)
           --
-          --   pcall(vim.api.nvim_create_autocmd, "LspProgress", {
-          --     callback = function(event)
-          --       local kind = event.data.params.value.kind
-          --       local client_id = event.data.client_id
-          --       local work = lsp_work_by_client_id[client_id] or 0
-          --       local work_change = kind == "begin" and 1 or (kind == "end" and -1 or 0)
-          --       lsp_work_by_client_id[client_id] = math.max(work + work_change, 0)
-          --
-          --       if
-          --         vim.lsp.inlay_hint.is_enabled({
-          --           bufnr = bufnr,
-          --         }) and lsp_work_by_client_id[client_id] == 0
-          --       then
-          --         vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
-          --         vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-          --         time = time + 1
-          --         print(string.format("inlay hints redrew %d times", time))
-          --       end
-          --     end,
-          --   })
+          --   -- enable inlay hints at buffer open
+          --   -- vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          --   --
+          --   -- pcall(vim.api.nvim_create_autocmd, "LspProgress", {
+          --   --   callback = function(event)
+          --   --     local kind = event.data.params.value.kind
+          --   --     local client_id = event.data.client_id
+          --   --     local work = lsp_work_by_client_id[client_id] or 0
+          --   --     local work_change = kind == "begin" and 1 or (kind == "end" and -1 or 0)
+          --   --     lsp_work_by_client_id[client_id] = math.max(work + work_change, 0)
+          --   --
+          --   --     if
+          --   --       vim.lsp.inlay_hint.is_enabled({
+          --   --         bufnr = bufnr,
+          --   --       }) and lsp_work_by_client_id[client_id] == 0
+          --   --     then
+          --   --       vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+          --   --       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          --   --       time = time + 1
+          --   --       print(string.format("inlay hints redrew %d times", time))
+          --   --     end
+          --   --   end,
+          --   -- })
           -- end,
         })
 
@@ -603,7 +630,6 @@ require("lazy").setup({
           },
         })
 
-        local keymap = vim.keymap
         vim.api.nvim_create_autocmd("LspAttach", {
           group = vim.api.nvim_create_augroup("UserLspConfig", {}),
           callback = function(ev)
@@ -669,10 +695,10 @@ require("lazy").setup({
               "<cmd>FzfLua lsp_typedefs<cr>",
               { desc = "type definition", buffer = buffer }
             )
-            -- keymap.set('n', '<leader>br', vim.lsp.buf.rename, { desc = 'rename buffer', buffer = buffer })
-            -- keymap.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, { desc = "Code Actions", buffer = buffer })
-            keymap.set({ "n", "v" }, "<leader>a", "<cmd>FzfLua lsp_code_actions<cr>",
-              { desc = "Code Action", buffer = buffer })
+            keymap.set('n', '<leader>br', vim.lsp.buf.rename, { desc = 'rename buffer', buffer = buffer })
+            keymap.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, { desc = "Code Actions", buffer = buffer })
+            keymap.set({ "n", "v" }, "<leader>fa", "<cmd>FzfLua lsp_code_actions<cr>",
+              { desc = "Find Code Action", buffer = buffer })
             keymap.set(
               "n",
               "gr",
@@ -684,7 +710,7 @@ require("lazy").setup({
             keymap.set("n", "gI", "<cmd>FzfLua lsp_incoming_calls<cr>", { desc = "Goto Parent", buffer = buffer })
             keymap.set("n", "gO", "<cmd>FzfLua lsp_outgoing_calls<cr>", { desc = "Goto Child", buffer = buffer })
 
-            -- texlab
+            -- texlab (the cmd is relied on nvim-lspconfig)
             vim.keymap.set("n", "<leader>tt", "<cmd>TexlabForward<cr>", { desc = "Texlab Forward Search" })
             vim.keymap.set("n", "<leader>tb", "<cmd>TexlabBuild<cr>", { desc = "Texlab Build" })
           end,
@@ -835,6 +861,19 @@ require("lazy").setup({
         })
       end,
     },
+    {
+      "ray-x/lsp_signature.nvim",
+      event = "InsertEnter",
+      opts = {
+        -- transparency = 10,
+        always_trigger = true,
+        -- -- Get signatures (and _only_ signatures) when in argument lists.
+        -- doc_lines = 0,
+        -- handler_opts = {
+        --   border = "none"
+        -- },
+      },
+    },
     -- basic highlighting
     {
       {
@@ -971,11 +1010,14 @@ require("lazy").setup({
     -- fuzzy finding, lua version
     {
       "ibhagwan/fzf-lua",
+      -- lazy = false,
+      -- priority = 1000,
       event = "VeryLazy",
       dependencies = {
         "nvim-tree/nvim-web-devicons",
         {
           "junegunn/fzf",
+          dir = "~/builds/fzf",
           build = "./install --all",
         },
         { "neovim/nvim-lspconfig" },
@@ -1020,6 +1062,7 @@ require("lazy").setup({
         vim.keymap.set("n", "<leader>fb", "<cmd>FzfLua buffers<cr>", { desc = "Find Buffers" })
         vim.keymap.set("n", "<leader>fh", "<cmd>FzfLua helptags<cr>", { desc = "Find Helptags" })
         vim.keymap.set("n", "<leader>fm", "<cmd>FzfLua manpages<cr>", { desc = "Find Manpages" })
+        vim.keymap.set("n", "<leader>fk", "<cmd>FzfLua keymaps<cr>", { desc = "Find Keymaps" })
         vim.keymap.set("n", "<leader>fc", "<cmd>FzfLua commands<cr>", { desc = "Find Commands" })
         vim.keymap.set("n", "<leader>fs", "<cmd>FzfLua colorschemes<cr>", { desc = "Color Schemes" })
         vim.keymap.set("n", "<leader>gf", "<cmd>FzfLua git_files<cr>", { desc = "Git Files" })
@@ -1044,6 +1087,7 @@ require("lazy").setup({
       dependencies = {
         "nvim-lua/plenary.nvim",
         "folke/which-key.nvim",
+        "ray-x/lsp_signature.nvim",
       },
       config = function()
         local crates = require("crates")
@@ -1069,8 +1113,20 @@ require("lazy").setup({
               max_results = 8, -- The maximum number of search results to display
               min_chars = 3,   -- The minimum number of charaters to type before completions begin appearing
             },
-            cmp = {
-              enabled = true,
+            blink = {
+              use_custom_kind = true,
+              kind_text = {
+                version = "Version",
+                feature = "Feature",
+              },
+              kind_highlight = {
+                version = "BlinkCmpKindVersion",
+                feature = "BlinkCmpKindFeature",
+              },
+              kind_icon = {
+                version = "🅥 ",
+                feature = "🅕 ",
+              },
             },
           },
         })
@@ -1160,7 +1216,7 @@ require("lazy").setup({
         })
       end,
     },
-    -- keymap hints
+    -- -- keymap hints
     {
       "folke/which-key.nvim",
       -- enabled = false,
@@ -1198,17 +1254,14 @@ require("lazy").setup({
     },
     {
       "folke/snacks.nvim",
+      -- lazy = false,
+      -- priority = 1000,
       event = { "BufReadPost", "BufNewFile" },
       opts = {
         animate = {
           enabled = true,
           fps = 240,
         },
-        bigfile = { enabled = true },
-        dashboard = { enabled = false },
-        git = { enabled = false },
-        explorer = { enabled = true },
-        image = { enabled = true },
         indent = {
           indent = {
             enabled = true,
@@ -1225,55 +1278,6 @@ require("lazy").setup({
               "RainbowCyan",
             },
           },
-        },
-        input = { enabled = true },
-        picker = { enabled = true },
-        layout = { enabled = true },
-        notifier = { enabled = true },
-        notify = { enabled = true },
-        quickfile = { enabled = true },
-        scope = { enabled = true },
-        scroll = {
-          enabled = false,
-          animate = {
-            duration = { step = 30, total = 210 },
-            easing = "outQuad",
-          },
-        },
-        statuscolumn = {
-          enabled = true,
-          left = { "mark", "sign" }, -- priority of signs on the left (high to low)
-          right = { "git", "fold" }, -- priority of signs on the right (high to low)
-          folds = {
-            open = false,            -- show open fold icons
-            git_hl = true,           -- use Git Signs hl for fold icons
-          },
-          git = {
-            -- patterns to match Git signs
-            patterns = { "GitSign", "MiniDiffSign" },
-          },
-          refresh = 50, -- refresh at most every 50ms
-        },
-        styles = {
-          ["input"] = {
-            relative = "cursor",
-            width = 25,
-            row = -3,
-          },
-        },
-        toggle = {
-          enabled = true,
-          which_key = true,
-          notify = true,
-        },
-        win = {
-          enabled = true,
-        },
-        words = {
-          enabled = false,
-        },
-        zen = {
-          enabled = true,
         },
       },
     },
@@ -1381,39 +1385,10 @@ require("lazy").setup({
       version = "*", -- Pin Neorg to the latest stable release
       config = true,
     },
-    {
-      "akinsho/toggleterm.nvim",
-      event = "VeryLazy",
-      version = "*",
-      config = function()
-        require("toggleterm").setup({
-          open_mapping = [[<c-\>]],
-        })
-      end,
-    },
   },
   install = { colorscheme = { "everforest" } },
   checker = { enabled = true, notify = false },
   change_detection = { enabled = true, notify = false },
   defaults = { lazy = true },
 })
-
--------------------------------------------------------------------------------
--- keymap config
--- tip: use gx to open link in browser
--- ctrl w + h,j,k,l to move among splited window buffer
-
-local keymap = vim.keymap
-
---[[ -- force not using arrow keys
-keymap.set('n', '<up>', '<nop>')
-keymap.set('n', '<down>', '<nop>')
-keymap.set('n', '<left>', '<nop>')
-keymap.set('n', '<right>', '<nop>')
-keymap.set('i', '<up>', '<nop>')
-keymap.set('i', '<down>', '<nop>')
-keymap.set('i', '<left>', '<nop>')
-keymap.set('i', '<right>', '<nop>') ]]
-
 keymap.set("n", "<leader>ll", ":Lazy<enter>")
-keymap.set("n", "<leader>e", ":Explore<enter>")
