@@ -109,13 +109,13 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # starship, replace p10k-level 
-# eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 
 # alias hx="helix"
 # alias vim="nvim"
 # alias vi="nvim"
 
-export EDITOR="vim"
+export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 
 export http_proxy="http://127.0.0.1:7890"
