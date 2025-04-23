@@ -1,5 +1,5 @@
 set t_Co=256
-set termguicolors
+"set termguicolors
 
 syntax on
 set nu
@@ -47,8 +47,8 @@ set wrapscan
 "set scrolloff=3
 
 "set hidden
-set nobackup
-set nowritebackup
+"set nobackup
+"set nowritebackup
 
 "set updatetime=300
 "set ttimeoutlen=50
