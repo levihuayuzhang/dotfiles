@@ -19,6 +19,7 @@ background-blur = 10
 # cursor-opacity = 1
 # cursor-style = block
 cursor-style-blink = true
+adjust-cursor-thickness = 1
 # shell-integration-features = no-cursor
 # shell-integration = none
 shell-integration = zsh
