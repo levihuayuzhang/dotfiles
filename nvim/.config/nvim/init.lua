@@ -8,24 +8,24 @@ opt.number = true
 opt.relativenumber = true
 
 opt.mouse = "" -- disable mouse
--- opt.mouse:append("a")
+-- opt.mouse:append("a") -- use mouse scroll to preview in fzf-lua
 -- opt.mousemoveevent = true
 opt.clipboard = "unnamedplus,unnamed"
 
 opt.hlsearch = true
 opt.incsearch = true
-opt.jumpoptions = "stack" -- helps jumps out of the definition without too many C-o
+opt.jumpoptions = "stack"
 
 opt.shiftwidth = 4
 opt.tabstop = 4
 opt.softtabstop = 4
 opt.expandtab = true
 opt.autoindent = true
-opt.copyindent = false
+-- opt.copyindent = true
 
-opt.listchars = "space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢"
-opt.list = true
-opt.showbreak = "> "
+-- opt.listchars = "space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢"
+-- opt.list = true
+-- opt.showbreak = "> "
 
 opt.ignorecase = true
 opt.smartcase = true
@@ -37,39 +37,39 @@ opt.autoread = true
 opt.updatetime = 300
 
 opt.foldenable = false
-opt.foldmethod = 'manual'
+opt.foldmethod = "manual"
 opt.foldlevelstart = 99
 -- vim.wo.foldmethod = 'expr'
 -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 opt.vb = true
 opt.laststatus = 3 -- means statuscolumn will only on the bottom
-opt.wrap = false   -- display lines as one long line
+opt.wrap = false -- display lines as one long line
 opt.signcolumn = "yes"
 opt.colorcolumn = "80"
 -- opt.colorcolumn = { 80, 100 }
 opt.fileencoding = "utf-8"
-opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,terminal,globals"
+-- opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,terminal,globals"
 opt.splitbelow = true
 opt.splitright = true
 
 opt.scrolloff = 8
 opt.sidescrolloff = 8
-opt.cursorline = true
+-- opt.cursorline = true
 
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
--- opt.completeopt = { "menuone", "noselect" } -- completion will pop up when there is only one match
--- opt.conceallevel = 0                        -- no hide for ``
+opt.completeopt = { "menuone", "noselect" } -- completion will pop up when there is only one match
+opt.conceallevel = 0 -- no hide for ``
 
-opt.wildmode = 'list:longest'
-opt.wildignore = '.hg,.svn,*~,*.png,*.jpg,*.gif,*.min.js,*.swp,*.o,vendor,dist,_site'
+opt.wildmode = "list:longest"
+opt.wildignore = ".hg,.svn,*~,*.png,*.jpg,*.gif,*.min.js,*.swp,*.o,vendor,dist,_site"
 
 -- nvim -d
-opt.diffopt:append('iwhite') -- ignoring whitespace
-opt.diffopt:append('algorithm:histogram')
-opt.diffopt:append('indent-heuristic')
+opt.diffopt:append("iwhite") -- ignoring whitespace
+opt.diffopt:append("algorithm:histogram")
+opt.diffopt:append("indent-heuristic")
 
 -- enable 24-bit colour
 opt.termguicolors = true
@@ -124,28 +124,28 @@ api.nvim_create_autocmd("Filetype", {
     vim.wo.colorcolumn = "81"
   end,
 })
--- email
-local email = vim.api.nvim_create_augroup('email', { clear = true })
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-  pattern = '/tmp/mutt*',
-  group = email,
-  command = 'setfiletype mail',
-})
-vim.api.nvim_create_autocmd('Filetype', {
-  pattern = 'mail',
-  group = email,
-  command = 'setlocal formatoptions+=w',
-})
+-- -- email
+-- local email = vim.api.nvim_create_augroup('email', { clear = true })
+-- vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+--   pattern = '/tmp/mutt*',
+--   group = email,
+--   command = 'setfiletype mail',
+-- })
+-- vim.api.nvim_create_autocmd('Filetype', {
+--   pattern = 'mail',
+--   group = email,
+--   command = 'setlocal formatoptions+=w',
+-- })
 
--- shorter columns in text because it reads better that way
-local text = vim.api.nvim_create_augroup('text', { clear = true })
-for _, pat in ipairs({ 'text', 'markdown', 'mail', 'gitcommit' }) do
-  vim.api.nvim_create_autocmd('Filetype', {
-    pattern = pat,
-    group = text,
-    command = 'setlocal spell tw=72 colorcolumn=73',
-  })
-end
+-- -- shorter columns in text because it reads better that way
+-- local text = vim.api.nvim_create_augroup('text', { clear = true })
+-- for _, pat in ipairs({ 'text', 'markdown', 'mail', 'gitcommit' }) do
+--   vim.api.nvim_create_autocmd('Filetype', {
+--     pattern = pat,
+--     group = text,
+--     command = 'setlocal spell tw=72 colorcolumn=73',
+--   })
+-- end
 
 -------------------------------------------------------------------------------
 -- vim.lsp.set_log_level("OFF") -- "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "OFF"
@@ -180,30 +180,30 @@ vim.g.maplocalleader = "\\"
 local keymap = vim.keymap
 
 -- force not using arrow keys
-keymap.set('i', '<up>', '<nop>')
-keymap.set('i', '<down>', '<nop>')
-keymap.set('i', '<left>', '<nop>')
-keymap.set('i', '<right>', '<nop>')
+keymap.set("i", "<up>", "<nop>")
+keymap.set("i", "<down>", "<nop>")
+keymap.set("i", "<left>", "<nop>")
+keymap.set("i", "<right>", "<nop>")
 -- used for completion selection
-keymap.set('n', '<up>', '<nop>')
-keymap.set('n', '<down>', '<nop>')
+keymap.set("n", "<up>", "<nop>")
+keymap.set("n", "<down>", "<nop>")
 -- navigate among buffers
 -- keymap.set('n', '<left>', '<nop>')
 -- keymap.set('n', '<right>', '<nop>')
-vim.keymap.set('n', '<left>', ':bp<cr>')
-vim.keymap.set('n', '<right>', ':bn<cr>')
+vim.keymap.set("n", "<left>", ":bp<cr>")
+vim.keymap.set("n", "<right>", ":bn<cr>")
 -- -- toggle between (most recent two) buffers
 vim.keymap.set("n", "<Space>", "<Nop>", { silent = true })
-vim.keymap.set('n', '<leader><leader>', '<c-^>')
+vim.keymap.set("n", "<leader><leader>", "<c-^>")
 
 local jit = require("jit")
 if jit.os == "Linux" then -- wayland clipboard
-  vim.keymap.set('n', '<leader>c', '<cmd>w !wl-copy<cr><cr>')
-  vim.keymap.set('n', '<leader>p', '<cmd>read !wl-paste<cr>')
+  vim.keymap.set("n", "<leader>c", "<cmd>w !wl-copy<cr><cr>")
+  vim.keymap.set("n", "<leader>p", "<cmd>read !wl-paste<cr>")
 end
 
-keymap.set("n", "<leader>e", ":Explore<enter>")
-keymap.set("n", "<leader>ll", ":Lazy<enter>")
+-- keymap.set("n", "<leader>e", "<cmd>Explore<cr>") -- netrw disabled
+keymap.set("n", "<leader>ll", "<cmd>Lazy<cr>")
 
 -------------------------------------------------------------------------------
 -- lazy config
@@ -221,7 +221,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out,                            "WarningMsg" },
+      { out, "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -235,6 +235,7 @@ require("lazy").setup({
     -- :help everforest.txt
     {
       "sainnhe/everforest",
+      enabled = false,
       config = function()
         if vim.o.termguicolors then
           vim.o.termguicolors = true
@@ -263,7 +264,7 @@ require("lazy").setup({
       config = function()
         require("gruvbox").setup({
           dim_inactive = false,
-          contrast = 'hard', -- can be "hard", "soft" or empty string
+          contrast = "hard", -- can be "hard", "soft" or empty string
           transparent_mode = false,
           -- transparent_mode = true,
         })
@@ -283,21 +284,21 @@ require("lazy").setup({
             theme = "auto",
             -- theme = 'gruvbox',
             -- theme = 'gruvbox_dark',
-            component_separators = { left = "", right = "" },
-            section_separators = { left = "", right = "" },
-            disabled_filetypes = {
-              statusline = {},
-              winbar = {},
-            },
-            ignore_focus = {},
-            always_divide_middle = true,
-            always_show_tabline = true,
-            globalstatus = true,
-            refresh = {
-              statusline = 100,
-              tabline = 100,
-              winbar = 100,
-            },
+            -- component_separators = { left = "", right = "" },
+            -- section_separators = { left = "", right = "" },
+            -- disabled_filetypes = {
+            --   statusline = {},
+            --   winbar = {},
+            -- },
+            -- ignore_focus = {},
+            -- always_divide_middle = true,
+            -- always_show_tabline = true,
+            -- globalstatus = true,
+            -- refresh = {
+            --   statusline = 100,
+            --   tabline = 100,
+            --   winbar = 100,
+            -- },
           },
           sections = {
             lualine_a = { "mode" },
@@ -307,12 +308,12 @@ require("lazy").setup({
                 "filename",
                 file_status = true,
                 path = 3,
-                symbols = {
-                  modified = "[+]",      -- Text to show when the file is modified.
-                  readonly = "[-]",      -- Text to show when the file is non-modifiable or readonly.
-                  unnamed = "[No Name]", -- Text to show for unnamed buffers.
-                  newfile = "[New]",     -- Text to show for newly created file before first write
-                },
+                -- symbols = {
+                --   modified = "[+]", -- Text to show when the file is modified.
+                --   readonly = "[-]", -- Text to show when the file is non-modifiable or readonly.
+                --   unnamed = "[No Name]", -- Text to show for unnamed buffers.
+                --   newfile = "[New]", -- Text to show for newly created file before first write
+                -- },
               },
             },
             lualine_x = { "lsp_status", "encoding", "fileformat", "filetype" },
@@ -327,9 +328,9 @@ require("lazy").setup({
             lualine_y = {},
             lualine_z = {},
           },
-          tabline = {},
-          winbar = {},
-          inactive_winbar = {},
+          -- tabline = {},
+          -- winbar = {},
+          -- inactive_winbar = {},
           extensions = {
             "quickfix",
             "lazy",
@@ -353,13 +354,13 @@ require("lazy").setup({
       },
       config = function()
         require("mason").setup({
-          ui = {
-            icons = {
-              package_installed = "✓",
-              package_pending = "➜",
-              package_uninstalled = "✗",
-            },
-          },
+          -- ui = {
+          --   icons = {
+          --     package_installed = "✓",
+          --     package_pending = "➜",
+          --     package_uninstalled = "✗",
+          --   },
+          -- },
         })
       end,
     },
@@ -576,8 +577,8 @@ require("lazy").setup({
             if client.workspace_folders then
               local path = client.workspace_folders[1].name
               if
-                  path ~= vim.fn.stdpath("config")
-                  and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+                path ~= vim.fn.stdpath("config")
+                and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
               then
                 return
               end
@@ -712,8 +713,19 @@ require("lazy").setup({
             keymap.set("n", "<leader>i", function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
             end, { desc = "Toggle inlay hints", buffer = buffer })
-            keymap.set("n", "<leader>df", vim.diagnostic.open_float, { desc = "open float diagnostic", buffer = buffer })
-            keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "diagnostic set loc list", buffer = buffer })
+            -- keymap.set("n", "<leader>df", vim.diagnostic.open_float, { desc = "open float diagnostic", buffer = buffer })
+            keymap.set(
+              "n",
+              "<leader>e",
+              "vim.diagnostic.open_float",
+              { desc = "open float diagnostic", buffer = buffer }
+            )
+            keymap.set(
+              "n",
+              "<leader>q",
+              vim.diagnostic.setloclist,
+              { desc = "diagnostic set loc list", buffer = buffer }
+            )
             keymap.set(
               "n",
               "gD",
@@ -765,10 +777,14 @@ require("lazy").setup({
               "<cmd>FzfLua lsp_typedefs<cr>",
               { desc = "type definition", buffer = buffer }
             )
-            keymap.set('n', '<leader>br', vim.lsp.buf.rename, { desc = 'rename buffer', buffer = buffer })
+            keymap.set("n", "<leader>br", vim.lsp.buf.rename, { desc = "rename buffer", buffer = buffer })
             keymap.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, { desc = "Code Actions", buffer = buffer })
-            keymap.set({ "n", "v" }, "<leader>fa", "<cmd>FzfLua lsp_code_actions<cr>",
-              { desc = "Find Code Action", buffer = buffer })
+            keymap.set(
+              { "n", "v" },
+              "<leader>fa",
+              "<cmd>FzfLua lsp_code_actions<cr>",
+              { desc = "Find Code Action", buffer = buffer }
+            )
             keymap.set(
               "n",
               "gr",
@@ -871,7 +887,7 @@ require("lazy").setup({
       },
       opts_extend = { "sources.default" },
     },
-    -- formatting
+    -- work with morden fmt tools
     {
       "stevearc/conform.nvim",
       lazy = true,
@@ -879,8 +895,22 @@ require("lazy").setup({
       event = { "BufWritePre", "BufReadPre", "BufNewFile" }, -- to disable, comment this out
       config = function()
         require("conform").setup({
+          default_format_opts = {
+            lsp_format = "fallback",
+          },
+          format_on_save = {
+            timeout_ms = 300,
+            async = false,
+            quiet = false,
+            lsp_format = "fallback",
+          },
+          format_after_save = {
+            lsp_format = "fallback",
+          },
+          notify_on_error = true,
+          notify_no_formatters = true,
           formatters_by_ft = {
-            rust = { "rustfmt", lsp_format = "fallback" },
+            rust = { lsp_format = "prefer", "rustfmt" },
             python = function(bufnr)
               if require("conform").get_formatter_info("ruff_format", bufnr).available then
                 return { "ruff_format" }
@@ -888,6 +918,7 @@ require("lazy").setup({
                 return { "isort", "black" }
               end
             end,
+            cpp = { "clang-format" },
             lua = { "stylua" },
             javascript = {
               "prettierd",
@@ -908,36 +939,25 @@ require("lazy").setup({
             bib = { "tex-fmt" },
             cls = { "tex-fmt" },
             sty = { "tex-fmt" },
+            sh = { "shfmt" },
           },
-          default_format_opts = {
-            lsp_format = "fallback",
-          },
-          format_on_save = {
-            timeout_ms = 500,
-            async = false,
-            quiet = false,
-            lsp_format = "fallback",
-          },
-          format_after_save = {
-            lsp_format = "fallback",
-          },
-          notify_on_error = true,
-          notify_no_formatters = true,
           formatters = {
             black = {
               prepend_args = { "--fast" },
             },
           },
         })
+
+        keymap.set("n", "<leader>lc", "<cmd>ConformInfo<cr>", { desc = "Conform Info" })
       end,
     },
     {
       "ray-x/lsp_signature.nvim",
       event = "InsertEnter",
       opts = {
-        transparency = 3, -- 1~100
-        hint_prefix = "🦅 ",
-        always_trigger = true,
+        -- transparency = 3, -- 1~100
+        -- hint_prefix = "🦅 ",
+        -- always_trigger = true,
         -- -- Get signatures (and _only_ signatures) when in argument lists.
         -- doc_lines = 0,
         -- handler_opts = {
@@ -955,15 +975,16 @@ require("lazy").setup({
           require("nvim-treesitter.configs").setup({
             ensure_installed = {
               "rust",
-              "latex",
-              "bibtex",
               "toml",
+              "c",
+              "cpp",
+              "latex",
+              -- "bibtex",
               "zig",
               "python",
-              "go",
-              "gomod",
-              "gosum",
-              "c",
+              -- "go",
+              -- "gomod",
+              -- "gosum",
               "make",
               "cmake",
               "meson",
@@ -998,7 +1019,7 @@ require("lazy").setup({
               "desktop",
               "hyprlang",
               "kdl",
-              "norg",
+              -- "norg",
             },
 
             sync_install = false,
@@ -1011,6 +1032,7 @@ require("lazy").setup({
               disable = {
                 "latex",
                 "c",
+                "cpp",
                 "rust",
               },
               additional_vim_regex_highlighting = false,
@@ -1021,66 +1043,66 @@ require("lazy").setup({
             indent = {
               enable = true,
             },
-            incremental_selection = {
-              enable = true,
-              keymaps = {
-                init_selection = "gnn", -- set to `false` to disable one of the mappings
-                node_incremental = "grn",
-                scope_incremental = "grc",
-                node_decremental = "grm",
-              },
-            },
+            -- incremental_selection = {
+            --   enable = true,
+            --   keymaps = {
+            --     init_selection = "gnn", -- set to `false` to disable one of the mappings
+            --     node_incremental = "grn",
+            --     scope_incremental = "grc",
+            --     node_decremental = "grm",
+            --   },
+            -- },
           })
         end,
       },
     },
-    -- quick search and jump to char in screen
-    {
-      "folke/flash.nvim",
-      opts = {},
-      keys = {
-        {
-          "s",
-          mode = { "n", "x", "o" },
-          function()
-            require("flash").jump()
-          end,
-          desc = "Flash",
-        },
-        {
-          "S",
-          mode = { "n", "x", "o" },
-          function()
-            require("flash").treesitter()
-          end,
-          desc = "Flash Treesitter",
-        },
-        {
-          "r",
-          mode = "o",
-          function()
-            require("flash").remote()
-          end,
-          desc = "Remote Flash",
-        },
-        {
-          "R",
-          mode = { "o", "x" },
-          function()
-            require("flash").treesitter_search()
-          end,
-          desc = "Treesitter Search",
-        },
-        {
-          "<c-s>",
-          mode = { "c" },
-          function()
-            require("flash").toggle()
-          end,
-          desc = "Toggle Flash Search",
-        },
-      },
-    },
+    -- -- quick search and jump to char in screen
+    -- {
+    --   "folke/flash.nvim",
+    --   opts = {},
+    --   keys = {
+    --     {
+    --       "s",
+    --       mode = { "n", "x", "o" },
+    --       function()
+    --         require("flash").jump()
+    --       end,
+    --       desc = "Flash",
+    --     },
+    --     {
+    --       "S",
+    --       mode = { "n", "x", "o" },
+    --       function()
+    --         require("flash").treesitter()
+    --       end,
+    --       desc = "Flash Treesitter",
+    --     },
+    --     {
+    --       "r",
+    --       mode = "o",
+    --       function()
+    --         require("flash").remote()
+    --       end,
+    --       desc = "Remote Flash",
+    --     },
+    --     {
+    --       "R",
+    --       mode = { "o", "x" },
+    --       function()
+    --         require("flash").treesitter_search()
+    --       end,
+    --       desc = "Treesitter Search",
+    --     },
+    --     {
+    --       "<c-s>",
+    --       mode = { "c" },
+    --       function()
+    --         require("flash").toggle()
+    --       end,
+    --       desc = "Toggle Flash Search",
+    --     },
+    --   },
+    -- },
     -- fuzzy finding, lua version
     {
       "ibhagwan/fzf-lua",
@@ -1104,7 +1126,7 @@ require("lazy").setup({
 
           fzf_opts = { ["--tmux"] = "center,80%,80%" },
 
-          winopts = { preview = { layout = "vertical", vertical = "up:75%" } },
+          -- winopts = { preview = { layout = "vertical", vertical = "up:75%" } },
 
           --[[ -- preview code_actions, set in ~/.gitconfig, require `dandavison/delta`
             [core]
@@ -1155,266 +1177,271 @@ require("lazy").setup({
         )
       end,
     },
-    {
-      "saecki/crates.nvim",
-      event = { "BufRead Cargo.toml" },
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "folke/which-key.nvim",
-        "ray-x/lsp_signature.nvim",
-      },
-      config = function()
-        local crates = require("crates")
-        crates.setup({ -- https://github.com/YaQia/.dotfile/blob/master/nvim/lua/plugins/crates.lua
-          popup = {
-            border = "rounded",
-          },
-          lsp = {
-            enabled = true,
-            on_attach = function(_, bufnr)
-              require("lsp_signature").on_attach({
-                hint_enable = true, -- virtual hint enable
-                hint_prefix = "• ",
-              }, bufnr)
-            end,
-            actions = true,
-            completion = true,
-            hover = true,
-          },
-          completion = {
-            crates = {
-              enabled = true,  -- disabled by default
-              max_results = 8, -- The maximum number of search results to display
-              min_chars = 3,   -- The minimum number of charaters to type before completions begin appearing
-            },
-            blink = {
-              use_custom_kind = true,
-              kind_text = {
-                version = "Version",
-                feature = "Feature",
-              },
-              kind_highlight = {
-                version = "BlinkCmpKindVersion",
-                feature = "BlinkCmpKindFeature",
-              },
-              kind_icon = {
-                version = "🅥 ",
-                feature = "🅕 ",
-              },
-            },
-          },
-        })
-
-        local function show_documentation()
-          local filetype = vim.bo.filetype
-          if vim.tbl_contains({ "vim", "help" }, filetype) then
-            vim.cmd("h " .. vim.fn.expand("<cword>"))
-          elseif vim.tbl_contains({ "man" }, filetype) then
-            vim.cmd("Man " .. vim.fn.expand("<cword>"))
-          elseif vim.fn.expand("%:t") == "Cargo.toml" and require("crates").popup_available() then
-            require("crates").show_popup()
-          else
-            vim.lsp.buf.hover()
-          end
-        end
-        vim.keymap.set("n", "K", show_documentation, { silent = true })
-
-        local wk = require("which-key")
-        wk.add({
-          { "<leader>C",  group = "Crates",    remap = false },
-          {
-            "<leader>CA",
-            crates.upgrade_all_crates,
-            desc = "Upgrade All",
-            remap = false,
-          },
-          {
-            "<leader>CU",
-            crates.upgrade_crate,
-            desc = "Upgrade",
-            remap = false,
-          },
-          {
-            "<leader>Ca",
-            crates.update_all_crates,
-            desc = "Update All",
-            remap = false,
-          },
-          {
-            "<leader>Cd",
-            crates.show_dependencies_popup,
-            desc = "Dependencies",
-            remap = false,
-          },
-          {
-            "<leader>Cf",
-            crates.show_features_popup,
-            desc = "Features",
-            remap = false,
-          },
-          {
-            "<leader>Cr",
-            crates.show_features_popup,
-            desc = "Reload",
-            remap = false,
-          },
-          { "<leader>Ct", crates.toggle,       desc = "Toggle", remap = false },
-          { "<leader>Cu", crates.update_crate, desc = "Update", remap = false },
-          {
-            "<leader>Cv",
-            crates.show_versions_popup,
-            desc = "Version",
-            remap = false,
-          },
-        })
-
-        wk.add({
-          {
-            mode = { "x" },
-            { "<leader>C", group = "Crates", nowait = true, remap = false },
-            {
-              "<leader>CU",
-              crates.upgrade_crates,
-              desc = "Upgrade",
-              nowait = true,
-              remap = false,
-            },
-            {
-              "<leader>Cu",
-              crates.update_crates,
-              desc = "Update",
-              nowait = true,
-              remap = false,
-            },
-          },
-        })
-      end,
-    },
-    -- -- keymap hints
-    {
-      "folke/which-key.nvim",
-      -- enabled = false,
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-      event = "VeryLazy",
-      keys = {
-        {
-          "<leader>?",
-          function()
-            require("which-key").show({ global = false })
-          end,
-          desc = "Buffer Local Keymaps (which-key)",
-        },
-      },
-    },
-    -- pairs
-    {
-      "windwp/nvim-autopairs",
-      event = "InsertEnter",
-      opts = {},
-    },
-    -- hex color render
-    {
-      "echasnovski/mini.hipatterns",
-      version = false,
-      event = { "BufReadPost", "BufNewFile" },
-      config = function()
-        local hipatterns = require("mini.hipatterns")
-        hipatterns.setup({
-          highlighters = {
-            hex_color = hipatterns.gen_highlighter.hex_color(),
-          },
-        })
-      end,
-    },
-    {
-      "folke/snacks.nvim",
-      -- lazy = false,
-      -- priority = 1000,
-      event = { "BufReadPost", "BufNewFile" },
-      opts = {
-        animate = {
-          enabled = true,
-          fps = 240,
-        },
-        indent = {
-          indent = {
-            enabled = true,
-          },
-          scope = {
-            enabled = true,
-            hl = {
-              "RainbowRed",
-              "RainbowYellow",
-              "RainbowBlue",
-              "RainbowOrange",
-              "RainbowGreen",
-              "RainbowViolet",
-              "RainbowCyan",
-            },
-          },
-        },
-      },
-    },
-    -- todo
-    {
-      "folke/todo-comments.nvim",
-      event = { "BufReadPost", "BufNewFile" },
-      dependencies = { "nvim-lua/plenary.nvim" },
-      keys = {
-        {
-          "]t",
-          function()
-            require("todo-comments").jump_next()
-          end,
-          desc = "Next todo comment",
-        },
-        {
-          "[t",
-          function()
-            require("todo-comments").jump_prev()
-          end,
-          desc = "Previous todo comment",
-        },
-        {
-          "<leader>tf",
-          "<cmd>TodoFzfLua<cr>",
-          desc = "TODO Search",
-        },
-      },
-      opts = {},
-    },
-    -- usage indication
-    {
-      "RRethy/vim-illuminate",
-      event = {
-        -- "CursorHold",
-        -- "CursorHoldI",
-        "LspAttach"
-      },
-      -- dependencies = { "neovim/nvim-lspconfig" },
-      config = function()
-        require("illuminate").configure({
-          providers = {
-            "lsp",
-            -- 'treesitter',
-            -- 'regex',
-          },
-          modes_denylist = { "i", "v", "V" },
-        })
-      end,
-    },
-    -- render markdown
-    {
-      "MeanderingProgrammer/render-markdown.nvim",
-      ft = "markdown",
-      dependencies = {
-        "nvim-treesitter/nvim-treesitter",
-        "nvim-tree/nvim-web-devicons",
-      }, -- if you prefer nvim-web-devicons
-      opts = {},
+    -- {
+    --   "saecki/crates.nvim",
+    --   event = { "BufRead Cargo.toml" },
+    --   dependencies = {
+    --     "nvim-lua/plenary.nvim",
+    --     "folke/which-key.nvim",
+    --     "ray-x/lsp_signature.nvim",
+    --   },
+    --   config = function()
+    --     local crates = require("crates")
+    --     crates.setup({ -- https://github.com/YaQia/.dotfile/blob/master/nvim/lua/plugins/crates.lua
+    --       popup = {
+    --         border = "rounded",
+    --       },
+    --       lsp = {
+    --         enabled = true,
+    --         on_attach = function(_, bufnr)
+    --           require("lsp_signature").on_attach({
+    --             hint_enable = true, -- virtual hint enable
+    --             hint_prefix = "• ",
+    --           }, bufnr)
+    --         end,
+    --         actions = true,
+    --         completion = true,
+    --         hover = true,
+    --       },
+    --       completion = {
+    --         crates = {
+    --           enabled = true,  -- disabled by default
+    --           max_results = 8, -- The maximum number of search results to display
+    --           min_chars = 3,   -- The minimum number of charaters to type before completions begin appearing
+    --         },
+    --         blink = {
+    --           use_custom_kind = true,
+    --           kind_text = {
+    --             version = "Version",
+    --             feature = "Feature",
+    --           },
+    --           kind_highlight = {
+    --             version = "BlinkCmpKindVersion",
+    --             feature = "BlinkCmpKindFeature",
+    --           },
+    --           kind_icon = {
+    --             version = "🅥 ",
+    --             feature = "🅕 ",
+    --           },
+    --         },
+    --       },
+    --     })
+    --
+    --     local function show_documentation()
+    --       local filetype = vim.bo.filetype
+    --       if vim.tbl_contains({ "vim", "help" }, filetype) then
+    --         vim.cmd("h " .. vim.fn.expand("<cword>"))
+    --       elseif vim.tbl_contains({ "man" }, filetype) then
+    --         vim.cmd("Man " .. vim.fn.expand("<cword>"))
+    --       elseif vim.fn.expand("%:t") == "Cargo.toml" and require("crates").popup_available() then
+    --         require("crates").show_popup()
+    --       else
+    --         vim.lsp.buf.hover()
+    --       end
+    --     end
+    --     vim.keymap.set("n", "K", show_documentation, { silent = true })
+    --
+    --     local wk = require("which-key")
+    --     wk.add({
+    --       { "<leader>C",  group = "Crates",    remap = false },
+    --       {
+    --         "<leader>CA",
+    --         crates.upgrade_all_crates,
+    --         desc = "Upgrade All",
+    --         remap = false,
+    --       },
+    --       {
+    --         "<leader>CU",
+    --         crates.upgrade_crate,
+    --         desc = "Upgrade",
+    --         remap = false,
+    --       },
+    --       {
+    --         "<leader>Ca",
+    --         crates.update_all_crates,
+    --         desc = "Update All",
+    --         remap = false,
+    --       },
+    --       {
+    --         "<leader>Cd",
+    --         crates.show_dependencies_popup,
+    --         desc = "Dependencies",
+    --         remap = false,
+    --       },
+    --       {
+    --         "<leader>Cf",
+    --         crates.show_features_popup,
+    --         desc = "Features",
+    --         remap = false,
+    --       },
+    --       {
+    --         "<leader>Cr",
+    --         crates.show_features_popup,
+    --         desc = "Reload",
+    --         remap = false,
+    --       },
+    --       { "<leader>Ct", crates.toggle,       desc = "Toggle", remap = false },
+    --       { "<leader>Cu", crates.update_crate, desc = "Update", remap = false },
+    --       {
+    --         "<leader>Cv",
+    --         crates.show_versions_popup,
+    --         desc = "Version",
+    --         remap = false,
+    --       },
+    --     })
+    --
+    --     wk.add({
+    --       {
+    --         mode = { "x" },
+    --         { "<leader>C", group = "Crates", nowait = true, remap = false },
+    --         {
+    --           "<leader>CU",
+    --           crates.upgrade_crates,
+    --           desc = "Upgrade",
+    --           nowait = true,
+    --           remap = false,
+    --         },
+    --         {
+    --           "<leader>Cu",
+    --           crates.update_crates,
+    --           desc = "Update",
+    --           nowait = true,
+    --           remap = false,
+    --         },
+    --       },
+    --     })
+    --   end,
+    -- },
+    -- -- -- keymap hints
+    -- {
+    --   "folke/which-key.nvim",
+    --   -- enabled = false,
+    --   dependencies = { "nvim-tree/nvim-web-devicons" },
+    --   event = "VeryLazy",
+    --   keys = {
+    --     {
+    --       "<leader>?",
+    --       function()
+    --         require("which-key").show({ global = false })
+    --       end,
+    --       desc = "Buffer Local Keymaps (which-key)",
+    --     },
+    --   },
+    -- },
+    -- -- pairs
+    -- {
+    --   "windwp/nvim-autopairs",
+    --   event = "InsertEnter",
+    --   opts = {},
+    -- },
+    -- -- hex color render
+    -- {
+    --   "echasnovski/mini.hipatterns",
+    --   version = false,
+    --   event = { "BufReadPost", "BufNewFile" },
+    --   config = function()
+    --     local hipatterns = require("mini.hipatterns")
+    --     hipatterns.setup({
+    --       highlighters = {
+    --         hex_color = hipatterns.gen_highlighter.hex_color(),
+    --       },
+    --     })
+    --   end,
+    -- },
+    -- {
+    --   "folke/snacks.nvim",
+    --   -- lazy = false,
+    --   -- priority = 1000,
+    --   event = { "BufReadPost", "BufNewFile" },
+    --   opts = {
+    --     animate = {
+    --       enabled = true,
+    --       fps = 240,
+    --     },
+    --     indent = {
+    --       indent = {
+    --         enabled = true,
+    --       },
+    --       scope = {
+    --         enabled = true,
+    --         hl = {
+    --           "RainbowRed",
+    --           "RainbowYellow",
+    --           "RainbowBlue",
+    --           "RainbowOrange",
+    --           "RainbowGreen",
+    --           "RainbowViolet",
+    --           "RainbowCyan",
+    --         },
+    --       },
+    --     },
+    --   },
+    -- },
+    -- -- todo
+    -- {
+    --   "folke/todo-comments.nvim",
+    --   event = { "BufReadPost", "BufNewFile" },
+    --   dependencies = { "nvim-lua/plenary.nvim" },
+    --   keys = {
+    --     {
+    --       "]t",
+    --       function()
+    --         require("todo-comments").jump_next()
+    --       end,
+    --       desc = "Next todo comment",
+    --     },
+    --     {
+    --       "[t",
+    --       function()
+    --         require("todo-comments").jump_prev()
+    --       end,
+    --       desc = "Previous todo comment",
+    --     },
+    --     {
+    --       "<leader>tf",
+    --       "<cmd>TodoFzfLua<cr>",
+    --       desc = "TODO Search",
+    --     },
+    --   },
+    --   opts = {},
+    -- },
+    -- -- usage indication
+    -- {
+    --   "RRethy/vim-illuminate",
+    --   event = {
+    --     -- "CursorHold",
+    --     -- "CursorHoldI",
+    --     "LspAttach"
+    --   },
+    --   -- dependencies = { "neovim/nvim-lspconfig" },
+    --   config = function()
+    --     require("illuminate").configure({
+    --       providers = {
+    --         "lsp",
+    --         -- 'treesitter',
+    --         -- 'regex',
+    --       },
+    --       modes_denylist = { "i", "v", "V" },
+    --     })
+    --   end,
+    -- },
+    -- -- render markdown
+    -- {
+    --   "MeanderingProgrammer/render-markdown.nvim",
+    --   ft = "markdown",
+    --   dependencies = {
+    --     "nvim-treesitter/nvim-treesitter",
+    --     "nvim-tree/nvim-web-devicons",
+    --   }, -- if you prefer nvim-web-devicons
+    --   opts = {},
+    -- },
+  },
+  install = {
+    colorscheme = {
+      "gruvbox",
+      "everforest",
     },
   },
-  install = { colorscheme = { "everforest" } },
   checker = { enabled = true, notify = false },
   change_detection = { enabled = true, notify = false },
   defaults = { lazy = true },
