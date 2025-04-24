@@ -73,6 +73,7 @@ opt.diffopt:append("indent-heuristic")
 
 -- enable 24-bit colour
 opt.termguicolors = true
+
 -- override color
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
   pattern = { "*" },
@@ -265,7 +266,6 @@ require("lazy").setup({
         require("gruvbox").setup({
           dim_inactive = false,
           contrast = "hard", -- can be "hard", "soft" or empty string
-          transparent_mode = false,
           -- transparent_mode = true,
         })
 
@@ -1411,7 +1411,7 @@ require("lazy").setup({
     --   event = {
     --     -- "CursorHold",
     --     -- "CursorHoldI",
-    --     "LspAttach"
+    --     "LspAttach",
     --   },
     --   -- dependencies = { "neovim/nvim-lspconfig" },
     --   config = function()
