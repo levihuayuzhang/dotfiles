@@ -115,6 +115,7 @@ api.nvim_create_autocmd("Filetype", {
   pattern = "rust",
   command = "set colorcolumn=100",
 })
+-- set spell check (use `z=` to get suggestions)
 api.nvim_create_autocmd("Filetype", {
   pattern = "tex",
   callback = function()
@@ -138,15 +139,20 @@ api.nvim_create_autocmd("Filetype", {
 --   command = 'setlocal formatoptions+=w',
 -- })
 
--- -- shorter columns in text because it reads better that way
--- local text = vim.api.nvim_create_augroup('text', { clear = true })
--- for _, pat in ipairs({ 'text', 'markdown', 'mail', 'gitcommit' }) do
---   vim.api.nvim_create_autocmd('Filetype', {
---     pattern = pat,
---     group = text,
---     command = 'setlocal spell tw=72 colorcolumn=73',
---   })
--- end
+-- shorter columns in text because it reads better that way
+local text = vim.api.nvim_create_augroup("text", { clear = true })
+for _, pat in ipairs({ "text", "markdown", "mail", "gitcommit" }) do
+  vim.api.nvim_create_autocmd("Filetype", {
+    pattern = pat,
+    group = text,
+    callback = function()
+      vim.wo.spell = true
+      vim.bo.spelllang = "en_us"
+      vim.bo.textwidth = 72
+      vim.wo.colorcolumn = "73"
+    end,
+  })
+end
 
 -------------------------------------------------------------------------------
 -- vim.lsp.set_log_level("OFF") -- "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "OFF"
@@ -713,13 +719,7 @@ require("lazy").setup({
             keymap.set("n", "<leader>i", function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
             end, { desc = "Toggle inlay hints", buffer = buffer })
-            -- keymap.set("n", "<leader>df", vim.diagnostic.open_float, { desc = "open float diagnostic", buffer = buffer })
-            keymap.set(
-              "n",
-              "<leader>e",
-              "vim.diagnostic.open_float",
-              { desc = "open float diagnostic", buffer = buffer }
-            )
+            keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "open float diagnostic", buffer = buffer })
             keymap.set(
               "n",
               "<leader>q",
@@ -1205,9 +1205,9 @@ require("lazy").setup({
     --       },
     --       completion = {
     --         crates = {
-    --           enabled = true,  -- disabled by default
+    --           enabled = true, -- disabled by default
     --           max_results = 8, -- The maximum number of search results to display
-    --           min_chars = 3,   -- The minimum number of charaters to type before completions begin appearing
+    --           min_chars = 3, -- The minimum number of charaters to type before completions begin appearing
     --         },
     --         blink = {
     --           use_custom_kind = true,
@@ -1243,7 +1243,7 @@ require("lazy").setup({
     --
     --     local wk = require("which-key")
     --     wk.add({
-    --       { "<leader>C",  group = "Crates",    remap = false },
+    --       { "<leader>C", group = "Crates", remap = false },
     --       {
     --         "<leader>CA",
     --         crates.upgrade_all_crates,
@@ -1280,7 +1280,7 @@ require("lazy").setup({
     --         desc = "Reload",
     --         remap = false,
     --       },
-    --       { "<leader>Ct", crates.toggle,       desc = "Toggle", remap = false },
+    --       { "<leader>Ct", crates.toggle, desc = "Toggle", remap = false },
     --       { "<leader>Cu", crates.update_crate, desc = "Update", remap = false },
     --       {
     --         "<leader>Cv",
@@ -1312,7 +1312,7 @@ require("lazy").setup({
     --     })
     --   end,
     -- },
-    -- -- -- keymap hints
+    -- -- keymap hints
     -- {
     --   "folke/which-key.nvim",
     --   -- enabled = false,
