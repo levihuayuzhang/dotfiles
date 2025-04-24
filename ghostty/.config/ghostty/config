@@ -8,7 +8,7 @@ font-family = "CaskaydiaCove Nerd Font Mono"
 
 window-theme = auto
 window-height = 66
-window-width = 110
+window-width = 130
 window-colorspace = display-p3
 background-opacity = 0.9
 background-blur = 10

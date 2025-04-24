@@ -958,11 +958,10 @@ require("lazy").setup({
         -- transparency = 3, -- 1~100
         -- hint_prefix = "🦅 ",
         -- always_trigger = true,
-        -- -- Get signatures (and _only_ signatures) when in argument lists.
-        -- doc_lines = 0,
-        -- handler_opts = {
-        --   border = "none"
-        -- },
+        doc_lines = 0, -- Get signatures (and _only_ signatures) when in argument lists.
+        handler_opts = {
+          border = "none",
+        },
       },
     },
     -- basic highlighting
