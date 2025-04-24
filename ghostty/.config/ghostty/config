@@ -7,19 +7,19 @@ alpha-blending = native
 font-family = "CaskaydiaCove Nerd Font Mono"
 
 window-theme = auto
-# window-height = 33
-# window-width = 110
 window-height = 66
-window-width = 120
+window-width = 110
 window-colorspace = display-p3
 background-opacity = 0.9
 background-blur = 10
 
-cursor-invert-fg-bg = true
-selection-invert-fg-bg = true
-cursor-style = block
+# cursor-invert-fg-bg = true
+# selection-invert-fg-bg = true
+# cursor-color = white
+# cursor-opacity = 1
+# cursor-style = block
 cursor-style-blink = true
-shell-integration-features = no-cursor
+# shell-integration-features = no-cursor
 # shell-integration = none
 shell-integration = zsh
 # confirm-close-surface = false

@@ -263,9 +263,9 @@ require("lazy").setup({
       config = function()
         require("gruvbox").setup({
           dim_inactive = false,
-          -- contrast = 'hard', -- can be "hard", "soft" or empty string
-          -- transparent_mode = false,
-          transparent_mode = true,
+          contrast = 'hard', -- can be "hard", "soft" or empty string
+          transparent_mode = false,
+          -- transparent_mode = true,
         })
 
         vim.o.background = "dark" -- or "light" for light mode
