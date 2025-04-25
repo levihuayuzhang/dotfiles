@@ -1,5 +1,21 @@
-set t_Co=256
 "set termguicolors
+if !has('gui_running')
+  set t_Co=256
+endif
+
+" https://github.com/morhetz/gruvbox
+"let g:gruvbox_termcolors=256
+let g:gruvbox_italic=1
+let g:gruvbox_transparent_bg=1
+let g:gruvbox_contrast_dark='hard'
+set background=dark
+colorscheme gruvbox
+
+" https://github.com/itchyny/lightline.vim
+set laststatus=2
+set ttimeout ttimeoutlen=50
+"set showmode
+set noshowmode
 
 syntax on
 set nu
@@ -7,7 +23,6 @@ set relativenumber
 set mouse=a
 set clipboard=unnamedplus,unnamed
 set ruler
-set showmode
 set showcmd
 "set listchars=tab:→\ ,eol:↲,nbsp:•,trail:␣,extends:⟩,precedes:⟨,space:•
 "set showbreak=↪\
