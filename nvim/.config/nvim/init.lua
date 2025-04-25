@@ -34,7 +34,7 @@ opt.undofile = true -- ~/.local/state/nvim/undo/
 opt.swapfile = true
 opt.backup = false
 opt.autoread = true
-opt.updatetime = 300
+-- opt.updatetime = 300
 
 opt.foldenable = false
 opt.foldmethod = "manual"
@@ -191,7 +191,7 @@ keymap.set("i", "<up>", "<nop>")
 keymap.set("i", "<down>", "<nop>")
 keymap.set("i", "<left>", "<nop>")
 keymap.set("i", "<right>", "<nop>")
--- used for completion selection
+-- completion selection using ctrl+n/p
 keymap.set("n", "<up>", "<nop>")
 keymap.set("n", "<down>", "<nop>")
 -- navigate among buffers
@@ -286,57 +286,19 @@ require("lazy").setup({
       config = function()
         require("lualine").setup({
           options = {
-            icons_enabled = true,
-            theme = "auto",
-            -- theme = 'gruvbox',
-            -- theme = 'gruvbox_dark',
-            -- component_separators = { left = "", right = "" },
-            -- section_separators = { left = "", right = "" },
-            -- disabled_filetypes = {
-            --   statusline = {},
-            --   winbar = {},
-            -- },
-            -- ignore_focus = {},
-            -- always_divide_middle = true,
-            -- always_show_tabline = true,
-            -- globalstatus = true,
-            -- refresh = {
-            --   statusline = 100,
-            --   tabline = 100,
-            --   winbar = 100,
-            -- },
+            icons_enabled = false,
+            theme = "gruvbox_dark",
           },
           sections = {
-            lualine_a = { "mode" },
-            lualine_b = { "branch", "diff", "diagnostics" },
+            lualine_b = { "lsp_status", "branch", "diff", "diagnostics" },
             lualine_c = {
               {
                 "filename",
                 file_status = true,
                 path = 3,
-                -- symbols = {
-                --   modified = "[+]", -- Text to show when the file is modified.
-                --   readonly = "[-]", -- Text to show when the file is non-modifiable or readonly.
-                --   unnamed = "[No Name]", -- Text to show for unnamed buffers.
-                --   newfile = "[New]", -- Text to show for newly created file before first write
-                -- },
               },
             },
-            lualine_x = { "lsp_status", "encoding", "fileformat", "filetype" },
-            lualine_y = { "progress" },
-            lualine_z = { "location" },
           },
-          inactive_sections = {
-            lualine_a = {},
-            lualine_b = {},
-            lualine_c = { "filename" },
-            lualine_x = { "location" },
-            lualine_y = {},
-            lualine_z = {},
-          },
-          -- tabline = {},
-          -- winbar = {},
-          -- inactive_winbar = {},
           extensions = {
             "quickfix",
             "lazy",
@@ -350,6 +312,8 @@ require("lazy").setup({
             "trouble",
           },
         })
+
+        opt.showmode = false
       end,
     },
     {
@@ -359,15 +323,7 @@ require("lazy").setup({
         { "<leader>m", ":Mason<enter>", desc = "Open Mason" },
       },
       config = function()
-        require("mason").setup({
-          -- ui = {
-          --   icons = {
-          --     package_installed = "✓",
-          --     package_pending = "➜",
-          --     package_uninstalled = "✗",
-          --   },
-          -- },
-        })
+        require("mason").setup({})
       end,
     },
     {
@@ -829,12 +785,18 @@ require("lazy").setup({
       },
       opts = {
         keymap = {
-          preset = "super-tab",
+          -- https://cmp.saghen.dev/configuration/keymap#enter
+          preset = "enter",
         },
         appearance = {
           nerd_font_variant = "mono",
         },
         completion = {
+          list = {
+            selection = {
+              preselect = false,
+            },
+          },
           documentation = {
             auto_show = true,
           },
@@ -866,21 +828,12 @@ require("lazy").setup({
         snippets = { preset = "luasnip" },
         sources = {
           default = { "lsp", "lazydev", "path", "snippets", "buffer" },
-          -- per_filetype = {
-          --   org = { "orgmode" },
-          -- },
           providers = {
             lazydev = {
               name = "LazyDev",
               module = "lazydev.integrations.blink",
-              -- make lazydev completions top priority (see `:h blink.cmp`)
               score_offset = 100,
             },
-            -- orgmode = {
-            --   name = "Orgmode",
-            --   module = "orgmode.org.autocompletion.blink",
-            --   fallbacks = { "buffer" },
-            -- },
           },
         },
         signature = { enabled = true },
@@ -955,9 +908,6 @@ require("lazy").setup({
       "ray-x/lsp_signature.nvim",
       event = "InsertEnter",
       opts = {
-        -- transparency = 3, -- 1~100
-        -- hint_prefix = "🦅 ",
-        -- always_trigger = true,
         doc_lines = 0, -- Get signatures (and _only_ signatures) when in argument lists.
         handler_opts = {
           border = "none",

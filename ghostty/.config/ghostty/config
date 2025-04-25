@@ -2,7 +2,10 @@
 
 # theme = dark:Adwaita Dark,light:Adwaita
 # theme = Adwaita Dark
-theme = GruvboxDark
+# theme = Everforest Dark - Hard
+# theme = GruvboxDark
+theme = GruvboxDarkHard
+
 alpha-blending = native
 font-family = "CaskaydiaCove Nerd Font Mono"
 
@@ -10,11 +13,14 @@ window-theme = auto
 window-height = 66
 window-width = 130
 window-colorspace = display-p3
-background-opacity = 0.9
-background-blur = 10
+# background-opacity: 0 ~ 1
+# background-opacity = 0.9
+# background-blur: 1 ~ 20
+# background-blur = 15
 
 # cursor-invert-fg-bg = true
 # selection-invert-fg-bg = true
+
 # cursor-color = white
 # cursor-opacity = 1
 # cursor-style = block
@@ -29,11 +35,11 @@ macos-icon = holographic
 macos-titlebar-style = transparent
 macos-window-shadow = true
 
-copy-on-select = true
+# copy-on-select = true
 keybind = super+c=copy_to_clipboard
 keybind = super+v=paste_from_clipboard
 keybind = super+s=paste_from_selection
 
 auto-update = check
-# auto-update-channel = stable
-auto-update-channel = tip
+auto-update-channel = stable
+# auto-update-channel = tip
