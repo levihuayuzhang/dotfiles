@@ -43,7 +43,7 @@ opt.foldlevelstart = 99
 -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 opt.vb = true
-opt.laststatus = 3 -- means statuscolumn will only on the bottom
+-- opt.laststatus = 3 -- means statuscolumn will only on the bottom
 opt.wrap = false -- display lines as one long line
 opt.signcolumn = "yes"
 opt.colorcolumn = "80"
@@ -117,10 +117,10 @@ api.nvim_create_autocmd("Filetype", {
   pattern = "tex",
   callback = function()
     vim.g.tex_flavor = "latex"
-    vim.wo.spell = true
-    vim.bo.spelllang = "en_us"
-    vim.bo.textwidth = 80
-    vim.wo.colorcolumn = "81"
+    -- vim.wo.spell = true
+    -- vim.bo.spelllang = "en_us"
+    -- vim.bo.textwidth = 80
+    -- vim.wo.colorcolumn = "81"
   end,
 })
 -- -- email
@@ -136,20 +136,20 @@ api.nvim_create_autocmd("Filetype", {
 --   command = 'setlocal formatoptions+=w',
 -- })
 
--- shorter columns in text because it reads better that way
-local text = vim.api.nvim_create_augroup("text", { clear = true })
-for _, pat in ipairs({ "text", "markdown", "mail", "gitcommit" }) do
-  vim.api.nvim_create_autocmd("Filetype", {
-    pattern = pat,
-    group = text,
-    callback = function()
-      vim.wo.spell = true
-      vim.bo.spelllang = "en_us"
-      vim.bo.textwidth = 72
-      vim.wo.colorcolumn = "73"
-    end,
-  })
-end
+-- -- shorter columns in text because it reads better that way
+-- local text = vim.api.nvim_create_augroup("text", { clear = true })
+-- for _, pat in ipairs({ "text", "markdown", "mail", "gitcommit" }) do
+--   vim.api.nvim_create_autocmd("Filetype", {
+--     pattern = pat,
+--     group = text,
+--     callback = function()
+--       vim.wo.spell = true
+--       vim.bo.spelllang = "en_us"
+--       vim.bo.textwidth = 72
+--       vim.wo.colorcolumn = "73"
+--     end,
+--   })
+-- end
 
 -------------------------------------------------------------------------------
 -- vim.lsp.set_log_level("OFF") -- "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "OFF"
@@ -806,18 +806,12 @@ require("lazy").setup({
       },
       opts = {
         keymap = {
-          -- https://cmp.saghen.dev/configuration/keymap#enter
-          preset = "enter",
+          preset = "super-tab",
         },
         appearance = {
           nerd_font_variant = "mono",
         },
         completion = {
-          list = {
-            selection = {
-              preselect = false,
-            },
-          },
           documentation = {
             auto_show = true,
           },
@@ -1395,16 +1389,72 @@ require("lazy").setup({
     --     })
     --   end,
     -- },
-    -- -- render markdown
-    -- {
-    --   "MeanderingProgrammer/render-markdown.nvim",
-    --   ft = "markdown",
-    --   dependencies = {
-    --     "nvim-treesitter/nvim-treesitter",
-    --     "nvim-tree/nvim-web-devicons",
-    --   }, -- if you prefer nvim-web-devicons
-    --   opts = {},
-    -- },
+    -- render markdown
+    {
+      "MeanderingProgrammer/render-markdown.nvim",
+      ft = "markdown",
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+        "nvim-tree/nvim-web-devicons",
+      }, -- if you prefer nvim-web-devicons
+      opts = {},
+    },
+    {
+      "kawre/leetcode.nvim",
+      lazy = "leetcode.nvim" ~= vim.fn.argv(0, -1),
+      cmd = "Leet",
+      build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
+      dependencies = {
+        -- "nvim-telescope/telescope.nvim",
+        "ibhagwan/fzf-lua",
+        "nvim-lua/plenary.nvim",
+        "MunifTanjim/nui.nvim",
+      },
+      -- https://github.com/kawre/leetcode.nvim?tab=readme-ov-file#%EF%B8%8F-default-configuration
+      -- https://github.com/kawre/leetcode.nvim/blob/master/lua/leetcode/config/template.lua
+      opts = {
+        -- lang = "cpp",
+        lang = "python3",
+        cn = {
+          enabled = true,
+          translator = true,
+          translate_problems = true,
+        },
+        injector = {
+          ["python3"] = {
+            before = true,
+          },
+          ["cpp"] = {
+            before = {
+              "#include <bits/stdc++.h>", -- linux with gcc
+              -- "#include <iostream>",
+              -- "#inciude <algorithm>",
+              -- "#include <vector>",
+              -- "#include <set>",
+              -- "#include <map>",
+              -- "#include <list>",
+              -- "#include <stack>",
+              -- "#include <string>",
+              -- "#include <iterator>",
+              -- "#include <queue>",
+              -- "#include <deque>",
+              -- "#include <array>",
+              -- "#include <thread>",
+              -- "#include <mutex>",
+              -- "#include <utility>",
+              "using namespace std;",
+            },
+            after = "int main() {}",
+          },
+          ["java"] = {
+            before = true,
+          },
+        },
+        plugins = {
+          non_standalone = true,
+        },
+      },
+    },
   },
   install = {
     colorscheme = {
