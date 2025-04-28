@@ -57,11 +57,11 @@ opt.scrolloff = 8
 opt.sidescrolloff = 8
 -- opt.cursorline = true
 
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+-- vim.g.loaded_netrw = 1
+-- vim.g.loaded_netrwPlugin = 1
 
-opt.completeopt = { "menuone", "noselect" } -- completion will pop up when there is only one match
-opt.conceallevel = 0 -- no hide for ``
+-- opt.completeopt = { "menuone", "noselect" } -- completion will pop up when there is only one match
+-- opt.conceallevel = 0 -- no hide for ``
 
 opt.wildmode = "list:longest"
 opt.wildignore = ".hg,.svn,*~,*.png,*.jpg,*.gif,*.min.js,*.swp,*.o,vendor,dist,_site"
@@ -189,8 +189,11 @@ keymap.set("i", "<down>", "<nop>")
 keymap.set("i", "<left>", "<nop>")
 keymap.set("i", "<right>", "<nop>")
 -- completion selection using ctrl+n/p
-keymap.set("n", "<up>", "<nop>")
-keymap.set("n", "<down>", "<nop>")
+-- keymap.set("n", "<up>", "<nop>")
+-- keymap.set("n", "<down>", "<nop>")
+-- or use gt / gT to navigate among tabs
+keymap.set("n", "<up>", "<cmd>tabprevious<cr>")
+keymap.set("n", "<down>", "<cmd>tabnext<cr>")
 -- navigate among buffers
 -- keymap.set('n', '<left>', '<nop>')
 -- keymap.set('n', '<right>', '<nop>')
@@ -198,7 +201,7 @@ vim.keymap.set("n", "<left>", ":bp<cr>")
 vim.keymap.set("n", "<right>", ":bn<cr>")
 -- -- toggle between (most recent two) buffers
 vim.keymap.set("n", "<Space>", "<Nop>", { silent = true })
-vim.keymap.set("n", "<leader><leader>", "<c-^>")
+vim.keymap.set("n", "<leader><leader>", "<c-6>")
 
 local jit = require("jit")
 if jit.os == "Linux" then -- wayland clipboard
@@ -517,10 +520,11 @@ require("lazy").setup({
         })
 
         -- python
-        vim.lsp.config("ruff", {
-          -- https://docs.astral.sh/ruff/editors/setup/#neovim
-        })
-        -- pyright
+        -- ruff - use defaults
+        -- vim.lsp.config("ruff", {
+        --   -- https://docs.astral.sh/ruff/editors/setup/#neovim
+        -- })
+        -- pyright - work with ruff
         vim.lsp.config("pyright", {
           settings = {
             python = {
@@ -728,6 +732,7 @@ require("lazy").setup({
               "<cmd>FzfLua lsp_implementations<cr>",
               { desc = "go to implementation", buffer = buffer }
             )
+            -- C-k: normal mode - lsp signature; insert mode - blink.cmp signature
             keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "signature help", buffer = buffer })
             keymap.set(
               "n",
@@ -851,10 +856,26 @@ require("lazy").setup({
             },
           },
         },
-        signature = { enabled = true },
+        signature = {
+          enabled = true,
+          window = {
+            show_documentation = true,
+          },
+        },
       },
       opts_extend = { "sources.default" },
     },
+    -- {
+    --   "ray-x/lsp_signature.nvim",
+    --   -- enabled = false, -- use float signature from blink.cmp instead
+    --   event = "InsertEnter",
+    --   opts = {
+    --     doc_lines = 0, -- Get signatures (and _only_ signatures) when in argument lists.
+    --     handler_opts = {
+    --       border = "none",
+    --     },
+    --   },
+    -- },
     -- work with morden fmt tools
     {
       "stevearc/conform.nvim",
@@ -918,16 +939,6 @@ require("lazy").setup({
 
         keymap.set("n", "<leader>lc", "<cmd>ConformInfo<cr>", { desc = "Conform Info" })
       end,
-    },
-    {
-      "ray-x/lsp_signature.nvim",
-      event = "InsertEnter",
-      opts = {
-        doc_lines = 0, -- Get signatures (and _only_ signatures) when in argument lists.
-        handler_opts = {
-          border = "none",
-        },
-      },
     },
     -- basic highlighting
     {
