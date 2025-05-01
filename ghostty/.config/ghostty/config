@@ -1,17 +1,17 @@
 # ~/.config/ghostty/config
 
-# theme = dark:Adwaita Dark,light:Adwaita
+theme = dark:Adwaita Dark,light:Adwaita
 # theme = Adwaita Dark
 # theme = Everforest Dark - Hard
 # theme = GruvboxDark
-theme = GruvboxDarkHard
+# theme = GruvboxDarkHard
 
 alpha-blending = native
 font-family = "CaskaydiaCove Nerd Font Mono"
 
 window-theme = auto
 window-height = 66
-window-width = 130
+window-width = 110
 window-colorspace = display-p3
 # background-opacity: 0 ~ 1
 # background-opacity = 0.9

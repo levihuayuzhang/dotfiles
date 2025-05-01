@@ -18,6 +18,13 @@ set ttimeout ttimeoutlen=50
 set noshowmode
 
 syntax on
+filetype plugin indent on
+filetype plugin on
+
+" https://github.com/rust-lang/rust.vim?tab=readme-ov-file
+" run :RustFmt when save
+let g:rustfmt_autosave = 1
+
 set nu
 set relativenumber
 set mouse=a
@@ -68,5 +75,4 @@ set wrapscan
 "set updatetime=300
 "set ttimeoutlen=50
 
-"filetype plugin on
 

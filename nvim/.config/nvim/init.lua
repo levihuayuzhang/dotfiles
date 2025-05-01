@@ -593,8 +593,8 @@ require("lazy").setup({
                   -- "$VIMRUNTIME/lua",
                   vim.env.VIMRUNTIME,
                   vim.fn.stdpath("data") .. "/lazy/",
-                  -- "${3rd}/luv/library", -- in lazydev
-                  -- "${3rd}/busted/library",
+                  "${3rd}/luv/library", -- in lazydev
+                  "${3rd}/busted/library",
                 },
                 checkThirdParty = false,
                 maxPreload = 2000,
@@ -796,15 +796,15 @@ require("lazy").setup({
           "L3MON4D3/LuaSnip",
           build = "make install_jsregexp",
         },
-        {
-          "folke/lazydev.nvim",
-          ft = "lua",
-          opts = {
-            library = {
-              { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-            },
-          },
-        },
+        -- {
+        --   "folke/lazydev.nvim",
+        --   ft = "lua",
+        --   opts = {
+        --     library = {
+        --       { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        --     },
+        --   },
+        -- },
         {
           "xzbdmw/colorful-menu.nvim",
         },
@@ -846,16 +846,16 @@ require("lazy").setup({
           completion = { menu = { auto_show = true } },
         },
         snippets = { preset = "luasnip" },
-        sources = {
-          default = { "lsp", "lazydev", "path", "snippets", "buffer" },
-          providers = {
-            lazydev = {
-              name = "LazyDev",
-              module = "lazydev.integrations.blink",
-              score_offset = 100,
-            },
-          },
-        },
+        -- sources = {
+        --   default = { "lsp", "lazydev", "path", "snippets", "buffer" },
+        --   providers = {
+        --     lazydev = {
+        --       name = "LazyDev",
+        --       module = "lazydev.integrations.blink",
+        --       score_offset = 100,
+        --     },
+        --   },
+        -- },
         signature = {
           enabled = true,
           window = {
@@ -1287,7 +1287,7 @@ require("lazy").setup({
     --     })
     --   end,
     -- },
-    -- -- keymap hints
+    -- keymap hints
     -- {
     --   "folke/which-key.nvim",
     --   -- enabled = false,
@@ -1352,34 +1352,34 @@ require("lazy").setup({
     --     },
     --   },
     -- },
-    -- -- todo
-    -- {
-    --   "folke/todo-comments.nvim",
-    --   event = { "BufReadPost", "BufNewFile" },
-    --   dependencies = { "nvim-lua/plenary.nvim" },
-    --   keys = {
-    --     {
-    --       "]t",
-    --       function()
-    --         require("todo-comments").jump_next()
-    --       end,
-    --       desc = "Next todo comment",
-    --     },
-    --     {
-    --       "[t",
-    --       function()
-    --         require("todo-comments").jump_prev()
-    --       end,
-    --       desc = "Previous todo comment",
-    --     },
-    --     {
-    --       "<leader>tf",
-    --       "<cmd>TodoFzfLua<cr>",
-    --       desc = "TODO Search",
-    --     },
-    --   },
-    --   opts = {},
-    -- },
+    -- todo
+    {
+      "folke/todo-comments.nvim",
+      event = { "BufReadPost", "BufNewFile" },
+      dependencies = { "nvim-lua/plenary.nvim" },
+      keys = {
+        {
+          "]t",
+          function()
+            require("todo-comments").jump_next()
+          end,
+          desc = "Next todo comment",
+        },
+        {
+          "[t",
+          function()
+            require("todo-comments").jump_prev()
+          end,
+          desc = "Previous todo comment",
+        },
+        {
+          "<leader>tf",
+          "<cmd>TodoFzfLua<cr>",
+          desc = "TODO Search",
+        },
+      },
+      opts = {},
+    },
     -- -- usage indication
     -- {
     --   "RRethy/vim-illuminate",
@@ -1409,62 +1409,6 @@ require("lazy").setup({
         "nvim-tree/nvim-web-devicons",
       }, -- if you prefer nvim-web-devicons
       opts = {},
-    },
-    {
-      "kawre/leetcode.nvim",
-      lazy = "leetcode.nvim" ~= vim.fn.argv(0, -1),
-      cmd = "Leet",
-      build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
-      dependencies = {
-        -- "nvim-telescope/telescope.nvim",
-        "ibhagwan/fzf-lua",
-        "nvim-lua/plenary.nvim",
-        "MunifTanjim/nui.nvim",
-      },
-      -- https://github.com/kawre/leetcode.nvim?tab=readme-ov-file#%EF%B8%8F-default-configuration
-      -- https://github.com/kawre/leetcode.nvim/blob/master/lua/leetcode/config/template.lua
-      opts = {
-        -- lang = "cpp",
-        lang = "python3",
-        cn = {
-          enabled = true,
-          translator = true,
-          translate_problems = true,
-        },
-        injector = {
-          ["python3"] = {
-            before = true,
-          },
-          ["cpp"] = {
-            before = {
-              "#include <bits/stdc++.h>", -- linux with gcc
-              -- "#include <iostream>",
-              -- "#inciude <algorithm>",
-              -- "#include <vector>",
-              -- "#include <set>",
-              -- "#include <map>",
-              -- "#include <list>",
-              -- "#include <stack>",
-              -- "#include <string>",
-              -- "#include <iterator>",
-              -- "#include <queue>",
-              -- "#include <deque>",
-              -- "#include <array>",
-              -- "#include <thread>",
-              -- "#include <mutex>",
-              -- "#include <utility>",
-              "using namespace std;",
-            },
-            after = "int main() {}",
-          },
-          ["java"] = {
-            before = true,
-          },
-        },
-        plugins = {
-          non_standalone = true,
-        },
-      },
     },
   },
   install = {
