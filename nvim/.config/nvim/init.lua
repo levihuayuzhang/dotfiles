@@ -1097,11 +1097,14 @@ require("lazy").setup({
         require("fzf-lua").setup({
           -- https://github.com/ibhagwan/fzf-lua/blob/main/OPTIONS.md
           -- https://github.com/ibhagwan/fzf-lua/tree/main/lua/fzf-lua/profiles
-          { "fzf-native", "hide" }, -- https://github.com/ibhagwan/fzf-lua/issues/1974#issuecomment-2816996592
+          {
+            "fzf-native",
+            -- "hide"
+          }, -- https://github.com/ibhagwan/fzf-lua/issues/1974#issuecomment-2816996592
 
           fzf_opts = { ["--tmux"] = "center,80%,80%" },
 
-          -- winopts = { preview = { layout = "vertical", vertical = "up:75%" } },
+          winopts = { preview = { layout = "vertical", vertical = "up:75%" } },
 
           --[[ -- preview code_actions, set in ~/.gitconfig, require `dandavison/delta`
             [core]
@@ -1135,6 +1138,7 @@ require("lazy").setup({
         vim.keymap.set("n", "<leader>fm", "<cmd>FzfLua manpages<cr>", { desc = "Find Manpages" })
         vim.keymap.set("n", "<leader>fk", "<cmd>FzfLua keymaps<cr>", { desc = "Find Keymaps" })
         vim.keymap.set("n", "<leader>fc", "<cmd>FzfLua commands<cr>", { desc = "Find Commands" })
+        vim.keymap.set("n", "<leader>fx", "<cmd>FzfLua changes<cr>", { desc = "Find Changes" })
         vim.keymap.set("n", "<leader>fs", "<cmd>FzfLua colorschemes<cr>", { desc = "Color Schemes" })
         vim.keymap.set("n", "<leader>gf", "<cmd>FzfLua git_files<cr>", { desc = "Git Files" })
         vim.keymap.set("n", "<leader>gst", "<cmd>FzfLua git_status<cr>", { desc = "Git Status" })
