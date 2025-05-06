@@ -1313,20 +1313,34 @@ require("lazy").setup({
     --   event = "InsertEnter",
     --   opts = {},
     -- },
-    -- -- hex color render
+    -- :h nvim-surround.usage
     -- {
-    --   "echasnovski/mini.hipatterns",
-    --   version = false,
+    --   "kylechui/nvim-surround",
+    --   -- version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
+    --   -- event = "VeryLazy",
     --   event = { "BufReadPost", "BufNewFile" },
     --   config = function()
-    --     local hipatterns = require("mini.hipatterns")
-    --     hipatterns.setup({
-    --       highlighters = {
-    --         hex_color = hipatterns.gen_highlighter.hex_color(),
-    --       },
+    --     require("nvim-surround").setup({
+    --       -- Configuration here, or leave empty to use defaults
+    --       -- https://github.com/kylechui/nvim-surround/blob/main/lua/nvim-surround/config.lua
     --     })
     --   end,
     -- },
+    -- hex color render
+    {
+      "echasnovski/mini.hipatterns",
+      version = false,
+      -- event = { "BufReadPost", "BufNewFile" },
+      ft = { "lua", "css", "html" },
+      config = function()
+        local hipatterns = require("mini.hipatterns")
+        hipatterns.setup({
+          highlighters = {
+            hex_color = hipatterns.gen_highlighter.hex_color(),
+          },
+        })
+      end,
+    },
     -- {
     --   "folke/snacks.nvim",
     --   -- lazy = false,
@@ -1356,34 +1370,34 @@ require("lazy").setup({
     --     },
     --   },
     -- },
-    -- todo
-    {
-      "folke/todo-comments.nvim",
-      event = { "BufReadPost", "BufNewFile" },
-      dependencies = { "nvim-lua/plenary.nvim" },
-      keys = {
-        {
-          "]t",
-          function()
-            require("todo-comments").jump_next()
-          end,
-          desc = "Next todo comment",
-        },
-        {
-          "[t",
-          function()
-            require("todo-comments").jump_prev()
-          end,
-          desc = "Previous todo comment",
-        },
-        {
-          "<leader>tf",
-          "<cmd>TodoFzfLua<cr>",
-          desc = "TODO Search",
-        },
-      },
-      opts = {},
-    },
+    -- -- todo
+    -- {
+    --   "folke/todo-comments.nvim",
+    --   event = { "BufReadPost", "BufNewFile" },
+    --   dependencies = { "nvim-lua/plenary.nvim" },
+    --   keys = {
+    --     {
+    --       "]t",
+    --       function()
+    --         require("todo-comments").jump_next()
+    --       end,
+    --       desc = "Next todo comment",
+    --     },
+    --     {
+    --       "[t",
+    --       function()
+    --         require("todo-comments").jump_prev()
+    --       end,
+    --       desc = "Previous todo comment",
+    --     },
+    --     {
+    --       "<leader>tf",
+    --       "<cmd>TodoFzfLua<cr>",
+    --       desc = "TODO Search",
+    --     },
+    --   },
+    --   opts = {},
+    -- },
     -- -- usage indication
     -- {
     --   "RRethy/vim-illuminate",

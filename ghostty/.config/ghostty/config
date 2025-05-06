@@ -1,18 +1,28 @@
 # ~/.config/ghostty/config
 
+# MacOS using fish
+command = /opt/homebrew/bin/fish --login --interactive
+shell-integration = fish
+
+# shell-integration = zsh
+# shell-integration = none
+# confirm-close-surface = false
+
 # theme = dark:Adwaita Dark,light:Adwaita
 theme = Adwaita Dark
 # theme = Everforest Dark - Hard
 # theme = GruvboxDark
 # theme = GruvboxDarkHard
 
-alpha-blending = native
-font-family = "CaskaydiaCove Nerd Font Mono"
+font-family = "Hack Nerd Font Mono"
+# font-family = "CaskaydiaCove Nerd Font Mono"
+# font-family = "FiraCode Nerd Font Mono"
 
 window-theme = auto
 window-height = 66
 window-width = 110
 window-colorspace = display-p3
+alpha-blending = native
 # background-opacity: 0 ~ 1
 # background-opacity = 0.9
 # background-blur: 1 ~ 20
@@ -27,9 +37,7 @@ window-colorspace = display-p3
 # cursor-style-blink = true
 adjust-cursor-thickness = 1
 # shell-integration-features = no-cursor
-# shell-integration = none
-shell-integration = zsh
-# confirm-close-surface = false
+
 
 macos-icon = holographic
 macos-titlebar-style = transparent
