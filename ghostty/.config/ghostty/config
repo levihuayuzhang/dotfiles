@@ -1,8 +1,8 @@
 # ~/.config/ghostty/config
 
 # MacOS using fish
-command = /opt/homebrew/bin/fish --login --interactive
-shell-integration = fish
+# command = /opt/homebrew/bin/fish --login --interactive
+# shell-integration = fish
 
 # shell-integration = zsh
 # shell-integration = none
