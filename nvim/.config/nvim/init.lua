@@ -136,20 +136,20 @@ api.nvim_create_autocmd("Filetype", {
 --   command = 'setlocal formatoptions+=w',
 -- })
 
--- -- shorter columns in text because it reads better that way
--- local text = vim.api.nvim_create_augroup("text", { clear = true })
--- for _, pat in ipairs({ "text", "markdown", "mail", "gitcommit" }) do
---   vim.api.nvim_create_autocmd("Filetype", {
---     pattern = pat,
---     group = text,
---     callback = function()
---       vim.wo.spell = true
---       vim.bo.spelllang = "en_us"
---       vim.bo.textwidth = 72
---       vim.wo.colorcolumn = "73"
---     end,
---   })
--- end
+-- shorter columns in text because it reads better that way
+local text = vim.api.nvim_create_augroup("text", { clear = true })
+for _, pat in ipairs({ "text", "markdown", "mail", "gitcommit" }) do
+  vim.api.nvim_create_autocmd("Filetype", {
+    pattern = pat,
+    group = text,
+    callback = function()
+      -- vim.wo.spell = true
+      -- vim.bo.spelllang = "en_us"
+      vim.bo.textwidth = 72
+      vim.wo.colorcolumn = "73"
+    end,
+  })
+end
 
 -------------------------------------------------------------------------------
 -- vim.lsp.set_log_level("OFF") -- "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "OFF"
@@ -311,7 +311,11 @@ require("lazy").setup({
         require("lualine").setup({
           options = {
             icons_enabled = false,
-            theme = "gruvbox_dark",
+            -- theme = "auto",
+            -- theme = "gruvbox_dark",
+            theme = "powerline",
+            section_separators = { left = "", right = "" },
+            component_separators = { left = "|", right = "|" },
           },
           sections = {
             lualine_b = { "lsp_status", "branch", "diff", "diagnostics" },
@@ -322,6 +326,7 @@ require("lazy").setup({
                 path = 3,
               },
             },
+            lualine_x = { "encoding", "filetype" },
           },
           extensions = {
             "quickfix",
@@ -1156,157 +1161,157 @@ require("lazy").setup({
         )
       end,
     },
-    {
-      "saecki/crates.nvim",
-      event = { "BufRead Cargo.toml" },
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "folke/which-key.nvim",
-        "ray-x/lsp_signature.nvim",
-      },
-      config = function()
-        local crates = require("crates")
-        crates.setup({ -- https://github.com/YaQia/.dotfile/blob/master/nvim/lua/plugins/crates.lua
-          popup = {
-            border = "rounded",
-          },
-          lsp = {
-            enabled = true,
-            on_attach = function(_, bufnr)
-              require("lsp_signature").on_attach({
-                hint_enable = true, -- virtual hint enable
-                hint_prefix = "• ",
-              }, bufnr)
-            end,
-            actions = true,
-            completion = true,
-            hover = true,
-          },
-          completion = {
-            crates = {
-              enabled = true, -- disabled by default
-              max_results = 8, -- The maximum number of search results to display
-              min_chars = 3, -- The minimum number of charaters to type before completions begin appearing
-            },
-            blink = {
-              use_custom_kind = true,
-              kind_text = {
-                version = "Version",
-                feature = "Feature",
-              },
-              kind_highlight = {
-                version = "BlinkCmpKindVersion",
-                feature = "BlinkCmpKindFeature",
-              },
-              kind_icon = {
-                version = "🅥 ",
-                feature = "🅕 ",
-              },
-            },
-          },
-        })
-
-        local function show_documentation()
-          local filetype = vim.bo.filetype
-          if vim.tbl_contains({ "vim", "help" }, filetype) then
-            vim.cmd("h " .. vim.fn.expand("<cword>"))
-          elseif vim.tbl_contains({ "man" }, filetype) then
-            vim.cmd("Man " .. vim.fn.expand("<cword>"))
-          elseif vim.fn.expand("%:t") == "Cargo.toml" and require("crates").popup_available() then
-            require("crates").show_popup()
-          else
-            vim.lsp.buf.hover()
-          end
-        end
-        vim.keymap.set("n", "K", show_documentation, { silent = true })
-
-        local wk = require("which-key")
-        wk.add({
-          { "<leader>C", group = "Crates", remap = false },
-          {
-            "<leader>CA",
-            crates.upgrade_all_crates,
-            desc = "Upgrade All",
-            remap = false,
-          },
-          {
-            "<leader>CU",
-            crates.upgrade_crate,
-            desc = "Upgrade",
-            remap = false,
-          },
-          {
-            "<leader>Ca",
-            crates.update_all_crates,
-            desc = "Update All",
-            remap = false,
-          },
-          {
-            "<leader>Cd",
-            crates.show_dependencies_popup,
-            desc = "Dependencies",
-            remap = false,
-          },
-          {
-            "<leader>Cf",
-            crates.show_features_popup,
-            desc = "Features",
-            remap = false,
-          },
-          {
-            "<leader>Cr",
-            crates.show_features_popup,
-            desc = "Reload",
-            remap = false,
-          },
-          { "<leader>Ct", crates.toggle, desc = "Toggle", remap = false },
-          { "<leader>Cu", crates.update_crate, desc = "Update", remap = false },
-          {
-            "<leader>Cv",
-            crates.show_versions_popup,
-            desc = "Version",
-            remap = false,
-          },
-        })
-
-        wk.add({
-          {
-            mode = { "x" },
-            { "<leader>C", group = "Crates", nowait = true, remap = false },
-            {
-              "<leader>CU",
-              crates.upgrade_crates,
-              desc = "Upgrade",
-              nowait = true,
-              remap = false,
-            },
-            {
-              "<leader>Cu",
-              crates.update_crates,
-              desc = "Update",
-              nowait = true,
-              remap = false,
-            },
-          },
-        })
-      end,
-    },
-    -- keymap hints
-    {
-      "folke/which-key.nvim",
-      -- enabled = false,
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-      event = "VeryLazy",
-      keys = {
-        {
-          "<leader>?",
-          function()
-            require("which-key").show({ global = false })
-          end,
-          desc = "Buffer Local Keymaps (which-key)",
-        },
-      },
-    },
+    -- {
+    --   "saecki/crates.nvim",
+    --   event = { "BufRead Cargo.toml" },
+    --   dependencies = {
+    --     "nvim-lua/plenary.nvim",
+    --     "folke/which-key.nvim",
+    --     "ray-x/lsp_signature.nvim",
+    --   },
+    --   config = function()
+    --     local crates = require("crates")
+    --     crates.setup({ -- https://github.com/YaQia/.dotfile/blob/master/nvim/lua/plugins/crates.lua
+    --       popup = {
+    --         border = "rounded",
+    --       },
+    --       lsp = {
+    --         enabled = true,
+    --         on_attach = function(_, bufnr)
+    --           require("lsp_signature").on_attach({
+    --             hint_enable = true, -- virtual hint enable
+    --             hint_prefix = "• ",
+    --           }, bufnr)
+    --         end,
+    --         actions = true,
+    --         completion = true,
+    --         hover = true,
+    --       },
+    --       completion = {
+    --         crates = {
+    --           enabled = true, -- disabled by default
+    --           max_results = 8, -- The maximum number of search results to display
+    --           min_chars = 3, -- The minimum number of charaters to type before completions begin appearing
+    --         },
+    --         blink = {
+    --           use_custom_kind = true,
+    --           kind_text = {
+    --             version = "Version",
+    --             feature = "Feature",
+    --           },
+    --           kind_highlight = {
+    --             version = "BlinkCmpKindVersion",
+    --             feature = "BlinkCmpKindFeature",
+    --           },
+    --           kind_icon = {
+    --             version = "🅥 ",
+    --             feature = "🅕 ",
+    --           },
+    --         },
+    --       },
+    --     })
+    --
+    --     local function show_documentation()
+    --       local filetype = vim.bo.filetype
+    --       if vim.tbl_contains({ "vim", "help" }, filetype) then
+    --         vim.cmd("h " .. vim.fn.expand("<cword>"))
+    --       elseif vim.tbl_contains({ "man" }, filetype) then
+    --         vim.cmd("Man " .. vim.fn.expand("<cword>"))
+    --       elseif vim.fn.expand("%:t") == "Cargo.toml" and require("crates").popup_available() then
+    --         require("crates").show_popup()
+    --       else
+    --         vim.lsp.buf.hover()
+    --       end
+    --     end
+    --     vim.keymap.set("n", "K", show_documentation, { silent = true })
+    --
+    --     local wk = require("which-key")
+    --     wk.add({
+    --       { "<leader>C", group = "Crates", remap = false },
+    --       {
+    --         "<leader>CA",
+    --         crates.upgrade_all_crates,
+    --         desc = "Upgrade All",
+    --         remap = false,
+    --       },
+    --       {
+    --         "<leader>CU",
+    --         crates.upgrade_crate,
+    --         desc = "Upgrade",
+    --         remap = false,
+    --       },
+    --       {
+    --         "<leader>Ca",
+    --         crates.update_all_crates,
+    --         desc = "Update All",
+    --         remap = false,
+    --       },
+    --       {
+    --         "<leader>Cd",
+    --         crates.show_dependencies_popup,
+    --         desc = "Dependencies",
+    --         remap = false,
+    --       },
+    --       {
+    --         "<leader>Cf",
+    --         crates.show_features_popup,
+    --         desc = "Features",
+    --         remap = false,
+    --       },
+    --       {
+    --         "<leader>Cr",
+    --         crates.show_features_popup,
+    --         desc = "Reload",
+    --         remap = false,
+    --       },
+    --       { "<leader>Ct", crates.toggle, desc = "Toggle", remap = false },
+    --       { "<leader>Cu", crates.update_crate, desc = "Update", remap = false },
+    --       {
+    --         "<leader>Cv",
+    --         crates.show_versions_popup,
+    --         desc = "Version",
+    --         remap = false,
+    --       },
+    --     })
+    --
+    --     wk.add({
+    --       {
+    --         mode = { "x" },
+    --         { "<leader>C", group = "Crates", nowait = true, remap = false },
+    --         {
+    --           "<leader>CU",
+    --           crates.upgrade_crates,
+    --           desc = "Upgrade",
+    --           nowait = true,
+    --           remap = false,
+    --         },
+    --         {
+    --           "<leader>Cu",
+    --           crates.update_crates,
+    --           desc = "Update",
+    --           nowait = true,
+    --           remap = false,
+    --         },
+    --       },
+    --     })
+    --   end,
+    -- },
+    -- -- keymap hints
+    -- {
+    --   "folke/which-key.nvim",
+    --   -- enabled = false,
+    --   dependencies = { "nvim-tree/nvim-web-devicons" },
+    --   event = "VeryLazy",
+    --   keys = {
+    --     {
+    --       "<leader>?",
+    --       function()
+    --         require("which-key").show({ global = false })
+    --       end,
+    --       desc = "Buffer Local Keymaps (which-key)",
+    --     },
+    --   },
+    -- },
     -- -- pairs
     -- {
     --   "windwp/nvim-autopairs",
