@@ -403,6 +403,11 @@ binds {
     Mod+Alt+M { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
     Mod+Alt+MouseForward { spawn "brightnessctl" "s" "10%+"; }
     Mod+Alt+MouseBack { spawn "brightnessctl" "s" "10%-"; }
+    
+    Mod+Alt+equal { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05+"; }
+    Mod+Alt+minus   { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05-"; }
+    Mod+Alt+Ctrl+equal { spawn "brightnessctl" "s" "10%+"; }
+    Mod+Alt+Ctrl+minus {spawn "brightnessctl" "s" "10%-"; }
 
 
     Mod+Q { close-window; }
