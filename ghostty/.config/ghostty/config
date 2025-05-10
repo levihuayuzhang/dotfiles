@@ -14,8 +14,8 @@ theme = Adwaita Dark
 # theme = GruvboxDark
 # theme = GruvboxDarkHard
 
-font-family = "Hack Nerd Font Mono"
-# font-family = "CaskaydiaCove Nerd Font Mono"
+font-family = "CaskaydiaCove Nerd Font Mono"
+# font-family = "Hack Nerd Font Mono"
 # font-family = "FiraCode Nerd Font Mono"
 
 window-theme = auto
