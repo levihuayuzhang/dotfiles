@@ -9,6 +9,7 @@ abbr -a ga 'git add -p'
 abbr -a gaa 'git add --all'
 abbr -a gdca 'git diff --cached'
 abbr -a gcss 'git commit --gpg-sign --signoff'
+abbr -a gp 'git push'
 abbr -a vimdiff 'nvim -d'
 abbr -a ct 'cargo t'
 
