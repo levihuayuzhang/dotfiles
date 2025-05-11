@@ -306,7 +306,7 @@ require("lazy").setup({
     {
       "nvim-lualine/lualine.nvim",
       lazy = false,
-      dependencies = { "nvim-tree/nvim-web-devicons" },
+      -- dependencies = { "nvim-tree/nvim-web-devicons" },
       config = function()
         require("lualine").setup({
           options = {
@@ -318,28 +318,31 @@ require("lazy").setup({
             component_separators = { left = "|", right = "|" },
           },
           sections = {
-            lualine_b = { "lsp_status", "branch", "diff", "diagnostics" },
+            lualine_a = { "mode" },
+            lualine_b = { "branch", "diff", "diagnostics" },
             lualine_c = {
               {
                 "filename",
                 file_status = true,
-                path = 3,
+                path = 1,
               },
             },
-            lualine_x = { "encoding", "filetype" },
+            lualine_x = { "encoding", "fileformat", "filetype" },
+            lualine_y = { "lsp_status" },
+            lualine_z = { "progress", "location" },
           },
-          extensions = {
-            "quickfix",
-            "lazy",
-            "fzf",
-            "man",
-            "mason",
-            "fugitive",
-            "neo-tree",
-            "nvim-dap-ui",
-            "oil",
-            "trouble",
-          },
+          -- extensions = {
+          --   "quickfix",
+          --   "lazy",
+          --   "fzf",
+          --   "man",
+          --   "mason",
+          --   "fugitive",
+          --   "neo-tree",
+          --   "nvim-dap-ui",
+          --   "oil",
+          --   "trouble",
+          -- },
         })
 
         opt.showmode = false
