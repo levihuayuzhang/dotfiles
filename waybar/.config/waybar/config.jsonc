@@ -1,5 +1,6 @@
 {
-  "position": "top",
+  // "position": "top",
+  "position": "bottom",
   // full hyprland
   // "modules-left": ["custom/arch", "hyprland/workspaces", "hyprland/window"],
   // "modules-center": ["cpu", "memory", "temperature", "network"],
@@ -10,13 +11,10 @@
   // "modules-right": ["tray", "cpu", "memory", "temperature", "network", "pulseaudio", "backlight", "battery"],
 
   // simple niri
-  "modules-left": [
-    // "custom/arch",
-    "niri/workspaces",
-    "niri/window",
-  ],
-  "modules-center": ["clock"],
+  "modules-left": ["custom/arch", "niri/workspaces", "niri/window"],
+  "modules-center": [],
   "modules-right": [
+    "tray",
     "cpu",
     "memory",
     "temperature",
@@ -27,7 +25,7 @@
     "bluetooth",
     // "upower#bluetooth-mouse-mxmaster3",
     "battery",
-    "tray",
+    "clock",
   ],
   "niri/window": {
     "icon": true,

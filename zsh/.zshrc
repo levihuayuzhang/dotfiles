@@ -123,6 +123,7 @@ export https_proxy="http://127.0.0.1:7890"
 export all_proxy="socks5://127.0.0.1:7891"
 
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+export RUST_BACKTRACE=1
 
 # pnpm
 export PNPM_HOME="~/.local/share/pnpm"

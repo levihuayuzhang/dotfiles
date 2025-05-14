@@ -517,13 +517,15 @@ require("lazy").setup({
             "--pch-storage=memory",
             "--offset-encoding=utf-8",
             "--fallback-style=LLVM",
+            -- "--fallback-style=GNU",
+            -- "--fallback-style=Microsoft",
             -- "--compile-commands-dir=build",
           },
           on_attach = function(_, bufnr)
             if not vim.lsp.inlay_hint.is_enabled() then
               vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-              print("clangd running with " .. nproc .. " jobs...")
             end
+            -- print("clangd running with " .. nproc .. " jobs...")
           end,
         })
 
@@ -915,7 +917,7 @@ require("lazy").setup({
                 return { "isort", "black" }
               end
             end,
-            cpp = { "clang-format" },
+            cpp = { lsp_format = "prefer", "clang-format" },
             lua = { "stylua" },
             javascript = {
               "prettierd",
