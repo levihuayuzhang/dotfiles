@@ -107,16 +107,23 @@ source $ZSH/oh-my-zsh.sh
 
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# starship, replace p10k-level 
+autoload -U compinit && compinit
 eval "$(starship init zsh)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(register-python-argcomplete pipx)"
 
 # alias hx="helix"
 # alias vim="nvim"
 # alias vi="nvim"
+alias ls="eza"
+alias ll="eza -l"
+alias la="eza -a"
+alias l="eza -la"
 
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
+
+export BAT_THEME="gruvbox-dark"
 
 export http_proxy="http://127.0.0.1:7890"
 export https_proxy="http://127.0.0.1:7890"
@@ -125,6 +132,8 @@ export all_proxy="socks5://127.0.0.1:7891"
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 export RUST_BACKTRACE=1
 
+export PATH=~/.local/bin:$PATH
+
 # pnpm
 export PNPM_HOME="~/.local/share/pnpm"
 case ":$PATH:" in
@@ -132,8 +141,4 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-
-export BAT_THEME="gruvbox-dark"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

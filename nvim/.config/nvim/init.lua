@@ -403,6 +403,7 @@ require("lazy").setup({
           "texlab",
           "mutt_ls",
           "bashls",
+          "cmake",
         }
         vim.lsp.enable(servers)
 
@@ -512,14 +513,15 @@ require("lazy").setup({
             "--clang-tidy",
             "--all-scopes-completion",
             "--completion-style=detailed",
-            "--header-insertion=iwyu",
+            -- "--header-insertion=iwyu",
+            "-header-insertion=never",
             "--function-arg-placeholders",
             "--pch-storage=memory",
             "--offset-encoding=utf-8",
             "--fallback-style=LLVM",
             -- "--fallback-style=GNU",
             -- "--fallback-style=Microsoft",
-            -- "--compile-commands-dir=build",
+            "--compile-commands-dir=build",
           },
           on_attach = function(_, bufnr)
             if not vim.lsp.inlay_hint.is_enabled() then
@@ -1142,6 +1144,7 @@ require("lazy").setup({
         vim.keymap.set("n", "<leader>fr", "<cmd>lua require('fzf-lua').resume()<cr>", { desc = "Resume FZF Work" })
         vim.keymap.set("n", "<leader>fll", "<cmd>FzfLua lines<cr>", { desc = "Open Buffers Lines" })
         vim.keymap.set("n", "<leader>flb", "<cmd>FzfLua blines<cr>", { desc = "Current Buffer Lines" })
+        vim.keymap.set("n", "<leader>g", "<cmd>FzfLua blines<cr>", { desc = "Current Buffer Lines" })
         vim.keymap.set("n", "<leader>fg", "<cmd>FzfLua live_grep<cr>", { desc = "Live grep current project" })
         vim.keymap.set("n", "<leader>fb", "<cmd>FzfLua buffers<cr>", { desc = "Find Buffers" })
         vim.keymap.set("n", "<leader>fh", "<cmd>FzfLua helptags<cr>", { desc = "Find Helptags" })
@@ -1150,13 +1153,13 @@ require("lazy").setup({
         vim.keymap.set("n", "<leader>fc", "<cmd>FzfLua commands<cr>", { desc = "Find Commands" })
         vim.keymap.set("n", "<leader>fx", "<cmd>FzfLua changes<cr>", { desc = "Find Changes" })
         vim.keymap.set("n", "<leader>fs", "<cmd>FzfLua colorschemes<cr>", { desc = "Color Schemes" })
-        vim.keymap.set("n", "<leader>gf", "<cmd>FzfLua git_files<cr>", { desc = "Git Files" })
-        vim.keymap.set("n", "<leader>gst", "<cmd>FzfLua git_status<cr>", { desc = "Git Status" })
-        vim.keymap.set("n", "<leader>gc", "<cmd>FzfLua git_commits<cr>", { desc = "Git Commits" })
-        vim.keymap.set("n", "<leader>gbc", "<cmd>FzfLua git_bcommits<cr>", { desc = "Git Buffer Commits" })
-        vim.keymap.set("n", "<leader>gbb", "<cmd>FzfLua git_blame<cr>", { desc = "Git Buffer Blame" })
-        vim.keymap.set("n", "<leader>gss", "<cmd>FzfLua git_stash<cr>", { desc = "Git Stash" })
-        vim.keymap.set("n", "<leader>gbr", "<cmd>FzfLua git_branches<cr>", { desc = "Git Branches" })
+        -- vim.keymap.set("n", "<leader>gf", "<cmd>FzfLua git_files<cr>", { desc = "Git Files" })
+        -- vim.keymap.set("n", "<leader>gst", "<cmd>FzfLua git_status<cr>", { desc = "Git Status" })
+        -- vim.keymap.set("n", "<leader>gc", "<cmd>FzfLua git_commits<cr>", { desc = "Git Commits" })
+        -- vim.keymap.set("n", "<leader>gbc", "<cmd>FzfLua git_bcommits<cr>", { desc = "Git Buffer Commits" })
+        -- vim.keymap.set("n", "<leader>gbb", "<cmd>FzfLua git_blame<cr>", { desc = "Git Buffer Blame" })
+        -- vim.keymap.set("n", "<leader>gss", "<cmd>FzfLua git_stash<cr>", { desc = "Git Stash" })
+        -- vim.keymap.set("n", "<leader>gbr", "<cmd>FzfLua git_branches<cr>", { desc = "Git Branches" })
         vim.keymap.set(
           "n",
           "<leader>ft",

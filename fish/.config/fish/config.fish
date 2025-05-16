@@ -39,3 +39,4 @@ end
 
 starship init fish | source
 
+set PATH $PATH ~/.local/bin

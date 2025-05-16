@@ -33,7 +33,7 @@
   "clock": {
     "interval": 1,
     "format": " {:%Y-%m-%d %a %H:%M:%OS} ",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
   },
   "backlight": {
     // "device": "acpi_video1",
