@@ -70,7 +70,61 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+    archlinux
+    # brew
+    # bun
+    conda
+    conda-env
+    cp
+    # debian
+    # dnf
+    docker
+    docker-compose
+    # emoji
+    # emoji-clock
+    eza
+    fzf
+    git
+    git-auto-fetch
+    git-commit
+    git-lfs
+    github
+    gitignore
+    gnu-utils
+    golang
+    gpg-agent
+    # history
+    # history-substring-search
+    macos
+    man
+    npm
+    pip
+    pipenv
+    pyenv
+    pylint
+    python
+    rsync
+    rust
+    ssh
+    ssh-agent
+    starship
+    sudo 
+    systemd
+    # themes
+    tmux
+    # ubuntu
+    uv
+    yarn
+    # yum
+    # vi-mode
+    # vim-interaction
+    virtualenv
+    # virtualenvwrapper
+    vscode
+    # zsh-interactive-cd
+    # zsh-navigation-tools
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -115,10 +169,6 @@ eval "$(register-python-argcomplete pipx)"
 # alias hx="helix"
 # alias vim="nvim"
 # alias vi="nvim"
-alias ls="eza"
-alias ll="eza -l"
-alias la="eza -a"
-alias l="eza -la"
 
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
