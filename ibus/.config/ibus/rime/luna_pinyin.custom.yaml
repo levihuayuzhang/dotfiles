@@ -1,0 +1,5 @@
+__patch:
+  # Rx: emoji:customize:schema=luna_pinyin {
+  - patch/+:
+      __include: /usr/share/rime-data/emoji_suggestion:/patch
+# }

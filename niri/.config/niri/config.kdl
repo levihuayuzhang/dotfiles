@@ -103,7 +103,8 @@ output "eDP-1" {
 }
 
 output "DP-1" {
-    // mode "3840x2160@60"
+    mode "3840x2160@60"
+
     // scale 2.0
     // position x=-213 y=-1080
 
@@ -264,6 +265,9 @@ layout {
 // See the binds section below for more spawn examples.
 // spawn-at-startup "alacritty" "-e" "fish"
 // spawn-at-startup "swaybg" "-i" "~/wallpapers/8.jpg"
+
+// started use systemd (~/.config/systemd/user/niri.service.wants/waybar.service -> /usr/lib/systemd/user/waybar.service)
+// spawn-at-startup "waybar" 
 spawn-at-startup "swww-daemon"
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -339,6 +343,14 @@ window-rule {
 }
 
 window-rule {
+    match app-id="sioyek"
+    open-focused true
+
+    // open-maximized true
+    default-column-width { proportion 0.4; }
+}
+
+window-rule {
     match app-id="chromium"
     open-maximized true
     open-focused true
@@ -375,6 +387,12 @@ hotkey-overlay {
     skip-at-startup
 }
 
+// overview {
+//     hot-corners {
+//         off
+//     }
+// }
+
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
     // in the end. To find an XKB name for a particular key, you may use a program
@@ -395,6 +413,11 @@ binds {
     Mod+D { spawn "fuzzel"; }
     Super+Alt+L { spawn "hyprlock"; }
     Super+Ctrl+Alt+L { spawn "systemctl" "suspend"; }
+
+    // Open/close the Overview: a zoomed-out view of workspaces and windows.
+    // You can also move the mouse into the top-left hot corner,
+    // or do a four-finger swipe up on a touchpad.
+    // Mod+O repeat=false { toggle-overview; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
