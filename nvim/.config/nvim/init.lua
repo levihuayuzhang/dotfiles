@@ -367,14 +367,14 @@ require("lazy").setup({
       config = function()
         require("mason-lspconfig").setup({
           ensure_installed = {
-            "rust_analyzer",
-            "clangd",
-            "ruff",
-            "pyright",
-            "lua_ls",
-            "texlab",
-            "asm_lsp",
-            "gopls",
+            -- "rust_analyzer",
+            -- "clangd",
+            -- "ruff",
+            -- "pyright",
+            -- "lua_ls",
+            -- "texlab",
+            -- "asm_lsp",
+            -- "gopls",
             -- 'eslint',
             -- 'marksman',
           },
@@ -396,6 +396,7 @@ require("lazy").setup({
         local servers = {
           "rust_analyzer",
           "clangd",
+          "ty",
           "ruff",
           "pyright",
           "lua_ls",
@@ -532,10 +533,15 @@ require("lazy").setup({
         })
 
         -- python
+        vim.lsp.config("ty", {
+          cmd = { "ty", "server" },
+          filetypes = { "python" },
+          root_dir = vim.fs.root(0, { ".git/", "pyproject.toml" }),
+        })
         -- ruff - use defaults
-        -- vim.lsp.config("ruff", {
-        --   -- https://docs.astral.sh/ruff/editors/setup/#neovim
-        -- })
+        vim.lsp.config("ruff", {
+          -- https://docs.astral.sh/ruff/editors/setup/#neovim
+        })
         -- pyright - work with ruff
         vim.lsp.config("pyright", {
           settings = {
