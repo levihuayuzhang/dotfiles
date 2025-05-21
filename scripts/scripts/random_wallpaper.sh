@@ -4,3 +4,6 @@ wall=$(find ~/wallpapers/ -type f -name "*.jpg" -o -name "*.png" -o -name "*.gif
 
 swww img $wall --transition-fps 240 --transition-type random
 
+# wall=$(find ~/wallpapers/ -type f -name "*.jpg" -o -name "*.png" -o -name "*.gif" | shuf -n 1)
+#
+# swaybg -i $wall

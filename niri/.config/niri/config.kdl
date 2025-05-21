@@ -257,6 +257,9 @@ layout {
         // top 64
         // bottom 64
     }
+
+    // Set transparent workspace background color.
+    background-color "transparent"
 }
 
 // Add lines like this to spawn processes at startup.
@@ -264,11 +267,12 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 // spawn-at-startup "alacritty" "-e" "fish"
-// spawn-at-startup "swaybg" "-i" "~/wallpapers/8.jpg"
 
 // started use systemd (~/.config/systemd/user/niri.service.wants/waybar.service -> /usr/lib/systemd/user/waybar.service)
 // spawn-at-startup "waybar" 
+
 spawn-at-startup "swww-daemon"
+// spawn-at-startup "swaybg" "-i" "~/wallpapers/1.jpg" // used for overview background, but should start later
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
@@ -387,11 +391,6 @@ hotkey-overlay {
     skip-at-startup
 }
 
-// overview {
-//     hot-corners {
-//         off
-//     }
-// }
 
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
@@ -417,7 +416,7 @@ binds {
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
     // or do a four-finger swipe up on a touchpad.
-    // Mod+O repeat=false { toggle-overview; }
+    Mod+O repeat=false { toggle-overview; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
@@ -663,7 +662,48 @@ binds {
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
 
-    // Mod+W { spawn "swaybg" "-i" "~/wallpapers/1.jpg"; }
-    Mod+W { spawn "~/scripts/random_wallpaper_swww.sh"; }
-    
+    Mod+W { spawn "~/scripts/random_wallpaper.sh"; }
+}
+
+// Disable the hot corners.
+gestures {
+    hot-corners {
+        off
+    }
+}
+
+overview {
+    // workspace-shadow {
+    //     off
+    // }
+}
+
+layer-rule {
+    match namespace="^launcher$"
+
+    // opacity 0.05
+
+    shadow {
+        on
+    }
+
+    // Fuzzel defaults to 10 px rounded corners.
+    geometry-corner-radius 10
+
+    // baba-is-float true
+}
+
+layer-rule {
+    // niri msg layers
+    match namespace="^swww-daemon$" // swww
+    // match namespace="^wallpaper$" // swaybg
+
+    place-within-backdrop true
+}
+
+
+layer-rule {
+    // mako
+    match namespace="^notifications$"
+    block-out-from "screencast"
 }
