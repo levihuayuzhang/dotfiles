@@ -1,7 +1,7 @@
 @import "mocha.css";
 
 * {
-  font-family: "MesloLGS Nerd Font Mono Bold", "CaskaydiaCove Nerd Font Mono";
+  font-family:  "CaskaydiaCove Nerd Font Mono", "MesloLGS Nerd Font Mono Bold";
   font-size: 16px;
   font-weight: 500;
   font-weight: bold;
@@ -49,7 +49,7 @@ window#waybar.hidden {
   padding-left: 8px;
   padding-right: 8px;
   /* background-color: @sapphire; */
-  /* color: rgba(0, 0, 0, 1); */
+  color: white;
 }
 
 button {

@@ -71,57 +71,57 @@ ZSH_THEME="robbyrussell"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    archlinux
+    # archlinux
     # brew
     # bun
-    conda
-    conda-env
-    cp
+    # conda
+    # conda-env
+    # cp
     # debian
     # dnf
-    docker
-    docker-compose
+    # docker
+    # docker-compose
     # emoji
     # emoji-clock
     eza
-    fzf
+    # fzf
     git
-    git-auto-fetch
-    git-commit
-    git-lfs
-    github
-    gitignore
-    gnu-utils
-    golang
-    gpg-agent
+    # git-auto-fetch
+    # git-commit
+    # git-lfs
+    # github
+    # gitignore
+    # gnu-utils
+    # golang
+    # gpg-agent
     # history
     # history-substring-search
-    macos
-    man
-    npm
-    pip
-    pipenv
-    pyenv
-    pylint
-    python
-    rsync
-    rust
-    ssh
-    ssh-agent
-    starship
-    sudo 
-    systemd
+    # macos
+    # man
+    # npm
+    # pip
+    # pipenv
+    # pyenv
+    # pylint
+    # python
+    # rsync
+    # rust
+    # ssh
+    # ssh-agent
+    # starship
+    sudo
+    # systemd
     # themes
-    tmux
+    # tmux
     # ubuntu
     uv
-    yarn
+    # yarn
     # yum
     # vi-mode
     # vim-interaction
-    virtualenv
+    # virtualenv
     # virtualenvwrapper
-    vscode
+    # vscode
     # zsh-interactive-cd
     # zsh-navigation-tools
 )
@@ -173,6 +173,10 @@ eval "$(register-python-argcomplete pipx)"
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 
+# gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+export GTK_THEME=Adwaita:dark
+export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
+export QT_STYLE_OVERRIDE=Adwaita-Dark
 export BAT_THEME="gruvbox-dark"
 
 export http_proxy="http://127.0.0.1:7890"
@@ -191,4 +195,19 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/zhy/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/zhy/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/zhy/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/zhy/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
