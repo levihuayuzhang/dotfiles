@@ -19,9 +19,9 @@
 
   // simple niri
   "modules-left": [
-    "custom/arch",
+    "custom/arch", 
     "niri/workspaces",
-    "niri/window",
+    "niri/window"
     // "wlr/taskbar"
   ],
   "modules-center": [],
@@ -30,16 +30,15 @@
     "cpu",
     "memory",
     "temperature",
+    "network",
     // "pulseaudio/slider",
     "pulseaudio",
     "backlight",
-    "network",
     "bluetooth",
     // "upower#bluetooth-mouse-mxmaster3",
     "battery",
     "clock",
   ],
-
   "wlr/taskbar": {
     // "all-outputs": true,
     "format": "{icon} {title} {short_state}",
@@ -47,13 +46,12 @@
     "tooltip-format": "{title} | {app_id}",
     "on-click": "activate",
     "on-click-middle": "close",
-    "on-click-right": "fullscreen",
+    "on-click-right": "fullscreen"
   },
   "niri/window": {
     // "rotate": 90,
     "icon": true,
   },
-
   "clock": {
     // "rotate": 90,
     "interval": 1,
@@ -119,7 +117,7 @@
     // "format-plugged": " {icon}\n{capacity}%\n",
     // "format-alt": " {icon} \n{time}\n",
     // "format-full": " {icon}\n{capacity}%\n",
-
+    
     "format-icons": ["", "", "", "", ""],
     "tooltip-format": "{time}",
   },
@@ -158,7 +156,7 @@
     // "format-ethernet": "{icon} 󰌘 \n",
     // "format-linked": "  \nNo\nIP\n",
     // "format-disconnected": " 󰌺\n",
-
+        
     "tooltip-format-wifi": " {ifname}  {essid}: {signalStrength}%  {bandwidthDownBytes}  {bandwidthUpBytes} ",
     "tooltip-format-ethernet": "{ifname} 󰌘  {bandwidthDownBytes}  {bandwidthUpBytes} ",
     "tooltip-format-disconnected": "󰌙 󰌺 Disconnected",

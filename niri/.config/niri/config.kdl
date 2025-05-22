@@ -259,7 +259,7 @@ layout {
     }
 
     // Set transparent workspace background color.
-    background-color "transparent"
+    // background-color "transparent"
 }
 
 // Add lines like this to spawn processes at startup.
@@ -693,7 +693,7 @@ layer-rule {
     // baba-is-float true
 }
 
-layer-rule {
+/-layer-rule {
     // niri msg layers
     match namespace="^swww-daemon$" // swww
     // match namespace="^wallpaper$" // swaybg

@@ -49,7 +49,8 @@ window#waybar.hidden {
   padding-left: 8px;
   padding-right: 8px;
   /* background-color: @sapphire; */
-  color: white;
+  color: @text;
+  /* color: @rosewater; */
 }
 
 button {
@@ -65,28 +66,28 @@ button:hover {
 }
 
 #workspaces button {
-  color: white;
-  padding: 0 4px;
-  background-color: rgba(0, 0, 0, 0.2);
+  color: @rosewater;
+  padding: 3px;
+  /* background-color: rgba(0, 0, 0, 0.2); */
 }
 
 #workspaces button.focused {
-  background-color: rgba(0, 0, 0, 0.3);
-  color: @rosewater;
-  border-top: 2px solid @rosewater;
-  border-left: 2px solid @rosewater;
-  border-right: 2px solid @rosewater;
-  border-bottom: 2px solid @rosewater;
+  /* background-color: rgba(0, 0, 0, 0.3); */
+  color: @peach;
+  border-top: 2px solid @peach;
+  border-left: 2px solid @peach;
+  border-right: 2px solid @peach;
+  border-bottom: 2px solid @peach;
 }
 
 #workspaces button.active {
   /* color: black; */
-  color: @mauve;
+  color: @teal;
   background-color: black;
-  border-top: 2px solid @mauve;
-  border-left: 2px solid @mauve;
-  border-right: 2px solid @mauve;
-  border-bottom: 2px solid @mauve;
+  border-top: 2px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+  border-bottom: 3px solid @teal;
 }
 
 #workspaces button.urgent {
@@ -129,7 +130,7 @@ button:hover {
 }
 
 #backlight {
-  color: rgba(255, 255, 255, 255);
+  color: @flamingo;
   /* border-bottom: 2px solid rgba(255, 255, 255, 255); */
 }
 
@@ -144,7 +145,7 @@ button:hover {
 }
 
 #temperature {
-  color: @lavender;
+  color: @peach;
   /* border-bottom: 2px solid @lavender; */
 }
 
@@ -167,7 +168,7 @@ button:hover {
 }
 
 #pulseaudio {
-  color: @blue;
+  color: @sapphire;
   /* border-bottom: 2px solid @blue; */
 }
 #pulseaudio-slider slider {
@@ -191,7 +192,7 @@ button:hover {
 }
 
 #network {
-  color: @yellow;
+  color: @red;
   /* border-bottom: 2px solid @yellow; */
 }
 
@@ -205,14 +206,14 @@ button:hover {
 }
 
 #battery {
-  color: @green;
+  color: @sky;
   /* border-bottom: 2px solid @green; */
 }
 #upower.bluetooth-mouse-mxmaster3 {
   color: @yellow;
 }
 #bluetooth {
-  color: @yellow;
+  color: @green;
 }
 
 /* If workspaces is the leftmost module, omit left margin */
