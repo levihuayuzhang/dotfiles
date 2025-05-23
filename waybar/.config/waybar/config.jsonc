@@ -18,12 +18,7 @@
   // "modules-right": ["tray", "cpu", "memory", "temperature", "network", "pulseaudio", "backlight", "battery"],
 
   // simple niri
-  "modules-left": [
-    "custom/arch",
-    "niri/workspaces",
-    "niri/window",
-    // "wlr/taskbar"
-  ],
+  "modules-left": ["custom/arch", "niri/workspaces", "niri/window"],
   "modules-center": [],
   "modules-right": [
     "tray",

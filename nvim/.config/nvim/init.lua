@@ -112,6 +112,10 @@ api.nvim_create_autocmd("Filetype", {
   pattern = "rust",
   command = "set colorcolumn=100",
 })
+api.nvim_create_autocmd("Filetype", {
+  pattern = "cpp",
+  command = "set colorcolumn=100",
+})
 -- set spell check (use `z=` to get suggestions)
 api.nvim_create_autocmd("Filetype", {
   pattern = "tex",
@@ -928,20 +932,20 @@ require("lazy").setup({
             cpp = { lsp_format = "prefer", "clang-format" },
             lua = { "stylua" },
             javascript = {
-              "prettierd",
+              "prettier",
               "prettier",
               stop_after_first = true,
             },
-            typescript = { "prettierd" },
-            javascriptreact = { "prettierd" },
-            typescriptreact = { "prettierd" },
-            css = { "prettierd" },
-            html = { "prettierd" },
-            jsonc = { "prettierd" },
-            json = { "prettierd" },
-            yaml = { "prettierd" },
-            markdown = { "prettierd" },
-            graphql = { "prettierd" },
+            typescript = { "prettier" },
+            javascriptreact = { "prettier" },
+            typescriptreact = { "prettier" },
+            css = { "prettier" },
+            html = { "prettier" },
+            jsonc = { "prettier" },
+            json = { "prettier" },
+            yaml = { "prettier" },
+            markdown = { "prettier" },
+            graphql = { "prettier" },
             tex = { "tex-fmt" },
             bib = { "tex-fmt" },
             cls = { "tex-fmt" },

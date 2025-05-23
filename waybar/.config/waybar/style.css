@@ -1,7 +1,7 @@
 @import "mocha.css";
 
 * {
-  font-family:  "CaskaydiaCove Nerd Font Mono", "MesloLGS Nerd Font Mono Bold";
+  font-family: "CaskaydiaCove Nerd Font Mono", "MesloLGS Nerd Font Mono Bold";
   font-size: 16px;
   font-weight: 500;
   font-weight: bold;
@@ -130,7 +130,7 @@ button:hover {
 }
 
 #backlight {
-  color: @flamingo;
+  color: @peach;
   /* border-bottom: 2px solid rgba(255, 255, 255, 255); */
 }
 
@@ -145,7 +145,7 @@ button:hover {
 }
 
 #temperature {
-  color: @peach;
+  color: @maroon;
   /* border-bottom: 2px solid @lavender; */
 }
 
@@ -158,7 +158,7 @@ button:hover {
 }
 
 #clock {
-  color: @maroon;
+  color: @sky;
   /* border-bottom: 2px solid @maroon; */
 }
 
@@ -192,7 +192,7 @@ button:hover {
 }
 
 #network {
-  color: @red;
+  color: @teal;
   /* border-bottom: 2px solid @yellow; */
 }
 
@@ -206,14 +206,14 @@ button:hover {
 }
 
 #battery {
-  color: @sky;
+  color: @green;
   /* border-bottom: 2px solid @green; */
 }
 #upower.bluetooth-mouse-mxmaster3 {
   color: @yellow;
 }
 #bluetooth {
-  color: @green;
+  color: @flamingo;
 }
 
 /* If workspaces is the leftmost module, omit left margin */
