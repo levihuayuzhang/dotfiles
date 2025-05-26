@@ -1,5 +1,37 @@
+export EDITOR="nvim"
+export SUDO_EDITOR="$EDITOR"
+
+# gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+# gsettings set org.gnome.desktop.interface icon-theme 'Tela-green-dark' # (form git) or 'Tela-circle-green-dark' (from arch linux)
+# export GTK_THEME=Adwaita:dark
+# export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
+# export QT_STYLE_OVERRIDE=Adwaita-Dark
+
+# export GTK_IM_MODULE=fcitx
+# export QT_IM_MODULE=fcitx
+# export SDL_IM_MODULE=fcitx
+# export GLFW_IM_MODULE=fcitx
+# export IMSETTINGS_MODULE=fcitx
+# export XMODIFIERS=@im=fcitx
+# export INPUT_METHOD=fcitx
+
+export MOZ_ENABLE_WAYLAND=1
+
+export BAT_THEME="gruvbox-dark"
+
+. "$HOME/.cargo/env"
+export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+export RUSTC_BOOTSTRAP=1
+export RUST_BACKTRACE=1
+
+export http_proxy="http://127.0.0.1:7890"
+export https_proxy="http://127.0.0.1:7890"
+export all_proxy="socks5://127.0.0.1:7891"
+
+# path=(~/.local/bin $path)
+# export PATH
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -156,8 +188,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-#alias vi="nvim"
-#alias vim="nvim"
 
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -165,28 +195,6 @@ autoload -U compinit && compinit
 eval "$(starship init zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(register-python-argcomplete pipx)"
-
-# alias hx="helix"
-# alias vim="nvim"
-# alias vi="nvim"
-
-export EDITOR="nvim"
-export SUDO_EDITOR="$EDITOR"
-
-# gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-export GTK_THEME=Adwaita:dark
-export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
-export QT_STYLE_OVERRIDE=Adwaita-Dark
-export BAT_THEME="gruvbox-dark"
-
-export http_proxy="http://127.0.0.1:7890"
-export https_proxy="http://127.0.0.1:7890"
-export all_proxy="socks5://127.0.0.1:7891"
-
-export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
-export RUST_BACKTRACE=1
-
-export PATH=~/.local/bin:$PATH
 
 # pnpm
 export PNPM_HOME="~/.local/share/pnpm"

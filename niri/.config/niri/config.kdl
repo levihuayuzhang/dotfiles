@@ -290,6 +290,44 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
 
+// Override environment variables for processes spawned by niri.
+// Remove a variable by using null as the value
+// VARIABLE null
+environment {
+    GDK_BACKEND "wayland,x11,*"
+    // GTK_THEME "Adwaita:dark"
+    // GTK2_RC_FILES "/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc"
+
+    QT_QPA_PLATFORM "wayland;xcb"
+    QT_AUTO_SCREEN_SCALE_FACTOR "1"
+    QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+    // QT_QPA_PLATFORMTHEME "qt6ct:qt5ct"
+    QT_STYLE_OVERRIDE "Adwaita-Dark"
+
+    SDL_VIDEODRIVER "wayland"
+    CLUTTER_BACKEND "wayland"
+
+    MOZ_ENABLE_WAYLAND "1"
+
+    GTK_IM_MODULE "fcitx"
+    QT_IM_MODULE "fcitx"
+    SDL_IM_MODULE "fcitx"
+    GLFW_IM_MODULE "fcitx"
+    IMSETTINGS_MODULE "fcitx"
+    XMODIFIERS "@im=fcitx"
+    INPUT_METHOD "fcitx"
+
+    DISPLAY ":0"
+}
+
+// cursor {
+//     xcursor-theme "breeze_cursors"
+//     xcursor-size 48
+//
+//     hide-when-typing
+//     hide-after-inactive-ms 1000
+// }
+
 // Animation settings.
 // The wiki explains how to configure individual animations:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Animations
@@ -392,7 +430,6 @@ window-rule {
 hotkey-overlay {
     skip-at-startup
 }
-
 
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
@@ -674,11 +711,18 @@ gestures {
     }
 }
 
-overview {
-    // workspace-shadow {
-    //     off
-    // }
-}
+// overview {
+//     zoom 0.5 // zoom ranges from 0 to 0.75 where lower values make everything smaller
+//     backdrop-color "#262626"
+//
+//     workspace-shadow {
+//         // off
+//         softness 40
+//         spread 10
+//         offset x=0 y=10
+//         color "#00000050"
+//     }
+// }
 
 layer-rule {
     match namespace="^launcher$"

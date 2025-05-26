@@ -91,7 +91,7 @@
   "tray": {
     // "rotate": 90,
     // "icon-size": 16,
-    "spacing": 6,
+    "spacing": 12,
   },
   "battery": {
     "states": {
@@ -129,9 +129,9 @@
   },
   "bluetooth": {
     // "rotate": 90,
-    "format": " {status}",
-    "format-connected": " {device_alias}",
-    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+    "format": "  {status} ",
+    "format-connected": "  {device_alias} ",
+    "format-connected-battery": "  {device_alias} {device_battery_percentage}% ",
 
     // "format": "  \n{status}\n",
     // "format-connected": "  \n{device_alias}\n",
