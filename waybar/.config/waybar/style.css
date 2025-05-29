@@ -62,21 +62,21 @@ button {
 button:hover {
   background: inherit;
   color: @mauve;
-  border-top: 2px solid @mauve;
+  border-bottom: 2px solid @mauve;
 }
 
 #workspaces button {
   color: @rosewater;
-  padding: 3px;
+  padding: 2px;
   /* background-color: rgba(0, 0, 0, 0.2); */
 }
 
 #workspaces button.focused {
   /* background-color: rgba(0, 0, 0, 0.3); */
   color: @peach;
-  border-top: 2px solid @peach;
-  border-left: 2px solid @peach;
-  border-right: 2px solid @peach;
+  /* border-top: 2px solid @peach; */
+  /* border-left: 2px solid @peach; */
+  /* border-right: 2px solid @peach; */
   border-bottom: 2px solid @peach;
 }
 
@@ -84,10 +84,10 @@ button:hover {
   /* color: black; */
   color: @teal;
   background-color: black;
-  border-top: 2px solid black;
-  border-left: 2px solid black;
-  border-right: 2px solid black;
-  border-bottom: 3px solid @teal;
+  /* border-top: 2px solid black; */
+  /* border-left: 2px solid black; */
+  /* border-right: 2px solid black; */
+  border-bottom: 2px solid @teal;
 }
 
 #workspaces button.urgent {

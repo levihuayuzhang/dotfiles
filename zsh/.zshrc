@@ -1,8 +1,11 @@
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 
+# dconf dump / | less
 # gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+# gsettings set org.gnome.desktop.interface accent-color 'teal'
 # gsettings set org.gnome.desktop.interface icon-theme 'Tela-green-dark' # (form git) or 'Tela-circle-green-dark' (from arch linux)
+
 # export GTK_THEME=Adwaita:dark
 # export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
 # export QT_STYLE_OVERRIDE=Adwaita-Dark
@@ -22,7 +25,7 @@ export BAT_THEME="gruvbox-dark"
 . "$HOME/.cargo/env"
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 export RUSTC_BOOTSTRAP=1
-export RUST_BACKTRACE=1
+export RUST_BACKTRACE=full
 
 export http_proxy="http://127.0.0.1:7890"
 export https_proxy="http://127.0.0.1:7890"
