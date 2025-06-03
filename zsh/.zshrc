@@ -19,7 +19,7 @@ export SUDO_EDITOR="$EDITOR"
 # export INPUT_METHOD=fcitx
 
 export MOZ_ENABLE_WAYLAND=1
-
+export DISPLAY=:0
 export BAT_THEME="gruvbox-dark"
 
 . "$HOME/.cargo/env"
