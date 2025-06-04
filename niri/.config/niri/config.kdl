@@ -383,6 +383,13 @@ window-rule {
     // open-maximized true
     default-column-width { proportion 0.4; }
 }
+window-rule {
+    match app-id="Alacritty"
+    open-focused true
+
+    // open-maximized true
+    default-column-width { proportion 0.4; }
+}
 
 window-rule {
     match app-id="sioyek"
@@ -447,7 +454,8 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T { spawn "ghostty"; }
+    // Mod+T { spawn "ghostty"; }
+    Mod+T { spawn "alacritty"; }
     Mod+D { spawn "fuzzel"; }
     Super+Alt+L { spawn "hyprlock"; }
     Super+Ctrl+Alt+L { spawn "systemctl" "suspend"; }

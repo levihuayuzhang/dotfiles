@@ -144,7 +144,7 @@ api.nvim_create_autocmd("Filetype", {
 local text = vim.api.nvim_create_augroup("text", { clear = true })
 for _, pat in ipairs({
   "text",
-  "markdown",
+  -- "markdown",
   "mail",
   -- "gitcommit"
 }) do

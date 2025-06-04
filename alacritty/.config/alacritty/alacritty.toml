@@ -1,12 +1,14 @@
 # locate at ~/.config/alacritty/alacritty.toml
 
 [general]
+live_config_reload = true
+
 # theme: https://github.com/alacritty/alacritty-theme
 # import = [
 #   # "~/.config/alacritty/themes/themes/everforest_dark.toml",
 #   "~/.config/alacritty/themes/themes/gruvbox_dark.toml",
 # ]
-live_config_reload = true
+
 
 # fonts
 #[font]
@@ -34,4 +36,10 @@ style = "Regular"
 
 [cursor]
 # style = { shape = "Block", blinking = "On" }
+
+[keyboard]
+bindings = [
+    # spawn a new instance in the current working directory
+   { key = "N", mods = "Control|Shift", action = "SpawnNewInstance" }
+]
 
