@@ -1335,25 +1335,25 @@ require("lazy").setup({
     --     },
     --   },
     -- },
-    -- -- pairs
-    -- {
-    --   "windwp/nvim-autopairs",
-    --   event = "InsertEnter",
-    --   opts = {},
-    -- },
+    -- pairs
+    {
+      "windwp/nvim-autopairs",
+      event = "InsertEnter",
+      opts = {},
+    },
     -- :h nvim-surround.usage
-    -- {
-    --   "kylechui/nvim-surround",
-    --   -- version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
-    --   -- event = "VeryLazy",
-    --   event = { "BufReadPost", "BufNewFile" },
-    --   config = function()
-    --     require("nvim-surround").setup({
-    --       -- Configuration here, or leave empty to use defaults
-    --       -- https://github.com/kylechui/nvim-surround/blob/main/lua/nvim-surround/config.lua
-    --     })
-    --   end,
-    -- },
+    {
+      "kylechui/nvim-surround",
+      -- version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
+      -- event = "VeryLazy",
+      event = { "BufReadPost", "BufNewFile" },
+      config = function()
+        require("nvim-surround").setup({
+          -- Configuration here, or leave empty to use defaults
+          -- https://github.com/kylechui/nvim-surround/blob/main/lua/nvim-surround/config.lua
+        })
+      end,
+    },
     -- hex color render
     {
       "echasnovski/mini.hipatterns",

@@ -11,8 +11,8 @@ live_config_reload = true
 
 
 # fonts
-#[font]
-#size = 12.0
+[font]
+size = 13
 [font.bold]
 family = "CaskaydiaCove Nerd Font Mono"
 style = "Bold"
@@ -27,12 +27,14 @@ family = "CaskaydiaCove Nerd Font Mono"
 style = "Regular"
 
 [window]
-#decorations = "Buttonless"
-#decorations = "Transparent"
+# decorations = "Buttonless"
+# decorations = "Transparent"
 # opacity = 0.8
 # blur = true
-#startup_mode = "Maximized"
+# startup_mode = "Maximized"
 #padding = { x = 10, y = 20 }
+dimensions = { columns = 110, lines = 66 }
+
 
 [cursor]
 # style = { shape = "Block", blinking = "On" }
