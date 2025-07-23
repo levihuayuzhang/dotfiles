@@ -414,6 +414,8 @@ require("lazy").setup({
           "mutt_ls",
           "bashls",
           "cmake",
+          "ocamllsp",
+          "vscoqtop",
         }
         vim.lsp.enable(servers)
 

@@ -1,7 +1,7 @@
 # ~/.config/helix/config.toml
 
 # theme = "everforest_dark"
-theme = "gruvbox"
+theme = "gruvbox_dark_hard"
 
 [editor]
 line-number = "relative"
@@ -34,8 +34,8 @@ hidden = false
 # display-inlay-hints = true
 display-progress-messages = true
 
-[editor.whitespace]
-render = "all"
+# [editor.whitespace]
+# render = "all"
 
 [editor.auto-save]
 focus-lost = true
