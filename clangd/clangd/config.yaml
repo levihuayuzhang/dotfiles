@@ -7,7 +7,7 @@
 If:
   PathMatch: .*\.(c|h)$
 CompileFlags:
-  # Compiler: /usr/bin/gcc
+  # Compiler: gcc
   Compiler: clang
 
 ---
@@ -23,22 +23,22 @@ CompileFlags:
 If:
   PathMatch: .*\.cuh?
 CompileFlags:
-  Compiler: /usr/local/cuda/bin/nvcc
+  Compiler: nvcc
   Add:
+    # - "-xcuda"
     - "-std=c++20"
-    - "--cuda-path=/usr/local/cuda"
     - "--cuda-gpu-arch=sm_90"
-    - "-L/usr/local/cuda/lib64"
+    - "--cuda-path=/usr/local/cuda"
     - "-I/usr/local/cuda/include"
-    # - "-LC:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\lib\x64"
-    # - "-IC:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\include"
+    - "-L/usr/local/cuda/lib64"
     # - "--no-cuda-version-check"
     # - "-Wno-unknown-warning-option"
     # - -D__clangd__"
+    # - "-LC:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\lib\x64"
+    # - "-IC:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\include"
   Remove:
     - "-ccbin*"
     - "-Xfatbin*"
-    - "-arch=*"
     - "-gencode*"
     - "--generate-code*"
     - "-expt-*"
@@ -49,6 +49,7 @@ CompileFlags:
     - "-forward-unknown-to-host-compiler"
     - "-Werror=cross-execution-space-call"
     - "-rdc=*"
+    - "-arch=*"
     - "-mno-*"
 
 ---
@@ -86,8 +87,30 @@ Diagnostics:
     - "variadic_device_fn"
     - "attributes_not_allowed"
   ClangTidy:
-    Add: modernize*
-    # Remove: modernize-use-trailing-return-type
+    Add:
+      - "-*"
+      - "bugprone-*"
+      - "concurrency-*"
+      - "performance-*"
+      - "portability-*"
+      # - "readability-*"
+      - "clang-analyzer-*"
+      - "cppcoreguidelines-*"
+      - "hicpp-*"
+      - "cert-*"
+      - "modernize-*"
+      # - "boost-*"
+      # - "mpi-*"
+      # - "openmp-*"
+      # - "altera-*"
+      # - "abseil-*"
+      # - "linuxkernel-*"
+      # - "google-*"
+      # - "llvm-*"
+      # - "llvmlibc-*"
+      # - "misc-*"
+    Remove:
+      - "modernize-use-trailing-return-type"
     # CheckOptions:
     #   readability-identifier-naming.VariableCase: CamelCase
     FastCheckFilter: None
