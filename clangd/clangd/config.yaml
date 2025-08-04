@@ -25,9 +25,9 @@ If:
 CompileFlags:
   Compiler: /usr/local/cuda/bin/nvcc
   Add:
-    - "-std=c++23"
+    - "-std=c++20"
     - "--cuda-path=/usr/local/cuda"
-    - "--cuda-gpu-arch=sm_120"
+    - "--cuda-gpu-arch=sm_90"
     - "-L/usr/local/cuda/lib64"
     - "-I/usr/local/cuda/include"
     # - "-LC:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\lib\x64"
@@ -62,6 +62,7 @@ CompileFlags:
 Index:
   Background: Build
   Threads: 0
+  StandardLibrary: true
 Query:
   CaseSensitive: true
 Hover:
@@ -73,10 +74,21 @@ InlayHints:
   Designators: Yes
   # BlockEnd: Yes
   # TypeNameLimit: 24
+Completion:
+  AllScopes: Yes
+  ArgumentLists: FullPlaceholders
+  HeaderInsertion: IWYU
+  CodePatterns: All
 Diagnostics:
   UnusedIncludes: Strict
   # MissingIncludes: Strict
   Suppress:
     - "variadic_device_fn"
     - "attributes_not_allowed"
+  ClangTidy:
+    Add: modernize*
+    # Remove: modernize-use-trailing-return-type
+    # CheckOptions:
+    #   readability-identifier-naming.VariableCase: CamelCase
+    FastCheckFilter: None
 
