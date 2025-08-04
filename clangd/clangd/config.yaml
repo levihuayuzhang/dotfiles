@@ -62,21 +62,19 @@ CompileFlags:
   ]
 Index:
   Background: Build
-  Threads: 0
   StandardLibrary: true
-Query:
-  CaseSensitive: true
 Hover:
-  ShowAKA: Yes
+  ShowAKA: true
 InlayHints:
-  Enabled: Yes
-  ParameterNames: Yes
-  DeducedTypes: Yes
-  Designators: Yes
-  # BlockEnd: Yes
-  # TypeNameLimit: 24
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
+  Designators: true
+  BlockEnd: true
+  DefaultArguments: true
+  TypeNameLimit: 0
 Completion:
-  AllScopes: Yes
+  AllScopes: true
   ArgumentLists: FullPlaceholders
   HeaderInsertion: IWYU
   CodePatterns: All
@@ -88,7 +86,6 @@ Diagnostics:
     - "attributes_not_allowed"
   ClangTidy:
     Add:
-      - "-*"
       - "bugprone-*"
       - "concurrency-*"
       - "performance-*"
