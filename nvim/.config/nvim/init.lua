@@ -249,50 +249,50 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     -- -- :help everforest.txt
-    {
-      "sainnhe/everforest",
-      enabled = false,
-      lazy = false,
-      priority = 1000,
-      config = function()
-        if opt.termguicolors then
-          -- enable 24-bit colour
-          opt.termguicolors = true
-        end
-
-        vim.g.everforest_transparent_background = 2
-        vim.g.everforest_float_style = "dim"
-        vim.g.everforest_dim_inactive_windows = 1
-        vim.g.everforest_diagnostic_text_highlight = 1
-        vim.g.everforest_diagnostic_line_highlight = 1
-        vim.g.everforest_diagnostic_virtual_text = "highlighted"
-        vim.g.everforest_inlay_hints_background = "dimmed"
-        vim.g.everforest_better_performance = 1
-        vim.g.everforest_enable_italic = 1
-        vim.g.everforest_disable_italic_comment = 0
-        vim.g.everforest_sign_column_background = "grey"
-        vim.g.everforest_ui_contrast = "high"
-        -- vim.g:everforest_background = 'soft' -- 'hard'
-
-        vim.o.background = "dark" -- or "light" for light mode
-        vim.cmd.colorscheme("everforest")
-      end,
-    },
+    -- {
+    --   "sainnhe/everforest",
+    --   enabled = false,
+    --   lazy = false,
+    --   priority = 1000,
+    --   config = function()
+    --     if opt.termguicolors then
+    --       -- enable 24-bit colour
+    --       opt.termguicolors = true
+    --     end
+    --
+    --     vim.g.everforest_transparent_background = 2
+    --     vim.g.everforest_float_style = "dim"
+    --     vim.g.everforest_dim_inactive_windows = 1
+    --     vim.g.everforest_diagnostic_text_highlight = 1
+    --     vim.g.everforest_diagnostic_line_highlight = 1
+    --     vim.g.everforest_diagnostic_virtual_text = "highlighted"
+    --     vim.g.everforest_inlay_hints_background = "dimmed"
+    --     vim.g.everforest_better_performance = 1
+    --     vim.g.everforest_enable_italic = 1
+    --     vim.g.everforest_disable_italic_comment = 0
+    --     vim.g.everforest_sign_column_background = "grey"
+    --     vim.g.everforest_ui_contrast = "high"
+    --     -- vim.g:everforest_background = 'soft' -- 'hard'
+    --
+    --     vim.o.background = "dark" -- or "light" for light mode
+    --     vim.cmd.colorscheme("everforest")
+    --   end,
+    -- },
     -- for 256 colors terminals (not support true color)
-    {
-      "morhetz/gruvbox",
-      enabled = false,
-      lazy = false,
-      config = function()
-        vim.cmd([[set t_Co=256]])
-        vim.g.gruvbox_termcolors = 256
-        vim.g.gruvbox_italic = 1
-        vim.g.gruvbox_transparent_bg = 1
-        vim.g.gruvbox_contrast_dark = "hard"
-        vim.o.background = "dark" -- or "light" for light mode
-        vim.cmd([[colorscheme gruvbox]])
-      end,
-    },
+    -- {
+    --   "morhetz/gruvbox",
+    --   enabled = false,
+    --   lazy = false,
+    --   config = function()
+    --     vim.cmd([[set t_Co=256]])
+    --     vim.g.gruvbox_termcolors = 256
+    --     vim.g.gruvbox_italic = 1
+    --     vim.g.gruvbox_transparent_bg = 1
+    --     vim.g.gruvbox_contrast_dark = "hard"
+    --     vim.o.background = "dark" -- or "light" for light mode
+    --     vim.cmd([[colorscheme gruvbox]])
+    --   end,
+    -- },
     {
       "ellisonleao/gruvbox.nvim",
       -- enabled = false,
@@ -343,18 +343,18 @@ require("lazy").setup({
             lualine_y = { "lsp_status" },
             lualine_z = { "progress", "location" },
           },
-          -- extensions = {
-          --   "quickfix",
-          --   "lazy",
-          --   "fzf",
-          --   "man",
-          --   "mason",
-          --   "fugitive",
-          --   "neo-tree",
-          --   "nvim-dap-ui",
-          --   "oil",
-          --   "trouble",
-          -- },
+          extensions = {
+            "quickfix",
+            "lazy",
+            "fzf",
+            "man",
+            "mason",
+            "fugitive",
+            "neo-tree",
+            "nvim-dap-ui",
+            "oil",
+            "trouble",
+          },
         })
 
         opt.showmode = false
@@ -534,7 +534,7 @@ require("lazy").setup({
             "--function-arg-placeholders",
             "--pch-storage=memory",
             "--offset-encoding=utf-8",
-            "--fallback-style=LLVM",
+            -- "--fallback-style=LLVM",
             -- "--fallback-style=GNU",
             -- "--fallback-style=Microsoft",
             "--compile-commands-dir=build",
@@ -1466,6 +1466,68 @@ require("lazy").setup({
       "pmizio/typescript-tools.nvim",
       dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
       opts = {},
+    },
+    {
+      "stevearc/oil.nvim",
+      opts = {},
+      -- Optional dependencies
+      -- dependencies = { { "echasnovski/mini.icons", opts = {} } },
+      dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+      lazy = false,
+      config = function()
+        require("oil").setup({
+          columns = {
+            "icon",
+            "permissions",
+            "size",
+            "mtime",
+          },
+          keymaps = {
+            ["g?"] = { "actions.show_help", mode = "n" },
+            ["<CR>"] = "actions.select",
+            ["<C-s>"] = { "actions.select", opts = { vertical = true } },
+            ["<C-h>"] = { "actions.select", opts = { horizontal = true } },
+            ["<C-t>"] = { "actions.select", opts = { tab = true } },
+            ["<C-p>"] = "actions.preview",
+            -- ["<C-c>"] = { "actions.close", mode = "n" },
+            ["q"] = { "actions.close", mode = "n" },
+            ["<C-l>"] = "actions.refresh",
+            ["-"] = { "actions.parent", mode = "n" },
+            ["_"] = { "actions.open_cwd", mode = "n" },
+            ["`"] = { "actions.cd", mode = "n" },
+            ["~"] = { "actions.cd", opts = { scope = "tab" }, mode = "n" },
+            ["gs"] = { "actions.change_sort", mode = "n" },
+            ["gx"] = "actions.open_external",
+            ["g."] = { "actions.toggle_hidden", mode = "n" },
+            ["g\\"] = { "actions.toggle_trash", mode = "n" },
+          },
+          float = {
+            -- Padding around the floating window
+            padding = 2,
+            -- max_width and max_height can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+            max_width = 0.8,
+            max_height = 0.5,
+            border = "rounded",
+            win_options = {
+              winblend = 0,
+            },
+            -- optionally override the oil buffers window title with custom function: fun(winid: integer): string
+            get_win_title = nil,
+            -- preview_split: Split direction: "auto", "left", "right", "above", "below".
+            preview_split = "auto",
+            -- This is the config that will be passed to nvim_open_win.
+            -- Change values here to customize the layout
+            override = function(conf)
+              return conf
+            end,
+          },
+          view_options = {
+            show_hidden = true,
+          },
+
+          vim.keymap.set("n", "<leader>e", "<CMD>Oil --float<CR>", { desc = "Open parent directory" }),
+        })
+      end,
     },
   },
   install = {

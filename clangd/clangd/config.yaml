@@ -4,19 +4,20 @@
 # user config (this) > inner project config > outer project config
 
 # Apply this config conditionally to all C files
-If:
-  PathMatch: .*\.(c|h)$
-CompileFlags:
-  # Compiler: gcc
-  Compiler: clang
+# If:
+#   PathMatch: .*\.(c|h)$
+# CompileFlags:
+#   # Compiler: gcc
+#   Compiler: clang
+#
 
----
+# ---
 # Apply this config conditionally to all C++ files
-If:
-  PathMatch: .*\.(c|h)pp
-CompileFlags:
-  # Compiler: /usr/bin/g++
-  Compiler: clang++
+# If:
+#   PathMatch: .*\.(c|h)pp
+# CompileFlags:
+#   # Compiler: /usr/bin/g++
+#   Compiler: clang++
 
 ---
 # Apply this config conditionally to all CUDA files
@@ -85,29 +86,29 @@ Diagnostics:
     - "variadic_device_fn"
     - "attributes_not_allowed"
   ClangTidy:
-    Add:
-      - "bugprone-*"
-      - "concurrency-*"
-      - "performance-*"
-      - "portability-*"
-      # - "readability-*"
-      - "clang-analyzer-*"
-      - "cppcoreguidelines-*"
-      - "hicpp-*"
-      - "cert-*"
-      - "modernize-*"
-      # - "boost-*"
-      # - "mpi-*"
-      # - "openmp-*"
-      # - "altera-*"
-      # - "abseil-*"
-      # - "linuxkernel-*"
-      # - "google-*"
-      # - "llvm-*"
-      # - "llvmlibc-*"
-      # - "misc-*"
-    Remove:
-      - "modernize-use-trailing-return-type"
+    # Add:
+    #   - "bugprone-*"
+    #   - "concurrency-*"
+    #   - "performance-*"
+    #   - "portability-*"
+    #   - "readability-*"
+    #   - "clang-analyzer-*"
+    #   - "cppcoreguidelines-*"
+    #   - "hicpp-*"
+    #   - "cert-*"
+    #   - "modernize-*"
+    #   - "boost-*"
+    #   - "mpi-*"
+    #   - "openmp-*"
+    #   - "altera-*"
+    #   - "abseil-*"
+    #   - "linuxkernel-*"
+    #   - "google-*"
+    #   - "llvm-*"
+    #   - "llvmlibc-*"
+    #   - "misc-*"
+    # Remove:
+    #   - "modernize-use-trailing-return-type"
     # CheckOptions:
     #   readability-identifier-naming.VariableCase: CamelCase
     FastCheckFilter: None
