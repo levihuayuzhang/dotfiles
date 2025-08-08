@@ -61,6 +61,11 @@ CompileFlags:
     -ferror-limit=0,
     -Wall
   ]
+  Remove:
+    - "-fstack-protector-strong"
+    - "-fopenmp"
+    - "-fcf-protection"
+    - "-Wno-psabi"
 Index:
   Background: Build
   StandardLibrary: true
