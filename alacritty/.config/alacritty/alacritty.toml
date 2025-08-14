@@ -42,6 +42,7 @@ dimensions = { columns = 110, lines = 66 }
 [keyboard]
 bindings = [
     # spawn a new instance in the current working directory
+    # (a new instance with default directory on MacOS)
    { key = "N", mods = "Control|Shift", action = "SpawnNewInstance" }
 ]
 

@@ -322,12 +322,12 @@ require("lazy").setup({
       config = function()
         require("lualine").setup({
           options = {
-            icons_enabled = false,
-            -- theme = "auto",
+            icons_enabled = true,
+            theme = "auto",
             -- theme = "gruvbox_dark",
-            theme = "powerline",
-            section_separators = { left = "", right = "" },
-            component_separators = { left = "|", right = "|" },
+            -- theme = "powerline",
+            -- section_separators = { left = "", right = "" },
+            -- component_separators = { left = "|", right = "|" },
           },
           sections = {
             lualine_a = { "mode" },
