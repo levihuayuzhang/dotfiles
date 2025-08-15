@@ -62,10 +62,24 @@ CompileFlags:
     -Wall
   ]
   Remove:
-    - "-fstack-protector-strong"
-    - "-fopenmp"
-    - "-fcf-protection"
-    - "-Wno-psabi"
+    - -fanalyzer
+    - -fstack-usage
+    - -fdiagnostics-color=always
+    - -fstack-protector-strong
+    - -fopenmp
+    - -fcf-protection
+    - -Wduplicated-cond
+    - -Wduplicated-branches
+    - -Wlogical-op
+    - -Wsuggest-attribute=pure
+    - -Wsuggest-attribute=const
+    - -Wsuggest-attribute=noreturn
+    - -Wsuggest-attribute=format
+    - -Wuseless-cast
+    - -Wvector-operation-performance
+    - -Wzero-as-null-pointer-constant
+    - -Wno-stringop-overflow
+    - -Wno-psabi
 Index:
   Background: Build
   StandardLibrary: true
