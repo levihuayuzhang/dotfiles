@@ -68,6 +68,9 @@ CompileFlags:
     - -fstack-protector-strong
     - -fopenmp
     - -fcf-protection
+    - -fmodules-ts
+    - -fmodule-mapper=*
+    - -fdeps-format=*
     - -Wduplicated-cond
     - -Wduplicated-branches
     - -Wlogical-op
