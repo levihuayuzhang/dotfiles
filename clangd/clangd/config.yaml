@@ -27,34 +27,17 @@ CompileFlags:
   # Compiler: nvcc
   Add:
     - "-xcuda"
-    # - "-std=c++20"
-    # - "--cuda-gpu-arch=sm_90"
+    # for arch linux
     - "--cuda-path=/opt/cuda"
     - "-I/opt/cuda/include"
     - "-L/opt/cuda/lib64"
-    - "--query-driver=/opt/cuda/bin/nvcc"
-    - "--query-driver=/usr/bin/g++"
-    - "--query-driver=/usr/bin/clang++"
+    # - "-std=c++20"
+    # - "--cuda-gpu-arch=sm_90"
     # - "--no-cuda-version-check"
     # - "-Wno-unknown-warning-option"
     # - -D__clangd__"
     # - "-LC:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\lib\x64"
     # - "-IC:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\include"
-  Remove:
-    - "-ccbin*"
-    - "-Xfatbin*"
-    - "-gencode*"
-    - "--generate-code*"
-    - "-expt-*"
-    - "--expt-*"
-    - "--compiler-options*"
-    - "--expt-extended-lambda"
-    - "--expt-relaxed-constexpr"
-    - "-forward-unknown-to-host-compiler"
-    - "-Werror=cross-execution-space-call"
-    - "-rdc=*"
-    - "-arch=*"
-    - "-mno-*"
 Diagnostics:
   ClangTidy:
     Remove:
@@ -64,7 +47,8 @@ Diagnostics:
 # If:
 #   PathMatch: /opt/homebrew/opt/llvm/.*
 # Diagnostics:
-#   Suppress: '*'
+#   Suppress:
+#     - '*'
 
 ---
 # all files
@@ -75,6 +59,7 @@ CompileFlags:
     -Wall
   ]
   Remove:
+    # gcc/g++
     - -fanalyzer
     - -fstack-usage
     - -fdiagnostics-color=always
@@ -96,6 +81,21 @@ CompileFlags:
     - -Wzero-as-null-pointer-constant
     - -Wno-stringop-overflow
     - -Wno-psabi
+    # nvcc
+    - "-ccbin*"
+    - "-Xfatbin*"
+    - "-gencode*"
+    - "--generate-code*"
+    - "-expt-*"
+    - "--expt-*"
+    - "--compiler-options*"
+    - "--expt-extended-lambda"
+    - "--expt-relaxed-constexpr"
+    - "-forward-unknown-to-host-compiler"
+    - "-Werror=cross-execution-space-call"
+    - "-rdc=*"
+    - "-mno-*"
+    - "-arch=*"
 Index:
   Background: Build
   StandardLibrary: true
