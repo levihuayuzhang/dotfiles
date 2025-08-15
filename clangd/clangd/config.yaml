@@ -24,7 +24,7 @@
 If:
   PathMatch: .*\.cuh?
 CompileFlags:
-  Compiler: nvcc
+  # Compiler: nvcc
   Add:
     - "-xcuda"
     # - "-std=c++20"
@@ -32,6 +32,9 @@ CompileFlags:
     - "--cuda-path=/opt/cuda"
     - "-I/opt/cuda/include"
     - "-L/opt/cuda/lib64"
+    - "--query-driver=/opt/cuda/bin/nvcc"
+    - "--query-driver=/usr/bin/g++"
+    - "--query-driver=/usr/bin/clang++"
     # - "--no-cuda-version-check"
     # - "-Wno-unknown-warning-option"
     # - -D__clangd__"
@@ -56,6 +59,12 @@ Diagnostics:
   ClangTidy:
     Remove:
       - "*"
+
+# ---
+# If:
+#   PathMatch: /opt/homebrew/opt/llvm/.*
+# Diagnostics:
+#   Suppress: '*'
 
 ---
 # all files
