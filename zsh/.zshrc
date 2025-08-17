@@ -36,6 +36,11 @@ export all_proxy="socks5://127.0.0.1:7891"
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
+# kdb
+export QHOME=~/q
+export PATH=$QHOME/l64/:$PATH
+alias q="rlwrap -r q"
+
 # # MVAPICH
 # export PATH=/opt/mvapich/bin:$PATH
 # export LD_LIBRARY_PATH=/opt/mvapich/lib:$LD_LIBRARY_PATH
