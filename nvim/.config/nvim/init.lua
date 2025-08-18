@@ -144,9 +144,9 @@ api.nvim_create_autocmd("Filetype", {
 local text = vim.api.nvim_create_augroup("text", { clear = true })
 for _, pat in ipairs({
   "text",
-  -- "markdown",
   "mail",
-  -- "gitcommit"
+  -- "markdown",
+  -- "gitcommit",
 }) do
   vim.api.nvim_create_autocmd("Filetype", {
     pattern = pat,
@@ -156,6 +156,7 @@ for _, pat in ipairs({
       vim.bo.spelllang = "en_us"
       vim.bo.textwidth = 72
       vim.wo.colorcolumn = "73"
+      -- vim.wo.wrap = true
     end,
   })
 end
