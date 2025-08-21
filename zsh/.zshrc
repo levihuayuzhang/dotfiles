@@ -37,8 +37,9 @@ export all_proxy="socks5://127.0.0.1:7891"
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # kdb
-export QHOME=~/q
-export PATH=$QHOME/l64/:$PATH
+# export QHOME=~/q
+# export PATH=$QHOME/l64/:$PATH
+export PATH=~/.kx/bin:$PATH # kdb-x
 alias q="rlwrap -r q"
 
 # # MVAPICH
