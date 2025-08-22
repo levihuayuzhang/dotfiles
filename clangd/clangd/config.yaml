@@ -45,6 +45,7 @@ CompileFlags:
     - --std=c++17
     # - "--no-cuda-version-check"
     - --cuda-gpu-arch=sm_90a
+    - "-D__CUDACC__"
     - "-D__INTELLISENSE__"
     - "-D__CLANGD__"
     - "-DCUDA_12_0_SM90_FEATURES_SUPPORTED"
