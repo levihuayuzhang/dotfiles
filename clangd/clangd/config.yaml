@@ -32,7 +32,7 @@ CompileFlags:
   # manually add include paths and other flags into project's .clangd config instead
   CompilationDatabase: None
   # preprocessor vars like -D__CUDACC_VER_MAJOR__ , -D__CUDA_ARCH__ may are
-  # the key settings.
+  # the key settings (configure them according to the target architecture).
   Add:
     - "-xcuda"
     # - --cuda-path=/usr/local/cuda
