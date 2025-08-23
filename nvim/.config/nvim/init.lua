@@ -528,7 +528,7 @@ require("lazy").setup({
             "clangd",
             "-j=" .. nproc,
             "--background-index",
-            -- "--background-index-priority=normal",
+            "--background-index-priority=low", -- https://github.com/llvm/llvm-project/blob/03d9daeee67459c5854676bfacf5018ece6245fe/clang-tools-extra/clangd/tool/ClangdMain.cpp#L186
             "--pch-storage=memory",
             "--clang-tidy",
             "--all-scopes-completion",
