@@ -516,17 +516,21 @@ require("lazy").setup({
         })
 
         -- clangd
-        local nproc
-        -- local jit = require("jit")
-        if jit.os == "OSX" then
-          nproc = vim.fn.systemlist("sysctl -n hw.physicalcpu")[1]
-        elseif jit.os == "Linux" then
-          nproc = vim.fn.systemlist("nproc")[1]
-        end
+        -- local nproc
+        -- -- local jit = require("jit")
+        -- if jit.os == "OSX" then
+        --   nproc = vim.fn.systemlist("sysctl -n hw.physicalcpu")[1]
+        -- elseif jit.os == "Linux" then
+        --   nproc = vim.fn.systemlist("nproc")[1]
+        -- end
         vim.lsp.config("clangd", {
           cmd = {
             "clangd",
-            "-j=" .. nproc,
+            -- https://github.com/llvm/llvm-project/blob/03d9daeee67459c5854676bfacf5018ece6245fe/clang-tools-extra/clangd/tool/ClangdMain.cpp#L352
+            -- https://github.com/llvm/llvm-project/blob/25ef609d06990f8fa326e920f050ca35a7cf7b55/clang-tools-extra/clangd/TUScheduler.cpp#L1615
+            -- https://github.com/llvm/llvm-project/blob/0915bb9b42b63445797695df7fdc5506433dfe7b/llvm/include/llvm/Support/Threading.h#L133
+            -- https://github.com/llvm/llvm-project/blob/25ef609d06990f8fa326e920f050ca35a7cf7b55/llvm/include/llvm/Support/Threading.h#L163
+            -- "-j=" .. nproc, -- use this to enable hyper-threading (if SMT enabled but not work with llvm) not physical cores.
             "--background-index",
             "--background-index-priority=low", -- https://github.com/llvm/llvm-project/blob/03d9daeee67459c5854676bfacf5018ece6245fe/clang-tools-extra/clangd/tool/ClangdMain.cpp#L186
             "--pch-storage=memory",
