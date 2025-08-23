@@ -528,7 +528,7 @@ require("lazy").setup({
             "clangd",
             "-j=" .. nproc,
             "--background-index",
-            "--background-index-priority=normal",
+            -- "--background-index-priority=normal",
             "--pch-storage=memory",
             "--clang-tidy",
             "--all-scopes-completion",
