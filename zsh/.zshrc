@@ -213,6 +213,8 @@ eval "$(starship init zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(register-python-argcomplete pipx)"
 
+# source /opt/nvidia/hpc_sdk/activate
+
 # pnpm
 export PNPM_HOME="~/.local/share/pnpm"
 case ":$PATH:" in

@@ -26,7 +26,9 @@ If:
   # PathMatch: .*\.c(c|u|uh)$
 CompileFlags:
   # Compiler: /usr/local/cuda/bin/nvcc
-  Compiler: /opt/cuda/bin/nvcc
+  # Compiler: /opt/cuda/bin/nvcc
+  # Compiler: /opt/nvidia/hpc_sdk/Linux_x86_64/2025/cuda/bin/nvcc
+  Compiler: nvcc
   # not using compile_commands.json for configuring the CUDA projects
   # so may avoid compiler flags from nvcc that not recognized by clang
   # manually add include paths and other flags into project's .clangd config instead
@@ -140,6 +142,7 @@ CompileFlags:
     - "-maxrragcount=*"
     - "-compress-all"
     - "-fvisibility=*"
+    - "--extended-lambda"
 Index:
   Background: Build
   StandardLibrary: true
