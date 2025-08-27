@@ -46,3 +46,7 @@ bindings = [
    { key = "N", mods = "Control|Shift", action = "SpawnNewInstance" }
 ]
 
+
+# [env]
+# TERM = "tmux-256color"
+

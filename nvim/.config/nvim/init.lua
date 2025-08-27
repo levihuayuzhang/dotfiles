@@ -301,10 +301,10 @@ require("lazy").setup({
       lazy = false,
       priority = 1000,
       config = function()
-        if opt.termguicolors then
-          -- enable 24-bit colour
-          opt.termguicolors = true
-        end
+        -- if opt.termguicolors then
+        -- enable 24-bit colour
+        opt.termguicolors = true
+        -- end
 
         require("gruvbox").setup({
           dim_inactive = false,
