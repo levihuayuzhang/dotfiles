@@ -1,3 +1,4 @@
+set -U fish_greeting ""
 
 abbr -a c cargo
 abbr -a e nvim
