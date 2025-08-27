@@ -21,7 +21,7 @@ opt.tabstop = 4
 opt.softtabstop = 4
 opt.expandtab = true
 opt.autoindent = true
--- opt.copyindent = true
+opt.copyindent = true
 
 -- opt.listchars = "space:·,nbsp:○,trail:␣,tab:>-,eol:↵,extends:◣,precedes:◢"
 -- opt.list = true
@@ -523,6 +523,40 @@ require("lazy").setup({
         -- elseif jit.os == "Linux" then
         --   nproc = vim.fn.systemlist("nproc")[1]
         -- end
+        local function enable_inlay_hint_for_buf(bufnr)
+          if not vim.lsp.inlay_hint.is_enabled() then
+            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+            -- print("Inlay Hints is enabled: " .. tostring(vim.lsp.inlay_hint.is_enabled()) .. "...")
+          end
+        end
+        local function change_indent_based_on_clang_format_file(bufnr)
+          -- get indent settings in .clang-format file and change nvim's accordingly.
+          local output = vim.fn.systemlist("clang-format --dump-config .clang-format")
+          if vim.v.shell_error ~= 0 then
+            print("Read .clang-formt failed... Using default tab width settings...")
+            return
+          end
+          for _, line in ipairs(output) do
+            if line:match("^IndentWidth:") then
+              local width = tonumber(line:match("%d+"))
+              if width then
+                vim.bo[bufnr].shiftwidth = width
+                vim.bo[bufnr].tabstop = width
+                vim.bo[bufnr].softtabstop = width
+                -- print("shiftwidth is: " .. width .. ".")
+              end
+            elseif line:match("^UseTab:") then
+              local val = line:match(":%s*(%w+)")
+              if val == "Never" then
+                vim.bo[bufnr].expandtab = true
+              else
+                vim.bo[bufnr].expandtab = false
+              end
+              -- print("UseTab is: " .. val)
+              -- print("expandtab is: " .. tostring(vim.bo[bufnr].expandtab))
+            end
+          end
+        end
         vim.lsp.config("clangd", {
           cmd = {
             "clangd",
@@ -552,10 +586,11 @@ require("lazy").setup({
             "--experimental-modules-support",
           },
           on_attach = function(_, bufnr)
-            if not vim.lsp.inlay_hint.is_enabled() then
-              vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-            end
             -- print("clangd running with " .. nproc .. " jobs...")
+
+            enable_inlay_hint_for_buf(bufnr)
+
+            change_indent_based_on_clang_format_file(bufnr)
           end,
         })
 
