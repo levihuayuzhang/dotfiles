@@ -28,9 +28,9 @@ style = "Regular"
 
 [window]
 # decorations = "Buttonless"
-# decorations = "Transparent"
-# opacity = 0.8
-# blur = true
+decorations = "Transparent"
+opacity = 0.8
+blur = true
 # startup_mode = "Maximized"
 #padding = { x = 10, y = 20 }
 dimensions = { columns = 110, lines = 66 }
