@@ -273,7 +273,7 @@ require("lazy").setup({
         vim.g.everforest_enable_italic = 1
         vim.g.everforest_disable_italic_comment = 0
         vim.g.everforest_sign_column_background = "grey"
-        vim.g.everforest_ui_contrast = "high"
+        -- vim.g.everforest_ui_contrast = "high"
         -- vim.g:everforest_background = "soft" -- 'hard'
 
         vim.o.background = "dark" -- or "light" for light mode
