@@ -253,7 +253,7 @@ require("lazy").setup({
     -- -- :help everforest.txt
     {
       "sainnhe/everforest",
-      -- enabled = false,
+      enabled = false,
       lazy = false,
       priority = 1000,
       config = function()
@@ -297,7 +297,7 @@ require("lazy").setup({
     -- },
     {
       "ellisonleao/gruvbox.nvim",
-      enabled = false,
+      -- enabled = false,
       lazy = false,
       priority = 1000,
       config = function()
@@ -309,7 +309,7 @@ require("lazy").setup({
         require("gruvbox").setup({
           dim_inactive = false,
           contrast = "hard", -- can be "hard", "soft" or empty string
-          -- transparent_mode = true,
+          transparent_mode = true,
         })
 
         vim.o.background = "dark" -- or "light" for light mode
