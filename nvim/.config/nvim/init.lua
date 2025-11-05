@@ -146,7 +146,8 @@ else -- ordinary Neovim
   })
   api.nvim_create_autocmd("Filetype", {
     pattern = "cpp",
-    command = "set colorcolumn=100",
+    -- command = "set colorcolumn=100",
+    command = "set colorcolumn=80",
   })
   -- set spell check (use `z=` to get suggestions)
   api.nvim_create_autocmd("Filetype", {
@@ -240,16 +241,16 @@ else -- ordinary Neovim
   keymap.set("i", "<left>", "<nop>")
   keymap.set("i", "<right>", "<nop>")
   -- completion selection using ctrl+n/p
-  -- keymap.set("n", "<up>", "<nop>")
-  -- keymap.set("n", "<down>", "<nop>")
+  keymap.set("n", "<up>", "<nop>")
+  keymap.set("n", "<down>", "<nop>")
   -- or use gt / gT to navigate among tabs
-  keymap.set("n", "<up>", "<cmd>tabprevious<cr>")
-  keymap.set("n", "<down>", "<cmd>tabnext<cr>")
+  -- keymap.set("n", "<up>", "<cmd>tabprevious<cr>")
+  -- keymap.set("n", "<down>", "<cmd>tabnext<cr>")
   -- navigate among buffers
-  -- keymap.set('n', '<left>', '<nop>')
-  -- keymap.set('n', '<right>', '<nop>')
-  vim.keymap.set("n", "<left>", ":bp<cr>")
-  vim.keymap.set("n", "<right>", ":bn<cr>")
+  keymap.set("n", "<left>", "<nop>")
+  keymap.set("n", "<right>", "<nop>")
+  -- vim.keymap.set("n", "<left>", ":bp<cr>")
+  -- vim.keymap.set("n", "<right>", ":bn<cr>")
   -- -- toggle between (most recent two) buffers
   vim.keymap.set("n", "<Space>", "<Nop>", { silent = true })
   vim.keymap.set("n", "<leader><leader>", "<c-6>")
@@ -829,6 +830,7 @@ else -- ordinary Neovim
               local buffer = ev.buf
 
               -- lsp keymap
+              keymap.set("n", "<leader>lr", ":LspRestart<cr>", { desc = "LSP restart" })
               keymap.set("n", "<leader>li", "<cmd>checkhealth vim.lsp<cr>", { desc = "LSP info" })
               keymap.set("n", "<leader>i", function()
                 vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
@@ -1645,13 +1647,13 @@ else -- ordinary Neovim
         opts = {},
         dependencies = {
           "nvim-lua/plenary.nvim",
-          -- {
-          --   "stevearc/overseer.nvim",
-          --   opts = {},
-          -- },
           {
             "akinsho/toggleterm.nvim",
-            version = "*",
+            opts = {},
+          },
+          {
+            "stevearc/overseer.nvim",
+            version = "v1.6.0",
             opts = {},
           },
         },
@@ -1678,25 +1680,46 @@ else -- ordinary Neovim
             },
             cmake_compile_commands_from_lsp = true,
             cmake_kits_path = "~/.local/share/CMakeTools/cmake-tools-kits.json",
-            cmake_executor = {
-              name = "toggleterm",
-              default_opts = {
-                toggleterm = {
-                  direction = "float", -- 'vertical' | 'horizontal' | 'tab' | 'float'
-                  -- close_on_exit = true, -- whether close the terminal when exit
-                  auto_scroll = true, -- whether auto scroll to the bottom
-                  singleton = true, -- single instance, autocloses the opened one, if present
+
+            cmake_executor = { -- executor to use
+              name = "overseer", -- name of the executor
+              default_opts = { -- a list of default and possible values for executors
+                overseer = {
+                  new_task_opts = {
+                    strategy = { -- https://github.com/stevearc/overseer.nvim/blob/master/doc/strategies.md#toggletermopts
+                      "toggleterm",
+                      auto_scroll = true,
+                      quit_on_exit = "success",
+                      direction = "float",
+                      -- direction = "horizontal",
+                      -- size = 30,
+                    },
+                  }, -- options to pass into the `overseer.new_task` command
+                  on_new_task = function(task)
+                    -- require("overseer").open({ enter = true, direction = "left" }) -- https://github.com/stevearc/overseer.nvim/blob/master/doc/reference.md#openopts
+                    -- require("overseer").open({ enter = true }) -- https://github.com/stevearc/overseer.nvim/blob/master/doc/reference.md#openopts
+                  end, -- a function that gets overseer.Task when it is created, before calling `task:start`
                 },
               },
             },
-            cmake_runner = {
-              name = "toggleterm",
-              default_opts = {
-                toggleterm = {
-                  direction = "float", -- 'vertical' | 'horizontal' | 'tab' | 'float'
-                  close_on_exit = true, -- whether close the terminal when exit
-                  auto_scroll = true, -- whether auto scroll to the bottom
-                  singleton = true, -- single instance, autocloses the opened one, if present
+            cmake_runner = { -- runner to use
+              name = "overseer", -- name of the runner
+              default_opts = { -- a list of default and possible values for runners
+                overseer = {
+                  new_task_opts = {
+                    strategy = { -- https://github.com/stevearc/overseer.nvim/blob/master/doc/strategies.md#toggletermopts
+                      "toggleterm",
+                      autos_croll = true,
+                      quit_on_exit = "success",
+                      direction = "float",
+                      -- direction = "horizontal",
+                      -- size = 30,
+                    },
+                  }, -- options to pass into the `overseer.new_task` command
+                  on_new_task = function(task)
+                    -- require("overseer").open({ enter = true, direction = "left" }) -- https://github.com/stevearc/overseer.nvim/blob/master/doc/reference.md#openopts
+                    -- require("overseer").open({ enter = true }) -- https://github.com/stevearc/overseer.nvim/blob/master/doc/reference.md#openopts
+                  end, -- a function that gets overseer.Task when it is created, before calling `task:start`
                 },
               },
             },
