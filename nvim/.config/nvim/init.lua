@@ -4,7 +4,7 @@ vim.loader.enable(true)
 if vim.g.vscode then
   local opt = vim.opt
   local api = vim.api
-  local vscode = require('vscode')
+  local vscode = require("vscode")
 
   opt.number = true
   opt.relativenumber = true
@@ -98,7 +98,6 @@ else -- ordinary Neovim
   opt.sidescrolloff = 8
   -- opt.cursorline = true
 
-
   -- vim.g.loaded_netrw = 1
   -- vim.g.loaded_netrwPlugin = 1
 
@@ -131,7 +130,6 @@ else -- ordinary Neovim
     end,
   })
 
-
   -- language specific settings
   api.nvim_create_autocmd("Filetype", {
     pattern = "lua",
@@ -157,8 +155,8 @@ else -- ordinary Neovim
       vim.g.tex_flavor = "latex"
       -- vim.wo.spell = true
       -- vim.bo.spelllang = "en_us"
-      -- vim.bo.textwidth = 80
-      -- vim.wo.colorcolumn = "81"
+      vim.bo.textwidth = 80
+      vim.wo.colorcolumn = "81"
     end,
   })
   -- -- email
@@ -190,7 +188,7 @@ else -- ordinary Neovim
         vim.bo.spelllang = "en_us"
         vim.bo.textwidth = 72
         vim.wo.colorcolumn = "73"
-        -- vim.wo.wrap = true
+        vim.wo.wrap = true
       end,
     })
   end
@@ -281,7 +279,7 @@ else -- ordinary Neovim
     if vim.v.shell_error ~= 0 then
       vim.api.nvim_echo({
         { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-        { out,                            "WarningMsg" },
+        { out, "WarningMsg" },
         { "\nPress any key to exit..." },
       }, true, {})
       vim.fn.getchar()
@@ -574,9 +572,13 @@ else -- ordinary Neovim
             end
           end
           local function change_indent_based_on_clang_format_file(bufnr)
+            local cwd = vim.fn.getcwd()
+            local clang_format_cmd = "clang-format --dump-config " .. cwd .. "/.clang-format"
             -- get indent settings in .clang-format file and change nvim's accordingly.
-            local output = vim.fn.systemlist("clang-format --dump-config .clang-format")
+            local output = vim.fn.systemlist(clang_format_cmd)
             if vim.v.shell_error ~= 0 then
+              -- print(clang_format_cmd)
+              -- print(output)
               print("Read .clang-formt failed... Using default tab width settings...")
               return
             end
@@ -636,6 +638,13 @@ else -- ordinary Neovim
 
               change_indent_based_on_clang_format_file(bufnr)
             end,
+            -- -- https://github.com/Civitasv/cmake-tools.nvim/blob/master/docs/howto.md
+            -- on_new_config = function(new_config, new_cwd)
+            --   local status, cmake = pcall(require, "cmake-tools")
+            --   if status then
+            --     cmake.clangd_on_new_config(new_config)
+            --   end
+            -- end,
           })
 
           -- python
@@ -688,8 +697,8 @@ else -- ordinary Neovim
               if client.workspace_folders then
                 local path = client.workspace_folders[1].name
                 if
-                    path ~= vim.fn.stdpath("config")
-                    and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+                  path ~= vim.fn.stdpath("config")
+                  and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
                 then
                   return
                 end
@@ -824,7 +833,12 @@ else -- ordinary Neovim
               keymap.set("n", "<leader>i", function()
                 vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
               end, { desc = "Toggle inlay hints", buffer = buffer })
-              keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "open float diagnostic", buffer = buffer })
+              keymap.set(
+                "n",
+                "<leader>d",
+                vim.diagnostic.open_float,
+                { desc = "open float diagnostic", buffer = buffer }
+              )
               keymap.set(
                 "n",
                 "<leader>q",
@@ -1247,8 +1261,7 @@ else -- ordinary Neovim
           --]]
             lsp = {
               code_actions = {
-                preview_pager =
-                "delta --navigate --line-numbers --hyperlinks --side-by-side --width=$FZF_PREVIEW_COLUMNS",
+                preview_pager = "delta --navigate --line-numbers --hyperlinks --side-by-side --width=$FZF_PREVIEW_COLUMNS",
               },
             },
           })
@@ -1619,6 +1632,106 @@ else -- ordinary Neovim
 
             vim.keymap.set("n", "<leader>e", "<CMD>Oil --float<CR>", { desc = "Open parent directory" }),
           })
+        end,
+      },
+      {
+        "Civitasv/cmake-tools.nvim",
+        ft = { "cpp", "c", "cuda", "cmake" },
+        -- event = { "BufReadPre", "BufNewFile" },
+        -- cond = function()
+        --   local cwd = vim.fn.getcwd()
+        --   return vim.fn.filereadable(cwd .. "/CMakeLists.txt") == 1
+        -- end,
+        opts = {},
+        dependencies = {
+          "nvim-lua/plenary.nvim",
+          -- {
+          --   "stevearc/overseer.nvim",
+          --   opts = {},
+          -- },
+          {
+            "akinsho/toggleterm.nvim",
+            version = "*",
+            opts = {},
+          },
+        },
+        config = function()
+          -- https://github.com/Civitasv/cmake-tools.nvim?tab=readme-ov-file#balloon-configuration
+          -- https://github.com/Civitasv/cmake-tools.nvim/blob/master/docs/sessions.md
+          local osys = require("cmake-tools.osys")
+          require("cmake-tools").setup({
+            cmake_generate_options = { "-GNinja", "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" },
+            cmake_build_options = {},
+            -- support macro expansion:
+            --       ${kit}
+            --       ${kitGenerator}
+            --       ${variant:xx}
+            cmake_build_directory = function()
+              if osys.iswin32 then
+                return "build\\${variant:buildType}"
+              end
+              return "build/${variant:buildType}"
+            end,
+            cmake_compile_commands_options = {
+              action = "soft_link", -- available options: soft_link, copy, lsp, none
+              target = vim.loop.cwd() .. "/build", -- path to directory, this is used only if action == "soft_link" or action == "copy"
+            },
+            cmake_compile_commands_from_lsp = true,
+            cmake_kits_path = "~/.local/share/CMakeTools/cmake-tools-kits.json",
+            cmake_executor = {
+              name = "toggleterm",
+              default_opts = {
+                toggleterm = {
+                  direction = "float", -- 'vertical' | 'horizontal' | 'tab' | 'float'
+                  -- close_on_exit = true, -- whether close the terminal when exit
+                  auto_scroll = true, -- whether auto scroll to the bottom
+                  singleton = true, -- single instance, autocloses the opened one, if present
+                },
+              },
+            },
+            cmake_runner = {
+              name = "toggleterm",
+              default_opts = {
+                toggleterm = {
+                  direction = "float", -- 'vertical' | 'horizontal' | 'tab' | 'float'
+                  close_on_exit = true, -- whether close the terminal when exit
+                  auto_scroll = true, -- whether auto scroll to the bottom
+                  singleton = true, -- single instance, autocloses the opened one, if present
+                },
+              },
+            },
+          })
+
+          vim.keymap.set("n", "cmr", ":CMakeRun<cr>", { silent = true, desc = "CMakeRun" })
+          vim.keymap.set("n", "cmb", ":CMakeBuild<cr>", { silent = true, desc = "CMakeBuild" })
+          vim.keymap.set("n", "cmc", ":CMakeGenerate<cr>", { silent = true, desc = "CMakeGenerate" })
+          vim.keymap.set("n", "cmst", ":CMakeStopRunner<cr>", { silent = true, desc = "CMakeStopRunner" })
+          vim.keymap.set("n", "cmsbbt", ":CMakeSelectBuildType<cr>", { silent = true, desc = "CMakeSelectBuildType" })
+          vim.keymap.set(
+            "n",
+            "cmsbt",
+            ":CMakeSelectBuildTarget<cr>",
+            { silent = true, desc = "CMakeSelectBuildTarget" }
+          )
+          vim.keymap.set(
+            "n",
+            "cmslt",
+            ":CMakeSelectLaunchTarget<cr>",
+            { silent = true, desc = "CMakeSelectLaunchTarget" }
+          )
+          vim.keymap.set(
+            "n",
+            "cmscp",
+            ":CMakeSelectConfigurePreset<cr>",
+            { silent = true, desc = "CMakeSelectConfigurePreset" }
+          )
+          vim.keymap.set(
+            "n",
+            "cmsbp",
+            ":CMakeSelectBuildPreset<cr>",
+            { silent = true, desc = "CMakeSelectConfigurePreset" }
+          )
+          vim.keymap.set("n", "cmsk", ":CMakeSelectKit<cr>", { silent = true, desc = "CMakeSelectKit" })
         end,
       },
     },
