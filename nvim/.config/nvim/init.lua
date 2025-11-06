@@ -208,7 +208,7 @@ else -- ordinary Neovim
   -- vim.lsp.inlay_hint.enable(true) -- enable globally
 
   vim.diagnostic.config({
-    virtual_text = true,
+    -- virtual_text = true,
     underline = true,
     float = true,
     -- virtual_lines = true,
@@ -635,7 +635,7 @@ else -- ordinary Neovim
             on_attach = function(_, bufnr)
               -- print("clangd running with " .. nproc .. " jobs...")
 
-              enable_inlay_hint_for_buf(bufnr)
+              -- enable_inlay_hint_for_buf(bufnr)
 
               change_indent_based_on_clang_format_file(bufnr)
             end,
@@ -951,7 +951,7 @@ else -- ordinary Neovim
         },
         opts = {
           keymap = {
-            preset = "super-tab",
+            preset = "super-tab", -- https://cmp.saghen.dev/configuration/keymap.html#super-tab
           },
           appearance = {
             nerd_font_variant = "mono",
@@ -961,6 +961,13 @@ else -- ordinary Neovim
               auto_show = true,
             },
             ghost_text = { enabled = true },
+            -- list = { -- https://cmp.saghen.dev/configuration/completion#list
+            --   selection = {
+            --     preselect = function(ctx)
+            --       return not require("blink.cmp").snippet_active({ direction = 1 })
+            --     end,
+            --   },
+            -- },
             menu = {
               draw = {
                 columns = { { "kind_icon" }, { "label", gap = 1 } },
@@ -1093,18 +1100,27 @@ else -- ordinary Neovim
                 "toml",
                 "c",
                 "cpp",
+                "cuda",
                 "latex",
-                -- "bibtex",
+                "bibtex",
                 "zig",
                 "python",
-                -- "go",
-                -- "gomod",
-                -- "gosum",
+                "go",
+                "gomod",
+                "gosum",
                 "make",
                 "cmake",
+                "gn",
                 "meson",
                 "ninja",
                 "asm",
+                "nasm",
+                "mlir",
+                "objdump",
+                "devicetree",
+                "disassembly",
+                "pem",
+                "nginx",
                 "glsl",
                 "sql",
                 "lua",
@@ -1129,11 +1145,16 @@ else -- ordinary Neovim
                 "gitcommit",
                 "gitignore",
                 "git_rebase",
+                "diff",
                 "doxygen",
                 "dockerfile",
                 "desktop",
                 "hyprlang",
                 "kdl",
+                "ocaml",
+                "bash",
+                "fish",
+                "gpg",
                 -- "norg",
               },
 
@@ -1148,6 +1169,7 @@ else -- ordinary Neovim
                   "latex",
                   "c",
                   "cpp",
+                  "cuda",
                   "rust",
                 },
                 additional_vim_regex_highlighting = false,
@@ -1472,7 +1494,7 @@ else -- ordinary Neovim
         "echasnovski/mini.hipatterns",
         version = false,
         -- event = { "BufReadPost", "BufNewFile" },
-        ft = { "lua", "css", "html" },
+        ft = { "lua", "css", "html", "cpp" },
         config = function()
           local hipatterns = require("mini.hipatterns")
           hipatterns.setup({
@@ -1755,6 +1777,74 @@ else -- ordinary Neovim
             { silent = true, desc = "CMakeSelectConfigurePreset" }
           )
           vim.keymap.set("n", "cmsk", ":CMakeSelectKit<cr>", { silent = true, desc = "CMakeSelectKit" })
+        end,
+      },
+      {
+        "sphamba/smear-cursor.nvim",
+        event = {
+          "VeryLazy",
+          -- "BufReadPre",
+          -- "BufNewFile",
+        },
+        opts = {
+          -- Smear cursor when switching buffers or windows.
+          smear_between_buffers = true,
+
+          -- Smear cursor when moving within line or to neighbor lines.
+          -- Use `min_horizontal_distance_smear` and `min_vertical_distance_smear` for finer control
+          smear_between_neighbor_lines = true,
+
+          -- Draw the smear in buffer space instead of screen space when scrolling
+          scroll_buffer_space = true,
+
+          -- Set to `true` if your font supports legacy computing symbols (block unicode symbols).
+          -- Smears will blend better on all backgrounds.
+          legacy_computing_symbols_support = false,
+
+          -- Smear cursor in insert mode.
+          -- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
+          smear_insert_mode = true,
+        },
+      },
+      {
+        "karb94/neoscroll.nvim",
+        event = {
+          -- "VeryLazy",
+          "BufReadPre",
+          "BufNewFile",
+        },
+        opts = {},
+        config = function()
+          require("neoscroll").setup({
+            mappings = { -- Keys to be mapped to their corresponding default scrolling animation
+              "<C-u>",
+              "<C-d>",
+              "<C-b>",
+              "<C-f>",
+              "<C-y>",
+              "<C-e>",
+              "zt",
+              "zz",
+              "zb",
+            },
+            hide_cursor = true, -- Hide cursor while scrolling
+            stop_eof = true, -- Stop at <EOF> when scrolling downwards
+            respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+            cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+            duration_multiplier = 1.0, -- Global duration multiplier
+
+            -- easing = "linear", -- Default easing function
+            easing = "quadratic", -- https://github.com/karb94/neoscroll.nvim?tab=readme-ov-file#easing-functions
+            -- easing = "sine", -- https://github.com/karb94/neoscroll.nvim?tab=readme-ov-file#easing-functions
+
+            pre_hook = nil, -- Function to run before the scrolling animation starts
+            post_hook = nil, -- Function to run after the scrolling animation ends
+            performance_mode = false, -- Disable "Performance Mode" on all buffers.
+            ignored_events = { -- Events ignored while scrolling
+              "WinScrolled",
+              "CursorMoved",
+            },
+          })
         end,
       },
     },
