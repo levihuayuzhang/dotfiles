@@ -1045,25 +1045,39 @@ else -- ordinary Neovim
         "stevearc/conform.nvim",
         lazy = true,
         cmd = "ConformInfo",
-        event = { "BufWritePre", "BufReadPre", "BufNewFile" }, -- to disable, comment this out
+        event = { "BufWritePre", "BufReadPre", "BufNewFile" },
         config = function()
           require("conform").setup({
             default_format_opts = {
               lsp_format = "fallback",
             },
-            format_on_save = {
-              timeout_ms = 300,
-              async = false,
-              quiet = false,
-              lsp_format = "fallback",
-            },
-            format_after_save = {
-              lsp_format = "fallback",
-            },
+            format_on_save = function()
+              local fname = vim.fn.expand("%:t")
+              if fname == "xmake.lua" then
+                return
+              end
+              return {
+                timeout_ms = 300,
+                async = false,
+                quiet = false,
+                lsp_format = "fallback",
+              }
+            end,
+            -- format_after_save = function()
+            --   local fname = vim.fn.expand("%:t")
+            --   if fname == "xmake.lua" then
+            --     return
+            --   end
+            --   return {
+            --     lsp_format = "fallback",
+            --   }
+            -- end,
             notify_on_error = true,
             notify_no_formatters = true,
             formatters_by_ft = {
+              cpp = { lsp_format = "prefer", "clang-format" },
               rust = { lsp_format = "prefer", "rustfmt" },
+              lua = { "stylua" },
               python = function(bufnr)
                 if require("conform").get_formatter_info("ruff_format", bufnr).available then
                   return { "ruff_format" }
@@ -1071,8 +1085,6 @@ else -- ordinary Neovim
                   return { "isort", "black" }
                 end
               end,
-              cpp = { lsp_format = "prefer", "clang-format" },
-              lua = { "stylua" },
               javascript = {
                 "prettier",
                 "prettier",
@@ -1106,109 +1118,107 @@ else -- ordinary Neovim
       },
       -- basic highlighting
       {
-        {
-          "nvim-treesitter/nvim-treesitter",
-          event = { "BufReadPre", "BufNewFile" },
-          build = ":TSUpdate",
-          config = function()
-            require("nvim-treesitter.configs").setup({
-              ensure_installed = {
-                "rust",
-                "toml",
-                "c",
-                "cpp",
-                "cuda",
-                "latex",
-                "bibtex",
-                "zig",
-                "python",
-                "go",
-                "gomod",
-                "gosum",
-                "make",
-                "cmake",
-                "gn",
-                "meson",
-                "ninja",
-                "asm",
-                "nasm",
-                "mlir",
-                "objdump",
-                "devicetree",
-                "disassembly",
-                "pem",
-                "nginx",
-                "glsl",
-                "sql",
-                "lua",
-                "vim",
-                "vimdoc",
-                "markdown",
-                "markdown_inline",
-                "tsx",
-                "typescript",
-                "javascript",
-                "html",
-                "css",
-                "scss",
-                "regex",
-                "json",
-                "yaml",
-                "xml",
-                "vue",
-                "java",
-                "javadoc",
-                "git_config",
-                "gitcommit",
-                "gitignore",
-                "git_rebase",
-                "diff",
-                "doxygen",
-                "dockerfile",
-                "desktop",
-                "hyprlang",
-                "kdl",
-                "ocaml",
-                "bash",
-                "fish",
-                "gpg",
-                -- "norg",
-              },
+        "nvim-treesitter/nvim-treesitter",
+        event = { "BufReadPre", "BufNewFile" },
+        build = ":TSUpdate",
+        config = function()
+          require("nvim-treesitter.configs").setup({
+            ensure_installed = {
+              "rust",
+              "toml",
+              "c",
+              "cpp",
+              "cuda",
+              "latex",
+              "bibtex",
+              "zig",
+              "python",
+              "go",
+              "gomod",
+              "gosum",
+              "make",
+              "cmake",
+              "gn",
+              "meson",
+              "ninja",
+              "asm",
+              "nasm",
+              "mlir",
+              "objdump",
+              "devicetree",
+              "disassembly",
+              "pem",
+              "nginx",
+              "glsl",
+              "sql",
+              "lua",
+              "vim",
+              "vimdoc",
+              "markdown",
+              "markdown_inline",
+              "tsx",
+              "typescript",
+              "javascript",
+              "html",
+              "css",
+              "scss",
+              "regex",
+              "json",
+              "yaml",
+              "xml",
+              "vue",
+              "java",
+              "javadoc",
+              "git_config",
+              "gitcommit",
+              "gitignore",
+              "git_rebase",
+              "diff",
+              "doxygen",
+              "dockerfile",
+              "desktop",
+              "hyprlang",
+              "kdl",
+              "ocaml",
+              "bash",
+              "fish",
+              "gpg",
+              -- "norg",
+            },
 
-              sync_install = false,
-              auto_install = true,
-              ignore_install = {
-                -- "javascript",
+            sync_install = false,
+            auto_install = true,
+            ignore_install = {
+              -- "javascript",
+            },
+            highlight = {
+              enable = true,
+              disable = {
+                -- "latex",
+                -- "c",
+                -- "cpp",
+                -- "cuda",
+                -- "rust",
               },
-              highlight = {
-                enable = true,
-                disable = {
-                  -- "latex",
-                  -- "c",
-                  -- "cpp",
-                  -- "cuda",
-                  -- "rust",
-                },
-                additional_vim_regex_highlighting = false,
-              },
-              autotag = {
-                enable = true,
-              },
-              indent = {
-                enable = true,
-              },
-              -- incremental_selection = {
-              --   enable = true,
-              --   keymaps = {
-              --     init_selection = "gnn", -- set to `false` to disable one of the mappings
-              --     node_incremental = "grn",
-              --     scope_incremental = "grc",
-              --     node_decremental = "grm",
-              --   },
-              -- },
-            })
-          end,
-        },
+              additional_vim_regex_highlighting = false,
+            },
+            autotag = {
+              enable = true,
+            },
+            indent = {
+              enable = true,
+            },
+            -- incremental_selection = {
+            --   enable = true,
+            --   keymaps = {
+            --     init_selection = "gnn", -- set to `false` to disable one of the mappings
+            --     node_incremental = "grn",
+            --     scope_incremental = "grc",
+            --     node_decremental = "grm",
+            --   },
+            -- },
+          })
+        end,
       },
       -- -- quick search and jump to char in screen
       -- {
@@ -1949,11 +1959,7 @@ else -- ordinary Neovim
           "rcarriga/nvim-notify",
         },
         config = function()
-          require("xmake").setup({
-            -- lsp = {
-            --   language = "zh-cn",
-            -- },
-          })
+          require("xmake").setup({})
 
           --  https://github.com/Mythos-404/xmake.nvim?tab=readme-ov-file#-commands
           keymap.set("n", "<leader>xr", ":Xmake run<cr>", { desc = "xmake run" })
