@@ -97,6 +97,7 @@ else -- ordinary Neovim
   opt.scrolloff = 8
   opt.sidescrolloff = 8
   -- opt.cursorline = true
+  opt.termguicolors = true
 
   -- vim.g.loaded_netrw = 1
   -- vim.g.loaded_netrwPlugin = 1
@@ -208,7 +209,7 @@ else -- ordinary Neovim
   -- vim.lsp.inlay_hint.enable(true) -- enable globally
 
   vim.diagnostic.config({
-    -- virtual_text = true,
+    virtual_text = true,
     underline = true,
     float = true,
     -- virtual_lines = true,
@@ -350,7 +351,7 @@ else -- ordinary Neovim
           require("gruvbox").setup({
             dim_inactive = false,
             contrast = "hard", -- can be "hard", "soft" or empty string
-            transparent_mode = true,
+            -- transparent_mode = true,
           })
 
           vim.o.background = "dark" -- or "light" for light mode
@@ -359,13 +360,17 @@ else -- ordinary Neovim
       },
       {
         "nvim-lualine/lualine.nvim",
-        -- enabled = false,
-        lazy = false,
-        -- dependencies = { "nvim-tree/nvim-web-devicons" },
+        event = "VeryLazy",
+        dependencies = {
+          {
+            "nvim-tree/nvim-web-devicons",
+            -- event = "VeryLazy",
+          },
+        },
         config = function()
           require("lualine").setup({
             options = {
-              icons_enabled = false,
+              -- icons_enabled = false,
               -- theme = "auto",
               -- theme = "gruvbox_dark",
               theme = "powerline",
@@ -375,7 +380,7 @@ else -- ordinary Neovim
             },
             sections = {
               lualine_a = { "mode" },
-              lualine_b = { "lsp_status", "diagnostics", "branch", "diff" },
+              lualine_b = { "lsp_status", "diagnostics" },
               lualine_c = {
                 {
                   "filename",
@@ -384,12 +389,21 @@ else -- ordinary Neovim
                   path = 1,
                 },
               },
-              lualine_x = { "encoding", "fileformat" },
-              lualine_y = { "filetype" },
-              lualine_z = { "location", "progress" },
+              lualine_x = {
+                "branch",
+                {
+                  "diff",
+                  -- symbols = { added = " ", modified = " ", removed = " " },
+                },
+              },
+              lualine_y = { "encoding", "fileformat", "filetype" },
+              lualine_z = {
+                -- "searchcount",
+                "location",
+                "progress",
+              },
             },
             extensions = {
-              "quickfix",
               "lazy",
               "fzf",
               "man",
@@ -399,6 +413,9 @@ else -- ordinary Neovim
               "nvim-dap-ui",
               "oil",
               "trouble",
+              "toggleterm",
+              "overseer",
+              "quickfix",
             },
           })
 
@@ -525,37 +542,37 @@ else -- ordinary Neovim
                 },
               },
             },
-            -- on_attach = function(client, bufnr)
-            --   -- require "lsp_signature".on_attach({
-            --   --   always_trigger = true,
-            --   --   transparency = 10,
+            --   -- on_attach = function(client, bufnr)
+            --   --   -- require "lsp_signature".on_attach({
+            --   --   --   always_trigger = true,
+            --   --   --   transparency = 10,
+            --   --   --
+            --   --   -- }, bufnr)
             --   --
-            --   -- }, bufnr)
-            --
-            --   -- enable inlay hints at buffer open
-            --   -- vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-            --   --
-            --   -- pcall(vim.api.nvim_create_autocmd, "LspProgress", {
-            --   --   callback = function(event)
-            --   --     local kind = event.data.params.value.kind
-            --   --     local client_id = event.data.client_id
-            --   --     local work = lsp_work_by_client_id[client_id] or 0
-            --   --     local work_change = kind == "begin" and 1 or (kind == "end" and -1 or 0)
-            --   --     lsp_work_by_client_id[client_id] = math.max(work + work_change, 0)
-            --   --
-            --   --     if
-            --   --       vim.lsp.inlay_hint.is_enabled({
-            --   --         bufnr = bufnr,
-            --   --       }) and lsp_work_by_client_id[client_id] == 0
-            --   --     then
-            --   --       vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
-            --   --       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-            --   --       time = time + 1
-            --   --       print(string.format("inlay hints redrew %d times", time))
-            --   --     end
-            --   --   end,
-            --   -- })
-            -- end,
+            --   --   -- enable inlay hints at buffer open
+            --   --   -- vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+            --   --   --
+            --   --   -- pcall(vim.api.nvim_create_autocmd, "LspProgress", {
+            --   --   --   callback = function(event)
+            --   --   --     local kind = event.data.params.value.kind
+            --   --   --     local client_id = event.data.client_id
+            --   --   --     local work = lsp_work_by_client_id[client_id] or 0
+            --   --   --     local work_change = kind == "begin" and 1 or (kind == "end" and -1 or 0)
+            --   --   --     lsp_work_by_client_id[client_id] = math.max(work + work_change, 0)
+            --   --   --
+            --   --   --     if
+            --   --   --       vim.lsp.inlay_hint.is_enabled({
+            --   --   --         bufnr = bufnr,
+            --   --   --       }) and lsp_work_by_client_id[client_id] == 0
+            --   --   --     then
+            --   --   --       vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+            --   --   --       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+            --   --   --       time = time + 1
+            --   --   --       print(string.format("inlay hints redrew %d times", time))
+            --   --   --     end
+            --   --   --   end,
+            --   --   -- })
+            --   -- end,
           })
 
           -- clangd
@@ -1166,11 +1183,11 @@ else -- ordinary Neovim
               highlight = {
                 enable = true,
                 disable = {
-                  "latex",
-                  "c",
-                  "cpp",
-                  "cuda",
-                  "rust",
+                  -- "latex",
+                  -- "c",
+                  -- "cpp",
+                  -- "cuda",
+                  -- "rust",
                 },
                 additional_vim_regex_highlighting = false,
               },
@@ -1319,141 +1336,6 @@ else -- ordinary Neovim
           )
         end,
       },
-      -- {
-      --   "saecki/crates.nvim",
-      --   event = { "BufRead Cargo.toml" },
-      --   dependencies = {
-      --     "nvim-lua/plenary.nvim",
-      --     "folke/which-key.nvim",
-      --     "ray-x/lsp_signature.nvim",
-      --   },
-      --   config = function()
-      --     local crates = require("crates")
-      --     crates.setup({ -- https://github.com/YaQia/.dotfile/blob/master/nvim/lua/plugins/crates.lua
-      --       popup = {
-      --         border = "rounded",
-      --       },
-      --       lsp = {
-      --         enabled = true,
-      --         on_attach = function(_, bufnr)
-      --           require("lsp_signature").on_attach({
-      --             hint_enable = true, -- virtual hint enable
-      --             hint_prefix = "• ",
-      --           }, bufnr)
-      --         end,
-      --         actions = true,
-      --         completion = true,
-      --         hover = true,
-      --       },
-      --       completion = {
-      --         crates = {
-      --           enabled = true, -- disabled by default
-      --           max_results = 8, -- The maximum number of search results to display
-      --           min_chars = 3, -- The minimum number of charaters to type before completions begin appearing
-      --         },
-      --         blink = {
-      --           use_custom_kind = true,
-      --           kind_text = {
-      --             version = "Version",
-      --             feature = "Feature",
-      --           },
-      --           kind_highlight = {
-      --             version = "BlinkCmpKindVersion",
-      --             feature = "BlinkCmpKindFeature",
-      --           },
-      --           kind_icon = {
-      --             version = "🅥 ",
-      --             feature = "🅕 ",
-      --           },
-      --         },
-      --       },
-      --     })
-      --
-      --     local function show_documentation()
-      --       local filetype = vim.bo.filetype
-      --       if vim.tbl_contains({ "vim", "help" }, filetype) then
-      --         vim.cmd("h " .. vim.fn.expand("<cword>"))
-      --       elseif vim.tbl_contains({ "man" }, filetype) then
-      --         vim.cmd("Man " .. vim.fn.expand("<cword>"))
-      --       elseif vim.fn.expand("%:t") == "Cargo.toml" and require("crates").popup_available() then
-      --         require("crates").show_popup()
-      --       else
-      --         vim.lsp.buf.hover()
-      --       end
-      --     end
-      --     vim.keymap.set("n", "K", show_documentation, { silent = true })
-      --
-      --     local wk = require("which-key")
-      --     wk.add({
-      --       { "<leader>C", group = "Crates", remap = false },
-      --       {
-      --         "<leader>CA",
-      --         crates.upgrade_all_crates,
-      --         desc = "Upgrade All",
-      --         remap = false,
-      --       },
-      --       {
-      --         "<leader>CU",
-      --         crates.upgrade_crate,
-      --         desc = "Upgrade",
-      --         remap = false,
-      --       },
-      --       {
-      --         "<leader>Ca",
-      --         crates.update_all_crates,
-      --         desc = "Update All",
-      --         remap = false,
-      --       },
-      --       {
-      --         "<leader>Cd",
-      --         crates.show_dependencies_popup,
-      --         desc = "Dependencies",
-      --         remap = false,
-      --       },
-      --       {
-      --         "<leader>Cf",
-      --         crates.show_features_popup,
-      --         desc = "Features",
-      --         remap = false,
-      --       },
-      --       {
-      --         "<leader>Cr",
-      --         crates.show_features_popup,
-      --         desc = "Reload",
-      --         remap = false,
-      --       },
-      --       { "<leader>Ct", crates.toggle, desc = "Toggle", remap = false },
-      --       { "<leader>Cu", crates.update_crate, desc = "Update", remap = false },
-      --       {
-      --         "<leader>Cv",
-      --         crates.show_versions_popup,
-      --         desc = "Version",
-      --         remap = false,
-      --       },
-      --     })
-      --
-      --     wk.add({
-      --       {
-      --         mode = { "x" },
-      --         { "<leader>C", group = "Crates", nowait = true, remap = false },
-      --         {
-      --           "<leader>CU",
-      --           crates.upgrade_crates,
-      --           desc = "Upgrade",
-      --           nowait = true,
-      --           remap = false,
-      --         },
-      --         {
-      --           "<leader>Cu",
-      --           crates.update_crates,
-      --           desc = "Update",
-      --           nowait = true,
-      --           remap = false,
-      --         },
-      --       },
-      --     })
-      --   end,
-      -- },
       -- -- keymap hints
       -- {
       --   "folke/which-key.nvim",
@@ -1470,12 +1352,6 @@ else -- ordinary Neovim
       --     },
       --   },
       -- },
-      -- pairs
-      {
-        "windwp/nvim-autopairs",
-        event = "InsertEnter",
-        opts = {},
-      },
       -- :h nvim-surround.usage
       {
         "kylechui/nvim-surround",
@@ -1660,6 +1536,7 @@ else -- ordinary Neovim
       },
       {
         "Civitasv/cmake-tools.nvim",
+        -- enabled = false,
         ft = { "cpp", "c", "cuda", "cmake" },
         -- event = { "BufReadPre", "BufNewFile" },
         -- cond = function()
@@ -1781,6 +1658,7 @@ else -- ordinary Neovim
       },
       {
         "sphamba/smear-cursor.nvim",
+        enabled = false,
         event = {
           "VeryLazy",
           -- "BufReadPre",
@@ -1808,6 +1686,7 @@ else -- ordinary Neovim
       },
       {
         "karb94/neoscroll.nvim",
+        enabled = false,
         event = {
           -- "VeryLazy",
           "BufReadPre",
@@ -1845,6 +1724,246 @@ else -- ordinary Neovim
               "CursorMoved",
             },
           })
+        end,
+      },
+      -- {
+      --   "nvim-neotest/neotest",
+      --   dependencies = {
+      --     "nvim-neotest/nvim-nio",
+      --     "nvim-lua/plenary.nvim",
+      --     "antoinemadec/FixCursorHold.nvim",
+      --     "nvim-treesitter/nvim-treesitter",
+      --   },
+      --   config = function()
+      --     require("neotest").setup({
+      --       adapters = {
+      --         require("neotest-python")({
+      --           dap = { justMyCode = false },
+      --         }),
+      --         require("neotest-plenary"),
+      --         require("neotest-vim-test")({
+      --           ignore_file_types = { "python", "vim", "lua" },
+      --         }),
+      --       },
+      --     })
+      --   end,
+      -- },
+      -- {
+      --   "mrcjkb/rustaceanvim",
+      --   -- version = "^6", -- Recommended
+      --   -- lazy = false, -- This plugin is already lazy
+      --   ft = {
+      --     "rust",
+      --     "toml",
+      --   },
+      --   -- event = { "BufReadPre", "BufNewFile" },
+      --   config = function()
+      --     vim.g.rustaceanvim = {
+      --       -- Plugin configuration
+      --       tools = {},
+      --       -- LSP configuration
+      --       server = {
+      --         on_attach = function(client, bufnr)
+      --           vim.keymap.set("n", "<leader>a", function()
+      --             vim.cmd.RustLsp("codeAction") -- supports rust-analyzer's grouping
+      --             -- vim.lsp.buf.codeAction() -- if you don't want grouping.
+      --           end, { silent = true, buffer = bufnr })
+      --           vim.keymap.set(
+      --             "n",
+      --             "<leader>k", -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
+      --             function()
+      --               vim.cmd.RustLsp({ "hover", "actions" })
+      --             end,
+      --             { silent = true, buffer = bufnr }
+      --           )
+      --         end,
+      --         default_settings = {
+      --           ["rust-analyzer"] = {
+      --             diagnostics = {
+      --               enable = true,
+      --               experimental = { enable = true },
+      --               styleLints = { enable = true },
+      --             },
+      --             cargo = { features = "all" },
+      --             checkOnSave = true,
+      --             check = {
+      --               command = "clippy",
+      --               features = "all",
+      --             },
+      --             files = {
+      --               -- watcher = 'server',
+      --               watcher = "client",
+      --             },
+      --             inlayHints = {
+      --               typeHints = { enable = true },
+      --               chainingHints = { enable = true },
+      --               closingBraceHints = { enable = true },
+      --               bindingModeHints = { enable = true },
+      --               closureCaptureHints = { enable = true },
+      --               closureReturnTypeHints = {
+      --                 enable = "always",
+      --               },
+      --               discriminantHints = { enable = "always" },
+      --               expressionAdjustmentHints = {
+      --                 enable = "always",
+      --               },
+      --               genericParameterHints = {
+      --                 const = { enable = true },
+      --                 lifetime = { enable = true },
+      --                 type = { enable = true },
+      --               },
+      --               implicitDrops = { enable = true },
+      --               implicitSizedBoundHints = { enable = true },
+      --               maxLength = nil,
+      --               reborrowHints = { enable = "always" },
+      --               renderColons = true,
+      --               lifetimeElisionHints = {
+      --                 enable = true,
+      --                 useParameterNames = true,
+      --               },
+      --             },
+      --           },
+      --         },
+      --       },
+      --       -- DAP configuration
+      --       dap = {},
+      --     }
+      --   end,
+      -- },
+      -- {
+      --   "saecki/crates.nvim",
+      --   event = { "BufRead Cargo.toml" },
+      --   -- tag = "stable",
+      --   config = function()
+      --     -- https://github.com/Saecki/crates.nvim/wiki/Documentation-unstable
+      --     -- https://github.com/YaQia/.dotfile/blob/master/nvim/lua/plugins/crates.lua
+      --     require("crates").setup()
+      --   end,
+      -- },
+      -- -- pairs
+      -- {
+      --   "windwp/nvim-autopairs",
+      --   event = "InsertEnter",
+      --   opts = {},
+      -- },
+      {
+        "saghen/blink.pairs",
+        event = { "BufReadPost", "BufNewFile" },
+        build = "cargo build --release",
+        --- @module 'blink.pairs'
+        --- @type blink.pairs.Config
+        opts = {
+          mappings = {
+            -- you can call require("blink.pairs.mappings").enable()
+            -- and require("blink.pairs.mappings").disable()
+            -- to enable/disable mappings at runtime
+            enabled = true,
+            cmdline = true,
+            -- or disable with `vim.g.pairs = false` (global) and `vim.b.pairs = false` (per-buffer)
+            -- and/or with `vim.g.blink_pairs = false` and `vim.b.blink_pairs = false`
+            disabled_filetypes = {},
+            -- see the defaults:
+            -- https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L14
+            pairs = {},
+          },
+          highlights = {
+            enabled = true,
+            -- requires require('vim._extui').enable({}), otherwise has no effect
+            cmdline = true,
+            -- groups = {
+            --   "BlinkPairsOrange",
+            --   "BlinkPairsPurple",
+            --   "BlinkPairsBlue",
+            -- },
+            unmatched_group = "BlinkPairsUnmatched",
+
+            -- highlights matching pairs under the cursor
+            matchparen = {
+              enabled = true,
+              -- known issue where typing won't update matchparen highlight, disabled by default
+              cmdline = false,
+              -- also include pairs not on top of the cursor, but surrounding the cursor
+              include_surrounding = false,
+              group = "BlinkPairsMatchParen",
+              priority = 250,
+            },
+          },
+          debug = false,
+        },
+      },
+      {
+        "saghen/blink.indent",
+        enabled = false,
+        event = { "BufReadPost", "BufNewFile" },
+        opts = {},
+        config = function()
+          require("blink.indent").setup({
+            blocked = {
+              -- default: 'terminal', 'quickfix', 'nofile', 'prompt'
+              buftypes = { include_defaults = true },
+              -- default: 'lspinfo', 'packer', 'checkhealth', 'help', 'man', 'gitcommit', 'dashboard', ''
+              filetypes = { include_defaults = true },
+            },
+            static = {
+              enabled = true,
+              char = "▎",
+              priority = 1,
+              -- specify multiple highlights here for rainbow-style indent guides
+              -- highlights = { 'BlinkIndentRed', 'BlinkIndentOrange', 'BlinkIndentYellow', 'BlinkIndentGreen', 'BlinkIndentViolet', 'BlinkIndentCyan' },
+              highlights = { "BlinkIndent" },
+            },
+            scope = {
+              enabled = true,
+              char = "▎",
+              priority = 1000,
+              -- set this to a single highlight, such as 'BlinkIndent' to disable rainbow-style indent guides
+              -- highlights = { 'BlinkIndentScope' },
+              -- optionally add: 'BlinkIndentRed', 'BlinkIndentCyan', 'BlinkIndentYellow', 'BlinkIndentGreen'
+              highlights = { "BlinkIndentOrange", "BlinkIndentViolet", "BlinkIndentBlue" },
+              -- enable to show underlines on the line above the current scope
+              underline = {
+                -- enabled = true,
+                -- optionally add: 'BlinkIndentRedUnderline', 'BlinkIndentCyanUnderline', 'BlinkIndentYellowUnderline', 'BlinkIndentGreenUnderline'
+                highlights = { "BlinkIndentOrangeUnderline", "BlinkIndentVioletUnderline", "BlinkIndentBlueUnderline" },
+              },
+            },
+          })
+        end,
+      },
+      {
+        "rcarriga/nvim-notify",
+        event = { "BufReadPost", "BufNewFile" },
+        opts = {},
+        config = function()
+          keymap.set("n", "<leader>nt", ":Notifications<cr>", { desc = "Show notify history." })
+        end,
+      },
+      {
+        "Mythos-404/xmake.nvim",
+        ft = { "c", "cpp", "cuda" },
+        event = { "BufRead xmake.lua" },
+        dependencies = {
+          "akinsho/toggleterm.nvim",
+          -- "mfussenegger/nvim-dap",
+          -- "folke/snacks.nvim",
+          "rcarriga/nvim-notify",
+        },
+        config = function()
+          require("xmake").setup({
+            -- lsp = {
+            --   language = "zh-cn",
+            -- },
+          })
+
+          --  https://github.com/Mythos-404/xmake.nvim?tab=readme-ov-file#-commands
+          keymap.set("n", "<leader>xr", ":Xmake run<cr>", { desc = "xmake run" })
+          keymap.set("n", "<leader>xb", ":Xmake build<cr>", { desc = "xmake build" })
+          -- keymap.set("n", "<leader>xd", ":Xmake debug<cr>", { desc = "xmake debug" })
+          keymap.set("n", "<leader>xc", ":Xmake clean<cr>", { desc = "xmake clean" })
+          keymap.set("n", "<leader>xm", ":Xmake mode<cr>", { desc = "xmake mode" })
+          keymap.set("n", "<leader>xa", ":Xmake arch<cr>", { desc = "xmake arch" })
+          keymap.set("n", "<leader>xp", ":Xmake plat<cr>", { desc = "xmake plat" })
+          keymap.set("n", "<leader>xt", ":Xmake toolchain<cr>", { desc = "xmake toolchain" })
         end,
       },
     },
