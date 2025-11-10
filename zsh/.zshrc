@@ -27,18 +27,45 @@ export DISPLAY=:0
 export BAT_THEME="gruvbox-dark"
 
 . "$HOME/.cargo/env"
-export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static # 用于更新 toolchain
+export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup # 用于更新 rustup
+# export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+# export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
+
+export RUSTC_WRAPPER=$(which sccache)
 export RUSTC_BOOTSTRAP=1
 export RUST_BACKTRACE=full
+export CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true
 
 export http_proxy="http://127.0.0.1:7890"
 export https_proxy="http://127.0.0.1:7890"
 export all_proxy="socks5://127.0.0.1:7891"
+export no_proxy=127.0.0.1,::1,localhost,*.local,*.lan
 
 # path=(~/.local/bin $path)
 # export PATH
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+
+# llvm from source
+export PATH="$HOME/builds/llvm-build/llvm-build-install/bin:$PATH"
+export CPPFLAGS="$CPPFLAGS -I$HOME/builds/llvm-build/llvm-build-install/include"
+export LDFLAGS="$LDFLAGS -L$HOME/builds/llvm-build/llvm-build-install/lib -L$HOME/builds/llvm-build/llvm-build-install/lib/x86_64-pc-linux-gnu -Wl,-rpath,$HOME/builds/llvm-build/llvm-build-install/lib  -Wl,-rpath,$HOME/builds/llvm-build/llvm-build-install/lib/x86_64-pc-linux-gnu"
+# -L only for compile time
+# -Wl,-rpath will record in the ELF binary (for shared libs)
+# LD_RUN_PATH will in binary if -rpath was not explicitly set
+# LD_LIBRARY_PATH not record in the binary, but has higher search priority at runtime
+# /etc/ld.so.cache controled by config file like /etc/ld.so.conf
+# finally search for system default /lib /usr/lib ...
+
+# for rust-cuda
+export PATH=/opt/cuda/nvvm/bin:$PATH
+export LD_LIBRARY_PATH=/opt/cuda/nvvm/lib64:${LD_LIBRARY_PATH}
+export LLVM_CONFIG=$HOME/builds/llvm-build/llvm-7-build-install/bin/llvm-config
+export OPTIX_ROOT=/opt/NVIDIA-OptiX-SDK-9.0.0-linux64-x86_64
+export OPTIX_ROOT_DIR=/opt/NVIDIA-OptiX-SDK-9.0.0-linux64-x86_64
+export LLVM_LINK_STATIC=1
+# export RUST_LOG=info
 
 # kdb
 # export QHOME=~/q

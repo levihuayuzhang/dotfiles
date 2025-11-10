@@ -32,7 +32,7 @@ CompileFlags:
   # not using compile_commands.json for configuring the CUDA projects
   # so may avoid compiler flags from nvcc that not recognized by clang
   # manually add include paths and other flags into project's .clangd config instead
-  CompilationDatabase: None
+  # CompilationDatabase: None
   # preprocessor vars like -D__CUDACC_VER_MAJOR__ , -D__CUDA_ARCH__ may are
   # the key settings (configure them according to the target architecture).
   Add:
@@ -150,12 +150,12 @@ Hover:
   ShowAKA: true
 InlayHints:
   Enabled: true
-  # ParameterNames: true
-  # DeducedTypes: true
-  # Designators: true
-  # BlockEnd: true
-  # DefaultArguments: true
-  # TypeNameLimit: 0
+  ParameterNames: true
+  DeducedTypes: true
+  Designators: true
+  BlockEnd: true
+  DefaultArguments: true
+  TypeNameLimit: 0
 Completion:
   AllScopes: true
   ArgumentLists: FullPlaceholders
