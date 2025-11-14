@@ -110,6 +110,7 @@ CompileFlags:
     - -fmodules-ts
     - -fmodule-mapper=*
     - -fdeps-format=*
+    - -fconcepts-diagnostics-depth=*
     - -Wduplicated-cond
     - -Wduplicated-branches
     - -Wlogical-op
