@@ -34,7 +34,7 @@ blur = true
 # decorations = "Transparent"
 # padding = { x = 10, y = 30 }
 # dynamic_padding = true
-dimensions = { columns = 110, lines = 66 }
+dimensions = { columns = 130, lines = 66 }
 
 
 [cursor]

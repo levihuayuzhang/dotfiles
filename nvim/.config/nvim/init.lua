@@ -113,13 +113,25 @@ else -- ordinary Neovim
   opt.diffopt:append("algorithm:histogram")
   opt.diffopt:append("indent-heuristic")
 
+  local function get_visual_highlight_bg_color_hex()
+    local visual_hl = vim.api.nvim_get_hl(0, { name = "Visual" })
+    local visual_bg = visual_hl.bg
+    -- print("decimal of visual highlight bg is " .. visual_bg)
+    local visual_bg_hex = string.format("#%06x", visual_bg)
+    -- print("hex of visual highlight bg is " .. visual_bg_hex)
+    return visual_bg_hex
+  end
   -- override color
   vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     pattern = { "*" },
     callback = function()
-      api.nvim_set_hl(0, "IlluminatedWordText", { underline = true })
-      api.nvim_set_hl(0, "IlluminatedWordRead", { underline = true })
-      api.nvim_set_hl(0, "IlluminatedWordWrite", { underline = true })
+      -- api.nvim_set_hl(0, "IlluminatedWordText", { underline = true })
+      -- api.nvim_set_hl(0, "IlluminatedWordRead", { underline = true })
+      -- api.nvim_set_hl(0, "IlluminatedWordWrite", { underline = true })
+      -- vscode like background for same symbols
+      api.nvim_set_hl(0, "IlluminatedWordText", { bg = get_visual_highlight_bg_color_hex() })
+      api.nvim_set_hl(0, "IlluminatedWordRead", { bg = get_visual_highlight_bg_color_hex() })
+      api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = get_visual_highlight_bg_color_hex() })
 
       api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
       api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
@@ -1286,12 +1298,12 @@ else -- ordinary Neovim
           require("fzf-lua").setup({
             -- https://github.com/ibhagwan/fzf-lua/blob/main/OPTIONS.md
             -- https://github.com/ibhagwan/fzf-lua/tree/main/lua/fzf-lua/profiles
-            {
-              "fzf-native",
-              -- "hide"
-            }, -- https://github.com/ibhagwan/fzf-lua/issues/1974#issuecomment-2816996592
+            -- {
+            --   "fzf-native",
+            --   -- "hide"
+            -- }, -- https://github.com/ibhagwan/fzf-lua/issues/1974#issuecomment-2816996592
 
-            fzf_opts = { ["--tmux"] = "center,80%,80%" },
+            -- fzf_opts = { ["--tmux"] = "center,80%,80%" },
 
             winopts = { preview = { layout = "vertical", vertical = "up:75%" } },
 
@@ -1310,11 +1322,11 @@ else -- ordinary Neovim
             [merge]
                 conflictstyle = zdiff3
           --]]
-            lsp = {
-              code_actions = {
-                preview_pager = "delta --navigate --line-numbers --hyperlinks --side-by-side --width=$FZF_PREVIEW_COLUMNS",
-              },
-            },
+            -- lsp = {
+            --   code_actions = {
+            --     preview_pager = "delta --navigate --line-numbers --hyperlinks --side-by-side --width=$FZF_PREVIEW_COLUMNS",
+            --   },
+            -- },
           })
 
           vim.keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find Files" })
@@ -1419,34 +1431,34 @@ else -- ordinary Neovim
       --     },
       --   },
       -- },
-      -- -- todo
-      -- {
-      --   "folke/todo-comments.nvim",
-      --   event = { "BufReadPost", "BufNewFile" },
-      --   dependencies = { "nvim-lua/plenary.nvim" },
-      --   keys = {
-      --     {
-      --       "]t",
-      --       function()
-      --         require("todo-comments").jump_next()
-      --       end,
-      --       desc = "Next todo comment",
-      --     },
-      --     {
-      --       "[t",
-      --       function()
-      --         require("todo-comments").jump_prev()
-      --       end,
-      --       desc = "Previous todo comment",
-      --     },
-      --     {
-      --       "<leader>tf",
-      --       "<cmd>TodoFzfLua<cr>",
-      --       desc = "TODO Search",
-      --     },
-      --   },
-      --   opts = {},
-      -- },
+      -- todo
+      {
+        "folke/todo-comments.nvim",
+        event = { "BufReadPost", "BufNewFile" },
+        dependencies = { "nvim-lua/plenary.nvim" },
+        keys = {
+          {
+            "]t",
+            function()
+              require("todo-comments").jump_next()
+            end,
+            desc = "Next todo comment",
+          },
+          {
+            "[t",
+            function()
+              require("todo-comments").jump_prev()
+            end,
+            desc = "Previous todo comment",
+          },
+          {
+            "<leader>tf",
+            "<cmd>TodoFzfLua<cr>",
+            desc = "TODO Search",
+          },
+        },
+        opts = {},
+      },
       -- -- usage indication
       -- {
       --   "RRethy/vim-illuminate",
@@ -1460,9 +1472,10 @@ else -- ordinary Neovim
       --     require("illuminate").configure({
       --       providers = {
       --         "lsp",
-      --         -- 'treesitter',
-      --         -- 'regex',
+      --         -- "treesitter",
+      --         -- "regex",
       --       },
+      --       delay = 0,
       --       modes_denylist = { "i", "v", "V" },
       --     })
       --   end,
@@ -1544,198 +1557,198 @@ else -- ordinary Neovim
           })
         end,
       },
-      {
-        "Civitasv/cmake-tools.nvim",
-        -- enabled = false,
-        ft = { "cpp", "c", "cuda", "cmake" },
-        -- event = { "BufReadPre", "BufNewFile" },
-        -- cond = function()
-        --   local cwd = vim.fn.getcwd()
-        --   return vim.fn.filereadable(cwd .. "/CMakeLists.txt") == 1
-        -- end,
-        opts = {},
-        dependencies = {
-          "nvim-lua/plenary.nvim",
-          {
-            "akinsho/toggleterm.nvim",
-            opts = {},
-          },
-          {
-            "stevearc/overseer.nvim",
-            version = "v1.6.0",
-            opts = {},
-          },
-        },
-        config = function()
-          -- https://github.com/Civitasv/cmake-tools.nvim?tab=readme-ov-file#balloon-configuration
-          -- https://github.com/Civitasv/cmake-tools.nvim/blob/master/docs/sessions.md
-          local osys = require("cmake-tools.osys")
-          require("cmake-tools").setup({
-            cmake_generate_options = { "-GNinja", "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" },
-            cmake_build_options = {},
-            -- support macro expansion:
-            --       ${kit}
-            --       ${kitGenerator}
-            --       ${variant:xx}
-            cmake_build_directory = function()
-              if osys.iswin32 then
-                return "build\\${variant:buildType}"
-              end
-              return "build/${variant:buildType}"
-            end,
-            cmake_compile_commands_options = {
-              action = "soft_link", -- available options: soft_link, copy, lsp, none
-              target = vim.loop.cwd() .. "/build", -- path to directory, this is used only if action == "soft_link" or action == "copy"
-            },
-            cmake_compile_commands_from_lsp = true,
-            cmake_kits_path = "~/.local/share/CMakeTools/cmake-tools-kits.json",
-
-            cmake_executor = { -- executor to use
-              name = "overseer", -- name of the executor
-              default_opts = { -- a list of default and possible values for executors
-                overseer = {
-                  new_task_opts = {
-                    strategy = { -- https://github.com/stevearc/overseer.nvim/blob/master/doc/strategies.md#toggletermopts
-                      "toggleterm",
-                      auto_scroll = true,
-                      quit_on_exit = "success",
-                      direction = "float",
-                      -- direction = "horizontal",
-                      -- size = 30,
-                    },
-                  }, -- options to pass into the `overseer.new_task` command
-                  on_new_task = function(task)
-                    -- require("overseer").open({ enter = true, direction = "left" }) -- https://github.com/stevearc/overseer.nvim/blob/master/doc/reference.md#openopts
-                    -- require("overseer").open({ enter = true }) -- https://github.com/stevearc/overseer.nvim/blob/master/doc/reference.md#openopts
-                  end, -- a function that gets overseer.Task when it is created, before calling `task:start`
-                },
-              },
-            },
-            cmake_runner = { -- runner to use
-              name = "overseer", -- name of the runner
-              default_opts = { -- a list of default and possible values for runners
-                overseer = {
-                  new_task_opts = {
-                    strategy = { -- https://github.com/stevearc/overseer.nvim/blob/master/doc/strategies.md#toggletermopts
-                      "toggleterm",
-                      autos_croll = true,
-                      quit_on_exit = "success",
-                      direction = "float",
-                      -- direction = "horizontal",
-                      -- size = 30,
-                    },
-                  }, -- options to pass into the `overseer.new_task` command
-                  on_new_task = function(task)
-                    -- require("overseer").open({ enter = true, direction = "left" }) -- https://github.com/stevearc/overseer.nvim/blob/master/doc/reference.md#openopts
-                    -- require("overseer").open({ enter = true }) -- https://github.com/stevearc/overseer.nvim/blob/master/doc/reference.md#openopts
-                  end, -- a function that gets overseer.Task when it is created, before calling `task:start`
-                },
-              },
-            },
-          })
-
-          vim.keymap.set("n", "cmr", ":CMakeRun<cr>", { silent = true, desc = "CMakeRun" })
-          vim.keymap.set("n", "cmb", ":CMakeBuild<cr>", { silent = true, desc = "CMakeBuild" })
-          vim.keymap.set("n", "cmc", ":CMakeGenerate<cr>", { silent = true, desc = "CMakeGenerate" })
-          vim.keymap.set("n", "cmst", ":CMakeStopRunner<cr>", { silent = true, desc = "CMakeStopRunner" })
-          vim.keymap.set("n", "cmsbbt", ":CMakeSelectBuildType<cr>", { silent = true, desc = "CMakeSelectBuildType" })
-          vim.keymap.set(
-            "n",
-            "cmsbt",
-            ":CMakeSelectBuildTarget<cr>",
-            { silent = true, desc = "CMakeSelectBuildTarget" }
-          )
-          vim.keymap.set(
-            "n",
-            "cmslt",
-            ":CMakeSelectLaunchTarget<cr>",
-            { silent = true, desc = "CMakeSelectLaunchTarget" }
-          )
-          vim.keymap.set(
-            "n",
-            "cmscp",
-            ":CMakeSelectConfigurePreset<cr>",
-            { silent = true, desc = "CMakeSelectConfigurePreset" }
-          )
-          vim.keymap.set(
-            "n",
-            "cmsbp",
-            ":CMakeSelectBuildPreset<cr>",
-            { silent = true, desc = "CMakeSelectConfigurePreset" }
-          )
-          vim.keymap.set("n", "cmsk", ":CMakeSelectKit<cr>", { silent = true, desc = "CMakeSelectKit" })
-        end,
-      },
-      {
-        "sphamba/smear-cursor.nvim",
-        enabled = false,
-        event = {
-          "VeryLazy",
-          -- "BufReadPre",
-          -- "BufNewFile",
-        },
-        opts = {
-          -- Smear cursor when switching buffers or windows.
-          smear_between_buffers = true,
-
-          -- Smear cursor when moving within line or to neighbor lines.
-          -- Use `min_horizontal_distance_smear` and `min_vertical_distance_smear` for finer control
-          smear_between_neighbor_lines = true,
-
-          -- Draw the smear in buffer space instead of screen space when scrolling
-          scroll_buffer_space = true,
-
-          -- Set to `true` if your font supports legacy computing symbols (block unicode symbols).
-          -- Smears will blend better on all backgrounds.
-          legacy_computing_symbols_support = false,
-
-          -- Smear cursor in insert mode.
-          -- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
-          smear_insert_mode = true,
-        },
-      },
-      {
-        "karb94/neoscroll.nvim",
-        enabled = false,
-        event = {
-          -- "VeryLazy",
-          "BufReadPre",
-          "BufNewFile",
-        },
-        opts = {},
-        config = function()
-          require("neoscroll").setup({
-            mappings = { -- Keys to be mapped to their corresponding default scrolling animation
-              "<C-u>",
-              "<C-d>",
-              "<C-b>",
-              "<C-f>",
-              "<C-y>",
-              "<C-e>",
-              "zt",
-              "zz",
-              "zb",
-            },
-            hide_cursor = true, -- Hide cursor while scrolling
-            stop_eof = true, -- Stop at <EOF> when scrolling downwards
-            respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
-            cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-            duration_multiplier = 1.0, -- Global duration multiplier
-
-            -- easing = "linear", -- Default easing function
-            easing = "quadratic", -- https://github.com/karb94/neoscroll.nvim?tab=readme-ov-file#easing-functions
-            -- easing = "sine", -- https://github.com/karb94/neoscroll.nvim?tab=readme-ov-file#easing-functions
-
-            pre_hook = nil, -- Function to run before the scrolling animation starts
-            post_hook = nil, -- Function to run after the scrolling animation ends
-            performance_mode = false, -- Disable "Performance Mode" on all buffers.
-            ignored_events = { -- Events ignored while scrolling
-              "WinScrolled",
-              "CursorMoved",
-            },
-          })
-        end,
-      },
+      -- {
+      --   "Civitasv/cmake-tools.nvim",
+      --   -- enabled = false,
+      --   ft = { "cpp", "c", "cuda", "cmake" },
+      --   -- event = { "BufReadPre", "BufNewFile" },
+      --   -- cond = function()
+      --   --   local cwd = vim.fn.getcwd()
+      --   --   return vim.fn.filereadable(cwd .. "/CMakeLists.txt") == 1
+      --   -- end,
+      --   opts = {},
+      --   dependencies = {
+      --     "nvim-lua/plenary.nvim",
+      --     {
+      --       "akinsho/toggleterm.nvim",
+      --       opts = {},
+      --     },
+      --     {
+      --       "stevearc/overseer.nvim",
+      --       version = "v1.6.0",
+      --       opts = {},
+      --     },
+      --   },
+      --   config = function()
+      --     -- https://github.com/Civitasv/cmake-tools.nvim?tab=readme-ov-file#balloon-configuration
+      --     -- https://github.com/Civitasv/cmake-tools.nvim/blob/master/docs/sessions.md
+      --     local osys = require("cmake-tools.osys")
+      --     require("cmake-tools").setup({
+      --       cmake_generate_options = { "-GNinja", "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" },
+      --       cmake_build_options = {},
+      --       -- support macro expansion:
+      --       --       ${kit}
+      --       --       ${kitGenerator}
+      --       --       ${variant:xx}
+      --       cmake_build_directory = function()
+      --         if osys.iswin32 then
+      --           return "build\\${variant:buildType}"
+      --         end
+      --         return "build/${variant:buildType}"
+      --       end,
+      --       cmake_compile_commands_options = {
+      --         action = "soft_link", -- available options: soft_link, copy, lsp, none
+      --         target = vim.loop.cwd() .. "/build", -- path to directory, this is used only if action == "soft_link" or action == "copy"
+      --       },
+      --       cmake_compile_commands_from_lsp = true,
+      --       cmake_kits_path = "~/.local/share/CMakeTools/cmake-tools-kits.json",
+      --
+      --       cmake_executor = { -- executor to use
+      --         name = "overseer", -- name of the executor
+      --         default_opts = { -- a list of default and possible values for executors
+      --           overseer = {
+      --             new_task_opts = {
+      --               strategy = { -- https://github.com/stevearc/overseer.nvim/blob/master/doc/strategies.md#toggletermopts
+      --                 "toggleterm",
+      --                 auto_scroll = true,
+      --                 quit_on_exit = "success",
+      --                 direction = "float",
+      --                 -- direction = "horizontal",
+      --                 -- size = 30,
+      --               },
+      --             }, -- options to pass into the `overseer.new_task` command
+      --             on_new_task = function(task)
+      --               -- require("overseer").open({ enter = true, direction = "left" }) -- https://github.com/stevearc/overseer.nvim/blob/master/doc/reference.md#openopts
+      --               -- require("overseer").open({ enter = true }) -- https://github.com/stevearc/overseer.nvim/blob/master/doc/reference.md#openopts
+      --             end, -- a function that gets overseer.Task when it is created, before calling `task:start`
+      --           },
+      --         },
+      --       },
+      --       cmake_runner = { -- runner to use
+      --         name = "overseer", -- name of the runner
+      --         default_opts = { -- a list of default and possible values for runners
+      --           overseer = {
+      --             new_task_opts = {
+      --               strategy = { -- https://github.com/stevearc/overseer.nvim/blob/master/doc/strategies.md#toggletermopts
+      --                 "toggleterm",
+      --                 autos_croll = true,
+      --                 quit_on_exit = "success",
+      --                 direction = "float",
+      --                 -- direction = "horizontal",
+      --                 -- size = 30,
+      --               },
+      --             }, -- options to pass into the `overseer.new_task` command
+      --             on_new_task = function(task)
+      --               -- require("overseer").open({ enter = true, direction = "left" }) -- https://github.com/stevearc/overseer.nvim/blob/master/doc/reference.md#openopts
+      --               -- require("overseer").open({ enter = true }) -- https://github.com/stevearc/overseer.nvim/blob/master/doc/reference.md#openopts
+      --             end, -- a function that gets overseer.Task when it is created, before calling `task:start`
+      --           },
+      --         },
+      --       },
+      --     })
+      --
+      --     vim.keymap.set("n", "cmr", ":CMakeRun<cr>", { silent = true, desc = "CMakeRun" })
+      --     vim.keymap.set("n", "cmb", ":CMakeBuild<cr>", { silent = true, desc = "CMakeBuild" })
+      --     vim.keymap.set("n", "cmc", ":CMakeGenerate<cr>", { silent = true, desc = "CMakeGenerate" })
+      --     vim.keymap.set("n", "cmst", ":CMakeStopRunner<cr>", { silent = true, desc = "CMakeStopRunner" })
+      --     vim.keymap.set("n", "cmsbbt", ":CMakeSelectBuildType<cr>", { silent = true, desc = "CMakeSelectBuildType" })
+      --     vim.keymap.set(
+      --       "n",
+      --       "cmsbt",
+      --       ":CMakeSelectBuildTarget<cr>",
+      --       { silent = true, desc = "CMakeSelectBuildTarget" }
+      --     )
+      --     vim.keymap.set(
+      --       "n",
+      --       "cmslt",
+      --       ":CMakeSelectLaunchTarget<cr>",
+      --       { silent = true, desc = "CMakeSelectLaunchTarget" }
+      --     )
+      --     vim.keymap.set(
+      --       "n",
+      --       "cmscp",
+      --       ":CMakeSelectConfigurePreset<cr>",
+      --       { silent = true, desc = "CMakeSelectConfigurePreset" }
+      --     )
+      --     vim.keymap.set(
+      --       "n",
+      --       "cmsbp",
+      --       ":CMakeSelectBuildPreset<cr>",
+      --       { silent = true, desc = "CMakeSelectConfigurePreset" }
+      --     )
+      --     vim.keymap.set("n", "cmsk", ":CMakeSelectKit<cr>", { silent = true, desc = "CMakeSelectKit" })
+      --   end,
+      -- },
+      -- {
+      --   "sphamba/smear-cursor.nvim",
+      --   enabled = false,
+      --   event = {
+      --     "VeryLazy",
+      --     -- "BufReadPre",
+      --     -- "BufNewFile",
+      --   },
+      --   opts = {
+      --     -- Smear cursor when switching buffers or windows.
+      --     smear_between_buffers = true,
+      --
+      --     -- Smear cursor when moving within line or to neighbor lines.
+      --     -- Use `min_horizontal_distance_smear` and `min_vertical_distance_smear` for finer control
+      --     smear_between_neighbor_lines = true,
+      --
+      --     -- Draw the smear in buffer space instead of screen space when scrolling
+      --     scroll_buffer_space = true,
+      --
+      --     -- Set to `true` if your font supports legacy computing symbols (block unicode symbols).
+      --     -- Smears will blend better on all backgrounds.
+      --     legacy_computing_symbols_support = false,
+      --
+      --     -- Smear cursor in insert mode.
+      --     -- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
+      --     smear_insert_mode = true,
+      --   },
+      -- },
+      -- {
+      --   "karb94/neoscroll.nvim",
+      --   enabled = false,
+      --   event = {
+      --     -- "VeryLazy",
+      --     "BufReadPre",
+      --     "BufNewFile",
+      --   },
+      --   opts = {},
+      --   config = function()
+      --     require("neoscroll").setup({
+      --       mappings = { -- Keys to be mapped to their corresponding default scrolling animation
+      --         "<C-u>",
+      --         "<C-d>",
+      --         "<C-b>",
+      --         "<C-f>",
+      --         "<C-y>",
+      --         "<C-e>",
+      --         "zt",
+      --         "zz",
+      --         "zb",
+      --       },
+      --       hide_cursor = true, -- Hide cursor while scrolling
+      --       stop_eof = true, -- Stop at <EOF> when scrolling downwards
+      --       respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+      --       cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+      --       duration_multiplier = 1.0, -- Global duration multiplier
+      --
+      --       -- easing = "linear", -- Default easing function
+      --       easing = "quadratic", -- https://github.com/karb94/neoscroll.nvim?tab=readme-ov-file#easing-functions
+      --       -- easing = "sine", -- https://github.com/karb94/neoscroll.nvim?tab=readme-ov-file#easing-functions
+      --
+      --       pre_hook = nil, -- Function to run before the scrolling animation starts
+      --       post_hook = nil, -- Function to run after the scrolling animation ends
+      --       performance_mode = false, -- Disable "Performance Mode" on all buffers.
+      --       ignored_events = { -- Events ignored while scrolling
+      --         "WinScrolled",
+      --         "CursorMoved",
+      --       },
+      --     })
+      --   end,
+      -- },
       -- {
       --   "nvim-neotest/neotest",
       --   dependencies = {
@@ -1901,77 +1914,77 @@ else -- ordinary Neovim
           debug = false,
         },
       },
-      {
-        "saghen/blink.indent",
-        enabled = false,
-        event = { "BufReadPost", "BufNewFile" },
-        opts = {},
-        config = function()
-          require("blink.indent").setup({
-            blocked = {
-              -- default: 'terminal', 'quickfix', 'nofile', 'prompt'
-              buftypes = { include_defaults = true },
-              -- default: 'lspinfo', 'packer', 'checkhealth', 'help', 'man', 'gitcommit', 'dashboard', ''
-              filetypes = { include_defaults = true },
-            },
-            static = {
-              enabled = true,
-              char = "▎",
-              priority = 1,
-              -- specify multiple highlights here for rainbow-style indent guides
-              -- highlights = { 'BlinkIndentRed', 'BlinkIndentOrange', 'BlinkIndentYellow', 'BlinkIndentGreen', 'BlinkIndentViolet', 'BlinkIndentCyan' },
-              highlights = { "BlinkIndent" },
-            },
-            scope = {
-              enabled = true,
-              char = "▎",
-              priority = 1000,
-              -- set this to a single highlight, such as 'BlinkIndent' to disable rainbow-style indent guides
-              -- highlights = { 'BlinkIndentScope' },
-              -- optionally add: 'BlinkIndentRed', 'BlinkIndentCyan', 'BlinkIndentYellow', 'BlinkIndentGreen'
-              highlights = { "BlinkIndentOrange", "BlinkIndentViolet", "BlinkIndentBlue" },
-              -- enable to show underlines on the line above the current scope
-              underline = {
-                -- enabled = true,
-                -- optionally add: 'BlinkIndentRedUnderline', 'BlinkIndentCyanUnderline', 'BlinkIndentYellowUnderline', 'BlinkIndentGreenUnderline'
-                highlights = { "BlinkIndentOrangeUnderline", "BlinkIndentVioletUnderline", "BlinkIndentBlueUnderline" },
-              },
-            },
-          })
-        end,
-      },
-      {
-        "rcarriga/nvim-notify",
-        event = { "BufReadPost", "BufNewFile" },
-        opts = {},
-        config = function()
-          keymap.set("n", "<leader>nt", ":Notifications<cr>", { desc = "Show notify history." })
-        end,
-      },
-      {
-        "Mythos-404/xmake.nvim",
-        ft = { "c", "cpp", "cuda" },
-        event = { "BufRead xmake.lua" },
-        dependencies = {
-          "akinsho/toggleterm.nvim",
-          -- "mfussenegger/nvim-dap",
-          -- "folke/snacks.nvim",
-          "rcarriga/nvim-notify",
-        },
-        config = function()
-          require("xmake").setup({})
-
-          --  https://github.com/Mythos-404/xmake.nvim?tab=readme-ov-file#-commands
-          keymap.set("n", "<leader>xr", ":Xmake run<cr>", { desc = "xmake run" })
-          keymap.set("n", "<leader>xb", ":Xmake build<cr>", { desc = "xmake build" })
-          -- keymap.set("n", "<leader>xd", ":Xmake debug<cr>", { desc = "xmake debug" })
-          keymap.set("n", "<leader>xc", ":Xmake clean<cr>", { desc = "xmake clean" })
-          keymap.set("n", "<leader>xm", ":Xmake mode<cr>", { desc = "xmake mode" })
-          keymap.set("n", "<leader>xa", ":Xmake arch<cr>", { desc = "xmake arch" })
-          keymap.set("n", "<leader>xp", ":Xmake plat<cr>", { desc = "xmake plat" })
-          keymap.set("n", "<leader>xt", ":Xmake toolchain<cr>", { desc = "xmake toolchain" })
-        end,
-      },
+      -- {
+      --   "saghen/blink.indent",
+      --   enabled = false,
+      --   event = { "BufReadPost", "BufNewFile" },
+      --   opts = {},
+      --   config = function()
+      --     require("blink.indent").setup({
+      --       blocked = {
+      --         -- default: 'terminal', 'quickfix', 'nofile', 'prompt'
+      --         buftypes = { include_defaults = true },
+      --         -- default: 'lspinfo', 'packer', 'checkhealth', 'help', 'man', 'gitcommit', 'dashboard', ''
+      --         filetypes = { include_defaults = true },
+      --       },
+      --       static = {
+      --         enabled = true,
+      --         char = "▎",
+      --         priority = 1,
+      --         -- specify multiple highlights here for rainbow-style indent guides
+      --         -- highlights = { 'BlinkIndentRed', 'BlinkIndentOrange', 'BlinkIndentYellow', 'BlinkIndentGreen', 'BlinkIndentViolet', 'BlinkIndentCyan' },
+      --         highlights = { "BlinkIndent" },
+      --       },
+      --       scope = {
+      --         enabled = true,
+      --         char = "▎",
+      --         priority = 1000,
+      --         -- set this to a single highlight, such as 'BlinkIndent' to disable rainbow-style indent guides
+      --         -- highlights = { 'BlinkIndentScope' },
+      --         -- optionally add: 'BlinkIndentRed', 'BlinkIndentCyan', 'BlinkIndentYellow', 'BlinkIndentGreen'
+      --         highlights = { "BlinkIndentOrange", "BlinkIndentViolet", "BlinkIndentBlue" },
+      --         -- enable to show underlines on the line above the current scope
+      --         underline = {
+      --           -- enabled = true,
+      --           -- optionally add: 'BlinkIndentRedUnderline', 'BlinkIndentCyanUnderline', 'BlinkIndentYellowUnderline', 'BlinkIndentGreenUnderline'
+      --           highlights = { "BlinkIndentOrangeUnderline", "BlinkIndentVioletUnderline", "BlinkIndentBlueUnderline" },
+      --         },
+      --       },
+      --     })
+      --   end,
+      -- },
+      -- {
+      --   "rcarriga/nvim-notify",
+      --   event = { "BufReadPost", "BufNewFile" },
+      --   opts = {},
+      --   config = function()
+      --     keymap.set("n", "<leader>nt", ":Notifications<cr>", { desc = "Show notify history." })
+      --   end,
+      -- },
+      -- {
+      --   "Mythos-404/xmake.nvim",
+      --   ft = { "c", "cpp", "cuda" },
+      --   event = { "BufRead xmake.lua" },
+      --   dependencies = {
+      --     "akinsho/toggleterm.nvim",
+      --     -- "mfussenegger/nvim-dap",
+      --     -- "folke/snacks.nvim",
+      --     "rcarriga/nvim-notify",
+      --   },
+      --   config = function()
+      --     require("xmake").setup({})
+      --
+      --     --  https://github.com/Mythos-404/xmake.nvim?tab=readme-ov-file#-commands
+      --     keymap.set("n", "<leader>xr", ":Xmake run<cr>", { desc = "xmake run" })
+      --     keymap.set("n", "<leader>xb", ":Xmake build<cr>", { desc = "xmake build" })
+      --     -- keymap.set("n", "<leader>xd", ":Xmake debug<cr>", { desc = "xmake debug" })
+      --     keymap.set("n", "<leader>xc", ":Xmake clean<cr>", { desc = "xmake clean" })
+      --     keymap.set("n", "<leader>xm", ":Xmake mode<cr>", { desc = "xmake mode" })
+      --     keymap.set("n", "<leader>xa", ":Xmake arch<cr>", { desc = "xmake arch" })
+      --     keymap.set("n", "<leader>xp", ":Xmake plat<cr>", { desc = "xmake plat" })
+      --     keymap.set("n", "<leader>xt", ":Xmake toolchain<cr>", { desc = "xmake toolchain" })
+      --   end,
+      -- },
     },
     install = {
       colorscheme = {
