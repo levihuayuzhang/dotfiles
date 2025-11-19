@@ -47,6 +47,9 @@ export no_proxy=127.0.0.1,::1,localhost,*.local,*.lan
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
+
+export CPM_SOURCE_CACHE=$HOME/.cache/CPM
+
 # llvm from source
 export PATH="$HOME/builds/llvm-build/llvm-build-install/bin:$PATH"
 export CPPFLAGS="$CPPFLAGS -I$HOME/builds/llvm-build/llvm-build-install/include"
