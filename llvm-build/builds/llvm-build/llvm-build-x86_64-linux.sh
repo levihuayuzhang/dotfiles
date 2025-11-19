@@ -39,13 +39,13 @@ cmake -S llvm -B build -G Ninja \
     -DLLVM_ENABLE_FFI=ON \
     -DLLVM_ENABLE_RTTI=ON \
     -DLLVM_ENABLE_LLD=ON \
-    -DLLVM_ENABLE_LTO=Full \
+    -DLLVM_ENABLE_LTO=Thin \
     -DLLVM_INSTALL_UTILS=ON \
     -DLLVM_OPTIMIZED_TABLEGEN=ON \
     -DLLVM_SOURCE_PREFIX=. \
     -DLLVM_USE_RELATIVE_PATHS_IN_FILES=ON
 
-# -DLLVM_ENABLE_LTO=Thin \
+# -DLLVM_ENABLE_LTO=Full \
 # -DCMAKE_CXX_FLAGS="-O3 -DNDEBUG -march=native -mtune=native" \
 # cat /etc/makepkg.conf | grep CHOST
 # -DLLVM_HOST_TRIPLE="x86_64-pc-linux-gnu" \
