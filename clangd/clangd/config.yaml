@@ -21,6 +21,7 @@
 
 ---
 # https://docs.nvidia.com/cutlass/media/docs/cpp/ide_setup.html#global-config
+# https://github.com/NVIDIA/cccl/blob/main/.clangd
 If:
   PathMatch: .*\.cuh?
   # PathMatch: .*\.c(c|u|uh)$
@@ -45,7 +46,7 @@ CompileFlags:
     # - "-L/opt/cuda/lib64"
     # - "-std=c++20"
     - --std=c++17
-    # - "--no-cuda-version-check"
+    - -stdlib=libc++
     - --cuda-gpu-arch=sm_90a
     - "-D__CUDACC__"
     - "-D__INTELLISENSE__"
@@ -62,7 +63,14 @@ CompileFlags:
     # - "-LC:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\lib\x64"
     # - "-IC:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\include"
     # report all errors
+    # Allow variadic CUDA functions
+    - "-Xclang=-fcuda-allow-variadic-functions"
+    - -Wno-unknown-cuda-version
+    - -Wno-pragma-system-header-outside-header
+    - --no-cuda-version-check
+    - "-DLIBCUDACXX_ENABLE_EXPERIMENTAL_MEMORY_RESOURCE"
     - "-ferror-limit=0"
+    - "-ftemplate-backtrace-limit=0"
   Remove:
     # strip CUDA fatbin args
     - "-Xfatbin*"
@@ -95,10 +103,9 @@ Diagnostics:
 # all files
 CompileFlags:
   Add:
-  [
-    -ferror-limit=0,
-    -Wall
-  ]
+    - -ferror-limit=0
+    - -ftemplate-backtrace-limit=0
+    - -Wall
   Remove:
     # gcc/g++
     - -fanalyzer
@@ -124,6 +131,8 @@ CompileFlags:
     - -Wno-stringop-overflow
     - -Wno-psabi
     # nvcc
+    - -G
+    - -stdpar
     - "-ccbin*"
     - "-Xfatbin*"
     - "-Xptxas*"
@@ -144,6 +153,11 @@ CompileFlags:
     - "-compress-all"
     - "-fvisibility=*"
     - "--extended-lambda"
+    - "--expt-extended-lambda"
+    - "--expt-relaxed-constexpr"
+    - "-forward-unknown-to-host-compiler"
+    - "-Werror=cross-execution-space-call"
+    - -Xcudafe=*
 Index:
   Background: Build
   StandardLibrary: true
@@ -195,4 +209,3 @@ Diagnostics:
     # CheckOptions:
     #   readability-identifier-naming.VariableCase: CamelCase
     FastCheckFilter: None
-
