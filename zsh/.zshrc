@@ -27,15 +27,15 @@ export DISPLAY=:0
 export BAT_THEME="gruvbox-dark"
 
 . "$HOME/.cargo/env"
-export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static # 用于更新 toolchain
-export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup # 用于更新 rustup
-# export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
-# export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
+# export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static # 用于更新 toolchain
+# export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup # 用于更新 rustup
+export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
 
 export RUSTC_WRAPPER=$(which sccache)
-export RUSTC_BOOTSTRAP=1
-export RUST_BACKTRACE=full
-export CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true
+# export RUSTC_BOOTSTRAP=1
+# export RUST_BACKTRACE=full
+# export CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true
 
 export http_proxy="http://127.0.0.1:7890"
 export https_proxy="http://127.0.0.1:7890"
@@ -243,7 +243,7 @@ eval "$(starship init zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(register-python-argcomplete pipx)"
 
-# source /opt/nvidia/hpc_sdk/activate
+source /opt/nvidia/hpc_sdk/activate
 
 # pnpm
 export PNPM_HOME="~/.local/share/pnpm"
