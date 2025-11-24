@@ -487,13 +487,13 @@ else -- ordinary Neovim
             "pyright",
             "lua_ls",
             "asm_lsp",
-            "texlab",
-            "mutt_ls",
+            -- "texlab",
+            -- "mutt_ls",
             "bashls",
             "cmake",
-            "ocamllsp",
-            "vscoqtop",
-            "fortls",
+            -- "ocamllsp",
+            -- "vsrocq",
+            -- "fortls",
             -- "ts_ls",
             "nixd",
           }
@@ -851,6 +851,30 @@ else -- ordinary Neovim
 
           -- bash
           vim.lsp.config("bashls", {})
+
+          -- nixd
+          -- https://github.com/nix-community/nixd/blob/main/nixd/docs/configuration.md#where-to-place-the-configuration
+          vim.lsp.config("nixd", {
+            cmd = { "nixd" },
+            settings = {
+              nixd = {
+                nixpkgs = {
+                  expr = "import <nixpkgs> { }",
+                },
+                formatting = {
+                  command = { "nixfmt" },
+                },
+                options = {
+                  nixos = {
+                    expr = '(builtins.getFlake ("git+file://" + toString ./.)).nixosConfigurations.k-on.options',
+                  },
+                  home_manager = {
+                    expr = '(builtins.getFlake ("git+file://" + toString ./.)).homeConfigurations."ruixi@k-on".options',
+                  },
+                },
+              },
+            },
+          })
 
           vim.api.nvim_create_autocmd("LspAttach", {
             group = vim.api.nvim_create_augroup("UserLspConfig", {}),
