@@ -12,9 +12,10 @@ git reset --hard
 git clean --force -d -x
 
 # git pull origin main
-git pull tsinghua main
+# git pull cernet main
+# git pull tsinghua main
 # git pull bfsu main
-# git pull sjtu main
+git pull sjtu main
 
 cmake -S llvm -B build -G Ninja \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE \

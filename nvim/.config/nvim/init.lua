@@ -21,6 +21,7 @@ if vim.g.vscode then
   })
 
   -- set leader keys before lazy
+  -- `cmd/ctrl + shift + space` for fuction signatures
   vim.g.mapleader = " "
   vim.g.maplocalleader = "\\"
   local keymap = vim.keymap
@@ -38,6 +39,62 @@ if vim.g.vscode then
   end)
   vim.keymap.set({ "n", "x" }, "<leader>a", function()
     vscode.action("editor.action.quickFix")
+  end)
+
+  -- rust-analyzer
+  vim.keymap.set({ "n", "x" }, "<leader>re", function()
+    vscode.call("rust-analyzer.expandMacro") -- vscode keymap right click -> Copy Command ID
+    vscode.call("workbench.action.focusNextGroup")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rh", function()
+    vscode.call("rust-analyzer.viewHir")
+    vscode.call("workbench.action.focusNextGroup")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rm", function()
+    vscode.call("rust-analyzer.viewMir")
+    vscode.call("workbench.action.focusNextGroup")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rb", function()
+    vscode.call("rust-analyzer.rebuildProcMacros")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rod", function()
+    vscode.call("rust-analyzer.openDocs")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>roc", function()
+    vscode.call("rust-analyzer.openCargoToml")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rcg", function()
+    vscode.call("rust-analyzer.viewFullCrateGraph")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rml", function()
+    vscode.call("rust-analyzer.viewMemoryLayout")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rmu", function()
+    vscode.call("rust-analyzer.memoryUsage")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rpm", function()
+    vscode.call("rust-analyzer.parentModule")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rcm", function()
+    vscode.call("rust-analyzer.childModules")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rst", function()
+    vscode.call("rustSyntaxTree.focus")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rpt", function()
+    vscode.call("rust-analyzer.peekTests")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rr", function()
+    vscode.call("rust-analyzer.run")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rf", function()
+    vscode.call("rust-analyzer.runFlycheck")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rtc", function()
+    vscode.call("rust-analyzer.toggleCheckOnSave")
+  end)
+  vim.keymap.set({ "n", "x" }, "<leader>rssr", function()
+    vscode.call("rust-analyzer.ssr")
   end)
 else -- ordinary Neovim
   local opt = vim.opt
@@ -304,36 +361,36 @@ else -- ordinary Neovim
 
   require("lazy").setup({
     spec = {
-      -- -- :help everforest.txt
-      {
-        "sainnhe/everforest",
-        enabled = false,
-        lazy = false,
-        priority = 1000,
-        config = function()
-          -- if opt.termguicolors then
-          -- enable 24-bit colour
-          opt.termguicolors = true
-          -- end
-
-          vim.g.everforest_transparent_background = 2
-          vim.g.everforest_float_style = "dim"
-          vim.g.everforest_dim_inactive_windows = 1
-          vim.g.everforest_diagnostic_text_highlight = 1
-          vim.g.everforest_diagnostic_line_highlight = 1
-          vim.g.everforest_diagnostic_virtual_text = "highlighted"
-          vim.g.everforest_inlay_hints_background = "dimmed"
-          vim.g.everforest_better_performance = 1
-          vim.g.everforest_enable_italic = 1
-          vim.g.everforest_disable_italic_comment = 0
-          vim.g.everforest_sign_column_background = "grey"
-          -- vim.g.everforest_ui_contrast = "high"
-          -- vim.g:everforest_background = "soft" -- 'hard'
-
-          vim.o.background = "dark" -- or "light" for light mode
-          vim.cmd.colorscheme("everforest")
-        end,
-      },
+      -- -- -- :help everforest.txt
+      -- {
+      --   "sainnhe/everforest",
+      --   enabled = false,
+      --   lazy = false,
+      --   priority = 1000,
+      --   config = function()
+      --     -- if opt.termguicolors then
+      --     -- enable 24-bit colour
+      --     opt.termguicolors = true
+      --     -- end
+      --
+      --     vim.g.everforest_transparent_background = 2
+      --     vim.g.everforest_float_style = "dim"
+      --     vim.g.everforest_dim_inactive_windows = 1
+      --     vim.g.everforest_diagnostic_text_highlight = 1
+      --     vim.g.everforest_diagnostic_line_highlight = 1
+      --     vim.g.everforest_diagnostic_virtual_text = "highlighted"
+      --     vim.g.everforest_inlay_hints_background = "dimmed"
+      --     vim.g.everforest_better_performance = 1
+      --     vim.g.everforest_enable_italic = 1
+      --     vim.g.everforest_disable_italic_comment = 0
+      --     vim.g.everforest_sign_column_background = "grey"
+      --     -- vim.g.everforest_ui_contrast = "high"
+      --     -- vim.g:everforest_background = "soft" -- 'hard'
+      --
+      --     vim.o.background = "dark" -- or "light" for light mode
+      --     vim.cmd.colorscheme("everforest")
+      --   end,
+      -- },
       -- for 256 colors terminals (not support true color)
       -- {
       --   "morhetz/gruvbox",
