@@ -5,9 +5,6 @@
 # run update
 # nix flake update
 
-# ref:
-# - https://github.com/elliottminns/nix/blob/main/flake.nix
-
 {
   description = "Example nix-darwin system flake";
 
