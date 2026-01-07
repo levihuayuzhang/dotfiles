@@ -50,10 +50,12 @@ export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 export CPM_SOURCE_CACHE=$HOME/.cache/CPM
 
+# eval "$(direnv hook zsh)"
+
 # llvm from source
 export PATH="$HOME/builds/llvm-build/llvm-build-install/bin:$PATH"
-# export CPPFLAGS="$CPPFLAGS -I$HOME/builds/llvm-build/llvm-build-install/include"
-# export LDFLAGS="$LDFLAGS -L$HOME/builds/llvm-build/llvm-build-install/lib -L$HOME/builds/llvm-build/llvm-build-install/lib/x86_64-pc-linux-gnu -Wl,-rpath,$HOME/builds/llvm-build/llvm-build-install/lib  -Wl,-rpath,$HOME/builds/llvm-build/llvm-build-install/lib/x86_64-pc-linux-gnu"
+export CPPFLAGS="$CPPFLAGS -I$HOME/builds/llvm-build/llvm-build-install/include"
+export LDFLAGS="$LDFLAGS -L$HOME/builds/llvm-build/llvm-build-install/lib -L$HOME/builds/llvm-build/llvm-build-install/lib/x86_64-pc-linux-gnu -Wl,-rpath,$HOME/builds/llvm-build/llvm-build-install/lib  -Wl,-rpath,$HOME/builds/llvm-build/llvm-build-install/lib/x86_64-pc-linux-gnu"
 # -L only for compile time
 # -Wl,-rpath will record in the ELF binary (for shared libs)
 # LD_RUN_PATH will in binary if -rpath was not explicitly set
@@ -243,7 +245,7 @@ eval "$(starship init zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(register-python-argcomplete pipx)"
 
-source /opt/nvidia/hpc_sdk/activate
+# source /opt/nvidia/hpc_sdk/activate
 
 # pnpm
 export PNPM_HOME="~/.local/share/pnpm"
