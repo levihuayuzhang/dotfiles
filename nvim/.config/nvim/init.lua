@@ -535,6 +535,8 @@ else -- ordinary Neovim
           "fzf-lua",
         },
         config = function()
+          vim.lsp.semantic_tokens.enable = true
+
           -- https://neovim.io/doc/user/lsp.html#vim.lsp.config()
           local servers = {
             -- "rust_analyzer",
@@ -1899,6 +1901,11 @@ else -- ordinary Neovim
                     -- watcher = 'server',
                     watcher = "client",
                   },
+                  semanticHighlighting = {
+                    operator = true,
+                    punctuation = true,
+                    strings = true,
+                  },
                   inlayHints = {
                     typeHints = { enable = true },
                     chainingHints = { enable = true },
@@ -2066,6 +2073,13 @@ else -- ordinary Neovim
       --     keymap.set("n", "<leader>xp", ":Xmake plat<cr>", { desc = "xmake plat" })
       --     keymap.set("n", "<leader>xt", ":Xmake toolchain<cr>", { desc = "xmake toolchain" })
       --   end,
+      -- },
+      -- {
+      --   "cordx56/rustowl",
+      --   version = "*", -- Latest stable version
+      --   build = "cargo install rustowl",
+      --   lazy = false, -- This plugin is already lazy
+      --   opts = {},
       -- },
     },
     install = {

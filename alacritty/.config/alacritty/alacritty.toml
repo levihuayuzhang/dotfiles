@@ -53,4 +53,5 @@ bindings = [
 
 [terminal]
 # managed by nix
-shell =  { program = "/run/current-system/sw/bin/fish", args = ["-l",]}
+# shell =  { program = "/run/current-system/sw/bin/fish", args = ["-l",]}
+shell =  { program = "/opt/homebrew/bin/fish", args = ["-l",]}

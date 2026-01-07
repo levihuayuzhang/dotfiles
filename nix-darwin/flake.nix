@@ -1,5 +1,7 @@
 # https://github.com/nix-darwin/nix-darwin?tab=readme-ov-file#getting-started
 
+# just use as packages & toolchains management
+
 # run rebuild
 # sudo darwin-rebuild switch --flake ~/projects/dotfiles/nix-darwin#levi-mbp
 # run update
@@ -62,48 +64,52 @@
 
           # List packages installed in system profile. To search by name, run:
           # $ nix-env -qaP | grep wget
-          environment.systemPackages = [
+          environment.systemPackages = with pkgs; [
             # GUI apps
             # pkgs.ghostty # on Linux
-            pkgs.ghostty-bin # on Mac
+            ghostty-bin # on Mac
             # pkgs.alacritty
             # pkgs.obsidian # unfree
             # pkgs.firefox-devedition
-            # pkgs.firefox
+            # firefox
 
             # dev tools
-            pkgs.fish
-            pkgs.tmux
-            pkgs.vim
-            pkgs.neovim
-            pkgs.gnupg
-            pkgs.git
-            pkgs.gh
-            pkgs.eza
-            pkgs.delta
-            pkgs.bat
-            pkgs.starship
-            pkgs.wget
-            # pkgs.zsh-autosuggestions
-            # pkgs.zsh-syntax-highlighting
+            fish
+            tmux
+            vim
+            neovim
+            gnupg
+            git
+            gh
+            eza
+            delta
+            bat
+            starship
+            wget
+            # zsh-autosuggestions
+            # zsh-syntax-highlighting
 
             # dev toolchains
-            pkgs.cmake
-            pkgs.pkgconf
-            pkgs.meson
-            pkgs.ninja
-            pkgs.go
-            pkgs.direnv
-            pkgs.mas
-            pkgs.texliveFull
-            pkgs.llvmPackages.clangUseLLVM
-            pkgs.clang-tools
+            cmake
+            pkgconf
+            meson
+            ninja
+            go
+            direnv
+            mas
+            texliveFull
+            pixi
+            llvmPackages.clangUseLLVM
+            clang-tools
 
             # beautify & misc
-            pkgs.fastfetch
-            pkgs.lolcat
-            pkgs.mkalias
-            pkgs.mpv
+            fastfetch
+            lolcat
+            mkalias
+            mpv
+
+            # libs
+            boost
           ];
 
           system.primaryUser = "zhy";
@@ -111,6 +117,7 @@
             enable = true;
             brews = [
               "llvm"
+              "python"
               "syncthing"
               "zsh-autosuggestions"
               "zsh-syntax-highlighting"
@@ -118,6 +125,8 @@
               # "direnv"
               # "golang"
               # "mpv"
+              # "boost"
+              # "quantlib"
             ];
             # brew list --cask
             casks = [
