@@ -1,0 +1,167 @@
+# /etc/nix-darwin/flake.nix on MacOS
+{
+  description = "Levi nix-darwin system flake";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    # Optional: Declarative tap management
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+  };
+
+  outputs =
+    inputs@{
+      self,
+      nix-darwin,
+      nixpkgs,
+      nix-homebrew,
+      homebrew-core,
+      homebrew-cask,
+    }:
+    let
+      configuration =
+        { pkgs, config, ... }:
+        {
+          nixpkgs.config.allowUnfree = true;
+
+          # List packages installed in system profile. To search by name, run:
+          # $ nix-env -qaP | grep wget
+          environment.systemPackages = with pkgs; [
+            eza
+            git
+            delta
+            vim
+            neovim
+            tmux
+            fish
+            zsh
+            zsh-autosuggestions
+            zsh-syntax-highlighting
+            starship
+            direnv
+
+          ];
+
+          system.primaryUser = "zhy";
+          homebrew = {
+            enable = true;
+
+            brews = [
+              "mas"
+              "git"
+              "curl"
+              "wget"
+              "tmux"
+
+              "cmake"
+              "make"
+              "ninja"
+              "llvm"
+              "lld"
+            ];
+
+            casks = [
+            ];
+
+            masApps = {
+              "Xcode" = 497799835;
+            };
+
+            # taps = [ "homebrew/core" "homebrew/cask" ];
+            # onActivation.cleanup = "zap";
+          };
+
+          # fonts.packages = [
+          #   (pkgs.nerdfonts.override { fonts = [ "CaskaydiaCove Nerd Font Mono'" ]; })
+          # ];
+
+          programs.fish.enable = true;
+          programs.zsh.enable = true;
+          programs.zsh.interactiveShellInit = ''
+            # nix-darwin managed plugins
+            source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+            source ${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+          '';
+
+          # Necessary for using flakes on this system.
+          # nix.settings.experimental-features = "nix-command flakes";
+          nix.settings = {
+            experimental-features = "nix-command flakes";
+
+            substituters = [
+              "https://mirror.sjtu.edu.cn/nix-channels/store"
+              "https://mirrors.ustc.edu.cn/nix-channels/store"
+              "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+              "https://cache.nixos.org/"
+            ];
+          };
+
+          # Enable alternative shell support in nix-darwin.
+          # programs.fish.enable = true;
+
+          # Set Git commit hash for darwin-version.
+          system.configurationRevision = self.rev or self.dirtyRev or null;
+
+          # Used for backwards compatibility, please read the changelog before changing.
+          # $ darwin-rebuild changelog
+          system.stateVersion = 6;
+
+          # The platform the configuration will be used on.
+          nixpkgs.hostPlatform = "aarch64-darwin";
+        };
+    in
+    {
+      # Build darwin flake using:
+      # $ darwin-rebuild build --flake .#levi-mbp
+      darwinConfigurations."levi-mbp" = nix-darwin.lib.darwinSystem {
+        modules = [
+          configuration
+
+          # https://github.com/zhaofengli/nix-homebrew
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              # Install Homebrew under the default prefix
+              enable = true;
+
+              # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
+              enableRosetta = false;
+
+              # User owning the Homebrew prefix
+              user = "zhy";
+
+              # Optional: Declarative tap management
+              taps = {
+                "homebrew/homebrew-core" = homebrew-core;
+                "homebrew/homebrew-cask" = homebrew-cask;
+              };
+
+              # Optional: Enable fully-declarative tap management
+              #
+              # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
+              mutableTaps = false;
+            };
+          }
+          # Optional: Align homebrew taps config with nix-homebrew
+          (
+            { config, ... }:
+            {
+              homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
+            }
+          )
+        ];
+      };
+
+      # darwinPackages = self.darwinConfigurations."levi-mbp".pkgs;
+    };
+}

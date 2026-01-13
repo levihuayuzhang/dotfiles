@@ -350,7 +350,7 @@ else -- ordinary Neovim
     if vim.v.shell_error ~= 0 then
       vim.api.nvim_echo({
         { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-        { out, "WarningMsg" },
+        { out,                            "WarningMsg" },
         { "\nPress any key to exit..." },
       }, true, {})
       vim.fn.getchar()
@@ -787,8 +787,8 @@ else -- ordinary Neovim
               if client.workspace_folders then
                 local path = client.workspace_folders[1].name
                 if
-                  path ~= vim.fn.stdpath("config")
-                  and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+                    path ~= vim.fn.stdpath("config")
+                    and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
                 then
                   return
                 end
@@ -1218,104 +1218,75 @@ else -- ordinary Neovim
         -- event = { "BufReadPre", "BufNewFile" },
         lazy = false,
         build = ":TSUpdate",
-        -- config = function()
-        --   -- require("nvim-treesitter.configs").setup({
-        --   --   ensure_installed = {
-        --   --     "rust",
-        --   --     "toml",
-        --   --     "c",
-        --   --     "cpp",
-        --   --     "cuda",
-        --   --     "latex",
-        --   --     "bibtex",
-        --   --     "zig",
-        --   --     "python",
-        --   --     "go",
-        --   --     "gomod",
-        --   --     "gosum",
-        --   --     "make",
-        --   --     "cmake",
-        --   --     "gn",
-        --   --     "meson",
-        --   --     "ninja",
-        --   --     "asm",
-        --   --     "nasm",
-        --   --     "mlir",
-        --   --     "objdump",
-        --   --     "devicetree",
-        --   --     "disassembly",
-        --   --     "pem",
-        --   --     "nginx",
-        --   --     "glsl",
-        --   --     "sql",
-        --   --     "lua",
-        --   --     "vim",
-        --   --     "vimdoc",
-        --   --     "markdown",
-        --   --     "markdown_inline",
-        --   --     "tsx",
-        --   --     "typescript",
-        --   --     "javascript",
-        --   --     "html",
-        --   --     "css",
-        --   --     "scss",
-        --   --     "regex",
-        --   --     "json",
-        --   --     "yaml",
-        --   --     "xml",
-        --   --     "vue",
-        --   --     "java",
-        --   --     "javadoc",
-        --   --     "git_config",
-        --   --     "gitcommit",
-        --   --     "gitignore",
-        --   --     "git_rebase",
-        --   --     "diff",
-        --   --     "doxygen",
-        --   --     "dockerfile",
-        --   --     "desktop",
-        --   --     "hyprlang",
-        --   --     "kdl",
-        --   --     "ocaml",
-        --   --     "bash",
-        --   --     "fish",
-        --   --     "gpg",
-        --   --     -- "norg",
-        --   --   },
-        --   --
-        --   --   sync_install = false,
-        --   --   auto_install = true,
-        --   --   ignore_install = {
-        --   --     -- "javascript",
-        --   --   },
-        --   --   highlight = {
-        --   --     enable = true,
-        --   --     disable = {
-        --   --       -- "latex",
-        --   --       -- "c",
-        --   --       -- "cpp",
-        --   --       -- "cuda",
-        --   --       -- "rust",
-        --   --     },
-        --   --     additional_vim_regex_highlighting = false,
-        --   --   },
-        --   --   autotag = {
-        --   --     enable = true,
-        --   --   },
-        --   --   indent = {
-        --   --     enable = true,
-        --   --   },
-        --   --   -- incremental_selection = {
-        --   --   --   enable = true,
-        --   --   --   keymaps = {
-        --   --   --     init_selection = "gnn", -- set to `false` to disable one of the mappings
-        --   --   --     node_incremental = "grn",
-        --   --   --     scope_incremental = "grc",
-        --   --   --     node_decremental = "grm",
-        --   --   --   },
-        --   --   -- },
-        --   -- })
-        -- end,
+        config = function()
+          require 'nvim-treesitter'.setup {
+            -- Directory to install parsers and queries to (prepended to `runtimepath` to have priority)
+            install_dir = vim.fn.stdpath('data') .. '/site'
+          }
+
+          require 'nvim-treesitter'.install {
+            "rust",
+            "toml",
+            "c",
+            "cpp",
+            "cuda",
+            "latex",
+            "bibtex",
+            "zig",
+            "python",
+            "go",
+            "gomod",
+            "gosum",
+            "make",
+            "cmake",
+            "gn",
+            "meson",
+            "ninja",
+            "asm",
+            "nasm",
+            "mlir",
+            "objdump",
+            "devicetree",
+            "disassembly",
+            "pem",
+            "nginx",
+            "glsl",
+            "sql",
+            "lua",
+            "vim",
+            "vimdoc",
+            "markdown",
+            "markdown_inline",
+            "tsx",
+            "typescript",
+            "javascript",
+            "html",
+            "css",
+            "scss",
+            "regex",
+            "json",
+            "yaml",
+            "xml",
+            "vue",
+            "java",
+            "javadoc",
+            "git_config",
+            "gitcommit",
+            "gitignore",
+            "git_rebase",
+            "diff",
+            "doxygen",
+            "dockerfile",
+            "desktop",
+            "hyprlang",
+            "kdl",
+            "ocaml",
+            "bash",
+            "fish",
+            "gpg",
+            -- "norg",
+          }
+        end,
       },
       -- -- quick search and jump to char in screen
       -- {
