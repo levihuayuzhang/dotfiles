@@ -1,15 +1,16 @@
 # ~/.config/ghostty/config
 
 # MacOS using fish
-# command = /opt/homebrew/bin/fish --login --interactive
-# shell-integration = fish
+command = /opt/homebrew/bin/fish --login --interactive
+shell-integration = fish
 
-shell-integration = zsh
+# shell-integration = zsh
 # shell-integration = none
 # confirm-close-surface = false
 
-# theme = dark:Adwaita Dark,light:Adwaita
-theme = Adwaita Dark
+theme = dark:Adwaita Dark,light:Adwaita
+# theme = Adwaita Dark
+# theme = Breeze
 # theme = Everforest Dark - Hard
 # theme = GruvboxDark
 # theme = GruvboxDarkHard
@@ -43,6 +44,7 @@ copy-on-select = false
 # keybind = super+v=paste_from_clipboard
 # keybind = super+s=paste_from_selection
 
+# https://ghostty.org/docs/config/reference#macos-icon
 macos-icon = holographic
 macos-titlebar-style = transparent
 macos-window-shadow = true
@@ -50,3 +52,4 @@ macos-window-shadow = true
 auto-update = check
 auto-update-channel = stable
 # auto-update-channel = tip
+

@@ -56,3 +56,70 @@ bindings = [
 # shell =  { program = "/run/current-system/sw/bin/fish", args = ["-l",]}
 shell =  { program = "/opt/homebrew/bin/fish", args = ["-l",]}
 
+
+# # https://github.com/alacritty/alacritty-theme/blob/master/themes/gruvbox_material_hard_dark.toml
+# # Colors (Gruvbox Material Hard Dark)
+# # Default colors
+# [colors.primary]
+# background = '#1d2021'
+# foreground = '#d4be98'
+# # Normal colors
+# [colors.normal]
+# black   = '#32302f'
+# red     = '#ea6962'
+# green   = '#a9b665'
+# yellow  = '#d8a657'
+# blue    = '#7daea3'
+# magenta = '#d3869b'
+# cyan    = '#89b482'
+# white   = '#d4be98'
+# # Bright colors (same as normal colors)
+# [colors.bright]
+# black   = '#32302f'
+# red     = '#ea6962'
+# green   = '#a9b665'
+# yellow  = '#d8a657'
+# blue    = '#7daea3'
+# magenta = '#d3869b'
+# cyan    = '#89b482'
+# white   = '#d4be98'
+
+# https://github.com/alacritty/alacritty-theme/blob/master/themes/breeze.toml
+# KDE Breeze (Ported from Konsole)
+# Default colors
+[colors.primary]
+background = '#232627'
+foreground = '#fcfcfc'
+dim_foreground = '#eff0f1'
+bright_foreground = '#ffffff'
+# Normal colors
+[colors.normal]
+black = '#232627'
+red = '#ed1515'
+green = '#11d116'
+yellow = '#f67400'
+blue = '#1d99f3'
+magenta = '#9b59b6'
+cyan = '#1abc9c'
+white = '#fcfcfc'
+# Bright colors
+[colors.bright]
+black = '#7f8c8d'
+red = '#c0392b'
+green = '#1cdc9a'
+yellow = '#fdbc4b'
+blue = '#3daee9'
+magenta = '#8e44ad'
+cyan = '#16a085'
+white = '#ffffff'
+# Dim colors
+[colors.dim]
+black = '#31363b'
+red = '#783228'
+green = '#17a262'
+yellow = '#b65619'
+blue = '#1b668f'
+magenta = '#614a73'
+cyan = '#186c60'
+white = '#63686d'
+
