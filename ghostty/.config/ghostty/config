@@ -2,11 +2,14 @@
 
 # MacOS using fish
 command = /opt/homebrew/bin/fish --login --interactive
-shell-integration = fish
-
+# shell-integration = fish
 # shell-integration = zsh
+shell-integration = detect
 # shell-integration = none
 # confirm-close-surface = false
+
+# https://ghostty.org/docs/config/reference#shell-integration-features
+shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
 
 theme = dark:Adwaita Dark,light:Adwaita
 # theme = Adwaita Dark
