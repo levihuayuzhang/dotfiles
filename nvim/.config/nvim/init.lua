@@ -28,9 +28,9 @@ if vim.g.vscode then
   vim.keymap.set({ "n", "x" }, "<leader>k", function()
     vscode.action("editor.action.showHover")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>r", function()
-    vscode.action("editor.action.rename")
-  end)
+  -- vim.keymap.set({ "n", "x" }, "<leader>r", function()
+  --   vscode.action("editor.action.rename")
+  -- end)
   vim.keymap.set({ "n", "x" }, "[d", function()
     vscode.action("editor.action.marker.prev")
   end)
@@ -42,46 +42,46 @@ if vim.g.vscode then
   end)
 
   -- rust-analyzer
-  vim.keymap.set({ "n", "x" }, "<leader>re", function()
+  vim.keymap.set({ "n", "x" }, "<leader>e", function()
     vscode.call("rust-analyzer.expandMacro") -- vscode keymap right click -> Copy Command ID
     vscode.call("workbench.action.focusNextGroup")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>rh", function()
+  vim.keymap.set({ "n", "x" }, "<leader>h", function()
     vscode.call("rust-analyzer.viewHir")
     vscode.call("workbench.action.focusNextGroup")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>rm", function()
+  vim.keymap.set({ "n", "x" }, "<leader>m", function()
     vscode.call("rust-analyzer.viewMir")
     vscode.call("workbench.action.focusNextGroup")
   end)
   vim.keymap.set({ "n", "x" }, "<leader>rb", function()
     vscode.call("rust-analyzer.rebuildProcMacros")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>rod", function()
+  vim.keymap.set({ "n", "x" }, "<leader>od", function()
     vscode.call("rust-analyzer.openDocs")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>roc", function()
+  vim.keymap.set({ "n", "x" }, "<leader>oc", function()
     vscode.call("rust-analyzer.openCargoToml")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>rcg", function()
+  vim.keymap.set({ "n", "x" }, "<leader>cg", function()
     vscode.call("rust-analyzer.viewFullCrateGraph")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>rml", function()
+  vim.keymap.set({ "n", "x" }, "<leader>ml", function()
     vscode.call("rust-analyzer.viewMemoryLayout")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>rmu", function()
+  vim.keymap.set({ "n", "x" }, "<leader>mu", function()
     vscode.call("rust-analyzer.memoryUsage")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>rpm", function()
+  vim.keymap.set({ "n", "x" }, "<leader>pm", function()
     vscode.call("rust-analyzer.parentModule")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>rcm", function()
+  vim.keymap.set({ "n", "x" }, "<leader>cm", function()
     vscode.call("rust-analyzer.childModules")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>rst", function()
+  vim.keymap.set({ "n", "x" }, "<leader>st", function()
     vscode.call("rustSyntaxTree.focus")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>rpt", function()
+  vim.keymap.set({ "n", "x" }, "<leader>pt", function()
     vscode.call("rust-analyzer.peekTests")
   end)
   vim.keymap.set({ "n", "x" }, "<leader>rr", function()
@@ -90,10 +90,10 @@ if vim.g.vscode then
   vim.keymap.set({ "n", "x" }, "<leader>rf", function()
     vscode.call("rust-analyzer.runFlycheck")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>rtc", function()
+  vim.keymap.set({ "n", "x" }, "<leader>tc", function()
     vscode.call("rust-analyzer.toggleCheckOnSave")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>rssr", function()
+  vim.keymap.set({ "n", "x" }, "<leader>ssr", function()
     vscode.call("rust-analyzer.ssr")
   end)
 else -- ordinary Neovim
@@ -350,7 +350,7 @@ else -- ordinary Neovim
     if vim.v.shell_error ~= 0 then
       vim.api.nvim_echo({
         { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-        { out,                            "WarningMsg" },
+        { out, "WarningMsg" },
         { "\nPress any key to exit..." },
       }, true, {})
       vim.fn.getchar()
@@ -787,8 +787,8 @@ else -- ordinary Neovim
               if client.workspace_folders then
                 local path = client.workspace_folders[1].name
                 if
-                    path ~= vim.fn.stdpath("config")
-                    and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+                  path ~= vim.fn.stdpath("config")
+                  and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
                 then
                   return
                 end
@@ -1219,12 +1219,12 @@ else -- ordinary Neovim
         lazy = false,
         build = ":TSUpdate",
         config = function()
-          require 'nvim-treesitter'.setup {
+          require("nvim-treesitter").setup({
             -- Directory to install parsers and queries to (prepended to `runtimepath` to have priority)
-            install_dir = vim.fn.stdpath('data') .. '/site'
-          }
+            install_dir = vim.fn.stdpath("data") .. "/site",
+          })
 
-          require 'nvim-treesitter'.install {
+          require("nvim-treesitter").install({
             "rust",
             "toml",
             "c",
@@ -1285,7 +1285,8 @@ else -- ordinary Neovim
             "fish",
             "gpg",
             -- "norg",
-          }
+            "nix",
+          })
         end,
       },
       -- -- quick search and jump to char in screen
@@ -1844,17 +1845,83 @@ else -- ordinary Neovim
             server = {
               on_attach = function(client, bufnr)
                 vim.keymap.set("n", "<leader>a", function()
-                  vim.cmd.RustLsp("codeAction") -- supports rust-analyzer's grouping
-                  -- vim.lsp.buf.codeAction() -- if you don't want grouping.
-                end, { silent = true, buffer = bufnr })
+                  vim.cmd.RustLsp("codeAction") -- grouping code actions
+                  -- vim.lsp.buf.codeAction() -- no grouping.
+                end, { silent = true, buffer = bufnr, desc = "Grouped code actions" })
+
                 vim.keymap.set(
                   "n",
                   "<leader>k", -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
                   function()
                     vim.cmd.RustLsp({ "hover", "actions" })
                   end,
-                  { silent = true, buffer = bufnr }
+                  { silent = true, buffer = bufnr, desc = "Hover actions" }
                 )
+
+                vim.keymap.set({ "n", "x" }, "<leader>rem", function()
+                  vim.cmd.RustLsp("expandMacro")
+                end, { desc = "Expand macros recursively" })
+
+                vim.keymap.set({ "n", "x" }, "<leader>rhi", function()
+                  vim.cmd.RustLsp({ "view", "hir" })
+                end, { desc = "View HIR" })
+
+                vim.keymap.set({ "n", "x" }, "<leader>rmi", function()
+                  vim.cmd.RustLsp({ "view", "mir" })
+                end, { desc = "View MIR" })
+
+                vim.keymap.set({ "n", "x" }, "<leader>rb", function()
+                  vim.cmd.RustLsp("rebuildProcMacros")
+                end, { desc = "Rebuild proc macros" })
+
+                vim.keymap.set({ "n", "x" }, "<leader>rod", function()
+                  vim.cmd.RustLsp("openDocs")
+                end, { desc = "Open docs.rs documentation" })
+
+                vim.keymap.set({ "n", "x" }, "<leader>roc", function()
+                  vim.cmd.RustLsp("openCargo")
+                end, { desc = "Open Cargo.toml" })
+
+                vim.keymap.set({ "n", "x" }, "<leader>rcg", function()
+                  vim.cmd.RustLsp({ "crateGraph", "[backend]", "[output]" })
+                end, { desc = "View crate graph" })
+
+                vim.keymap.set({ "n", "x" }, "<leader>rpm", function()
+                  vim.cmd.RustLsp("parentModule")
+                end, { desc = "Parent Module" })
+
+                vim.keymap.set({ "n", "x" }, "<leader>rst", function()
+                  vim.cmd.RustLsp("syntaxTree")
+                end, { desc = "View syntax tree" })
+
+                vim.keymap.set({ "n", "x" }, "<leader>rf", function()
+                  vim.cmd.RustLsp("flyCheck") -- defaults to 'run'
+                  -- vim.cmd.RustLsp({ "flyCheck", "run" })
+                  -- vim.cmd.RustLsp({ "flyCheck", "clear" })
+                  -- vim.cmd.RustLsp({ "flyCheck", "cancel" })
+                end, { desc = "Fly check" })
+
+                vim.keymap.set({ "n", "x" }, "<leader>ree", function()
+                  vim.cmd.RustLsp("explainError") -- default to 'cycle'
+                  -- vim.cmd.RustLsp({ "explainError", "cycle" })
+                  -- vim.cmd.RustLsp({ "explainError", "cycle_prev" })
+                  -- vim.cmd.RustLsp({ "explainError", "current" })
+                end, { desc = "Explain errors" })
+
+                vim.keymap.set({ "n", "x" }, "<leader>rhr", function()
+                  vim.cmd.RustLsp({ "hover", "range" })
+                end, { desc = " Hover range" })
+
+                vim.keymap.set({ "n", "x" }, "<leader>rdr", function()
+                  vim.cmd.RustLsp("renderDiagnostic") -- defaults to 'cycle'
+                  -- vim.cmd.RustLsp({ "renderDiagnostic", "cycle" })
+                  -- vim.cmd.RustLsp({ "renderDiagnostic", "cycle_prev" })
+                  -- vim.cmd.RustLsp({ "renderDiagnostic", "current" })
+                end, { desc = "Render diagnostics" })
+
+                vim.keymap.set({ "n", "x" }, "<leader>rdj", function()
+                  vim.cmd.rustlsp("relateddiagnostics")
+                end, { desc = "Jump to related diagnostics" })
               end,
               default_settings = {
                 ["rust-analyzer"] = {
