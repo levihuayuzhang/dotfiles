@@ -54,7 +54,7 @@ if vim.g.vscode then
     vscode.call("rust-analyzer.viewMir")
     vscode.call("workbench.action.focusNextGroup")
   end)
-  vim.keymap.set({ "n", "x" }, "<leader>rb", function()
+  vim.keymap.set({ "n", "x" }, "<leader>rm", function()
     vscode.call("rust-analyzer.rebuildProcMacros")
   end)
   vim.keymap.set({ "n", "x" }, "<leader>od", function()
@@ -1041,8 +1041,9 @@ else -- ordinary Neovim
       -- completion
       {
         "saghen/blink.cmp",
+        version = "1.*", -- use a release tag to download pre-built binaries
         event = "VeryLazy",
-        build = "cargo build --release",
+        -- build = "cargo build --release", -- build from source
         dependencies = {
           "rafamadriz/friendly-snippets",
           {
@@ -1844,6 +1845,16 @@ else -- ordinary Neovim
             -- LSP configuration
             server = {
               on_attach = function(client, bufnr)
+                -- vim.api.nvim_set_hl(0, "@lsp.typemod.method.call", {
+                --   underline = true,
+                -- })
+                -- vim.api.nvim_set_hl(0, "@lsp.type.method", {
+                --   underline = true,
+                -- })
+                -- vim.api.nvim_set_hl(0, "@method", {
+                --   underline = true,
+                -- })
+
                 vim.keymap.set("n", "<leader>a", function()
                   vim.cmd.RustLsp("codeAction") -- grouping code actions
                   -- vim.lsp.buf.codeAction() -- no grouping.
@@ -1941,6 +1952,7 @@ else -- ordinary Neovim
                     watcher = "client",
                   },
                   semanticHighlighting = {
+                    enable = true,
                     operator = true,
                     punctuation = true,
                     strings = true,
