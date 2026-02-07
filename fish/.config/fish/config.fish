@@ -1,5 +1,7 @@
 set -U fish_greeting ""
 
+set -Ux GPG_TTY (tty)
+
 abbr -a c cargo
 abbr -a e nvim
 abbr -a m make
@@ -41,3 +43,6 @@ end
 starship init fish | source
 
 set PATH $PATH ~/.local/bin
+
+set -Ux fish_color_command green --bold
+

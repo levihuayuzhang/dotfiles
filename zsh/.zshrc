@@ -1,3 +1,4 @@
+export GPG_TTY=$(tty)
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -29,8 +30,8 @@ export BAT_THEME="gruvbox-dark"
 . "$HOME/.cargo/env"
 # export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static # 用于更新 toolchain
 # export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup # 用于更新 rustup
-export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
-export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
+# export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+# export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
 
 export RUSTC_WRAPPER=$(which sccache)
 # export RUSTC_BOOTSTRAP=1
