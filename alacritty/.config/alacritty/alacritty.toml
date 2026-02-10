@@ -51,10 +51,10 @@ bindings = [
 # [env]
 # TERM = "tmux-256color"
 
-[terminal]
-# managed by nix
-# shell =  { program = "/run/current-system/sw/bin/fish", args = ["-l",]}
-shell =  { program = "/opt/homebrew/bin/fish", args = ["-l",]}
+# [terminal]
+# # managed by nix
+# # shell =  { program = "/run/current-system/sw/bin/fish", args = ["-l",]}
+# shell =  { program = "/opt/homebrew/bin/fish", args = ["-l",]}
 
 
 # # https://github.com/alacritty/alacritty-theme/blob/master/themes/gruvbox_material_hard_dark.toml

@@ -5,3 +5,15 @@ nix-darwin/flake.lock
 .DS_Store
 
 mpv/.config/mpv/watch_later/
+
+fish/.config/fish/fish_variables
+
+fcitx5/.config/fcitx5/conf/cached_layouts
+fcitx5/.config/fcitx5/conf/notifications.conf
+fcitx5/.config/fcitx5/config
+fcitx5/.config/fcitx5/profile
+fcitx5/.local/share/fcitx5/rime/build/
+fcitx5/.local/share/fcitx5/rime/installation.yaml
+fcitx5/.local/share/fcitx5/rime/luna_pinyin.userdb/
+fcitx5/.local/share/fcitx5/rime/sync/
+fcitx5/.local/share/fcitx5/rime/user.yaml

@@ -271,7 +271,7 @@ layout {
 // started use systemd (~/.config/systemd/user/niri.service.wants/waybar.service -> /usr/lib/systemd/user/waybar.service)
 // spawn-at-startup "waybar" 
 
-spawn-at-startup "swww-daemon"
+// spawn-at-startup "swww-daemon"
 // spawn-at-startup "swaybg" "-i" "~/wallpapers/1.jpg" // used for overview background, but should start later
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
