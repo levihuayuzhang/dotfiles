@@ -1041,9 +1041,9 @@ else -- ordinary Neovim
       -- completion
       {
         "saghen/blink.cmp",
-        version = "1.*", -- use a release tag to download pre-built binaries
+        build = "cargo build --release", -- build from source
+        -- version = "1.*", -- use a release tag to download pre-built binaries
         event = "VeryLazy",
-        -- build = "cargo build --release", -- build from source
         dependencies = {
           "rafamadriz/friendly-snippets",
           {
