@@ -12,7 +12,8 @@ live_config_reload = true
 
 # fonts
 [font]
-size = 13
+# size = 13
+size = 11
 [font.bold]
 family = "CaskaydiaCove Nerd Font Mono"
 style = "Bold"
@@ -27,8 +28,8 @@ family = "CaskaydiaCove Nerd Font Mono"
 style = "Regular"
 
 [window]
-opacity = 0.9
-blur = true
+# opacity = 0.9
+# blur = true
 # startup_mode = "Maximized"
 # decorations = "Buttonless"
 # decorations = "Transparent"

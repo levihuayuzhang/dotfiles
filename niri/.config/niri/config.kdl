@@ -271,8 +271,13 @@ layout {
 // started use systemd (~/.config/systemd/user/niri.service.wants/waybar.service -> /usr/lib/systemd/user/waybar.service)
 // spawn-at-startup "waybar" 
 
-// spawn-at-startup "swww-daemon"
+spawn-at-startup "swww-daemon"
+spawn-at-startup "fcitx5"
+spawn-at-startup "kdeconnectd"
+
 // spawn-at-startup "swaybg" "-i" "~/wallpapers/1.jpg" // used for overview background, but should start later
+// https://github.com/niri-wm/niri/wiki/Example-systemd-Setup
+// spawn-at-startup "swayidle -w timeout 601 'niri msg action power-off-monitors' timeout 600 'swaylock -f ~/wallpapers/2.jpg' before-sleep 'swaylock -f -i ~/wallpapers/2.jpg'"
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
@@ -295,21 +300,23 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 // VARIABLE null
 environment {
     GDK_BACKEND "wayland,x11,*"
-    // GTK_THEME "Adwaita:dark"
+    // gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+    // GTK_THEME "Adwaita-dark"
     // GTK2_RC_FILES "/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc"
 
     QT_QPA_PLATFORM "wayland;xcb"
     QT_AUTO_SCREEN_SCALE_FACTOR "1"
     QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
-    // QT_QPA_PLATFORMTHEME "qt6ct:qt5ct"
-    QT_STYLE_OVERRIDE "Adwaita-Dark"
+    QT_QPA_PLATFORMTHEME "qt6ct:qt5ct"
+    // QT_STYLE_OVERRIDE "kvantum"
+    // QT_STYLE_OVERRIDE "Breeze"
 
     SDL_VIDEODRIVER "wayland"
     CLUTTER_BACKEND "wayland"
 
     MOZ_ENABLE_WAYLAND "1"
 
-    GTK_IM_MODULE "fcitx"
+    // GTK_IM_MODULE "fcitx"
     QT_IM_MODULE "fcitx"
     SDL_IM_MODULE "fcitx"
     GLFW_IM_MODULE "fcitx"
@@ -317,7 +324,7 @@ environment {
     XMODIFIERS "@im=fcitx"
     INPUT_METHOD "fcitx"
 
-    DISPLAY ":0"
+    // DISPLAY ":0"
 }
 
 // cursor {
@@ -337,6 +344,7 @@ animations {
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
+    slowdown 0.6
 }
 
 // Window rules let you adjust behavior for individual windows.
@@ -457,8 +465,17 @@ binds {
     // Mod+T { spawn "ghostty"; }
     Mod+T { spawn "alacritty"; }
     Mod+D { spawn "fuzzel"; }
-    Super+Alt+L { spawn "hyprlock"; }
-    Super+Ctrl+Alt+L { spawn "systemctl" "suspend"; }
+
+    // Super+Alt+L { spawn "hyprlock"; }
+    Super+Alt+L { spawn "swaylock" "-i" "~/wallpapers/2.jpg"; }
+
+    // /etc/systemd/sleep.conf
+    // ~/.config/hypr/hypridle.conf
+    Super+Ctrl+Alt+L { spawn "systemctl" "suspend"; } // S3
+    // Super+Ctrl+Alt+L { spawn "systemctl" "hibernate"; } // S4
+    // Super+Ctrl+Alt+L { spawn "systemctl" "hybrid-sleep"; } // S3 + S4
+    // Super+Ctrl+Alt+L { spawn "systemctl" "suspend-then-hibernate"; } // S3 -> S4
+    // Super+Ctrl+Alt+L { spawn "swaylock" "-f" "-i" "~/wallpapers/2.jpg" "&&" "systemctl" "suspend"; } // S3
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
@@ -709,7 +726,7 @@ binds {
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
 
-    Mod+W { spawn "~/scripts/random_wallpaper.sh"; }
+    Mod+W { spawn "~/bin/random_wallpaper.sh"; }
 }
 
 // Disable the hot corners.
