@@ -208,9 +208,16 @@
 	fastfetch
 	lolcat
 	starship
+	eza
 	
 	syncthing
 	mihomo
+
+	rustup
+	cargo
+	rustc
+	rustfmt
+	clippy
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

@@ -27,7 +27,7 @@ export MOZ_ENABLE_WAYLAND=1
 export DISPLAY=:0
 export BAT_THEME="gruvbox-dark"
 
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 # export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static # 用于更新 toolchain
 # export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup # 用于更新 rustup
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
@@ -239,10 +239,13 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 autoload -U compinit && compinit
+
 eval "$(starship init zsh)"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # eval "$(register-python-argcomplete pipx)"
 
