@@ -203,10 +203,11 @@
 	wget
 	git
 	gnupg
+	stow
 
 	fastfetch
 	lolcat
-	stow
+	starship
 	
 	syncthing
 	mihomo
