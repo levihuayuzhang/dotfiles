@@ -192,8 +192,7 @@
 
   nix.settings = {
 	# substituters = lib.mkForce [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
-	# substituters = [ "https://mirror.sjtu.edu.cn/nix-channels/store" "https://mirrors.ustc.edu.cn/nix-channels/store" "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"];
-	substituters = [ "https://mirrors.ustc.edu.cn/nix-channels/store" "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"];
+	substituters = [ "https://mirror.sjtu.edu.cn/nix-channels/store" "https://mirrors.ustc.edu.cn/nix-channels/store" "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"];
 	experimental-features = ["nix-command" "flakes"];
 	auto-optimise-store = true;
   };
@@ -237,6 +236,8 @@
 	cmake
 	ninja
 
+	go
+	nodejs
 	pnpm
   ];
 
