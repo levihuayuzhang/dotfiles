@@ -1,6 +1,9 @@
 set -U fish_greeting ""
 
 set -Ux GPG_TTY (tty)
+set -Ux EDITOR "nvim"
+
+set -Ux DELTA_FEATURES "+side-by-side"
 
 abbr -a c cargo
 abbr -a e nvim
@@ -41,6 +44,8 @@ else
 end
 
 starship init fish | source
+
+direnv hook fish | source
 
 set PATH $PATH ~/.local/bin
 

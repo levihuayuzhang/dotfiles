@@ -52,7 +52,9 @@ macos-icon = holographic
 macos-titlebar-style = transparent
 macos-window-shadow = true
 
-auto-update = check
-auto-update-channel = stable
-# auto-update-channel = tip
+# auto-update = check
+# auto-update-channel = stable
+
+auto-update = off
+auto-update-channel = tip
 

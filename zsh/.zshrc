@@ -51,7 +51,7 @@ export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 export CPM_SOURCE_CACHE=$HOME/.cache/CPM
 
-# eval "$(direnv hook zsh)"
+eval "$(direnv hook zsh)"
 
 # llvm from source
 export PATH="$HOME/builds/llvm-build/llvm-build-install/bin:$PATH"
