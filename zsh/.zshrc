@@ -6,15 +6,6 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 
-# dconf dump / | less
-# gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-# gsettings set org.gnome.desktop.interface accent-color 'teal'
-# gsettings set org.gnome.desktop.interface icon-theme 'Tela-green-dark' # (form git) or 'Tela-circle-green-dark' (from arch linux)
-
-# export GTK_THEME=Adwaita:dark
-# export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
-# export QT_STYLE_OVERRIDE=Adwaita-Dark
-
 # export GTK_IM_MODULE=fcitx
 # export QT_IM_MODULE=fcitx
 # export SDL_IM_MODULE=fcitx
@@ -23,21 +14,45 @@ export XDG_STATE_HOME="$HOME/.local/state"
 # export XMODIFIERS=@im=fcitx
 # export INPUT_METHOD=fcitx
 
-export MOZ_ENABLE_WAYLAND=1
-export DISPLAY=:0
+# DE
+# export MOZ_ENABLE_WAYLAND=1
+# export DISPLAY=:0
+export QT_SCALE_FACTOR=1.5
+export GDK_SCALE=1.5
+# export GDK_DPI_SCALE=0.75
 export BAT_THEME="gruvbox-dark"
+# export GTK_THEME=Adwaita:dark
+# export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
+# export QT_STYLE_OVERRIDE=Adwaita-Dark
+# `dconf dump / | less`
+# gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+# gsettings set org.gnome.desktop.interface accent-color 'teal'
+# gsettings set org.gnome.desktop.interface icon-theme 'Tela-green-dark' # (form git) or 'Tela-circle-green-dark' (from arch linux)
 
+# cuda
+export PATH=${PATH}:/usr/local/cuda/bin
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
+
+# rust
 # . "$HOME/.cargo/env"
 # export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static # 用于更新 toolchain
 # export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup # 用于更新 rustup
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
-
 export RUSTC_WRAPPER=$(which sccache)
 # export RUSTC_BOOTSTRAP=1
 # export RUST_BACKTRACE=full
 # export CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true
 
+# homebrew
+export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
+export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
+export HOMEBREW_INSTALL_FROM_API=1
+export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
+export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
+export HOMEBREW_PIP_INDEX_URL="https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
+
+# proxy
 export http_proxy="http://127.0.0.1:7890"
 export https_proxy="http://127.0.0.1:7890"
 export all_proxy="socks5://127.0.0.1:7891"
@@ -239,8 +254,12 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# arch linux
+# source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# ubuntu
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 autoload -U compinit && compinit
 
@@ -282,3 +301,5 @@ unset __conda_setup
 [[ ! -r '/home/zhy/.opam/opam-init/init.zsh' ]] || source '/home/zhy/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
 # END opam configuration
 
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
