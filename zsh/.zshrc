@@ -29,6 +29,15 @@ export BAT_THEME="gruvbox-dark"
 # gsettings set org.gnome.desktop.interface accent-color 'teal'
 # gsettings set org.gnome.desktop.interface icon-theme 'Tela-green-dark' # (form git) or 'Tela-circle-green-dark' (from arch linux)
 
+# homebrew
+export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
+export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
+export HOMEBREW_INSTALL_FROM_API=1
+export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
+export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
+export HOMEBREW_PIP_INDEX_URL="https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+
 # cuda
 export PATH=${PATH}:/usr/local/cuda/bin
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
@@ -39,18 +48,10 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
 # export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup # 用于更新 rustup
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
-export RUSTC_WRAPPER=$(which sccache)
+# export RUSTC_WRAPPER=$(which sccache)
 # export RUSTC_BOOTSTRAP=1
 # export RUST_BACKTRACE=full
 # export CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true
-
-# homebrew
-export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
-export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
-export HOMEBREW_INSTALL_FROM_API=1
-export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
-export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
-export HOMEBREW_PIP_INDEX_URL="https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
 
 # proxy
 export http_proxy="http://127.0.0.1:7890"
@@ -302,4 +303,3 @@ unset __conda_setup
 # END opam configuration
 
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
