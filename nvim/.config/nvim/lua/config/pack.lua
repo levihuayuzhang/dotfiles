@@ -7,7 +7,6 @@ vim.pack.add({ -- https://neovim.io/doc/user/pack/#vim.pack-examples
   "https://github.com/L3MON4D3/LuaSnip",
   "https://github.com/rafamadriz/friendly-snippets",
   "https://github.com/xzbdmw/colorful-menu.nvim",
-  "https://github.com/saghen/blink.cmp",
   "https://github.com/mason-org/mason.nvim",
   "https://github.com/mason-org/mason-lspconfig.nvim",
   "https://github.com/neovim/nvim-lspconfig",
@@ -21,27 +20,33 @@ vim.pack.add({ -- https://neovim.io/doc/user/pack/#vim.pack-examples
   "https://github.com/stevearc/oil.nvim",
   "https://github.com/mrcjkb/rustaceanvim",
   "https://github.com/saecki/crates.nvim",
+  "https://github.com/saghen/blink.lib",
   {
     src = "https://github.com/saghen/blink.pairs",
     version = vim.version.range("*"),
+  },
+  {
+    src = "https://github.com/saghen/blink.cmp",
+    -- version = vim.version.range("1.*"),
+    branch = "v2",
   },
 })
 
 require("plugins.theme")
 require("plugins.lualine")
-require("plugins.fmt")
-require("plugins.cmp")
-require("plugins.mason")
-require("plugins.lsp")
-require("plugins.fzf")
 -- require("plugins.which-key")
-require("plugins.mini")
-require("plugins.todo")
-require("plugins.treesitter")
-require("plugins.markdown")
 require("plugins.explorer")
+require("plugins.mini")
+require("plugins.fzf")
+require("plugins.treesitter")
+require("plugins.mason")
+require("plugins.fmt")
+require("plugins.lsp")
 require("plugins.rust")
+require("plugins.todo")
+require("plugins.markdown")
 require("plugins.pairs")
+require("plugins.cmp")
 
 -- https://neovim.io/doc/user/plugins/#standard-plugin-list
 vim.cmd.packadd("nvim.tohtml")

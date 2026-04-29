@@ -1,3 +1,7 @@
+-- https://github.com/saghen/blink.cmp/blob/main/UPGRADE.md#upgrade
+-- require('blink.cmp').download({ force = true, tags = '*' }):wait(60000)
+require('blink.cmp').build():wait(60000)
+
 require("blink.cmp").setup({
   keymap = {
     preset = "super-tab", -- https://cmp.saghen.dev/configuration/keymap.html#super-tab
