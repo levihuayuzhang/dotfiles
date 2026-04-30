@@ -146,10 +146,9 @@ local text = vim.api.nvim_create_augroup("text", { clear = true })
 for _, pat in ipairs({
   "text",
   "mail",
-  -- "markdown",
-  -- "gitcommit",
+  "gitcommit",
 }) do
-  vim.api.nvim_create_autocmd("Filetype", {
+  vim.api.nvim_create_autocmd("FileType", {
     pattern = pat,
     group = text,
     callback = function()
