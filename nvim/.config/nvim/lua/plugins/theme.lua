@@ -3,7 +3,6 @@
 -- -- enable 24-bit colour
 -- vim.opt.termguicolors = true
 -- -- end
---
 -- vim.g.everforest_transparent_background = 2
 -- vim.g.everforest_float_style = "dim"
 -- vim.g.everforest_dim_inactive_windows = 1
@@ -17,9 +16,9 @@
 -- vim.g.everforest_sign_column_background = "grey"
 -- -- vim.g.everforest_ui_contrast = "high"
 -- -- vim.g:everforest_background = "soft" -- 'hard'
---
 -- vim.o.background = "dark" -- or "light" for light mode
 -- vim.cmd.colorscheme("everforest")
+
 
 -- -- gruvbox 256
 -- vim.cmd([[set t_Co=256]])
@@ -29,6 +28,7 @@
 -- vim.g.gruvbox_contrast_dark = "hard"
 -- vim.o.background = "dark" -- or "light" for light mode
 -- vim.cmd([[colorscheme gruvbox]])
+
 
 -- gruvbox
 -- if opt.termguicolors then
@@ -41,7 +41,6 @@ require("gruvbox").setup({
   contrast = "hard", -- can be "hard", "soft" or empty string
   -- transparent_mode = true,
 })
-
 vim.o.background = "dark" -- or "light" for light mode
 vim.cmd([[colorscheme gruvbox]])
 

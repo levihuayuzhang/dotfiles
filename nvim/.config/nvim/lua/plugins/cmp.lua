@@ -1,6 +1,7 @@
 -- https://github.com/saghen/blink.cmp/blob/main/UPGRADE.md#upgrade
 -- require('blink.cmp').download({ force = true, tags = '*' }):wait(60000)
-require('blink.cmp').build():wait(600000)
+-- require('blink.cmp').build():wait(600000)
+require('blink.cmp').build():pwait()
 
 require("blink.cmp").setup({
   keymap = {

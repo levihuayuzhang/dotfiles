@@ -18,6 +18,7 @@ vim.pack.add({ -- https://neovim.io/doc/user/pack/#vim.pack-examples
   "https://github.com/nvim-tree/nvim-web-devicons",
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",
   "https://github.com/stevearc/oil.nvim",
+  "https://github.com/rrethy/vim-illuminate",
   "https://github.com/mrcjkb/rustaceanvim",
   "https://github.com/saecki/crates.nvim",
   "https://github.com/saghen/blink.lib",
@@ -42,6 +43,7 @@ require("plugins.treesitter")
 require("plugins.mason")
 require("plugins.fmt")
 require("plugins.lsp")
+require("plugins.illuminate")
 require("plugins.rust")
 require("plugins.todo")
 require("plugins.markdown")

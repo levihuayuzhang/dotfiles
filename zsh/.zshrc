@@ -19,7 +19,7 @@ export XDG_STATE_HOME="$HOME/.local/state"
 # export DISPLAY=:0
 export QT_SCALE_FACTOR=1.5
 export GDK_SCALE=1.5
-# export GDK_DPI_SCALE=0.75
+export GDK_DPI_SCALE=1.0
 export BAT_THEME="gruvbox-dark"
 # export GTK_THEME=Adwaita:dark
 # export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
@@ -36,11 +36,12 @@ export HOMEBREW_INSTALL_FROM_API=1
 export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
 export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
 export HOMEBREW_PIP_INDEX_URL="https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
-# eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 
 # cuda
 export PATH=${PATH}:/usr/local/cuda/bin
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
+export CUDA_TOOLKIT_PATH=/usr/local/cuda
 
 # rust
 # . "$HOME/.cargo/env"
@@ -52,6 +53,7 @@ export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
 # export RUSTC_BOOTSTRAP=1
 # export RUST_BACKTRACE=full
 # export CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true
+alias ct="cargo t"
 
 # proxy
 export http_proxy="http://127.0.0.1:7890"
@@ -256,12 +258,13 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # arch linux
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # # ubuntu
-# source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-# source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+fpath=('/home/linuxbrew/.linuxbrew/share/zsh/site-functions' $fpath)
 autoload -U compinit && compinit
 
 eval "$(starship init zsh)"
@@ -303,3 +306,5 @@ unset __conda_setup
 # END opam configuration
 
 
+
+. "$HOME/.local/share/../bin/env"

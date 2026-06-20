@@ -2,9 +2,9 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
 
-vim.opt.mouse = "" -- disable mouse
--- vim.opt.mouse:append("a") -- use mouse scroll to preview in fzf-lua
--- vim.opt.mousemoveevent = true
+-- vim.opt.mouse = "" -- disable mouse
+vim.opt.mouse:append("a") -- use mouse scroll to preview in fzf-lua
+vim.opt.mousemoveevent = true
 vim.opt.clipboard = "unnamedplus,unnamed"
 
 vim.opt.hlsearch = true
@@ -76,17 +76,18 @@ local function get_visual_highlight_bg_color_hex()
   -- print("hex of visual highlight bg is " .. visual_bg_hex)
   return visual_bg_hex
 end
+local visual_bg_hex = get_visual_highlight_bg_color_hex()
 -- override color
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
   pattern = { "*" },
   callback = function()
-    -- vim.api.nvim_set_hl(0, "IlluminatedWordText", { underline = true })
-    -- vim.api.nvim_set_hl(0, "IlluminatedWordRead", { underline = true })
-    -- vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { underline = true })
     -- vscode like background for same symbols
-    vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = get_visual_highlight_bg_color_hex() })
-    vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = get_visual_highlight_bg_color_hex() })
-    vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = get_visual_highlight_bg_color_hex() })
+    vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = visual_bg_hex })
+    vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg =  visual_bg_hex })
+    vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg =  visual_bg_hex })
+    -- vim.api.nvim_set_hl(0, "IlluminatedWordText", { reverse = true })
+    -- vim.api.nvim_set_hl(0, "IlluminatedWordRead", { reverse = true })
+    -- vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { reverse = true })
 
     vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
     vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
@@ -152,8 +153,8 @@ for _, pat in ipairs({
     pattern = pat,
     group = text,
     callback = function()
-      vim.wo.spell = true
-      vim.bo.spelllang = "en_us"
+      -- vim.wo.spell = true
+      -- vim.bo.spelllang = "en_us"
       vim.bo.textwidth = 72
       vim.wo.colorcolumn = "73"
       vim.wo.wrap = true
@@ -165,7 +166,7 @@ end
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank({
-      timeout = 300,
+      timeout = 500,
     })
   end,
 })
@@ -179,7 +180,7 @@ vim.diagnostic.config({
   underline = true,
   float = true,
   -- virtual_lines = true,
-  -- update_in_insert = true,
+  update_in_insert = false,
   severity_sort = true,
   signs = {
     text = {
