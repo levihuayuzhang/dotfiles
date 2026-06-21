@@ -4,15 +4,9 @@ vim.g.rustaceanvim = {
   -- LSP configuration
   server = {
     on_attach = function(client, bufnr)
-      -- vim.api.nvim_set_hl(0, "@lsp.typemod.method.call", {
-      --   underline = true,
-      -- })
-      -- vim.api.nvim_set_hl(0, "@lsp.type.method", {
-      --   underline = true,
-      -- })
-      -- vim.api.nvim_set_hl(0, "@method", {
-      --   underline = true,
-      -- })
+      vim.api.nvim_set_hl(0, "@lsp.mod.mutable.rust", {
+        underline = true,
+      })
 
       vim.keymap.set("n", "<leader>a", function()
         vim.cmd.RustLsp("codeAction") -- grouping code actions
@@ -106,44 +100,44 @@ vim.g.rustaceanvim = {
           command = "clippy",
           features = "all",
         },
-        files = {
-          -- watcher = 'server',
-          watcher = "client",
-        },
+        -- files = {
+        --   -- watcher = 'server',
+        --   watcher = "client",
+        -- },
         semanticHighlighting = {
           enable = true,
           operator = true,
           punctuation = true,
           strings = true,
         },
-        inlayHints = {
-          typeHints = { enable = true },
-          chainingHints = { enable = true },
-          closingBraceHints = { enable = true },
-          bindingModeHints = { enable = true },
-          closureCaptureHints = { enable = true },
-          closureReturnTypeHints = {
-            enable = "always",
-          },
-          discriminantHints = { enable = "always" },
-          expressionAdjustmentHints = {
-            enable = "always",
-          },
-          genericParameterHints = {
-            const = { enable = true },
-            lifetime = { enable = true },
-            type = { enable = true },
-          },
-          implicitDrops = { enable = true },
-          implicitSizedBoundHints = { enable = true },
-          maxLength = nil,
-          reborrowHints = { enable = "always" },
-          renderColons = true,
-          lifetimeElisionHints = {
-            enable = true,
-            useParameterNames = true,
-          },
-        },
+        -- inlayHints = {
+        --   typeHints = { enable = true },
+        --   chainingHints = { enable = true },
+        --   closingBraceHints = { enable = true },
+        --   bindingModeHints = { enable = true },
+        --   closureCaptureHints = { enable = true },
+        --   closureReturnTypeHints = {
+        --     enable = "always",
+        --   },
+        --   discriminantHints = { enable = "always" },
+        --   expressionAdjustmentHints = {
+        --     enable = "always",
+        --   },
+        --   genericParameterHints = {
+        --     const = { enable = true },
+        --     lifetime = { enable = true },
+        --     type = { enable = true },
+        --   },
+        --   implicitDrops = { enable = true },
+        --   implicitSizedBoundHints = { enable = true },
+        --   maxLength = nil,
+        --   reborrowHints = { enable = "always" },
+        --   renderColons = true,
+        --   lifetimeElisionHints = {
+        --     enable = true,
+        --     useParameterNames = true,
+        --   },
+        -- },
       },
     },
   },
