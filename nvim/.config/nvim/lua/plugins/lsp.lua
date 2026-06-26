@@ -2,7 +2,7 @@ vim.lsp.semantic_tokens.enable = true
 
 -- https://neovim.io/doc/user/lsp.html#vim.lsp.config()
 local servers = {
-  -- "rust_analyzer",
+  "rust_analyzer",
   "clangd",
   "ty",
   "ruff",
@@ -26,89 +26,93 @@ vim.lsp.config["*"] = {
   capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities()),
 }
 
--- -- rust
--- -- local lsp_work_by_client_id = {}
--- -- local time = 0
--- vim.lsp.config("rust_analyzer", {
---   settings = {
---     ["rust-analyzer"] = {
---       diagnostics = {
---         enable = true,
---         experimental = { enable = true },
---         styleLints = { enable = true },
---       },
---       cargo = { features = "all" },
---       checkOnSave = true,
---       check = {
---         command = "clippy",
---         features = "all",
---       },
---       files = {
---         -- watcher = 'server',
---         watcher = "client",
---       },
---       inlayHints = {
---         typeHints = { enable = true },
---         chainingHints = { enable = true },
---         closingBraceHints = { enable = true },
---         bindingModeHints = { enable = true },
---         closureCaptureHints = { enable = true },
---         closureReturnTypeHints = {
---           enable = "always",
---         },
---         discriminantHints = { enable = "always" },
---         expressionAdjustmentHints = {
---           enable = "always",
---         },
---         genericParameterHints = {
---           const = { enable = true },
---           lifetime = { enable = true },
---           type = { enable = true },
---         },
---         implicitDrops = { enable = true },
---         implicitSizedBoundHints = { enable = true },
---         maxLength = nil,
---         reborrowHints = { enable = "always" },
---         renderColons = true,
---         lifetimeElisionHints = {
---           enable = true,
---           useParameterNames = true,
---         },
---       },
---     },
---   },
---   --   -- on_attach = function(client, bufnr)
---   --   --   -- require "lsp_signature".on_attach({
---   --   --   --   always_trigger = true,
---   --   --   --   transparency = 10,
---   --   --   --
---   --   --   -- }, bufnr)
---   --   --
---   --   --   -- enable inlay hints at buffer open
---   --   --   -- vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
---   --   --   --
---   --   --   -- pcall(vim.api.nvim_create_autocmd, "LspProgress", {
---   --   --   --   callback = function(event)
---   --   --   --     local kind = event.data.params.value.kind
---   --   --   --     local client_id = event.data.client_id
---   --   --   --     local work = lsp_work_by_client_id[client_id] or 0
---   --   --   --     local work_change = kind == "begin" and 1 or (kind == "end" and -1 or 0)
---   --   --   --     lsp_work_by_client_id[client_id] = math.max(work + work_change, 0)
---   --   --   --
---   --   --   --     if
---   --   --   --       vim.lsp.inlay_hint.is_enabled({
---   --   --   --         bufnr = bufnr,
---   --   --   --       }) and lsp_work_by_client_id[client_id] == 0
---   --   --   --     then
---   --   --   --       vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
---   --   --   --       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
---   --   --   --       time = time + 1
---   --   --   --       print(string.format("inlay hints redrew %d times", time))
---   --   --   --     end
---   --   --   --   end,
---   --   --   -- })
---   --   -- end,
--- })
+-- rust
+-- local lsp_work_by_client_id = {}
+-- local time = 0
+vim.lsp.config("rust_analyzer", {
+  settings = {
+    ["rust-analyzer"] = {
+      diagnostics = {
+        enable = true,
+        experimental = { enable = true },
+        styleLints = { enable = true },
+      },
+      cargo = { features = "all" },
+      checkOnSave = true,
+      check = {
+        command = "clippy",
+        features = "all",
+      },
+      -- files = {
+      --   -- watcher = 'server',
+      --   watcher = "client",
+      -- },
+      -- inlayHints = {
+      --   typeHints = { enable = true },
+      --   chainingHints = { enable = true },
+      --   closingBraceHints = { enable = true },
+      --   bindingModeHints = { enable = true },
+      --   closureCaptureHints = { enable = true },
+      --   closureReturnTypeHints = {
+      --     enable = "always",
+      --   },
+      --   discriminantHints = { enable = "always" },
+      --   expressionAdjustmentHints = {
+      --     enable = "always",
+      --   },
+      --   genericParameterHints = {
+      --     const = { enable = true },
+      --     lifetime = { enable = true },
+      --     type = { enable = true },
+      --   },
+      --   implicitDrops = { enable = true },
+      --   implicitSizedBoundHints = { enable = true },
+      --   maxLength = nil,
+      --   reborrowHints = { enable = "always" },
+      --   renderColons = true,
+      --   lifetimeElisionHints = {
+      --     enable = true,
+      --     useParameterNames = true,
+      --   },
+      -- },
+    },
+  },
+    on_attach = function(client, bufnr)
+      vim.api.nvim_set_hl(0, "@lsp.mod.mutable.rust", {
+        underline = true,
+      })
+
+      -- require "lsp_signature".on_attach({
+      --   always_trigger = true,
+      --   transparency = 10,
+      --
+      -- }, bufnr)
+
+      -- -- enable inlay hints at buffer open
+      -- vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+
+      -- pcall(vim.api.nvim_create_autocmd, "LspProgress", {
+      --   callback = function(event)
+      --     local kind = event.data.params.value.kind
+      --     local client_id = event.data.client_id
+      --     local work = lsp_work_by_client_id[client_id] or 0
+      --     local work_change = kind == "begin" and 1 or (kind == "end" and -1 or 0)
+      --     lsp_work_by_client_id[client_id] = math.max(work + work_change, 0)
+      --
+      --     if
+      --       vim.lsp.inlay_hint.is_enabled({
+      --         bufnr = bufnr,
+      --       }) and lsp_work_by_client_id[client_id] == 0
+      --     then
+      --       vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+      --       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+      --       time = time + 1
+      --       print(string.format("inlay hints redrew %d times", time))
+      --     end
+      --   end,
+      -- })
+    end,
+})
 
 -- clangd
 -- local nproc

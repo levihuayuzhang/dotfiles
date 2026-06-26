@@ -87,4 +87,6 @@ set -Ux CUDA_TOOLKIT_PATH /usr/local/cuda
 set -Ux RUSTUP_DIST_SERVER https://mirrors.tuna.tsinghua.edu.cn/rustup
 set -Ux RUSTUP_UPDATE_ROOT https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
 abbr -a ct 'cargo t'
+# set -gx RUST_BACKTRACE full
+set -gx RUST_BACKTRACE 1
 

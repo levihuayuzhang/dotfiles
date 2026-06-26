@@ -21,8 +21,8 @@
   -- navigate among buffers
   vim.keymap.set("n", "<left>", "<nop>")
   vim.keymap.set("n", "<right>", "<nop>")
-  -- vim.keymap.set("n", "<left>", ":bp<cr>")
-  -- vim.keymap.set("n", "<right>", ":bn<cr>")
+  vim.keymap.set("n", "<left>", ":bp<cr>")
+  vim.keymap.set("n", "<right>", ":bn<cr>")
   -- -- toggle between (most recent two) buffers
   vim.keymap.set("n", "<Space>", "<Nop>", { silent = true })
   vim.keymap.set("n", "<leader><leader>", "<c-6>")
@@ -36,3 +36,5 @@
   -- keymap.set("n", "<leader>e", "<cmd>Explore<cr>") -- netrw disabled
   vim.keymap.set("n", "<leader>ll", "<cmd>Lazy<cr>")
 
+  -- use lsp to rename symbols (under current cursor) in buffer.
+  vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {desc = "lsp rename symbols"})

@@ -19,7 +19,7 @@ vim.pack.add({ -- https://neovim.io/doc/user/pack/#vim.pack-examples
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",
   "https://github.com/stevearc/oil.nvim",
   "https://github.com/rrethy/vim-illuminate",
-  "https://github.com/mrcjkb/rustaceanvim",
+  -- "https://github.com/mrcjkb/rustaceanvim",
   "https://github.com/saecki/crates.nvim",
   "https://github.com/saghen/blink.lib",
   {

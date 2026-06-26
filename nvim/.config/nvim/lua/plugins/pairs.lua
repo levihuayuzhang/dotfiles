@@ -1,3 +1,5 @@
+-- require('blink.pairs').build():pwait()
+
 require("blink.pairs").setup({
   mappings = {
     -- you can call require("blink.pairs.mappings").enable()
@@ -27,7 +29,7 @@ require("blink.pairs").setup({
     matchparen = {
       enabled = true,
       -- known issue where typing won't update matchparen highlight, disabled by default
-      cmdline = false,
+      cmdline = true,
       -- also include pairs not on top of the cursor, but surrounding the cursor
       include_surrounding = false,
       group = "BlinkPairsMatchParen",
