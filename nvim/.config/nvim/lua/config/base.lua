@@ -2,8 +2,8 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
 
--- vim.opt.mouse = "" -- disable mouse
-vim.opt.mouse:append("a") -- use mouse scroll to preview in fzf-lua
+vim.opt.mouse = "" -- disable mouse
+-- vim.opt.mouse:append("a") -- use mouse scroll to preview in fzf-lua
 vim.opt.mousemoveevent = true
 vim.opt.clipboard = "unnamedplus,unnamed"
 
@@ -83,8 +83,8 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
   callback = function()
     -- vscode like background for same symbols
     vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = visual_bg_hex })
-    vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg =  visual_bg_hex })
-    vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg =  visual_bg_hex })
+    vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = visual_bg_hex })
+    vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = visual_bg_hex })
     -- vim.api.nvim_set_hl(0, "IlluminatedWordText", { reverse = true })
     -- vim.api.nvim_set_hl(0, "IlluminatedWordRead", { reverse = true })
     -- vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { reverse = true })
@@ -177,6 +177,9 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 vim.diagnostic.config({
   virtual_text = true,
+  -- virtual_text = {
+  --   current_line = true,
+  -- },
   underline = true,
   float = true,
   -- virtual_lines = true,

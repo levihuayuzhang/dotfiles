@@ -1,5 +1,3 @@
--- require('blink.pairs').build():pwait()
-
 require("blink.pairs").setup({
   mappings = {
     -- you can call require("blink.pairs.mappings").enable()

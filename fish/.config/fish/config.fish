@@ -9,6 +9,7 @@ set -Ux QT_SCALE_FACTOR 1.5
 set -Ux GDK_SCALE 1.5
 set -Ux GDK_DPI_SCALE 1.0
 set -Ux BAT_THEME "gruvbox-dark"
+set -Ux MANPAGER "batcat -plman"
 set -Ux DELTA_FEATURES "+side-by-side"
 
 set PATH $PATH $HOME/bin
@@ -58,19 +59,30 @@ else
 	abbr -a ll 'ls -l'
 end
 
-starship init fish | source
+# cuda
+fish_add_path /usr/local/cuda/bin
+if not contains /usr/local/cuda/lib64 $LD_LIBRARY_PATH
+    set -gx LD_LIBRARY_PATH /usr/local/cuda/lib64 $LD_LIBRARY_PATH 
+end
+set -gx CUDA_TOOLKIT_PATH /usr/local/cuda
 
-direnv hook fish | source
+# rust
+set -gx RUSTUP_DIST_SERVER https://mirrors.tuna.tsinghua.edu.cn/rustup
+set -gx RUSTUP_UPDATE_ROOT https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
+abbr -a ct 'cargo t'
+set -gx RUST_BACKTRACE full
+set -gx RUSTC_WRAPPER sccache
+# set -gx SCCACHE_SERVER_PORT 24226
+set -gx SCCACHE_SERVER_UDS $HOME/sccache.sock
 
 # homebrew
-set PATH $PATH /home/linuxbrew/.linuxbrew/bin
-set -Ux HOMEBREW_BREW_GIT_REMOTE "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
-set -Ux HOMEBREW_CORE_GIT_REMOTE "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
-set -Ux HOMEBREW_INSTALL_FROM_API 1
-set -Ux HOMEBREW_API_DOMAIN "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
-set -Ux HOMEBREW_BOTTLE_DOMAIN "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
-set -Ux HOMEBREW_PIP_INDEX_URL "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
-brew shellenv | source
+# set -gx HOMEBREW_BREW_GIT_REMOTE "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
+# set -gx HOMEBREW_CORE_GIT_REMOTE "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
+# set -gx HOMEBREW_INSTALL_FROM_API "1"
+# set -gx HOMEBREW_API_DOMAIN "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
+# set -gx HOMEBREW_BOTTLE_DOMAIN "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
+# set -gx HOMEBREW_PIP_INDEX_URL "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv fish)"
 if test -d (brew --prefix)"/share/fish/completions"
     set -p fish_complete_path (brew --prefix)/share/fish/completions
 end
@@ -78,15 +90,7 @@ if test -d (brew --prefix)"/share/fish/vendor_completions.d"
     set -p fish_complete_path (brew --prefix)/share/fish/vendor_completions.d
 end
 
-# cuda
-fish_add_path /usr/local/cuda/bin
-set -Ux LD_LIBRARY_PATH /usr/local/cuda/lib64 $LD_LIBRARY_PATH 
-set -Ux CUDA_TOOLKIT_PATH /usr/local/cuda
+starship init fish | source
 
-# rust
-set -Ux RUSTUP_DIST_SERVER https://mirrors.tuna.tsinghua.edu.cn/rustup
-set -Ux RUSTUP_UPDATE_ROOT https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
-abbr -a ct 'cargo t'
-# set -gx RUST_BACKTRACE full
-set -gx RUST_BACKTRACE 1
+direnv hook fish | source
 

@@ -44,11 +44,14 @@ vim.api.nvim_create_autocmd("PackChanged", {
 local build_pairs = function(ev)
   local name, kind = ev.data.spec.name, ev.data.kind
   if name == "blink.pairs" and (kind == "install" or kind == "update") then
-    vim
-        .system({ "cargo", "build", "--release" }, {
-          cwd = ev.data.path,
-        })
-        :wait()
+    -- vim
+    --     .system({ "cargo", "build", "--release" }, {
+    --       cwd = ev.data.path,
+    --     })
+    --     :wait()
+
+    require('blink.pairs').build():pwait()
+    -- require('blink.pairs').download():pwait()
   end
 end
 vim.api.nvim_create_autocmd("PackChanged", {

@@ -28,7 +28,6 @@ vim.pack.add({ -- https://neovim.io/doc/user/pack/#vim.pack-examples
   },
   {
     src = "https://github.com/saghen/blink.cmp",
-    -- version = vim.version.range("1.*"),
     branch = "v2",
   },
 })
