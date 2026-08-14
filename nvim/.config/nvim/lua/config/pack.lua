@@ -10,6 +10,7 @@ vim.pack.add({ -- https://neovim.io/doc/user/pack/#vim.pack-examples
   "https://github.com/mason-org/mason.nvim",
   "https://github.com/mason-org/mason-lspconfig.nvim",
   "https://github.com/neovim/nvim-lspconfig",
+  -- "https://github.com/nvimdev/lspsaga.nvim",
   "https://github.com/ibhagwan/fzf-lua",
   -- "https://github.com/folke/which-key.nvim",
   "https://github.com/nvim-mini/mini.hipatterns",
@@ -21,6 +22,7 @@ vim.pack.add({ -- https://neovim.io/doc/user/pack/#vim.pack-examples
   "https://github.com/rrethy/vim-illuminate",
   -- "https://github.com/mrcjkb/rustaceanvim",
   "https://github.com/saecki/crates.nvim",
+  "https://github.com/windwp/nvim-autopairs",
   "https://github.com/saghen/blink.lib",
   {
     src = "https://github.com/saghen/blink.pairs",

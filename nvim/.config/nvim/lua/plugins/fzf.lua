@@ -59,3 +59,5 @@ vim.keymap.set(
   "<cmd>FzfLua tmux_buffers<cr>",
   { desc = "list tmux paste buffers" }
 )
+
+require("fzf-lua").register_ui_select()

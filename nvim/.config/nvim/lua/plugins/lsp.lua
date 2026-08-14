@@ -6,7 +6,6 @@ local servers = {
   "clangd",
   "ty",
   "ruff",
-  "pyright",
   "lua_ls",
   "asm_lsp",
   -- "texlab",
@@ -77,41 +76,41 @@ vim.lsp.config("rust_analyzer", {
       -- },
     },
   },
-    on_attach = function(client, bufnr)
-      vim.api.nvim_set_hl(0, "@lsp.mod.mutable.rust", {
-        underline = true,
-      })
+  on_attach = function(client, bufnr)
+    vim.api.nvim_set_hl(0, "@lsp.mod.mutable.rust", {
+      underline = true,
+    })
 
-      -- require "lsp_signature".on_attach({
-      --   always_trigger = true,
-      --   transparency = 10,
-      --
-      -- }, bufnr)
+    -- require "lsp_signature".on_attach({
+    --   always_trigger = true,
+    --   transparency = 10,
+    --
+    -- }, bufnr)
 
-      -- -- enable inlay hints at buffer open
-      -- vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    -- -- enable inlay hints at buffer open
+    -- vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 
-      -- pcall(vim.api.nvim_create_autocmd, "LspProgress", {
-      --   callback = function(event)
-      --     local kind = event.data.params.value.kind
-      --     local client_id = event.data.client_id
-      --     local work = lsp_work_by_client_id[client_id] or 0
-      --     local work_change = kind == "begin" and 1 or (kind == "end" and -1 or 0)
-      --     lsp_work_by_client_id[client_id] = math.max(work + work_change, 0)
-      --
-      --     if
-      --       vim.lsp.inlay_hint.is_enabled({
-      --         bufnr = bufnr,
-      --       }) and lsp_work_by_client_id[client_id] == 0
-      --     then
-      --       vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
-      --       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-      --       time = time + 1
-      --       print(string.format("inlay hints redrew %d times", time))
-      --     end
-      --   end,
-      -- })
-    end,
+    -- pcall(vim.api.nvim_create_autocmd, "LspProgress", {
+    --   callback = function(event)
+    --     local kind = event.data.params.value.kind
+    --     local client_id = event.data.client_id
+    --     local work = lsp_work_by_client_id[client_id] or 0
+    --     local work_change = kind == "begin" and 1 or (kind == "end" and -1 or 0)
+    --     lsp_work_by_client_id[client_id] = math.max(work + work_change, 0)
+    --
+    --     if
+    --       vim.lsp.inlay_hint.is_enabled({
+    --         bufnr = bufnr,
+    --       }) and lsp_work_by_client_id[client_id] == 0
+    --     then
+    --       vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+    --       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    --       time = time + 1
+    --       print(string.format("inlay hints redrew %d times", time))
+    --     end
+    --   end,
+    -- })
+  end,
 })
 
 -- clangd
@@ -122,12 +121,12 @@ vim.lsp.config("rust_analyzer", {
 -- elseif jit.os == "Linux" then
 --   nproc = vim.fn.systemlist("nproc")[1]
 -- end
-local function enable_inlay_hint_for_buf(bufnr)
-  if not vim.lsp.inlay_hint.is_enabled() then
-    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-    -- print("Inlay Hints is enabled: " .. tostring(vim.lsp.inlay_hint.is_enabled()) .. "...")
-  end
-end
+-- local function enable_inlay_hint_for_buf(bufnr)
+--   if not vim.lsp.inlay_hint.is_enabled() then
+--     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+--     -- print("Inlay Hints is enabled: " .. tostring(vim.lsp.inlay_hint.is_enabled()) .. "...")
+--   end
+-- end
 local function change_indent_based_on_clang_format_file(bufnr)
   local cwd = vim.fn.getcwd()
   local clang_format_cmd = "clang-format --dump-config " .. cwd .. "/.clang-format"
@@ -205,34 +204,20 @@ vim.lsp.config("clangd", {
 })
 
 -- python
+-- ty
 vim.lsp.config("ty", {
-  cmd = { "ty", "server" },
-  filetypes = { "python" },
-  root_dir = vim.fs.root(0, { ".git/", "pyproject.toml" }),
+  settings = {
+    ty = {
+      -- https://docs.astral.sh/ty/editors/#neovim
+    },
+  },
 })
 -- ruff - use defaults
 vim.lsp.config("ruff", {
-  -- https://docs.astral.sh/ruff/editors/setup/#neovim
-})
--- pyright - work with ruff
-vim.lsp.config("pyright", {
-  settings = {
-    python = {
-      analysis = {
-        typeCheckingMode = "off",
-        autoSearchPaths = true,
-        useLibraryCodeForTypes = true,
-        diagnosticMode = "off",
-        autoImportCompletions = false,
-      },
-      linting = {
-        enabled = false,
-      },
+  init_options = {
+    settings = {
+      -- https://docs.astral.sh/ruff/editors/setup/#neovim
     },
-  },
-  -- Disable all diagnostics from Pyright
-  handlers = {
-    ["textDocument/publishDiagnostics"] = function() end,
   },
 })
 
@@ -402,6 +387,12 @@ vim.lsp.config("nixd", {
   },
 })
 
+-- require("lspsaga").setup({
+--   lightbulb = {
+--     enable = false,
+--   },
+-- })
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
   callback = function(ev)
@@ -415,7 +406,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "<leader>i", function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
     end, { desc = "Toggle inlay hints", buffer = buffer })
-    vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "open float diagnostic", buffer = buffer })
+    vim.keymap.set(
+      "n",
+      "<leader>d",
+      vim.diagnostic.open_float,
+      -- "<cmd>Lspsaga show_cursor_diagnostics<cr>",
+      { desc = "open float diagnostic", buffer = buffer }
+    )
     vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "diagnostic set loc list", buffer = buffer })
     vim.keymap.set(
       "n",
@@ -431,10 +428,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
       "<cmd>FzfLua lsp_definitions<cr>",
       { desc = "go to definition", buffer = buffer }
     )
-    vim.keymap.set("n", "<leader>k", vim.lsp.buf.hover, {
-      desc = "open hover, x2 into hover window, q to exit",
-      buffer = buffer,
-    })
+    vim.keymap.set(
+      "n",
+      "<leader>k",
+      vim.lsp.buf.hover,
+      -- "<cmd>Lspsaga hover_doc<cr>",
+      {
+        desc = "open hover, x2 into hover window, q to exit",
+        buffer = buffer,
+      }
+    )
     vim.keymap.set(
       "n",
       "gi",
@@ -470,12 +473,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
       { desc = "type definition", buffer = buffer }
     )
     vim.keymap.set("n", "<leader>br", vim.lsp.buf.rename, { desc = "rename buffer", buffer = buffer })
-    vim.keymap.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, { desc = "Code Actions", buffer = buffer })
     vim.keymap.set(
       { "n", "v" },
-      "<leader>fa",
+      "<leader>a",
+      -- vim.lsp.buf.code_action,
       "<cmd>FzfLua lsp_code_actions<cr>",
-      { desc = "Find Code Action", buffer = buffer }
+      -- "<cmd>Lspsaga code_action<cr>",
+      { desc = "Code Actions", buffer = buffer }
     )
     vim.keymap.set(
       "n",

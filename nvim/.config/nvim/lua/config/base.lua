@@ -100,7 +100,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 })
 
 -- language specific settings
-vim.api.nvim_create_autocmd("Filetype", {
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "lua",
   callback = function()
     vim.bo.tabstop = 2
@@ -109,17 +109,17 @@ vim.api.nvim_create_autocmd("Filetype", {
     vim.wo.colorcolumn = "80"
   end,
 })
-vim.api.nvim_create_autocmd("Filetype", {
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "rust",
   command = "set colorcolumn=100",
 })
-vim.api.nvim_create_autocmd("Filetype", {
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "cpp",
   -- command = "set colorcolumn=100",
   command = "set colorcolumn=80",
 })
 -- set spell check (use `z=` to get suggestions)
-vim.api.nvim_create_autocmd("Filetype", {
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "tex",
   callback = function()
     vim.g.tex_flavor = "latex"
