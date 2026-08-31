@@ -205,18 +205,22 @@ vim.lsp.config("clangd", {
 
 -- python
 -- ty
+-- https://docs.astral.sh/ty/editors/#neovim
 vim.lsp.config("ty", {
   settings = {
     ty = {
-      -- https://docs.astral.sh/ty/editors/#neovim
+      completions = {
+        completeFunctionParentheses = true,
+      },
     },
   },
 })
--- ruff - use defaults
+-- ruff
+-- https://docs.astral.sh/ruff/editors/setup/#neovim
 vim.lsp.config("ruff", {
   init_options = {
     settings = {
-      -- https://docs.astral.sh/ruff/editors/setup/#neovim
+      organizeImports = true,
     },
   },
 })

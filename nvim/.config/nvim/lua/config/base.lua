@@ -115,8 +115,11 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "cpp",
-  -- command = "set colorcolumn=100",
   command = "set colorcolumn=80",
+})
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "python",
+  command = "set colorcolumn=88",
 })
 -- set spell check (use `z=` to get suggestions)
 vim.api.nvim_create_autocmd("FileType", {
