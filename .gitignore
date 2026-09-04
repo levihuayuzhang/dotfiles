@@ -8,6 +8,7 @@ nix-darwin/flake.lock
 mpv/.config/mpv/watch_later/
 
 fish/.config/fish/fish_variables
+fish/.config/fish/conf.d/
 
 fcitx5/.config/fcitx5/conf/cached_layouts
 fcitx5/.config/fcitx5/conf/notifications.conf
@@ -18,4 +19,6 @@ fcitx5/.local/share/fcitx5/rime/installation.yaml
 fcitx5/.local/share/fcitx5/rime/luna_pinyin.userdb/
 fcitx5/.local/share/fcitx5/rime/sync/
 fcitx5/.local/share/fcitx5/rime/user.yaml
+
+niri-systemd/.config/systemd/user/niri.service.wants/
 

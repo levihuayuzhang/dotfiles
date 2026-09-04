@@ -59,10 +59,10 @@ require("blink.cmp").setup({
   -- },
   signature = {
     enabled = true,
-    trigger = {
-      -- show_on_keyword = true,
-      show_on_insert = true,
-    },
+    -- trigger = {
+    --   -- show_on_keyword = true,
+    --   show_on_insert = true,
+    -- },
     window = {
       show_documentation = true,
     },

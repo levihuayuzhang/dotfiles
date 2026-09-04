@@ -13,7 +13,7 @@ IMG=$(find "$WALLPAPER_DIR" -type f \( \
 
 # pgrep -x swww-daemon >/dev/null || swww-daemon &
 
-swww img "$IMG"
+awww img "$IMG"
   # --transition-type grow \
   # --transition-fps 60 \
   # --transition-duration 1

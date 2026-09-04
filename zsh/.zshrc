@@ -6,6 +6,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 
+# fcitx
 # export GTK_IM_MODULE=fcitx
 # export QT_IM_MODULE=fcitx
 # export SDL_IM_MODULE=fcitx
@@ -14,20 +15,30 @@ export XDG_STATE_HOME="$HOME/.local/state"
 # export XMODIFIERS=@im=fcitx
 # export INPUT_METHOD=fcitx
 
+# # ibus
+# GTK_IM_MODULE=wayland
+# XMODIFIERS=@im=ibus
+# QT_IM_MODULES=wayland;ibus
+# QT_IM_MODULE=ibus
+
 # DE
 # export MOZ_ENABLE_WAYLAND=1
 # export DISPLAY=:0
-export QT_SCALE_FACTOR=1.5
-export GDK_SCALE=1.5
-export GDK_DPI_SCALE=1.0
+# export QT_SCALE_FACTOR=1.5
+# export GDK_SCALE=1.5
+# export GDK_DPI_SCALE=1.0
 export BAT_THEME="gruvbox-dark"
 # export GTK_THEME=Adwaita:dark
 # export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
 # export QT_STYLE_OVERRIDE=Adwaita-Dark
+# export QT_WAYLAND_DECORATION=adwaita
+# export QT_QPA_PLATFORMTHEME=gtk3
+# export QT_QPA_PLATFORMTHEME=qt6ct;qt5ct
 # `dconf dump / | less`
 # gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 # gsettings set org.gnome.desktop.interface accent-color 'teal'
 # gsettings set org.gnome.desktop.interface icon-theme 'Tela-green-dark' # (form git) or 'Tela-circle-green-dark' (from arch linux)
+export WINEDEBUG=fps
 
 # homebrew
 export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
@@ -255,11 +266,11 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # arch linux
-# source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-# source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # # ubuntu
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 fpath=('/home/linuxbrew/.linuxbrew/share/zsh/site-functions' $fpath)
 autoload -U compinit && compinit

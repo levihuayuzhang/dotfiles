@@ -81,10 +81,10 @@ output "eDP-1" {
     // for the resolution.
     // If the mode is omitted altogether or is invalid, niri will pick one automatically.
     // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
-    mode "2240x1400@60"
+    mode "2560x1600@240"
 
     // You can use integer or fractional scale, for example use 1.5 for 150% scale.
-    scale 1.5 // 1493.3x933.3
+    scale 1.5 // 1706.7x1066.7
 
     // Transform allows to rotate the output counter-clockwise, valid values are:
     // normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
@@ -100,6 +100,8 @@ output "eDP-1" {
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
     position x=0 y=0
+
+    variable-refresh-rate
 }
 
 output "DP-1" {
@@ -109,7 +111,7 @@ output "DP-1" {
     // position x=-213 y=-1080
 
     scale 1.5 // 2560x1440
-    position x=-533 y=-1440
+    position x=1707 y=600
 
 }
 
@@ -271,7 +273,7 @@ layout {
 // started use systemd (~/.config/systemd/user/niri.service.wants/waybar.service -> /usr/lib/systemd/user/waybar.service)
 // spawn-at-startup "waybar" 
 
-spawn-at-startup "swww-daemon"
+spawn-at-startup "awww-daemon"
 spawn-at-startup "fcitx5"
 spawn-at-startup "kdeconnectd"
 
@@ -316,7 +318,7 @@ environment {
 
     MOZ_ENABLE_WAYLAND "1"
 
-    // GTK_IM_MODULE "fcitx"
+    GTK_IM_MODULE "fcitx"
     QT_IM_MODULE "fcitx"
     SDL_IM_MODULE "fcitx"
     GLFW_IM_MODULE "fcitx"
@@ -421,6 +423,12 @@ window-rule {
     // open-maximized true
     default-column-width { proportion 0.4; }
 }
+window-rule {
+    match app-id="steam"
+    open-focused true
+
+    open-maximized true
+}
 
 
 // Example: block out two password managers from screen capture.
@@ -471,11 +479,11 @@ binds {
 
     // /etc/systemd/sleep.conf
     // ~/.config/hypr/hypridle.conf
-    Super+Ctrl+Alt+L { spawn "systemctl" "suspend"; } // S3
+    // Super+Ctrl+Alt+L { spawn "systemctl" "suspend"; } // S3
     // Super+Ctrl+Alt+L { spawn "systemctl" "hibernate"; } // S4
     // Super+Ctrl+Alt+L { spawn "systemctl" "hybrid-sleep"; } // S3 + S4
     // Super+Ctrl+Alt+L { spawn "systemctl" "suspend-then-hibernate"; } // S3 -> S4
-    // Super+Ctrl+Alt+L { spawn "swaylock" "-f" "-i" "~/wallpapers/2.jpg" "&&" "systemctl" "suspend"; } // S3
+    Super+Ctrl+Alt+L { spawn-sh "swaylock -f -i ~/wallpapers/2.jpg && systemctl suspend"; } // S3
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
@@ -766,7 +774,7 @@ layer-rule {
 
 /-layer-rule {
     // niri msg layers
-    match namespace="^swww-daemon$" // swww
+    match namespace="^awww-daemon$" // awww
     // match namespace="^wallpaper$" // swaybg
 
     place-within-backdrop true
