@@ -210,7 +210,7 @@ vim.lsp.config("ty", {
   settings = {
     ty = {
       completions = {
-        completeFunctionParentheses = true,
+        completeFunctionParentheses = false,
       },
     },
   },
