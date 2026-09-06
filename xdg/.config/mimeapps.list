@@ -105,7 +105,7 @@ video/3gpp=mpv.desktop
 video/3gpp2=mpv.desktop
 video/dv=mpv.desktop
 video/vnd.avi=mpv.desktop
-image/jpeg=org.kde.gwenview.desktop
+image/jpeg=org.gnome.Loupe.desktop
 image/avif=org.kde.gwenview.desktop
 image/gif=org.kde.gwenview.desktop
 image/heif=org.kde.gwenview.desktop
@@ -130,6 +130,7 @@ image/openraster=org.kde.gwenview.desktop
 image/svg+xml=org.kde.gwenview.desktop
 image/svg+xml-compressed=org.kde.gwenview.desktop
 text/plain=code.desktop
+application/pdf=sioyek.desktop
 
 [Added Associations]
 video/matroska=mpv.desktop;
@@ -259,3 +260,4 @@ image/openraster=org.kde.gwenview.desktop;
 image/svg+xml=org.kde.gwenview.desktop;
 image/svg+xml-compressed=org.kde.gwenview.desktop;
 text/plain=code.desktop;
+application/pdf=sioyek.desktop;
