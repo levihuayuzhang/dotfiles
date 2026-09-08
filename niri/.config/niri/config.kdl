@@ -805,8 +805,7 @@ layer-rule {
         on
     }
 
-    // Fuzzel defaults to 10 px rounded corners.
-    geometry-corner-radius 10
+    geometry-corner-radius 12
 
     // baba-is-float true
 }
@@ -830,11 +829,11 @@ layer-rule {
 layer-rule {
     match namespace="^waybar$"
 
-    opacity 0.80
-    background-effect {
-        blur true
-        xray false
-    }
+    // opacity 0.80
+    // background-effect {
+    //     blur true
+    //     xray false
+    // }
 
     popups {
         // Match the default GTK 3 popup corner radius.

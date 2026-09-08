@@ -8,27 +8,15 @@
   min-height: 0;
   transition-property: background-color;
   transition-duration: 0.3s;
-  /* border-radius: 20px; */
+  border-radius: 20px;
   padding: 0;
   margin: 0;
-  background-color: rgba(0, 0, 0, 1); /*make whole bar a black one*/
+  /* background-color: rgba(0, 0, 0, 1); */
 }
 
-.modules-left {
-  margin: 2px;
-  /* padding-left: 10px; */
-  /* padding-right: 10px; */
-  border-radius: 20px;
-  background-color: rgba(0, 0, 0, 0.6);
-}
+.modules-left,
+.modules-center,
 .modules-right {
-  margin: 2px;
-  /* padding-left: 10px; */
-  /* padding-right: 10px; */
-  border-radius: 20px;
-  background-color: rgba(0, 0, 0, 0.6);
-}
-.modules-center {
   margin: 2px;
   /* padding-left: 10px; */
   /* padding-right: 10px; */

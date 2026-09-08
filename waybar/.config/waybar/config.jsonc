@@ -19,11 +19,10 @@
 
   // simple niri
   "modules-left": ["custom/arch", "niri/workspaces", "niri/window"],
-  "modules-center": [
-    // "gamemode",
-    "cava",
-  ],
+  "modules-center": ["clock"],
   "modules-right": [
+    "gamemode",
+    "cava",
     "tray",
     "network",
     "cpu",
@@ -35,7 +34,6 @@
     "bluetooth",
     // "upower#bluetooth-mouse-mxmaster3",
     "battery",
-    "clock",
   ],
 
   "wlr/taskbar": {
