@@ -24,6 +24,11 @@
     open = true;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.latest;
+    # dynamicBoost.enable = true;
+    powerManagement.enable = true;
+  };
+  hardware.nvidia-container-toolkit = {
+    enable = true;
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -34,10 +39,16 @@
   networking.wireless.enable = true;
   networking.networkmanager.enable = true;
 
+  programs.zsh.enable = true;
+  users.users.zhy = {
+    shell = pkgs.zsh;
+  };
+
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
-  nix.settings.substituters = lib.mkForce [ "https://mirror.sjtu.edu.cn/nix-channels/store" ];
+  # nix.settings.substituters = lib.mkForce [ "https://mirror.sjtu.edu.cn/nix-channels/store" ];
+  nix.settings.substituters = [ "https://mirror.sjtu.edu.cn/nix-channels/store" ];
 
   nix.gc = {
     automatic = true;
@@ -45,11 +56,20 @@
     options = "--delete-older-than 30d";
   };
   boot.loader.systemd-boot.configurationLimit = 10;
+  
+  services.mihomo = {
+    enable = true;
+    tunMode = true;
+    processesInfo = true;
+    configFile = "/home/zhy/proxy/config.yaml";
+    # extraOpts = "-d /home/zhy/proxy";
+    webui = pkgs.zashboard;
+  };
 
-
-  # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  networking.proxy.default = "http://127.0.0.1:7890"; # This option specifies the default value for httpProxy, httpsProxy, ftpProxy and rsyncProxy.
+  networking.proxy.allProxy = "socks5://127.0.0.1:7891";
+  networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";

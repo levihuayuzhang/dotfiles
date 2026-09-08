@@ -3,6 +3,7 @@
 {
     home.username = "zhy";
     home.homeDirectory = "/home/zhy";
+
     programs.git = {
     	enable = true;
 	
@@ -13,11 +14,31 @@
 	    };
 	};
     };
-    home.stateVersion = "26.05";
+
     programs.bash = {
         enable = true;
         shellAliases = {
             btw = "echo I use nixos, btw";
         };
     };
+
+    programs.zsh = {
+        enable = true;
+
+        oh-my-zsh = {
+          enable = true;
+          theme = "robbyrussell";
+          plugins = [ "git" "sudo" "docker" ];
+        };
+
+        enableCompletion = true;
+        autosuggestion.enable = true;
+        syntaxHighlighting.enable = true;
+
+        shellAliases = {
+          grep = "grep --color=auto";
+        };
+    };
+
+    home.stateVersion = "26.05";
 }
