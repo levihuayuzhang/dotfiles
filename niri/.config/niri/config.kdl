@@ -264,7 +264,7 @@ layout {
     }
 
     // Set transparent workspace background color.
-    // background-color "transparent"
+    background-color "transparent"
 }
 
 // Add lines like this to spawn processes at startup.
@@ -356,9 +356,34 @@ animations {
     slowdown 0.6
 }
 
+// https://github.com/niri-wm/niri/wiki/Configuration:-Miscellaneous#blur
+blur {
+    // off
+    passes 3
+    offset 3
+    noise 0.03
+    saturation 1.5
+}
+
 // Window rules let you adjust behavior for individual windows.
 // Find more information on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Window-Rules
+
+window-rule {
+    // open-maximized true
+
+    geometry-corner-radius 12
+    clip-to-geometry true
+    
+    draw-border-with-background false
+
+    // opacity 0.8
+    // background-effect {
+    //     blur true
+    //     xray false
+    // }
+
+}
 
 // Work around WezTerm's initial configure bug
 // by setting an empty default-column-width.
@@ -406,6 +431,12 @@ window-rule {
 
     // open-maximized true
     default-column-width { proportion 0.4; }
+
+    opacity 0.9
+    background-effect {
+        blur true
+        xray false
+    }
 }
 
 window-rule {
@@ -444,7 +475,7 @@ window-rule {
 
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
-/-window-rule {
+window-rule {
     match app-id=r#"^org\.keepassxc\.KeePassXC$"#
     match app-id=r#"^org\.gnome\.World\.Secrets$"#
 
@@ -452,13 +483,6 @@ window-rule {
 
     // Use this instead if you want them visible on third-party screenshot tools.
     // block-out-from "screencast"
-}
-
-// Example: enable rounded corners for all windows.
-// (This example rule is commented out with a "/-" in front.)
-window-rule {
-    // geometry-corner-radius 12
-    clip-to-geometry true
 }
 
 hotkey-overlay {
@@ -771,7 +795,11 @@ gestures {
 layer-rule {
     match namespace="^launcher$"
 
-    // opacity 0.05
+    opacity 0.80
+    // background-effect {
+    //     blur true
+    //     xray false
+    // }
 
     shadow {
         on
@@ -796,4 +824,26 @@ layer-rule {
     // mako
     match namespace="^notifications$"
     block-out-from "screencast"
+}
+
+// Blur the background behind Waybar popup menus.
+layer-rule {
+    match namespace="^waybar$"
+
+    opacity 0.80
+    background-effect {
+        blur true
+        xray false
+    }
+
+    popups {
+        // Match the default GTK 3 popup corner radius.
+        geometry-corner-radius 6
+
+        opacity 0.80
+        background-effect {
+            blur true
+            xray false
+        }
+    }
 }

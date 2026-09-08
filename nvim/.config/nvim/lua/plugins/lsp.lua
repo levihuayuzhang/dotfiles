@@ -16,7 +16,8 @@ local servers = {
   -- "vsrocq",
   -- "fortls",
   -- "ts_ls",
-  "nixd",
+  -- "nixd",
+  "nil_ls",
 }
 vim.lsp.enable(servers)
 
@@ -387,6 +388,16 @@ vim.lsp.config("nixd", {
           expr = '(builtins.getFlake ("git+file://" + toString ./.)).homeConfigurations."ruixi@k-on".options',
         },
       },
+    },
+  },
+})
+-- nil
+-- https://github.com/oxalica/nil/blob/main/dev/nvim-lsp.nix
+-- https://github.com/oxalica/nil/blob/main/docs/configuration.md
+vim.lsp.config("nil_ls", {
+  ["nil"] = {
+    formatting = {
+      command = { "nixfmt" },
     },
   },
 })
