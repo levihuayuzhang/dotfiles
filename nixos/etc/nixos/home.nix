@@ -3,7 +3,16 @@
 {
     home.username = "zhy";
     home.homeDirectory = "/home/zhy";
-    programs.git.enable = true;
+    programs.git = {
+    	enable = true;
+	
+	settings = {
+	    user = {
+	        name = "Huayu Zhang";
+	        email = "zhanghuayu.dev@gmail.com";
+	    };
+	};
+    };
     home.stateVersion = "26.05";
     programs.bash = {
         enable = true;

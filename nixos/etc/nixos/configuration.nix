@@ -17,6 +17,17 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  hardware.graphics.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = true;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
+  };
+
+  nixpkgs.config.allowUnfree = true;
+
   networking.hostName = "levi-pc"; # Define your hostname.
 
   # Configure network connections interactively with nmcli or nmtui.
