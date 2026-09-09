@@ -54,17 +54,33 @@
     defaultEditor = true;
   };
 
-  programs.steam.enable = true;
-  xdg.portal.enable = true;
+  programs.steam = {
+    enable = true;
+    # gamescopeSession.enable = true;
+  };
+  programs.gamescope = {
+    enable = true;
+    # enableWsi = true;
+  };
+  programs.gamemode.enable = true;
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-gnome
+      xdg-desktop-portal-cosmic
+    ];
+  };
 
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
   # nix.settings.substituters = lib.mkForce [ "https://mirror.sjtu.edu.cn/nix-channels/store" ];
   nix.settings.substituters = [
-    "https://mirror.sjtu.edu.cn/nix-channels/store"
-    "https://mirrors.ustc.edu.cn/nix-channels/store"
     "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+    "https://mirrors.ustc.edu.cn/nix-channels/store"
+    "https://mirror.sjtu.edu.cn/nix-channels/store"
   ];
 
   nix.gc = {
@@ -74,19 +90,19 @@
   };
   boot.loader.systemd-boot.configurationLimit = 10;
 
-  services.mihomo = {
-    enable = true;
-    tunMode = true;
-    processesInfo = true;
-    configFile = "/home/zhy/proxy/config.yaml";
-    # extraOpts = "-d /var/lib/private/mihomo";
-    webui = pkgs.zashboard;
-  };
-
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  networking.proxy.default = "http://127.0.0.1:7890"; # This option specifies the default value for httpProxy, httpsProxy, ftpProxy and rsyncProxy.
-  networking.proxy.allProxy = "socks5://127.0.0.1:7891";
-  networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  # services.mihomo = {
+  #   enable = true;
+  #   tunMode = true;
+  #   processesInfo = true;
+  #   configFile = "/home/zhy/proxy/config.yaml";
+  #   # extraOpts = "-d /var/lib/private/mihomo";
+  #   webui = pkgs.zashboard;
+  # };
+  #
+  # # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.default = "http://127.0.0.1:7890"; # This option specifies the default value for httpProxy, httpsProxy, ftpProxy and rsyncProxy.
+  # networking.proxy.allProxy = "socks5://127.0.0.1:7891";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
@@ -96,6 +112,30 @@
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
 
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+
+  # services.displayManager.sddm.enable = true;
+  # services.desktopManager.plasma6.enable = true;
+
+  services.displayManager.cosmic-greeter.enable = true;
+  programs.niri = {
+    enable = true;
+    useNautilus = true;
+  };
+  programs.waybar.enable = true;
+
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
   services.xserver = {
@@ -103,8 +143,6 @@
     autoRepeatDelay = 200;
     autoRepeatInterval = 35;
   };
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -116,10 +154,6 @@
   # Enable sound.
   # services.pulseaudio.enable = true;
   # OR
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
@@ -133,8 +167,7 @@
     ];
   };
 
-  programs.firefox.enable = true;
-  # programs.niri.enable = true;
+  # programs.firefox.enable = true;
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
@@ -173,7 +206,19 @@
     clang
     clang-tools
     llvm
+
+    fuzzel
+    firefox-devedition
+    nautilus
+    cosmic-files
+    cosmic-monitor
   ];
+
+  # virtualisation.virtualbox.host = {
+  #   enable = true;
+  #   # enableKvm = true;
+  #   enableExtensionPack = true;
+  # };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
