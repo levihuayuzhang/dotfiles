@@ -2,18 +2,22 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages;
@@ -45,6 +49,11 @@
     shell = pkgs.zsh;
   };
 
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
+
   programs.steam.enable = true;
   xdg.portal.enable = true;
 
@@ -53,9 +62,9 @@
 
   # nix.settings.substituters = lib.mkForce [ "https://mirror.sjtu.edu.cn/nix-channels/store" ];
   nix.settings.substituters = [
-      "https://mirror.sjtu.edu.cn/nix-channels/store"
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+    "https://mirror.sjtu.edu.cn/nix-channels/store"
+    "https://mirrors.ustc.edu.cn/nix-channels/store"
+    "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
   ];
 
   nix.gc = {
@@ -64,7 +73,7 @@
     options = "--delete-older-than 30d";
   };
   boot.loader.systemd-boot.configurationLimit = 10;
-  
+
   services.mihomo = {
     enable = true;
     tunMode = true;
@@ -130,17 +139,40 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
+    neovim
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     nano
-    neovim
 
-    wget
     git
+    wget
     curl
 
     alacritty
-
     stow
+
+    rustup
+    rustc
+    cargo
+
+    nil
+    nixd
+    nixfmt
+    tree-sitter
+    fzf
+    shfmt
+    prettier
+    stylua
+    tex-fmt
+    uv
+    ruff
+
+    gnumake
+    cmake
+    ninja
+    gcc
+    clang
+    clang-tools
+    llvm
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -163,10 +195,14 @@
   # networking.firewall.enable = false;
 
   fonts.packages = with pkgs; [
+    nerd-fonts.caskaydia-cove
     nerd-fonts.jetbrains-mono
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
@@ -193,4 +229,3 @@
   system.stateVersion = "26.05"; # Did you read the comment?
 
 }
-
