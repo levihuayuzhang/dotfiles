@@ -86,7 +86,7 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 30d";
+    # options = "--delete-older-than 30d";
   };
   boot.loader.systemd-boot.configurationLimit = 10;
 
@@ -179,8 +179,6 @@
     git
     wget
     curl
-
-    alacritty
     stow
 
     rustup
@@ -202,12 +200,17 @@
     gnumake
     cmake
     ninja
+    pkg-config
     gcc
     clang
     clang-tools
     llvm
+    lld
+    mold
+    openssl
 
     fuzzel
+    alacritty
     firefox-devedition
     nautilus
     cosmic-files
