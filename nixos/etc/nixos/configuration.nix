@@ -79,7 +79,7 @@
     tunMode = true;
     processesInfo = true;
     configFile = "/home/zhy/proxy/config.yaml";
-    # extraOpts = "-d /home/zhy/proxy";
+    # extraOpts = "-d /var/lib/private/mihomo";
     webui = pkgs.zashboard;
   };
 
