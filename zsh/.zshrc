@@ -104,8 +104,8 @@ export CPM_SOURCE_CACHE=$HOME/.cache/CPM
 # kdb
 # export QHOME=~/q
 # export PATH=$QHOME/l64/:$PATH
-export PATH=~/.kx/bin:$PATH # kdb-x
-alias q="rlwrap -r q"
+# export PATH=~/.kx/bin:$PATH # kdb-x
+# alias q="rlwrap -r q"
 
 # # MVAPICH
 # export PATH=/opt/mvapich/bin:$PATH
@@ -193,7 +193,7 @@ plugins=(
     # docker-compose
     # emoji
     # emoji-clock
-    eza
+    # eza
     # fzf
     git
     # git-auto-fetch
@@ -266,6 +266,11 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+alias l='eza -la --icons'
+alias ls='eza --icons'
+alias ll='eza -l --icons'
+alias la='eza -a --icons'
 
 # arch linux
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh

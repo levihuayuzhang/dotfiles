@@ -51,12 +51,14 @@ else
 end
 
 if command -v eza > /dev/null
-	abbr -a l 'eza -la'
-	abbr -a ls 'eza'
-	abbr -a ll 'eza -l'
+	abbr -a l 'eza -la --icons'
+	abbr -a ls 'eza --icons'
+	abbr -a ll 'eza -l --icons'
+	abbr -a la 'eza -a --icons'
 else
 	abbr -a l 'ls -la'
 	abbr -a ll 'ls -l'
+	abbr -a la 'ls -a'
 end
 
 # cuda
