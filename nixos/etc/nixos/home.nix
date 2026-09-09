@@ -37,6 +37,7 @@
 
         shellAliases = {
           grep = "grep --color=auto";
+	  nrs = "sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
         };
     };
 

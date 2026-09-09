@@ -14,22 +14,23 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Use latest kernel.
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages;
 
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
     modesetting.enable = true;
     open = true;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
     # dynamicBoost.enable = true;
     powerManagement.enable = true;
   };
-  hardware.nvidia-container-toolkit = {
-    enable = true;
-  };
+  # hardware.nvidia-container-toolkit = {
+  #   enable = true;
+  # };
 
   nixpkgs.config.allowUnfree = true;
 
@@ -44,11 +45,18 @@
     shell = pkgs.zsh;
   };
 
+  programs.steam.enable = true;
+  xdg.portal.enable = true;
+
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
   # nix.settings.substituters = lib.mkForce [ "https://mirror.sjtu.edu.cn/nix-channels/store" ];
-  nix.settings.substituters = [ "https://mirror.sjtu.edu.cn/nix-channels/store" ];
+  nix.settings.substituters = [
+      "https://mirror.sjtu.edu.cn/nix-channels/store"
+      "https://mirrors.ustc.edu.cn/nix-channels/store"
+      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+  ];
 
   nix.gc = {
     automatic = true;
