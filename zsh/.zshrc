@@ -67,9 +67,11 @@ export RUSTC_WRAPPER=$(which sccache)
 export SCCACHE_SERVER_UDS=$HOME/sccache.sock
 
 # proxy
-export http_proxy="http://127.0.0.1:7890"
-export https_proxy="http://127.0.0.1:7890"
-export all_proxy="socks5://127.0.0.1:7891"
+# export http_proxy="http://127.0.0.1:7890"
+# export https_proxy="http://127.0.0.1:7890"
+export http_proxy="socks5h://127.0.0.1:7891"
+export https_proxy="socks5h://127.0.0.1:7891"
+export all_proxy="socks5h://127.0.0.1:7891"
 export no_proxy=127.0.0.1,::1,localhost,*.local,*.lan
 
 # path=(~/.local/bin $path)
