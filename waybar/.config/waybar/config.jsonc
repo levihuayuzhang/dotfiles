@@ -18,7 +18,12 @@
   // "modules-right": ["tray", "cpu", "memory", "temperature", "network", "pulseaudio", "backlight", "battery"],
 
   // simple niri
-  "modules-left": ["custom/arch", "niri/workspaces", "niri/window"],
+  "modules-left": [
+    // "custom/arch",
+    "custom/nixos",
+    "niri/workspaces",
+    "niri/window",
+  ],
   "modules-center": ["clock"],
   "modules-right": [
     "gamemode",
@@ -264,5 +269,8 @@
   "custom/arch": {
     "format": "  ",
     // "format": "  \n",
+  },
+  "custom/nixos": {
+    "format": "  ",
   },
 }

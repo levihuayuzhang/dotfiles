@@ -82,6 +82,7 @@ button:hover {
   background-color: #eb4d4b;
 }
 
+#custom-nixos,
 #custom-arch,
 #cpu,
 #memory,
@@ -106,6 +107,7 @@ button:hover {
   background-color: transparent;
 }
 
+#custom-nixos,
 #custom-arch {
   font-size: 20px;
   font-weight: 500;
