@@ -1,0 +1,46 @@
+# Rime user dictionary
+#@/db_name	luna_pinyin
+#@/db_type	userdb
+#@/rime_version	1.17.0
+#@/tick	40
+#@/user_id	d05431b0-a02a-4098-97ae-27230b41395b
+a 	啊	c=0 d=0.0995012 t=40
+a ha ha ha ha ha ha 	啊哈哈哈哈哈哈	c=1 d=1 t=40
+an niu 	按鈕	c=1 d=1 t=40
+an zhuang 	安裝	c=3 d=3.05111 t=40
+bi ru 	比如	c=1 d=0.923116 t=40
+da xiao 	大小	c=0 d=0.0985112 t=40
+dao 	到	c=0 d=0.0932394 t=40
+de 	的	c=3 d=2.78816 t=40
+guan bi 	關閉	c=1 d=0.995012 t=40
+guang biao 	光標	c=0 d=0.0985112 t=40
+guang biao da xiao 	光標大小	c=1 d=0.99005 t=40
+ha ha 	哈哈	c=0 d=0.0995012 t=40
+ha ha ha ha 	哈哈哈哈	c=0 d=0.0995012 t=40
+hai shi 	還是	c=1 d=0.995012 t=40
+he 	和	c=1 d=0.904837 t=40
+ji shi 	即使	c=1 d=0.985112 t=40
+ke yi 	可以	c=1 d=0.970446 t=40
+ma 	嗎	c=1 d=1 t=40
+mei you 	沒有	c=3 d=2.78455 t=40
+pi fu 	皮膚	c=1 d=0.918512 t=40
+ping mu 	屏幕	c=1 d=0.980199 t=40
+qi yong 	啓用	c=2 d=1.95551 t=40
+qu chu 	去除	c=0 d=0.0980199 t=40
+ru he 	如何	c=1 d=1.05881 t=40
+ru he an zhuang 	如何安裝	c=1 d=0.909373 t=40
+ru he qu chu 	如何去除	c=1 d=0.985112 t=40
+shi 	時	c=1 d=0.985112 t=40
+shi bu shi 	是不是	c=2 d=1.84291 t=40
+tai xiao le 	太小了	c=1 d=1 t=40
+tong shi 	同時	c=1 d=0.99005 t=40
+wai jie 	外接	c=1 d=0.941765 t=40
+ying pan 	硬盤	c=1 d=0.951229 t=40
+you shang jiao 	右上角	c=1 d=0.99005 t=40
+zai 	在	c=2 d=1.82746 t=40
+zen me 	怎麼	c=0 d=0.0895834 t=40
+zen me an zhuang 	怎麼安裝	c=1 d=0.900325 t=40
+zhi chi 	支持	c=1 d=0.965605 t=40
+zhong 	中	c=1 d=0.970446 t=40
+zi dong jian ce 	自動檢測	c=0 d=0.0932394 t=40
+zi dong jian ce dao 	自動檢測到	c=1 d=0.937067 t=40

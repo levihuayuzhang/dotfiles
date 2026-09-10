@@ -48,6 +48,11 @@
   users.users.zhy = {
     shell = pkgs.zsh;
   };
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    enableFishIntegration = true;
+  };
 
   programs.neovim = {
     enable = true;
@@ -90,19 +95,19 @@
   };
   boot.loader.systemd-boot.configurationLimit = 10;
 
-  # services.mihomo = {
-  #   enable = true;
-  #   tunMode = true;
-  #   processesInfo = true;
-  #   configFile = "/home/zhy/proxy/config.yaml";
-  #   # extraOpts = "-d /var/lib/private/mihomo";
-  #   webui = pkgs.zashboard;
-  # };
-  #
-  # # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.default = "http://127.0.0.1:7890"; # This option specifies the default value for httpProxy, httpsProxy, ftpProxy and rsyncProxy.
-  # networking.proxy.allProxy = "socks5://127.0.0.1:7891";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  services.mihomo = {
+    enable = true;
+    tunMode = true;
+    processesInfo = true;
+    configFile = "/home/zhy/proxy/config.yaml";
+    # extraOpts = "-d /var/lib/private/mihomo";
+    webui = pkgs.zashboard;
+  };
+
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  networking.proxy.default = "socks5h://127.0.0.1:7891"; # This option specifies the default value for httpProxy, httpsProxy, ftpProxy and rsyncProxy.
+  networking.proxy.allProxy = "socks5h://127.0.0.1:7891";
+  networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
@@ -111,6 +116,21 @@
   #   keyMap = "us";
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
+
+  i18n.inputMethod = {
+    enable = true;
+    type = "fcitx5";
+
+    fcitx5 = {
+      waylandFrontend = true;
+
+      addons = with pkgs; [
+        fcitx5-rime
+        fcitx5-gtk
+	qt6Packages.fcitx5-configtool
+      ];
+    };
+  };
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -128,6 +148,7 @@
 
   # services.displayManager.sddm.enable = true;
   # services.desktopManager.plasma6.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   services.displayManager.cosmic-greeter.enable = true;
   programs.niri = {
@@ -135,6 +156,9 @@
     useNautilus = true;
   };
   programs.waybar.enable = true;
+
+  services.udisks2.enable = true;
+  services.gvfs.enable = true;
 
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
@@ -209,7 +233,18 @@
     mold
     openssl
 
+    awww
+    eza
+    swayidle
+    swaylock
+    mako
     fuzzel
+    glib
+    gsettings-desktop-schemas
+    adwaita-icon-theme
+    papirus-icon-theme
+    exfatprogs
+
     alacritty
     firefox-devedition
     nautilus

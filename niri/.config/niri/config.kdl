@@ -273,17 +273,20 @@ layout {
 // See the binds section below for more spawn examples.
 // spawn-at-startup "alacritty" "-e" "fish"
 
-// started use systemd (~/.config/systemd/user/niri.service.wants/waybar.service -> /usr/lib/systemd/user/waybar.service)
 // spawn-at-startup "waybar" 
-
+spawn-at-startup "mako" 
 spawn-at-startup "awww-daemon"
 spawn-at-startup "fcitx5"
 spawn-at-startup "kdeconnectd"
 // spawn-at-startup "nm-applet"
+// https://github.com/niri-wm/niri/wiki/Example-systemd-Setup
+spawn-at-startup "swayidle" "-w" \
+    "timeout" "610" "niri msg action power-off-monitors" \
+    "timeout" "600" "swaylock -f -i ~/wallpapers/2.jpg" \
+    "before-sleep" "swaylock -f -i ~/wallpapers/2.jpg"
+
 
 // spawn-at-startup "swaybg" "-i" "~/wallpapers/1.jpg" // used for overview background, but should start later
-// https://github.com/niri-wm/niri/wiki/Example-systemd-Setup
-// spawn-at-startup "swayidle -w timeout 601 'niri msg action power-off-monitors' timeout 600 'swaylock -f ~/wallpapers/2.jpg' before-sleep 'swaylock -f -i ~/wallpapers/2.jpg'"
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
@@ -336,13 +339,13 @@ environment {
     // DISPLAY ":0"
 }
 
-// cursor {
-//     xcursor-theme "breeze_cursors"
-//     xcursor-size 48
-//
-//     hide-when-typing
-//     hide-after-inactive-ms 1000
-// }
+cursor {
+    xcursor-theme "Adwaita"
+    // xcursor-size 36
+
+    // hide-when-typing
+    // hide-after-inactive-ms 1000
+}
 
 // Animation settings.
 // The wiki explains how to configure individual animations:

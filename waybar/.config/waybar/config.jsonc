@@ -228,7 +228,7 @@
   //     }
   // },
   "cava": {
-    "cava_config": "$XDG_CONFIG_HOME/cava/waybar_raw.conf",
+    "cava_config": "$HOME/.config/cava/waybar_raw.conf",
     "framerate": 60,
     "hide_on_silence": true,
     "autosens": 1,
