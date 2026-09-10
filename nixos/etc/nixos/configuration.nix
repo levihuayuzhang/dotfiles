@@ -62,10 +62,15 @@
     enable = true;
     defaultEditor = true;
   };
+  programs.vscode.enable = true;
+
+  services.gnome.gnome-keyring.enable = true;
 
   programs.steam = {
     enable = true;
     gamescopeSession.enable = true;
+    protontricks.enable = true;
+    extest.enable = true;
   };
   programs.gamescope = {
     enable = true;
@@ -253,6 +258,7 @@
     eza
     lolcat
     fastfetch
+    wl-clipboard
     swayidle
     swaylock
     mako
@@ -305,7 +311,7 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   fonts.packages = with pkgs; [
     nerd-fonts.caskaydia-cove
