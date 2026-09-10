@@ -469,6 +469,7 @@ window-rule {
     open-focused true
 
     open-maximized true
+    // open-floating true
 }
 window-rule {
     match app-id="thunder.exe"

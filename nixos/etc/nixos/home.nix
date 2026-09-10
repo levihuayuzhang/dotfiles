@@ -5,12 +5,12 @@
   home.homeDirectory = "/home/zhy";
 
   home.sessionVariables = {
-    http_proxy = "socks5h://127.0.0.1:7891";
-    https_proxy = "socks5h://127.0.0.1:7891";
+    http_proxy = "http://127.0.0.1:7890";
+    https_proxy = "http://127.0.0.1:7890";
     all_proxy = "socks5h://127.0.0.1:7891";
 
-    HTTP_PROXY = "socks5h://127.0.0.1:7891";
-    HTTPS_PROXY = "socks5h://127.0.0.1:7891";
+    HTTP_PROXY = "http://127.0.0.1:7890";
+    HTTPS_PROXY = "http://127.0.0.1:7890";
     ALL_PROXY = "socks5h://127.0.0.1:7891";
   };
 
@@ -66,7 +66,12 @@
       export GPG_TTY=$(tty)
     '';
     shellAliases = {
+      l = "eza -la --icons";
+      ls = "eza --icons";
+      ll = "eza -l --icons";
+      la = "eza -a --icons";
       grep = "grep --color=auto";
+      nfu = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos";
       nrs = "sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
     };
   };

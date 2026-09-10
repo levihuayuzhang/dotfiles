@@ -61,11 +61,11 @@
 
   programs.steam = {
     enable = true;
-    # gamescopeSession.enable = true;
+    gamescopeSession.enable = true;
   };
   programs.gamescope = {
     enable = true;
-    # enableWsi = true;
+    enableWsi = true;
   };
   programs.gamemode.enable = true;
 
@@ -75,6 +75,17 @@
       xdg-desktop-portal-gtk
       xdg-desktop-portal-gnome
       xdg-desktop-portal-cosmic
+    ];
+  };
+
+  fileSystems."/home/zhy/hdd" = {
+    device = "/dev/disk/by-uuid/34B5-8CB0";
+    fsType = "exfat";
+    options = [
+      "uid=1000"
+      "gid=100"
+      "user"
+      "nofail"
     ];
   };
 
@@ -105,7 +116,7 @@
   };
 
   # networking.proxy.default = "http://user:password@proxy:port/";
-  networking.proxy.default = "socks5h://127.0.0.1:7891"; # This option specifies the default value for httpProxy, httpsProxy, ftpProxy and rsyncProxy.
+  networking.proxy.default = "http://127.0.0.1:7890"; # This option specifies the default value for httpProxy, httpsProxy, ftpProxy and rsyncProxy.
   networking.proxy.allProxy = "socks5h://127.0.0.1:7891";
   networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
@@ -127,7 +138,7 @@
       addons = with pkgs; [
         fcitx5-rime
         fcitx5-gtk
-	qt6Packages.fcitx5-configtool
+        qt6Packages.fcitx5-configtool
       ];
     };
   };
@@ -146,6 +157,7 @@
     powerOnBoot = true;
   };
 
+  # services.displayManager.defaultSession = "niri";
   # services.displayManager.sddm.enable = true;
   # services.desktopManager.plasma6.enable = true;
   services.desktopManager.gnome.enable = true;
@@ -244,6 +256,9 @@
     adwaita-icon-theme
     papirus-icon-theme
     exfatprogs
+    xwayland-satellite
+    nvtopPackages.full
+    pulseaudio
 
     alacritty
     firefox-devedition
@@ -252,11 +267,11 @@
     cosmic-monitor
   ];
 
-  # virtualisation.virtualbox.host = {
-  #   enable = true;
-  #   # enableKvm = true;
-  #   enableExtensionPack = true;
-  # };
+  virtualisation.virtualbox.host = {
+    enable = true;
+    # enableKvm = true;
+    enableExtensionPack = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
