@@ -82,6 +82,28 @@
     };
   };
 
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    enableFishIntegration = true;
+
+    settings = {
+      add_newline = false;
+
+      os = {
+        disabled = false;
+
+        symbols = {
+          Macos = " ";
+          Arch = " ";
+          NixOS = " ";
+          Debian = " ";
+          Linux = " ";
+        };
+      };
+    };
+  };
+
   dconf = {
     enable = true;
 

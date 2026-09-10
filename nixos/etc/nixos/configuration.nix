@@ -58,12 +58,6 @@
     ];
   };
 
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = true;
-    enableFishIntegration = true;
-  };
-
   programs.neovim = {
     enable = true;
     defaultEditor = true;
