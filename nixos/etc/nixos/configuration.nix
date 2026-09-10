@@ -260,6 +260,7 @@
     xwayland-satellite
     nvtopPackages.full
     pulseaudio
+    mangohud
 
     alacritty
     firefox-devedition
