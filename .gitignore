@@ -20,5 +20,7 @@ fcitx5/.local/share/fcitx5/rime/luna_pinyin.userdb/
 fcitx5/.local/share/fcitx5/rime/sync/
 fcitx5/.local/share/fcitx5/rime/user.yaml
 
+theme/.config/gtk-3.0/bookmarks
+
 niri-systemd/.config/systemd/user/niri.service.wants/
 
