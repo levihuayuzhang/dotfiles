@@ -46,8 +46,18 @@
 
   programs.zsh.enable = true;
   users.users.zhy = {
+    isNormalUser = true;
     shell = pkgs.zsh;
+    extraGroups = [
+      "wheel" # Enable ‘sudo’ for the user.
+      "vboxusers"
+    ];
+
+    packages = with pkgs; [
+      tree
+    ];
   };
+
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
@@ -117,7 +127,7 @@
 
   # networking.proxy.default = "http://user:password@proxy:port/";
   networking.proxy.default = "http://127.0.0.1:7890"; # This option specifies the default value for httpProxy, httpsProxy, ftpProxy and rsyncProxy.
-  networking.proxy.allProxy = "socks5h://127.0.0.1:7891";
+  networking.proxy.allProxy = "socks5://127.0.0.1:7891";
   networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
@@ -193,15 +203,6 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.zhy = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      tree
-    ];
-  };
 
   # programs.firefox.enable = true;
 
