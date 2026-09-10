@@ -149,6 +149,8 @@
         fcitx5-rime
         fcitx5-gtk
         qt6Packages.fcitx5-configtool
+        fcitx5-nord
+        fcitx5-material-color
       ];
     };
   };
@@ -251,6 +253,7 @@
     lld
     mold
     openssl
+    # qemu_full
 
     awww
     eza
