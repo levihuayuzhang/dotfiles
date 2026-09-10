@@ -222,6 +222,7 @@
     rustc
     cargo
 
+    tmux
     nil
     nixd
     nixfmt
