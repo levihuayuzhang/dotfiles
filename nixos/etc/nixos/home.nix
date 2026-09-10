@@ -14,6 +14,11 @@
   #   ALL_PROXY = "socks5h://127.0.0.1:7891";
   # };
 
+  home.sessionPath = [
+    "$HOME/bin"
+    "$HOME/.local/bin"
+  ];
+
   programs.git = {
     enable = true;
 
@@ -66,13 +71,14 @@
       export GPG_TTY=$(tty)
     '';
     shellAliases = {
-      l = "eza -la --icons";
-      ls = "eza --icons";
-      ll = "eza -l --icons";
-      la = "eza -a --icons";
+      l = "eza -la --icons always";
+      ls = "eza --icons always";
+      ll = "eza -l --icons always";
+      la = "eza -a --icons always";
       grep = "grep --color=auto";
       nfu = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos";
       nrs = "sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
+      system-upgrade = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos && sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
     };
   };
 
@@ -89,6 +95,22 @@
       };
     };
 
+  };
+
+  xdg.desktopEntries.sioyek = {
+    name = "Sioyek";
+    comment = "PDF viewer";
+    exec = "env QT_QPA_PLATFORM=xcb sioyek %f";
+    icon = "sioyek";
+    terminal = false;
+    type = "Application";
+    categories = [
+      "Office"
+      "Viewer"
+    ];
+    mimeType = [
+      "application/pdf"
+    ];
   };
 
   home.stateVersion = "26.05";
