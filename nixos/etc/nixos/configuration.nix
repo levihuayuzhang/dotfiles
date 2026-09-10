@@ -232,8 +232,13 @@
     prettier
     stylua
     tex-fmt
+
+    python3
+    python314
+    python314Packages.pip
     uv
     ruff
+    ty
 
     gnumake
     cmake
@@ -301,6 +306,16 @@
   fonts.packages = with pkgs; [
     nerd-fonts.caskaydia-cove
     nerd-fonts.jetbrains-mono
+
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
+    source-han-sans
+    source-han-serif
+    corefonts
+    vista-fonts
+    liberation_ttf
+    dejavu_fonts
   ];
 
   nix.settings.experimental-features = [

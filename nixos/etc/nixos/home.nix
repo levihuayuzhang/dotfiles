@@ -97,6 +97,15 @@
 
   };
 
+  gtk = {
+    enable = true;
+
+    iconTheme = {
+      name = "Papirus";
+      package = pkgs.papirus-icon-theme;
+    };
+  };
+
   xdg.desktopEntries.sioyek = {
     name = "Sioyek";
     comment = "PDF viewer";
