@@ -19,6 +19,11 @@ fcitx5/.local/share/fcitx5/rime/installation.yaml
 fcitx5/.local/share/fcitx5/rime/luna_pinyin.userdb/
 fcitx5/.local/share/fcitx5/rime/sync/
 fcitx5/.local/share/fcitx5/rime/user.yaml
+rime-fcitx5/.local/share/fcitx5/rime/build/
+rime-fcitx5/.local/share/fcitx5/rime/installation.yaml
+rime-fcitx5/.local/share/fcitx5/rime/luna_pinyin.userdb/
+rime-fcitx5/.local/share/fcitx5/rime/sync/
+rime-fcitx5/.local/share/fcitx5/rime/user.yaml
 
 theme/.config/gtk-3.0/bookmarks
 
