@@ -275,6 +275,11 @@
     kdePackages.okular
     sioyek
     mpv
+
+    wechat
+    qq
+    feishu
+    qqmusic
   ];
 
   virtualisation.virtualbox.host = {
