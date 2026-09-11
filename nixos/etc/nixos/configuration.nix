@@ -40,6 +40,7 @@
   };
 
   nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.cudaSupport = true;
 
   networking.hostName = "levi-pc"; # Define your hostname.
 
@@ -241,11 +242,23 @@
 
   # programs.firefox.enable = true;
 
+  # services.ollama = {
+  #   enable = true;
+  #   package = pkgs.ollama-cuda;
+  # };
+
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    enableBashIntegration = true;
+    enableFishIntegration = true;
+  };
+
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     neovim
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim
     nano
 
     git
@@ -288,6 +301,24 @@
     openssl
     # qemu_full
     docker-compose
+
+    cudaPackages.cuda_nvcc
+    cudaPackages.cuda_cudart
+    cudaPackages.cuda_gdb
+    cudaPackages.cuda_cuobjdump
+    # cudaPackages.cuda-samples
+    cudaPackages.cutlass
+    cudaPackages.libcurand
+    cudaPackages.libcublas
+    cudaPackages.libcufft
+    # cudaPackages.libnvvm
+    cudaPackages.cudnn
+    # cudaPackages.tensorrt
+    cudaPackages.cccl
+    # cudaPackages.nccl
+    # cudaPackages.cuda_opencl
+    cudaPackages.nsight_compute
+    # cudaPackages.nsight_systems
 
     awww
     eza
