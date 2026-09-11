@@ -167,6 +167,36 @@
     };
   };
 
+  # edit files under dotfiles directory, then rebuild
+  # do not edit the files under ~/.config
+  xdg.configFile."fish".source = ../../../fish/.config/fish;
+  xdg.configFile."fish".recursive = true;
+
+  xdg.configFile."nvim".source = ../../../nvim/.config/nvim;
+  xdg.configFile."nvim".recursive = true;
+
+  xdg.configFile."tmux/tmux.conf".source = ../../../tmux/.config/tmux/tmux.conf;
+  xdg.configFile."bat/config".source = ../../../bat/.config/bat/config;
+  xdg.configFile."mimeapps.list".source = ../../../xdg/.config/mimeapps.list;
+
+  xdg.configFile."alacritty".source = ../../../alacritty/.config/alacritty;
+  xdg.configFile."alacritty".recursive = true;
+
+  xdg.configFile."niri".source = ../../../niri/.config/niri;
+  xdg.configFile."niri".recursive = true;
+
+  xdg.configFile."waybar".source = ../../../waybar/.config/waybar;
+  xdg.configFile."waybar".recursive = true;
+
+  xdg.configFile."fuzzel".source = ../../../fuzzel/.config/fuzzel;
+  xdg.configFile."fuzzel".recursive = true;
+
+  xdg.configFile."mpv".source = ../../../mpv/.config/mpv;
+  xdg.configFile."mpv".recursive = true;
+
+  xdg.configFile."sioyek".source = ../../../sioyek/.config/sioyek;
+  xdg.configFile."sioyek".recursive = true;
+
   xdg.desktopEntries.sioyek = {
     name = "Sioyek";
     comment = "PDF viewer";

@@ -61,6 +61,9 @@
       tree
     ];
   };
+  programs.fish = {
+    enable = true;
+  };
 
   programs.neovim = {
     enable = true;
@@ -99,6 +102,14 @@
 
   programs.java.enable = true;
 
+  programs.htop = {
+    enable = true;
+    settings = {
+      # color_scheme = 6; # dark
+      show_cpu_frequency = true;
+    };
+  };
+
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
@@ -132,7 +143,7 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    # options = "--delete-older-than 30d";
+    options = "--delete-older-than 30d";
   };
   boot.loader.systemd-boot.configurationLimit = 10;
 
@@ -201,6 +212,11 @@
     useNautilus = true;
   };
   programs.waybar.enable = true;
+  qt = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
+  };
 
   services.udisks2.enable = true;
   services.gvfs.enable = true;
@@ -286,12 +302,19 @@
     gsettings-desktop-schemas
     adwaita-icon-theme
     papirus-icon-theme
+    adwaita-qt
+    adwaita-qt6
     exfatprogs
     xwayland-satellite
-    nvtopPackages.full
     pulseaudio
     mangohud
     lm_sensors
+    texliveFull
+    nvtopPackages.full
+    htop
+    btop
+    bat
+    delta
 
     alacritty
     firefox-devedition
@@ -299,6 +322,7 @@
     cosmic-files
     cosmic-monitor
     kdePackages.okular
+    kdePackages.gwenview
     sioyek
     mpv
     prismlauncher

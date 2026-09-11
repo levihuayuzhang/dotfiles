@@ -8,7 +8,7 @@ nix-darwin/flake.lock
 mpv/.config/mpv/watch_later/
 
 fish/.config/fish/fish_variables
-fish/.config/fish/conf.d/
+# fish/.config/fish/conf.d/
 
 fcitx5/.config/fcitx5/conf/cached_layouts
 fcitx5/.config/fcitx5/conf/notifications.conf
