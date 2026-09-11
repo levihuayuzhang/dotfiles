@@ -33,6 +33,7 @@
     "cpu",
     "memory",
     "temperature",
+    "custom/fan",
     // "pulseaudio/slider",
     "pulseaudio",
     "backlight",
@@ -109,6 +110,7 @@
     "interval": 3,
     // "thermal-zone": 2,
     "hwmon-path": [
+      // "/sys/devices/platform/k10temp.0/hwmon/hwmon2/temp1_input",
       "/sys/class/hwmon/hwmon2/temp1_input",
       "/sys/class/thermal/thermal_zone0/temp",
     ],
@@ -118,6 +120,11 @@
     // "format": " {icon} \n{temperatureC}󰔄\n",
     // "format-critical": " {icon} \n{temperatureC}󰔄\n",
     "format-icons": ["", "", "󰈸"],
+  },
+  "custom/fan": {
+    "exec": "~/bin/waybar-fan.sh",
+    "interval": 3,
+    "tooltip": true,
   },
   "tray": {
     // "rotate": 90,

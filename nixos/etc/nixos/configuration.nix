@@ -287,6 +287,7 @@
     nvtopPackages.full
     pulseaudio
     mangohud
+    lm_sensors
 
     alacritty
     firefox-devedition
