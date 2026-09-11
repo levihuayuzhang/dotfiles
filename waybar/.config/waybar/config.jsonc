@@ -33,7 +33,7 @@
     "cpu",
     "memory",
     "temperature",
-    "custom/fan",
+    // "custom/fan",
     // "pulseaudio/slider",
     "pulseaudio",
     "backlight",

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/run/current-system/sw/bin/bash
 
 hwmon=$(dirname "$(grep -rl '^lenovo_wmi_other$' /sys/class/hwmon/*/name)")
 
