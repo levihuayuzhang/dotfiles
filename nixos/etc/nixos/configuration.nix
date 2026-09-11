@@ -22,7 +22,10 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages;
 
+  boot.kernelModules = [ "ntsync" ];
+
   hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     package = config.boot.kernelPackages.nvidiaPackages.latest;
@@ -77,6 +80,18 @@
     enableWsi = true;
   };
   programs.gamemode.enable = true;
+
+  programs.obs-studio = {
+    enable = true;
+    package = (pkgs.obs-studio.override { cudaSupport = true; });
+    enableVirtualCamera = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      wlrobs
+      obs-backgroundremoval
+      obs-pipewire-audio-capture
+      obs-vkcapture
+    ];
+  };
 
   xdg.portal = {
     enable = true;
@@ -285,7 +300,15 @@
     wechat
     qq
     feishu
-    qqmusic
+    wpsoffice-cn
+    # qqmusic
+
+    wineWow64Packages.staging
+    winetricks
+    lutris
+    bottles
+    protonup-qt
+    vulkan-tools
   ];
 
   virtualisation.virtualbox.host = {
@@ -322,6 +345,7 @@
     noto-fonts-cjk-serif
     source-han-sans
     source-han-serif
+    wqy_zenhei
     corefonts
     vista-fonts
     liberation_ttf
