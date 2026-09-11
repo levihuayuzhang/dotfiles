@@ -35,9 +35,9 @@
     # dynamicBoost.enable = true;
     powerManagement.enable = true;
   };
-  # hardware.nvidia-container-toolkit = {
-  #   enable = true;
-  # };
+  hardware.nvidia-container-toolkit = {
+    enable = true;
+  };
 
   nixpkgs.config.allowUnfree = true;
 
@@ -53,6 +53,7 @@
     shell = pkgs.zsh;
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
+      "docker"
       "vboxusers"
     ];
 
@@ -95,6 +96,8 @@
       obs-vkcapture
     ];
   };
+
+  programs.java.enable = true;
 
   xdg.portal = {
     enable = true;
@@ -143,9 +146,9 @@
   };
 
   # networking.proxy.default = "http://user:password@proxy:port/";
-  networking.proxy.default = "http://127.0.0.1:7890"; # This option specifies the default value for httpProxy, httpsProxy, ftpProxy and rsyncProxy.
-  networking.proxy.allProxy = "socks5://127.0.0.1:7891";
-  networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  networking.proxy.default = "http://127.0.0.1:7890"; # the default value for httpProxy, httpsProxy, ftpProxy and rsyncProxy.
+  networking.proxy.allProxy = "socks5h://127.0.0.1:7891";
+  # networking.proxy.noProxy = "127.0.0.1,localhost";
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
@@ -173,6 +176,7 @@
   };
 
   security.rtkit.enable = true;
+  # services.pulseaudio.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -214,11 +218,7 @@
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
   # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # Enable sound.
-  # services.pulseaudio.enable = true;
-  # OR
+  services.printing.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
@@ -271,6 +271,7 @@
     mold
     openssl
     # qemu_full
+    docker-compose
 
     awww
     eza
@@ -300,6 +301,7 @@
     kdePackages.okular
     sioyek
     mpv
+    prismlauncher
 
     wechat
     qq
@@ -315,6 +317,10 @@
     vulkan-tools
   ];
 
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
+  };
   virtualisation.virtualbox.host = {
     enable = true;
     # enableKvm = true;

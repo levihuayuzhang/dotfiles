@@ -312,7 +312,6 @@ environment {
     // gsettings set org.gnome.desktop.interface color-scheme prefer-dark
     // GTK_THEME "Adwaita-dark"
     // GTK2_RC_FILES "/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc"
-    SDL_VIDEODRIVER "wayland"
 
     QT_QPA_PLATFORM "wayland;xcb"
     QT_AUTO_SCREEN_SCALE_FACTOR "1"
@@ -323,7 +322,7 @@ environment {
     // QT_STYLE_OVERRIDE "kvantum"
     // QT_STYLE_OVERRIDE "Breeze"
 
-    SDL_VIDEODRIVER "wayland"
+    SDL_VIDEODRIVER "wayland,x11"
     CLUTTER_BACKEND "wayland"
 
     MOZ_ENABLE_WAYLAND "1"
