@@ -74,6 +74,9 @@
     gamescopeSession.enable = true;
     protontricks.enable = true;
     extest.enable = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+    remotePlay.openFirewall = true;
   };
   programs.gamescope = {
     enable = true;
