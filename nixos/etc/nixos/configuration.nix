@@ -70,8 +70,10 @@
     enable = true;
     defaultEditor = true;
   };
-  programs.vscode.enable = true;
-
+  # programs.vscode = {
+  #   enable = true;
+  #   # package = pkgs.vscode-fhs;
+  # };
   services.gnome.gnome-keyring.enable = true;
 
   programs.steam = {
@@ -157,10 +159,12 @@
     webui = pkgs.zashboard;
   };
 
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  networking.proxy.default = "http://127.0.0.1:7890"; # the default value for httpProxy, httpsProxy, ftpProxy and rsyncProxy.
-  networking.proxy.allProxy = "socks5h://127.0.0.1:7891";
-  # networking.proxy.noProxy = "127.0.0.1,localhost";
+  # networking.proxy.default = "http://user:password@proxy:port/"; # the default value for httpProxy, httpsProxy, ftpProxy and rsyncProxy.
+  networking.proxy.default = "http://127.0.0.1:7890";
+  # networking.proxy.httpProxy = "http://127.0.0.1:7890";
+  # networking.proxy.httpsProxy = "http://127.0.0.1:7890";
+  # networking.proxy.allProxy = "socks5h://127.0.0.1:7891";
+  networking.proxy.noProxy = "127.0.0.1,::1,localhost";
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
@@ -252,6 +256,18 @@
     enableZshIntegration = true;
     enableBashIntegration = true;
     enableFishIntegration = true;
+    nix-direnv.enable = true;
+  };
+
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc
+      gcc
+      zlib
+      openssl
+      curl
+    ];
   };
 
   # List packages installed in system profile.
@@ -260,6 +276,7 @@
     neovim
     vim
     nano
+    vscode-fhs
 
     git
     wget
@@ -302,23 +319,24 @@
     # qemu_full
     docker-compose
 
-    cudaPackages.cuda_nvcc
-    cudaPackages.cuda_cudart
-    cudaPackages.cuda_gdb
-    cudaPackages.cuda_cuobjdump
+    cudatoolkit
+    # cudaPackages.cuda_nvcc
+    # cudaPackages.cuda_cudart
+    # cudaPackages.cuda_gdb
+    # cudaPackages.cuda_cuobjdump
     # cudaPackages.cuda-samples
     cudaPackages.cutlass
-    cudaPackages.libcurand
-    cudaPackages.libcublas
-    cudaPackages.libcufft
+    # cudaPackages.libcurand
+    # cudaPackages.libcublas
+    # cudaPackages.libcufft
     # cudaPackages.libnvvm
     cudaPackages.cudnn
     # cudaPackages.tensorrt
-    cudaPackages.cccl
+    # cudaPackages.cccl
     # cudaPackages.nccl
     # cudaPackages.cuda_opencl
     cudaPackages.nsight_compute
-    # cudaPackages.nsight_systems
+    cudaPackages.nsight_systems
 
     awww
     eza
@@ -346,6 +364,7 @@
     btop
     bat
     delta
+    mesa-demos
 
     alacritty
     firefox-devedition
@@ -354,6 +373,7 @@
     cosmic-monitor
     kdePackages.okular
     kdePackages.gwenview
+    kdePackages.kdeconnect-kde
     sioyek
     mpv
     prismlauncher

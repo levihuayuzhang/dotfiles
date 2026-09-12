@@ -27,7 +27,7 @@
   "modules-center": ["clock"],
   "modules-right": [
     "gamemode",
-    "cava",
+    // "cava",
     "tray",
     "network",
     "cpu",
@@ -110,8 +110,7 @@
     "interval": 3,
     // "thermal-zone": 2,
     "hwmon-path": [
-      "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon3/temp1_input",
-      "/sys/devices/platform/k10temp.0/hwmon/hwmon3/temp1_input",
+      "/sys/class/hwmon/hwmon2/temp1_input",
       "/sys/class/hwmon/hwmon3/temp1_input",
       "/sys/class/thermal/thermal_zone0/temp",
     ],

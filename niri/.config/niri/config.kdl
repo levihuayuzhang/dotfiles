@@ -799,10 +799,10 @@ layer-rule {
     match namespace="^launcher$"
 
     opacity 0.80
-    // background-effect {
-    //     blur true
-    //     xray false
-    // }
+    background-effect {
+        blur true
+        xray false
+    }
 
     shadow {
         on
