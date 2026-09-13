@@ -44,7 +44,7 @@
   virtualisation.docker.daemon.settings.features.cdi = true;
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.cudaSupport = true;
+  # nixpkgs.config.cudaSupport = true;
 
   networking.hostName = "levi-pc"; # Define your hostname.
 
@@ -95,17 +95,17 @@
   };
   programs.gamemode.enable = true;
 
-  programs.obs-studio = {
-    enable = true;
-    package = (pkgs.obs-studio.override { cudaSupport = true; });
-    enableVirtualCamera = true;
-    plugins = with pkgs.obs-studio-plugins; [
-      wlrobs
-      obs-backgroundremoval
-      obs-pipewire-audio-capture
-      obs-vkcapture
-    ];
-  };
+  # programs.obs-studio = {
+  #   enable = true;
+  #   package = (pkgs.obs-studio.override { cudaSupport = true; });
+  #   enableVirtualCamera = true;
+  #   plugins = with pkgs.obs-studio-plugins; [
+  #     wlrobs
+  #     obs-backgroundremoval
+  #     obs-pipewire-audio-capture
+  #     obs-vkcapture
+  #   ];
+  # };
 
   programs.java.enable = true;
 
@@ -281,10 +281,10 @@
 
   # programs.firefox.enable = true;
 
-  services.ollama = {
-    enable = true;
-    package = pkgs.ollama-cuda;
-  };
+  # services.ollama = {
+  #   enable = true;
+  #   package = pkgs.ollama-cuda;
+  # };
 
   programs.direnv = {
     enable = true;
@@ -365,11 +365,11 @@
     # cudaPackages.cuda_cuobjdump
     # cudaPackages.cuda-samples
     cudaPackages.cutlass
+    # cudaPackages.cudnn
     # cudaPackages.libcurand
     # cudaPackages.libcublas
     # cudaPackages.libcufft
     # cudaPackages.libnvvm
-    cudaPackages.cudnn
     # cudaPackages.tensorrt
     # cudaPackages.cccl
     # cudaPackages.nccl
@@ -421,10 +421,10 @@
     prismlauncher
     rpi-imager
     polkit_gnome
-    (blender.override {
-      config.cudaSupport = true;
-      config.rocmSupport = false;
-    })
+    # (blender.override {
+    #   config.cudaSupport = true;
+    #   config.rocmSupport = false;
+    # })
 
     wechat
     qq
