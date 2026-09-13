@@ -25,8 +25,10 @@
   boot.kernelModules = [ "ntsync" ];
 
   hardware.graphics.enable = true;
-  hardware.graphics.enable32Bit = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.graphics.enable32Bit = true; # https://wiki.nixos.org/wiki/AMD_GPU
+  services.xserver.videoDrivers = [
+    "nvidia"
+  ];
   hardware.nvidia = {
     package = config.boot.kernelPackages.nvidiaPackages.latest;
     modesetting.enable = true;
@@ -35,12 +37,14 @@
     # dynamicBoost.enable = true;
     powerManagement.enable = true;
   };
+  # https://wiki.nixos.org/wiki/Docker#NVIDIA_Docker_Containers
   hardware.nvidia-container-toolkit = {
     enable = true;
   };
+  virtualisation.docker.daemon.settings.features.cdi = true;
 
   nixpkgs.config.allowUnfree = true;
-  # nixpkgs.config.cudaSupport = true;
+  nixpkgs.config.cudaSupport = true;
 
   networking.hostName = "levi-pc"; # Define your hostname.
 
@@ -137,11 +141,19 @@
   time.timeZone = "Asia/Shanghai";
 
   # nix.settings.substituters = lib.mkForce [ "https://mirror.sjtu.edu.cn/nix-channels/store" ];
-  nix.settings.substituters = [
-    "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-    "https://mirrors.ustc.edu.cn/nix-channels/store"
-    # "https://mirror.sjtu.edu.cn/nix-channels/store"
-  ];
+  nix.settings = {
+    substituters = [
+      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+      "https://mirrors.ustc.edu.cn/nix-channels/store"
+      "https://mirror.sjtu.edu.cn/nix-channels/store"
+      "https://cache.nixos-cuda.org" # https://wiki.nixos.org/wiki/CUDA#Setting_up_CUDA_Binary_Cache
+      "https://nix-community.cachix.org" # https://wiki.nixos.org/wiki/Binary_Cache#Using_a_binary_cache
+    ];
+    trusted-public-keys = [
+      "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
 
   nix.gc = {
     automatic = true;
@@ -234,10 +246,16 @@
     useNautilus = true;
   };
   programs.waybar.enable = true;
+  security.pam.services.swaylock = { }; # https://wiki.nixos.org/wiki/Niri#Additional_Setup
+
   qt = {
     enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
+    platformTheme = "qt5ct";
+    # style = "breeze";
+  };
+
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
   };
 
   services.udisks2.enable = true;
@@ -368,6 +386,7 @@
     swaylock
     mako
     fuzzel
+    xwayland-satellite
     glib
     gsettings-desktop-schemas
     adwaita-icon-theme
@@ -375,7 +394,6 @@
     adwaita-qt
     adwaita-qt6
     exfatprogs
-    xwayland-satellite
     pulseaudio
     mangohud
     lm_sensors
@@ -394,15 +412,19 @@
     kdePackages.okular
     kdePackages.gwenview
     kdePackages.kdeconnect-kde
+    kdePackages.breeze
+    kdePackages.breeze-icons
+    kdePackages.qt6ct
+    libsForQt5.qt5ct
     sioyek
     mpv
     prismlauncher
     rpi-imager
     polkit_gnome
-    # (blender.override {
-    #   config.cudaSupport = true;
-    #   config.rocmSupport = false;
-    # })
+    (blender.override {
+      config.cudaSupport = true;
+      config.rocmSupport = false;
+    })
 
     wechat
     qq

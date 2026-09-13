@@ -178,6 +178,14 @@
     };
   };
 
+  xdg.configFile."kdeglobals".text = ''
+    [General]
+    ColorScheme=BreezeDark
+
+    [KDE]
+    LookAndFeelPackage=org.kde.breezedark.desktop
+  '';
+
   # edit files under dotfiles directory, then rebuild
   # do not edit the files under ~/.config
   xdg.configFile."fish".source = ../../../fish/.config/fish;
