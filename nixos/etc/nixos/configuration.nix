@@ -166,6 +166,13 @@
   # networking.proxy.allProxy = "socks5h://127.0.0.1:7891";
   networking.proxy.noProxy = "127.0.0.1,::1,localhost";
 
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    nssmdns6 = true;
+    # nssmdnsFull = true;
+  };
+
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
   # console = {
@@ -188,6 +195,16 @@
         fcitx5-nord
         fcitx5-material-color
       ];
+    };
+  };
+
+  security.polkit.enable = true;
+  systemd.user.services.polkit-gnome-agent = {
+    description = "Polkit Authentication Agent";
+    wantedBy = [ "graphical-session.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      Restart = "on-failure";
     };
   };
 
@@ -246,10 +263,10 @@
 
   # programs.firefox.enable = true;
 
-  # services.ollama = {
-  #   enable = true;
-  #   package = pkgs.ollama-cuda;
-  # };
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-cuda;
+  };
 
   programs.direnv = {
     enable = true;
@@ -292,11 +309,15 @@
     nixd
     nixfmt
     tree-sitter
-    fzf
     shfmt
     prettier
     stylua
     tex-fmt
+    fzf
+    bat
+    delta
+    ripgrep
+    fd
 
     python3
     python314
@@ -362,9 +383,8 @@
     nvtopPackages.full
     htop
     btop
-    bat
-    delta
     mesa-demos
+    usbutils
 
     alacritty
     firefox-devedition
@@ -377,6 +397,12 @@
     sioyek
     mpv
     prismlauncher
+    rpi-imager
+    polkit_gnome
+    # (blender.override {
+    #   config.cudaSupport = true;
+    #   config.rocmSupport = false;
+    # })
 
     wechat
     qq
