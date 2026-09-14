@@ -525,6 +525,10 @@ binds {
         spawn "noctalia" "msg" "panel-toggle" "wallpaper";
     }
 
+    Mod+S { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
+    Mod+Comma { spawn "noctalia" "msg" "settings-toggle"; }
+    // Alt+Tab { spawn "noctalia" "msg" "window-switcher"; }
+
     // /etc/systemd/sleep.conf
     // ~/.config/hypr/hypridle.conf
     Super+Ctrl+Alt+L { spawn "systemctl" "suspend"; } // S3
@@ -711,10 +715,10 @@ binds {
     Mod+BracketLeft  { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
 
-    // Consume one window from the right to the bottom of the focused column.
-    Mod+Comma  { consume-window-into-column; }
-    // Expel the bottom window from the focused column to the right.
-    Mod+Period { expel-window-from-column; }
+    // // Consume one window from the right to the bottom of the focused column.
+    // Mod+Comma  { consume-window-into-column; }
+    // // Expel the bottom window from the focused column to the right.
+    // Mod+Period { expel-window-from-column; }
 
     Mod+R { switch-preset-column-width; }
     Mod+Shift+R { switch-preset-window-height; }
