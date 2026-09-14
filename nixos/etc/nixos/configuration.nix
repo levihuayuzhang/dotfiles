@@ -263,7 +263,19 @@
   # services.desktopManager.plasma6.enable = true;
   services.desktopManager.gnome.enable = true;
 
-  services.displayManager.cosmic-greeter.enable = true;
+  # services.displayManager.cosmic-greeter.enable = true;
+  services.displayManager.noctalia-greeter = {
+    enable = true;
+    settings = {
+      cursor.size = 24;
+      keyboard.layout = "us";
+    };
+    cursorTheme = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Ice";
+    };
+  };
+
   programs.niri = {
     enable = true;
     useNautilus = true;
