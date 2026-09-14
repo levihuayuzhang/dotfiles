@@ -6,13 +6,15 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 
 {
   imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    ./hardware-configuration.nix # Include the results of the hardware scan.
+
+    inputs.noctalia.nixosModules.default
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -36,6 +38,15 @@
     nvidiaSettings = true;
     # dynamicBoost.enable = true;
     powerManagement.enable = true;
+
+    # # https://wiki.nixos.org/wiki/NVIDIA#Hybrid_graphics_with_PRIME
+    # prime = {
+    #   offload.enable = true;
+    #   offload.enableOffloadCmd = true;
+    #
+    #   amdgpuBusId = "PCI:5@0:0:0";
+    #   nvidiaBusId = "PCI:1@0:0:0";
+    # };
   };
   # https://wiki.nixos.org/wiki/Docker#NVIDIA_Docker_Containers
   hardware.nvidia-container-toolkit = {
@@ -69,6 +80,14 @@
   programs.fish = {
     enable = true;
   };
+
+  # stylix = {
+  #   enable = true;
+  #   polarity = "dark";
+  #   # image = /home/zhy/wallpapers/mrx-swim.png;
+  #   # base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+  #   base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+  # };
 
   programs.neovim = {
     enable = true;
@@ -152,6 +171,10 @@
     trusted-public-keys = [
       "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+    extra-substituters = [ "https://noctalia.cachix.org" ]; # https://docs.noctalia.dev/noctalia/getting-started/nixos/?section=binary-cache#binary-cache
+    extra-trusted-public-keys = [
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
     ];
   };
 
@@ -245,14 +268,25 @@
     enable = true;
     useNautilus = true;
   };
-  programs.waybar.enable = true;
-  security.pam.services.swaylock = { }; # https://wiki.nixos.org/wiki/Niri#Additional_Setup
+  # programs.waybar.enable = true;
+  # security.pam.services.swaylock = { }; # https://wiki.nixos.org/wiki/Niri#Additional_Setup
 
-  qt = {
+  # https://docs.noctalia.dev/noctalia/getting-started/nixos/
+  services.power-profiles-daemon.enable = true;
+  services.upower.enable = true;
+  programs.noctalia = {
     enable = true;
-    platformTheme = "qt5ct";
-    # style = "breeze";
+
+    # Enables NetworkManager, Bluetooth, UPower, and a power profile service.
+    recommendedServices.enable = true;
+    systemd.enable = true;
   };
+
+  # qt = {
+  #   enable = true;
+  #   platformTheme = "qt5ct";
+  #   # style = "breeze";
+  # };
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
@@ -377,6 +411,7 @@
     cudaPackages.nsight_compute
     cudaPackages.nsight_systems
 
+    # inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     awww
     eza
     lolcat
@@ -425,6 +460,8 @@
     #   config.cudaSupport = true;
     #   config.rocmSupport = false;
     # })
+    libxcb
+    xwayland
 
     wechat
     qq

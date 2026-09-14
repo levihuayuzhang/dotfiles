@@ -115,76 +115,76 @@
     };
   };
 
-  dconf = {
-    enable = true;
-
-    settings = {
-      "org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
-      };
-
-      "org/gnome/desktop/wm/preferences" = {
-        button-layout = "menu:";
-      };
-    };
-
-  };
-
-  home.packages = with pkgs; [
-    adwaita-icon-theme
-    papirus-icon-theme
-    gnome-themes-extra
-  ];
-
-  gtk = {
-    enable = true;
-
-    theme = {
-      name = "Adwaita-dark";
-      package = pkgs.gnome-themes-extra;
-    };
-
-    iconTheme = {
-      name = "Papirus";
-      package = pkgs.papirus-icon-theme;
-    };
-
-    cursorTheme = {
-      name = "Adwaita";
-      # size = 24;
-    };
-
-    font = {
-      name = "Noto Sans";
-      # size = 10;
-    };
-
-    gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
-      gtk-sound-theme-name = "freedesktop";
-      gtk-cursor-blink = true;
-      gtk-cursor-blink-time = 1000;
-      gtk-button-images = true;
-      # gtk-decoration-layout = "icon:minimize,maximize,close";
-      gtk-decoration-layout = ":";
-      gtk-enable-animations = true;
-      gtk-menu-images = true;
-      gtk-primary-button-warps-slider = true;
-      gtk-toolbar-style = 3;
-    };
-
-    gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
-    };
-  };
-
-  xdg.configFile."kdeglobals".text = ''
-    [General]
-    ColorScheme=BreezeDark
-
-    [KDE]
-    LookAndFeelPackage=org.kde.breezedark.desktop
-  '';
+  # dconf = {
+  #   enable = true;
+  #
+  #   settings = {
+  #     "org/gnome/desktop/interface" = {
+  #       color-scheme = "prefer-dark";
+  #     };
+  #
+  #     "org/gnome/desktop/wm/preferences" = {
+  #       button-layout = "menu:";
+  #     };
+  #   };
+  #
+  # };
+  #
+  # home.packages = with pkgs; [
+  #   adwaita-icon-theme
+  #   papirus-icon-theme
+  #   gnome-themes-extra
+  # ];
+  #
+  # gtk = {
+  #   enable = true;
+  #
+  #   theme = {
+  #     name = "Adwaita-dark";
+  #     package = pkgs.gnome-themes-extra;
+  #   };
+  #
+  #   iconTheme = {
+  #     name = "Papirus";
+  #     package = pkgs.papirus-icon-theme;
+  #   };
+  #
+  #   cursorTheme = {
+  #     name = "Adwaita";
+  #     # size = 24;
+  #   };
+  #
+  #   font = {
+  #     name = "Noto Sans";
+  #     # size = 10;
+  #   };
+  #
+  #   gtk3.extraConfig = {
+  #     gtk-application-prefer-dark-theme = true;
+  #     gtk-sound-theme-name = "freedesktop";
+  #     gtk-cursor-blink = true;
+  #     gtk-cursor-blink-time = 1000;
+  #     gtk-button-images = true;
+  #     # gtk-decoration-layout = "icon:minimize,maximize,close";
+  #     gtk-decoration-layout = ":";
+  #     gtk-enable-animations = true;
+  #     gtk-menu-images = true;
+  #     gtk-primary-button-warps-slider = true;
+  #     gtk-toolbar-style = 3;
+  #   };
+  #
+  #   gtk4.extraConfig = {
+  #     gtk-application-prefer-dark-theme = true;
+  #   };
+  # };
+  #
+  # xdg.configFile."kdeglobals".text = ''
+  #   [General]
+  #   ColorScheme=BreezeDark
+  #
+  #   [KDE]
+  #   LookAndFeelPackage=org.kde.breezedark.desktop
+  # '';
 
   # edit files under dotfiles directory, then rebuild
   # do not edit the files under ~/.config

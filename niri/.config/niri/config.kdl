@@ -280,11 +280,10 @@ spawn-at-startup "fcitx5"
 spawn-at-startup "kdeconnectd"
 // spawn-at-startup "nm-applet"
 // https://github.com/niri-wm/niri/wiki/Example-systemd-Setup
-spawn-at-startup "swayidle" "-w" \
-    "timeout" "610" "niri msg action power-off-monitors" \
-    "timeout" "600" "swaylock -f -i ~/wallpapers/2.jpg" \
-    "before-sleep" "swaylock -f -i ~/wallpapers/2.jpg"
-
+// spawn-at-startup "swayidle" "-w" \
+//     "timeout" "600" "swaylock -f -i ~/wallpapers/2.jpg" \
+//     "timeout" "610" "niri msg action power-off-monitors" \
+//     "before-sleep" "swaylock -f -i ~/wallpapers/2.jpg"
 
 // spawn-at-startup "swaybg" "-i" "~/wallpapers/1.jpg" // used for overview background, but should start later
 
@@ -510,18 +509,29 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     // Mod+T { spawn "ghostty"; }
     Mod+T { spawn "alacritty"; }
-    Mod+D { spawn "fuzzel"; }
+    // Mod+D { spawn "fuzzel"; }
+    Mod+D hotkey-overlay-title="launcher" {
+        spawn "noctalia" "msg" "panel-toggle" "launcher";
+    }
 
     // Super+Alt+L { spawn "hyprlock"; }
-    Super+Alt+L { spawn "swaylock" "-f" "-i" "~/wallpapers/2.jpg"; }
+    // Super+Alt+L { spawn "swaylock" "-f" "-i" "~/wallpapers/2.jpg"; }
+    Super+Alt+L allow-when-locked=true hotkey-overlay-title="Lock Screen" {
+        spawn "noctalia" "msg" "session" "lock";
+    }
+
+    // Mod+W { spawn "~/bin/random_wallpaper.sh"; }
+    Mod+W hotkey-overlay-title="Wallpaper" {
+        spawn "noctalia" "msg" "panel-toggle" "wallpaper";
+    }
 
     // /etc/systemd/sleep.conf
     // ~/.config/hypr/hypridle.conf
-    // Super+Ctrl+Alt+L { spawn "systemctl" "suspend"; } // S3
+    Super+Ctrl+Alt+L { spawn "systemctl" "suspend"; } // S3
     // Super+Ctrl+Alt+L { spawn "systemctl" "hibernate"; } // S4
     // Super+Ctrl+Alt+L { spawn "systemctl" "hybrid-sleep"; } // S3 + S4
     // Super+Ctrl+Alt+L { spawn "systemctl" "suspend-then-hibernate"; } // S3 -> S4
-    Super+Ctrl+Alt+L { spawn-sh "swaylock -f -i ~/wallpapers/2.jpg && systemctl suspend"; } // S3
+    // Super+Ctrl+Alt+L { spawn-sh "swaylock -f -i ~/wallpapers/2.jpg && systemctl suspend"; } // S3
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
@@ -771,8 +781,6 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
-
-    Mod+W { spawn "~/bin/random_wallpaper.sh"; }
 }
 
 // Disable the hot corners.
@@ -849,3 +857,9 @@ layer-rule {
         }
     }
 }
+
+// // https://wiki.archlinux.org/title/Niri#Multi_GPU_Configuration
+// debug {
+//     render-drm-device "/dev/dri/renderD129"
+// }
+
