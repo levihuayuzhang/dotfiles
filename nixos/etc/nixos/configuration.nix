@@ -54,8 +54,20 @@
   };
   virtualisation.docker.daemon.settings.features.cdi = true;
 
+  # # https://github.com/NixOS/nixpkgs/issues/562776#issuecomment-5662138287
+  # nixpkgs.overlays = [
+  #   (final: prev: {
+  #     cudaPackages = prev.lib.recurseIntoAttrs prev.cudaPackages_13_4;
+  #   })
+  # ];
+
   nixpkgs.config.allowUnfree = true;
   # nixpkgs.config.cudaSupport = true;
+
+  # hardware.enableAllFirmware = true;
+  # hardware.firmware = [
+  #   pkgs.sof-firmware
+  # ];
 
   networking.hostName = "levi-pc"; # Define your hostname.
 
@@ -252,6 +264,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
+    wireplumber.enable = true;
   };
 
   hardware.bluetooth = {
@@ -421,7 +434,7 @@
     # qemu_full
     docker-compose
 
-    cudatoolkit
+    cudaPackages.cudatoolkit
     # cudaPackages.cuda_nvcc
     # cudaPackages.cuda_cudart
     # cudaPackages.cuda_gdb
@@ -497,6 +510,7 @@
     feishu
     wpsoffice-cn
     # qqmusic
+    spotify
 
     wineWow64Packages.staging
     winetricks
