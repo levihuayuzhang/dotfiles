@@ -54,12 +54,26 @@
   };
   virtualisation.docker.daemon.settings.features.cdi = true;
 
-  # # https://github.com/NixOS/nixpkgs/issues/562776#issuecomment-5662138287
+  # https://github.com/NixOS/nixpkgs/issues/562776#issuecomment-5662138287
   # nixpkgs.overlays = [
   #   (final: prev: {
   #     cudaPackages = prev.lib.recurseIntoAttrs prev.cudaPackages_13_4;
   #   })
   # ];
+  nixpkgs.overlays = [
+    (final: prev: {
+      cudaPackages = prev.lib.recurseIntoAttrs (
+        prev.cudaPackages_13_4
+        // {
+          nsight_systems = prev.cudaPackages_13_4.nsight_systems.overrideAttrs (old: {
+            buildInputs = builtins.map (
+              x: if (x.pname or null) == "boost" then prev.boost186 else x
+            ) old.buildInputs;
+          });
+        }
+      );
+    })
+  ];
 
   nixpkgs.config.allowUnfree = true;
   # nixpkgs.config.cudaSupport = true;

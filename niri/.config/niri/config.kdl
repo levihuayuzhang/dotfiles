@@ -473,7 +473,11 @@ window-rule {
     match app-id="thunder.exe"
     open-floating false
 }
-
+window-rule {
+    match app-id="spotify"
+    open-focused true
+    open-maximized true
+}
 
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
