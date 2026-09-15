@@ -305,7 +305,7 @@
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1";
 
-    GTK_IM_MODULE = "fcitx";
+    # GTK_IM_MODULE = "fcitx";
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
     SDL_IM_MODULE = "fcitx";
@@ -446,10 +446,10 @@
     lolcat
     fastfetch
     wl-clipboard
-    swayidle
-    swaylock
-    mako
-    fuzzel
+    # swayidle
+    # swaylock
+    # mako
+    # fuzzel
     xwayland-satellite
     glib
     gsettings-desktop-schemas
