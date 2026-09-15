@@ -274,8 +274,8 @@ layout {
 // spawn-at-startup "alacritty" "-e" "fish"
 
 // spawn-at-startup "waybar" 
-spawn-at-startup "mako" 
-spawn-at-startup "awww-daemon"
+// spawn-at-startup "mako" 
+// spawn-at-startup "awww-daemon"
 spawn-at-startup "fcitx5"
 spawn-at-startup "kdeconnectd"
 // spawn-at-startup "nm-applet"
@@ -527,15 +527,17 @@ binds {
 
     Mod+S { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
     Mod+Comma { spawn "noctalia" "msg" "settings-toggle"; }
+    Mod+Period { spawn "noctalia" "msg" "caffeine-toggle"; }
     // Alt+Tab { spawn "noctalia" "msg" "window-switcher"; }
 
     // /etc/systemd/sleep.conf
     // ~/.config/hypr/hypridle.conf
-    Super+Ctrl+Alt+L { spawn "systemctl" "suspend"; } // S3
+    // Super+Ctrl+Alt+L { spawn "systemctl" "suspend"; } // S3
     // Super+Ctrl+Alt+L { spawn "systemctl" "hibernate"; } // S4
     // Super+Ctrl+Alt+L { spawn "systemctl" "hybrid-sleep"; } // S3 + S4
     // Super+Ctrl+Alt+L { spawn "systemctl" "suspend-then-hibernate"; } // S3 -> S4
     // Super+Ctrl+Alt+L { spawn-sh "swaylock -f -i ~/wallpapers/2.jpg && systemctl suspend"; } // S3
+    Super+Ctrl+Alt+L { spawn "noctalia" "msg" "session" "lock-and-suspend"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
@@ -860,6 +862,11 @@ layer-rule {
             xray false
         }
     }
+}
+
+layer-rule {
+  match namespace="^noctalia-backdrop"
+  place-within-backdrop true
 }
 
 // // https://wiki.archlinux.org/title/Niri#Multi_GPU_Configuration
