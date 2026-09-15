@@ -1,0 +1,3 @@
+[submodule "rime-fcitx5/.local/share/fcitx5/themes"]
+	path = rime-fcitx5/.local/share/fcitx5/themes
+	url = https://github.com/levihuayuzhang/Ori-fcitx5.git
