@@ -24,6 +24,7 @@ rime-fcitx5/.local/share/fcitx5/rime/installation.yaml
 rime-fcitx5/.local/share/fcitx5/rime/luna_pinyin.userdb/
 rime-fcitx5/.local/share/fcitx5/rime/sync/
 rime-fcitx5/.local/share/fcitx5/rime/user.yaml
+rime-fcitx5/.local/share/fcitx5/themes/
 
 theme/.config/gtk-3.0/bookmarks
 

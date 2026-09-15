@@ -208,13 +208,12 @@
     # nssmdnsFull = true;
   };
 
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
+  i18n.defaultLocale = "en_US.UTF-8";
+  console = {
+    # font = "Lat2-Terminus16";
+    keyMap = "us";
+    # useXkbConfig = true; # use xkb.options in tty.
+  };
 
   i18n.inputMethod = {
     enable = true;
@@ -226,9 +225,11 @@
       addons = with pkgs; [
         fcitx5-rime
         fcitx5-gtk
+        qt6Packages.fcitx5-qt
         qt6Packages.fcitx5-configtool
-        fcitx5-nord
-        fcitx5-material-color
+        qt6Packages.fcitx5-chinese-addons
+        # fcitx5-nord
+        # fcitx5-material-color
       ];
     };
   };
@@ -302,6 +303,22 @@
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
+    MOZ_ENABLE_WAYLAND = "1";
+
+    GTK_IM_MODULE = "fcitx";
+    QT_IM_MODULE = "fcitx";
+    XMODIFIERS = "@im=fcitx";
+    SDL_IM_MODULE = "fcitx";
+    GLFW_IM_MODULE = "fcitx";
+    IMSETTINGS_MODULE = "fcitx";
+    INPUT_METHOD = "fcitx";
+
+    GDK_BACKEND = "wayland,x11,*";
+    QT_QPA_PLATFORM = "wayland;xcb";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    QT_ENABLE_HIGHDPI_SCALING = "1";
+    SDL_VIDEODRIVER = "wayland,x11";
+    CLUTTER_BACKEND = "wayland";
   };
 
   services.udisks2.enable = true;
