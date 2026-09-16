@@ -125,6 +125,20 @@
   # };
   services.gnome.gnome-keyring.enable = true;
 
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 6d --keep 3";
+    flake = "/home/zhy/projects/dotfiles/nixos/etc/nixos"; # sets NH_OS_FLAKE
+  };
+
+  # nix.gc = {
+  #   automatic = true;
+  #   dates = "weekly";
+  #   options = "--delete-older-than 30d";
+  # };
+  # boot.loader.systemd-boot.configurationLimit = 10;
+
   programs.steam = {
     enable = true;
     gamescopeSession.enable = true;
@@ -203,13 +217,6 @@
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
     ];
   };
-
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
-  boot.loader.systemd-boot.configurationLimit = 10;
 
   services.mihomo = {
     enable = true;
