@@ -183,6 +183,13 @@
       xdg-desktop-portal-gnome
       xdg-desktop-portal-cosmic
     ];
+    config = {
+      common = {
+        default = [
+          "gtk"
+        ];
+      };
+    };
   };
 
   fileSystems."/home/zhy/hdd" = {
@@ -402,8 +409,8 @@
     ];
   };
 
-  # List packages installed in system profile.
-  # You can use https://search.nixos.org/ to find more packages (and options).
+  services.flatpak.enable = true;
+
   environment.systemPackages = with pkgs; [
     neovim
     vim
@@ -528,6 +535,7 @@
 
     wechat
     qq
+    wemeet
     feishu
     wpsoffice-cn
     # qqmusic

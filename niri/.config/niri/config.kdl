@@ -873,6 +873,15 @@ layer-rule {
   place-within-backdrop true
 }
 
+layer-rule {
+    match namespace="^noctalia-bar-.*$"
+
+    background-effect {
+        blur false
+        xray false
+    }
+}
+
 // // https://wiki.archlinux.org/title/Niri#Multi_GPU_Configuration
 // debug {
 //     render-drm-device "/dev/dri/renderD129"
