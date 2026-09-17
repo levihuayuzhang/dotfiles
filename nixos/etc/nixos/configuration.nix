@@ -97,6 +97,7 @@
       "wheel" # Enable ‘sudo’ for the user.
       "docker"
       "vboxusers"
+      "libvirtd"
     ];
 
     packages = with pkgs; [
@@ -410,6 +411,7 @@
   };
 
   services.flatpak.enable = true;
+  services.linyaps.enable = true;
 
   environment.systemPackages = with pkgs; [
     neovim
@@ -524,6 +526,7 @@
     sioyek
     mpv
     prismlauncher
+    hmcl
     rpi-imager
     polkit_gnome
     # (blender.override {
@@ -538,7 +541,7 @@
     wemeet
     feishu
     wpsoffice-cn
-    # qqmusic
+    qqmusic
     spotify
 
     wineWow64Packages.staging
@@ -546,9 +549,20 @@
     lutris
     bottles
     protonup-qt
+    fuse
+    fuse3
+    appimage-run
     vulkan-tools
+    distrobox
   ];
 
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+  # virtualisation.podman = {
+  #   enable = true;
+  #   dockerCompat = true;
+  # };
   virtualisation.docker = {
     enable = true;
     enableOnBoot = true;
@@ -583,15 +597,18 @@
     nerd-fonts.jetbrains-mono
 
     noto-fonts
+    noto-fonts-color-emoji
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
     source-han-sans
     source-han-serif
     wqy_zenhei
+    wqy_microhei
     corefonts
     vista-fonts
     liberation_ttf
     dejavu_fonts
+    sarasa-gothic
   ];
 
   nix.settings.experimental-features = [
