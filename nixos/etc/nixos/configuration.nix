@@ -90,9 +90,13 @@
   networking.networkmanager.enable = true;
 
   programs.zsh.enable = true;
+  programs.fish = {
+    enable = true;
+  };
   users.users.zhy = {
     isNormalUser = true;
-    shell = pkgs.zsh;
+    # shell = pkgs.zsh;
+    shell = pkgs.fish;
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
       "docker"
@@ -103,9 +107,6 @@
     packages = with pkgs; [
       tree
     ];
-  };
-  programs.fish = {
-    enable = true;
   };
 
   # stylix = {
@@ -427,6 +428,7 @@
     rustup
     rustc
     cargo
+    sccache
 
     tmux
     nil

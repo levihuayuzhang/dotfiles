@@ -95,6 +95,55 @@
     };
   };
 
+  programs.fish = {
+    enable = true;
+
+    shellInit = "
+      set -gx GPG_TTY (tty)
+
+      set -gx RUSTUP_DIST_SERVER https://mirrors.tuna.tsinghua.edu.cn/rustup
+      set -gx RUSTUP_UPDATE_ROOT https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
+      set -gx RUST_BACKTRACE full
+      set -gx RUSTC_WRAPPER sccache
+      # set -gx SCCACHE_SERVER_UDS $HOME/sccache.sock
+    ";
+
+    interactiveShellInit = "
+      set fish_greeting
+      set fish_color_command green --bold
+    ";
+
+    shellAbbrs = {
+      c = "cargo";
+      ct = "cargo t";
+      e = "nvim";
+      m = "make";
+      o = "xdg-open";
+      g = "git";
+
+      gc = "git checkout";
+      ga = "git add -p";
+      gaa = "git add --all";
+      gdca = "git diff --cached";
+      gcss = "git commit --gpg-sign --signoff";
+      gp = "git push";
+
+      vimdiff = "nvim -d";
+
+      l = "eza -la --icons always";
+      ls = "eza --icons always";
+      ll = "eza -l --icons always";
+      la = "eza -a --icons always";
+      grep = "grep --color=auto";
+
+      nfu = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos";
+      nrs = "sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
+      nos = "nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos";
+      # system-upgrade = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos && sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
+      system-upgrade = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos && nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos";
+    };
+  };
+
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
@@ -190,8 +239,8 @@
 
   # edit files under dotfiles directory, then rebuild
   # do not edit the files under ~/.config
-  xdg.configFile."fish".source = ../../../fish/.config/fish;
-  xdg.configFile."fish".recursive = true;
+  # xdg.configFile."fish".source = ../../../fish/.config/fish;
+  # xdg.configFile."fish".recursive = true;
 
   xdg.configFile."nvim".source = ../../../nvim/.config/nvim;
   xdg.configFile."nvim".recursive = true;
