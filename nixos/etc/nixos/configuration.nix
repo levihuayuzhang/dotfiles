@@ -133,8 +133,11 @@
 
   programs.nh = {
     enable = true;
-    clean.enable = true;
-    clean.extraArgs = "--keep-since 6d --keep 3";
+    clean = {
+      enable = true;
+      dates = "weekly";
+      extraArgs = "--keep-since 6d --keep 3";
+    };
     flake = "/home/zhy/projects/dotfiles/nixos/etc/nixos"; # sets NH_OS_FLAKE
   };
 
