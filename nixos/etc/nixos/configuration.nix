@@ -37,7 +37,11 @@
     open = true;
     nvidiaSettings = true;
     # dynamicBoost.enable = true;
-    powerManagement.enable = true;
+    powerManagement = {
+      enable = true;
+      # finegrained = true;
+      kernelSuspendNotifier = true;
+    };
 
     # # https://wiki.nixos.org/wiki/NVIDIA#Hybrid_graphics_with_PRIME
     # prime = {
@@ -143,7 +147,28 @@
 
   programs.steam = {
     enable = true;
-    gamescopeSession.enable = true;
+    gamescopeSession = {
+      enable = true;
+      args = [
+        "-W"
+        "3840"
+        "-H"
+        "2160"
+        "-r"
+        "60"
+        # "--adaptive-sync"
+        # "--hdr-enabled"
+        "--steam"
+        "--expose-wayland"
+      ];
+      # env = {
+      #   # for Prime render offload, Also requires `hardware.nvidia.prime.offload.enable`
+      #   __NV_PRIME_RENDER_OFFLOAD = "1";
+      #   __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
+      #   __VK_LAYER_NV_optimus = "NVIDIA_only";
+      #   __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      # };
+    };
     protontricks.enable = true;
     extest.enable = true;
     dedicatedServer.openFirewall = true;
@@ -153,6 +178,14 @@
   programs.gamescope = {
     enable = true;
     enableWsi = true;
+    capSysNice = true;
+    # env = {
+    #   # for Prime render offload, Also requires `hardware.nvidia.prime.offload.enable`
+    #   __NV_PRIME_RENDER_OFFLOAD = "1";
+    #   __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
+    #   __VK_LAYER_NV_optimus = "NVIDIA_only";
+    #   __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    # };
   };
   programs.gamemode.enable = true;
 

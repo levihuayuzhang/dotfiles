@@ -883,8 +883,11 @@ layer-rule {
 }
 
 // // https://wiki.archlinux.org/title/Niri#Multi_GPU_Configuration
+// // nix shell nixpkgs#pciutils
 // debug {
-//     render-drm-device "/dev/dri/renderD129"
+//     // ignore-drm-device "/dev/dri/renderD128" // nvidia gpu. this would disable externel display
+//
+//     render-drm-device "/dev/dri/renderD129" // amd gpu
 // }
 
 include "noctalia.kdl"
