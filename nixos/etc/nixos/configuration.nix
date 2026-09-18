@@ -181,7 +181,7 @@
   programs.gamescope = {
     enable = true;
     enableWsi = true;
-    capSysNice = true;
+    # capSysNice = true;
     # env = {
     #   # for Prime render offload, Also requires `hardware.nvidia.prime.offload.enable`
     #   __NV_PRIME_RENDER_OFFLOAD = "1";
