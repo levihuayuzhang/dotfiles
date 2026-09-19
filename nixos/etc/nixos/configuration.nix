@@ -15,6 +15,8 @@
     ./hardware-configuration.nix # Include the results of the hardware scan.
 
     inputs.noctalia.nixosModules.default
+
+    ./packages/wemeet.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -217,15 +219,31 @@
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
       xdg-desktop-portal-gnome
-      xdg-desktop-portal-cosmic
+      xdg-desktop-portal-gtk
+      # xdg-desktop-portal-hyprland
     ];
     config = {
       common = {
         default = [
+          "gnome"
           "gtk"
         ];
+      };
+      niri = {
+        default = [
+          "gnome"
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.ScreenCast" = [
+          "gnome"
+          # "gtk"
+        ];
+        "org.freedesktop.impl.portal.RemoteDesktop" = [
+          "gnome"
+          # "gtk"
+        ];
+        # "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
       };
     };
   };
@@ -392,7 +410,7 @@
     IMSETTINGS_MODULE = "fcitx";
     INPUT_METHOD = "fcitx";
 
-    GDK_BACKEND = "wayland,x11,*";
+    # GDK_BACKEND = "wayland,x11,*";
     QT_QPA_PLATFORM = "wayland;xcb";
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     QT_ENABLE_HIGHDPI_SCALING = "1";
