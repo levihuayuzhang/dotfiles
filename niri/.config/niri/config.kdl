@@ -419,6 +419,15 @@ window-rule {
     default-column-width { proportion 0.6; }
     // default-window-height { proportion 0.5; }
 }
+
+window-rule {
+    match app-id="google-chrome"
+    open-focused true
+
+    // open-maximized true
+    default-column-width { proportion 0.6; }
+}
+
 window-rule {
     match app-id="ghostty"
     open-focused true
