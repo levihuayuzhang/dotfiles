@@ -1,10 +1,14 @@
 [Default Applications]
 video/mp4=mpv.desktop
 video/matroska=mpv.desktop
-x-scheme-handler/http=firefox-developer-edition.desktop
-application/xhtml+xml=firefox-developer-edition.desktop
-text/html=firefox-developer-edition.desktop
-x-scheme-handler/https=firefox-developer-edition.desktop
+; x-scheme-handler/http=firefox-developer-edition.desktop
+; application/xhtml+xml=firefox-developer-edition.desktop
+; text/html=firefox-developer-edition.desktop
+; x-scheme-handler/https=firefox-developer-edition.desktop
+x-scheme-handler/http=firefox-devedition.desktop
+application/xhtml+xml=firefox-devedition.desktop
+text/html=firefox-devedition.desktop
+x-scheme-handler/https=firefox-devedition.desktop
 audio/x-vorbis+ogg=mpv.desktop
 audio/aac=mpv.desktop
 audio/x-aac=mpv.desktop
@@ -134,10 +138,14 @@ application/pdf=sioyek.desktop
 
 [Added Associations]
 video/matroska=mpv.desktop;
-x-scheme-handler/http=firefox-developer-edition.desktop;
-application/xhtml+xml=firefox-developer-edition.desktop;
-text/html=firefox-developer-edition.desktop;
-x-scheme-handler/https=firefox-developer-edition.desktop;
+; x-scheme-handler/http=firefox-developer-edition.desktop;
+; application/xhtml+xml=firefox-developer-edition.desktop;
+; text/html=firefox-developer-edition.desktop;
+; x-scheme-handler/https=firefox-developer-edition.desktop;
+x-scheme-handler/http=firefox-devedition.desktop;
+application/xhtml+xml=firefox-devedition.desktop;
+text/html=firefox-devedition.desktop;
+x-scheme-handler/https=firefox-devedition.desktop;
 audio/aac=mpv.desktop;
 audio/x-aac=mpv.desktop;
 audio/vnd.dolby.heaac.1=mpv.desktop;

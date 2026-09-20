@@ -267,21 +267,21 @@
   xdg.configFile."sioyek".source = ../../../sioyek/.config/sioyek;
   xdg.configFile."sioyek".recursive = true;
 
-  xdg.desktopEntries.sioyek = {
-    name = "Sioyek";
-    comment = "PDF viewer";
-    exec = "env QT_QPA_PLATFORM=xcb sioyek %f";
-    icon = "sioyek";
-    terminal = false;
-    type = "Application";
-    categories = [
-      "Office"
-      "Viewer"
-    ];
-    mimeType = [
-      "application/pdf"
-    ];
-  };
+  # xdg.desktopEntries.sioyek = {
+  #   name = "Sioyek";
+  #   comment = "PDF viewer";
+  #   exec = "env QT_QPA_PLATFORM=xcb sioyek %f";
+  #   icon = "sioyek";
+  #   terminal = false;
+  #   type = "Application";
+  #   categories = [
+  #     "Office"
+  #     "Viewer"
+  #   ];
+  #   mimeType = [
+  #     "application/pdf"
+  #   ];
+  # };
 
   home.stateVersion = "26.05";
 }

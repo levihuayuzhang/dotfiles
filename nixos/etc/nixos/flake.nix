@@ -13,11 +13,11 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
 
-    noctalia = {
-      # url = "github:noctalia-dev/noctalia";
-      url = "github:noctalia-dev/noctalia/cachix"; # https://docs.noctalia.dev/noctalia/getting-started/nixos/?section=binary-cache#binary-cache
-      # inputs.nixpkgs.follows = "nixpkgs"; # this line is optional, prevents downloading two versions of nixpkgs but disables cache
-    };
+    # noctalia = {
+    #   # url = "github:noctalia-dev/noctalia";
+    #   url = "github:noctalia-dev/noctalia/cachix"; # https://docs.noctalia.dev/noctalia/getting-started/nixos/?section=binary-cache#binary-cache
+    #   # inputs.nixpkgs.follows = "nixpkgs"; # this line is optional, prevents downloading two versions of nixpkgs but disables cache
+    # };
   };
   outputs =
     inputs@{
@@ -25,7 +25,7 @@
       nixpkgs,
       home-manager,
       # stylix,
-      noctalia,
+      # noctalia,
       ...
     }:
     {

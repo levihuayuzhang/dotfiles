@@ -14,9 +14,10 @@
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
 
-    inputs.noctalia.nixosModules.default
+    # inputs.noctalia.nixosModules.default
 
     ./packages/wemeet.nix
+    ./packages/sioyek.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -194,17 +195,17 @@
   };
   programs.gamemode.enable = true;
 
-  # programs.obs-studio = {
-  #   enable = true;
-  #   package = (pkgs.obs-studio.override { cudaSupport = true; });
-  #   enableVirtualCamera = true;
-  #   plugins = with pkgs.obs-studio-plugins; [
-  #     wlrobs
-  #     obs-backgroundremoval
-  #     obs-pipewire-audio-capture
-  #     obs-vkcapture
-  #   ];
-  # };
+  programs.obs-studio = {
+    enable = true;
+    package = (pkgs.obs-studio.override { cudaSupport = true; });
+    enableVirtualCamera = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      # wlrobs
+      obs-backgroundremoval
+      obs-pipewire-audio-capture
+      obs-vkcapture
+    ];
+  };
 
   programs.java.enable = true;
 
@@ -369,8 +370,8 @@
       keyboard.layout = "us";
     };
     cursorTheme = {
-      package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Ice";
+      package = pkgs.bibata-cursors;
     };
   };
 
@@ -411,11 +412,11 @@
     INPUT_METHOD = "fcitx";
 
     # GDK_BACKEND = "wayland,x11,*";
-    QT_QPA_PLATFORM = "wayland;xcb";
+    # QT_QPA_PLATFORM = "wayland;xcb";
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-    QT_ENABLE_HIGHDPI_SCALING = "1";
-    SDL_VIDEODRIVER = "wayland,x11";
-    CLUTTER_BACKEND = "wayland";
+    # QT_ENABLE_HIGHDPI_SCALING = "1";
+    # SDL_VIDEODRIVER = "wayland,x11";
+    # CLUTTER_BACKEND = "wayland";
   };
 
   services.udisks2.enable = true;
@@ -598,7 +599,7 @@
     kdePackages.breeze-icons
     kdePackages.qt6ct
     libsForQt5.qt5ct
-    sioyek
+    # sioyek
     mpv
     prismlauncher
     hmcl
@@ -613,7 +614,7 @@
 
     wechat
     qq
-    wemeet
+    # wemeet
     feishu
     wpsoffice-cn
     qqmusic
@@ -627,8 +628,8 @@
     fuse
     fuse3
     appimage-run
-    vulkan-tools
     distrobox
+    vulkan-tools
   ];
 
   virtualisation.libvirtd.enable = true;
