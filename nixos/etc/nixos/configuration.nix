@@ -411,9 +411,9 @@
     IMSETTINGS_MODULE = "fcitx";
     INPUT_METHOD = "fcitx";
 
-    # GDK_BACKEND = "wayland,x11,*";
+    # GDK_BACKEND = "wayland,x11,*"; # https://github.com/niri-wm/niri/wiki/Important-Software
     # QT_QPA_PLATFORM = "wayland;xcb";
-    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    # QT_AUTO_SCREEN_SCALE_FACTOR = "1"; # https://wiki.archlinux.org/title/HiDPI#Qt_5
     # QT_ENABLE_HIGHDPI_SCALING = "1";
     # SDL_VIDEODRIVER = "wayland,x11";
     # CLUTTER_BACKEND = "wayland";
@@ -458,6 +458,8 @@
       "--wayland-per-window-scaling"
     ];
   };
+
+  programs.zoom-us.enable = true;
 
   # services.ollama = {
   #   enable = true;
