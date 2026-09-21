@@ -360,7 +360,7 @@
   # services.displayManager.defaultSession = "niri";
   # services.displayManager.sddm.enable = true;
   # services.desktopManager.plasma6.enable = true;
-  services.desktopManager.gnome.enable = true;
+  # services.desktopManager.gnome.enable = true;
 
   # services.displayManager.cosmic-greeter.enable = true;
   services.displayManager.noctalia-greeter = {
@@ -591,9 +591,13 @@
 
     alacritty
     firefox-devedition
+    ffmpeg-headless # https://wiki.nixos.org/wiki/Thumbnails
+    ffmpegthumbnailer
+    gdk-pixbuf
+    evince
     nautilus
-    cosmic-files
-    cosmic-monitor
+    # cosmic-files
+    # cosmic-monitor
     kdePackages.okular
     kdePackages.gwenview
     kdePackages.kdeconnect-kde
@@ -632,6 +636,10 @@
     appimage-run
     distrobox
     vulkan-tools
+  ];
+
+  environment.pathsToLink = [
+    "/share/thumbnailers"
   ];
 
   virtualisation.libvirtd.enable = true;
