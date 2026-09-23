@@ -55,32 +55,32 @@
     #   nvidiaBusId = "PCI:1@0:0:0";
     # };
   };
-  # https://wiki.nixos.org/wiki/Docker#NVIDIA_Docker_Containers
-  hardware.nvidia-container-toolkit = {
-    enable = true;
-  };
-  virtualisation.docker.daemon.settings.features.cdi = true;
+  # # https://wiki.nixos.org/wiki/Docker#NVIDIA_Docker_Containers
+  # hardware.nvidia-container-toolkit = {
+  #   enable = true;
+  # };
+  # virtualisation.docker.daemon.settings.features.cdi = true;
 
-  # https://github.com/NixOS/nixpkgs/issues/562776#issuecomment-5662138287
+  # # https://github.com/NixOS/nixpkgs/issues/562776#issuecomment-5662138287
+  # # nixpkgs.overlays = [
+  # #   (final: prev: {
+  # #     cudaPackages = prev.lib.recurseIntoAttrs prev.cudaPackages_13_4;
+  # #   })
+  # # ];
   # nixpkgs.overlays = [
   #   (final: prev: {
-  #     cudaPackages = prev.lib.recurseIntoAttrs prev.cudaPackages_13_4;
+  #     cudaPackages = prev.lib.recurseIntoAttrs (
+  #       prev.cudaPackages_13_4
+  #       // {
+  #         nsight_systems = prev.cudaPackages_13_4.nsight_systems.overrideAttrs (old: {
+  #           buildInputs = builtins.map (
+  #             x: if (x.pname or null) == "boost" then prev.boost186 else x
+  #           ) old.buildInputs;
+  #         });
+  #       }
+  #     );
   #   })
   # ];
-  nixpkgs.overlays = [
-    (final: prev: {
-      cudaPackages = prev.lib.recurseIntoAttrs (
-        prev.cudaPackages_13_4
-        // {
-          nsight_systems = prev.cudaPackages_13_4.nsight_systems.overrideAttrs (old: {
-            buildInputs = builtins.map (
-              x: if (x.pname or null) == "boost" then prev.boost186 else x
-            ) old.buildInputs;
-          });
-        }
-      );
-    })
-  ];
 
   nixpkgs.config.allowUnfree = true;
   # nixpkgs.config.cudaSupport = true;
@@ -276,10 +276,10 @@
       "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
-    extra-substituters = [ "https://noctalia.cachix.org" ]; # https://docs.noctalia.dev/noctalia/getting-started/nixos/?section=binary-cache#binary-cache
-    extra-trusted-public-keys = [
-      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-    ];
+    # extra-substituters = [ "https://noctalia.cachix.org" ]; # https://docs.noctalia.dev/noctalia/getting-started/nixos/?section=binary-cache#binary-cache
+    # extra-trusted-public-keys = [
+    #   "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    # ];
   };
 
   services.mihomo = {
@@ -356,6 +356,7 @@
     enable = true;
     powerOnBoot = true;
   };
+  # hardware.xpadneo.enable = true;
 
   # services.displayManager.defaultSession = "niri";
   # services.displayManager.sddm.enable = true;
@@ -630,6 +631,7 @@
     winetricks
     lutris
     bottles
+    protonplus
     protonup-qt
     fuse
     fuse3
