@@ -237,35 +237,59 @@
   #   LookAndFeelPackage=org.kde.breezedark.desktop
   # '';
 
+  # noctalia config export > ~/projects/dotfiles/noctalia/.config/noctalia/config.toml
+  programs.noctalia = {
+    enable = true;
+    settings = ../../../noctalia/.config/noctalia/config.toml;
+  };
+
   # edit files under dotfiles directory, then rebuild
   # do not edit the files under ~/.config
-  # xdg.configFile."fish".source = ../../../fish/.config/fish;
-  # xdg.configFile."fish".recursive = true;
+  xdg.configFile = {
+    "tmux/tmux.conf".source = ../../../tmux/.config/tmux/tmux.conf;
+    "bat/config".source = ../../../bat/.config/bat/config;
+    "mimeapps.list".source = ../../../xdg/.config/mimeapps.list;
 
-  xdg.configFile."nvim".source = ../../../nvim/.config/nvim;
-  xdg.configFile."nvim".recursive = true;
+    # "fish" = {
+    #   source = ../../../fish/.config/fish;
+    #   recursive = true;
+    # };
 
-  xdg.configFile."tmux/tmux.conf".source = ../../../tmux/.config/tmux/tmux.conf;
-  xdg.configFile."bat/config".source = ../../../bat/.config/bat/config;
-  xdg.configFile."mimeapps.list".source = ../../../xdg/.config/mimeapps.list;
+    "nvim" = {
+      source = ../../../nvim/.config/nvim;
+      recursive = true;
+    };
 
-  xdg.configFile."alacritty".source = ../../../alacritty/.config/alacritty;
-  xdg.configFile."alacritty".recursive = true;
+    "alacritty" = {
+      source = ../../../alacritty/.config/alacritty;
+      recursive = true;
+    };
 
-  xdg.configFile."niri".source = ../../../niri/.config/niri;
-  xdg.configFile."niri".recursive = true;
+    "niri" = {
+      source = ../../../niri/.config/niri;
+      recursive = true;
+    };
 
-  xdg.configFile."waybar".source = ../../../waybar/.config/waybar;
-  xdg.configFile."waybar".recursive = true;
+    "waybar" = {
+      source = ../../../waybar/.config/waybar;
+      recursive = true;
+    };
 
-  xdg.configFile."fuzzel".source = ../../../fuzzel/.config/fuzzel;
-  xdg.configFile."fuzzel".recursive = true;
+    "fuzzel" = {
+      source = ../../../fuzzel/.config/fuzzel;
+      recursive = true;
+    };
 
-  xdg.configFile."mpv".source = ../../../mpv/.config/mpv;
-  xdg.configFile."mpv".recursive = true;
+    "mpv" = {
+      source = ../../../mpv/.config/mpv;
+      recursive = true;
+    };
 
-  xdg.configFile."sioyek".source = ../../../sioyek/.config/sioyek;
-  xdg.configFile."sioyek".recursive = true;
+    "sioyek" = {
+      source = ../../../sioyek/.config/sioyek;
+      recursive = true;
+    };
+  };
 
   # xdg.desktopEntries.sioyek = {
   #   name = "Sioyek";

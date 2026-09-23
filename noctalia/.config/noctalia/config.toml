@@ -1,0 +1,345 @@
+[backdrop]
+enabled = true
+
+[bar.default]
+background_opacity = 0.0
+capsule = true
+end = [
+    "audio_visualizer",
+    "media",
+    "tray",
+    "group:g1",
+    "weather",
+    "network",
+    "bluetooth",
+    "volume",
+    "brightness",
+    "battery",
+    "clipboard",
+    "notifications",
+    "control-center",
+    "session"
+]
+margin_ends = 0
+shadow = false
+start = [ "NixOS", "workspaces", "active_window" ]
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    enabled = true
+    fill = "surface_variant"
+    id = "g1"
+    members = [ "network_rx", "network_tx", "cpu", "ram", "temp" ]
+    opacity = 1.0
+    padding = 6.0
+
+[desktop_widgets]
+schema_version = 2
+widget_order = [ "desktop-widget-0000000000000001" ]
+
+    [desktop_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [desktop_widgets.widget.desktop-widget-0000000000000001]
+    box_height = 0.0
+    box_width = 0.0
+    cx = 1280.0
+    cy = 720.0
+    output = "HDMI-A-1"
+    placement_height = 1440.0
+    placement_width = 2560.0
+    rotation = 0.0
+    type = "fancy_audio_visualizer"
+
+        [desktop_widgets.widget.desktop-widget-0000000000000001.settings]
+        background = false
+
+[idle]
+behavior_order = [ "lock", "screen-off", "lock-and-suspend" ]
+pre_action_fade_seconds = 0
+
+    [idle.behavior.lock]
+    action = "lock"
+    enabled = true
+    timeout = 600.0
+
+    [idle.behavior.lock-and-suspend]
+    action = "lock_and_suspend"
+    enabled = true
+    timeout = 900.0
+
+    [idle.behavior.screen-off]
+    action = "screen_off"
+    enabled = true
+    timeout = 660.0
+
+[location]
+address = "Haikou, China"
+
+[lockscreen]
+fingerprint = false
+wallpaper = "/home/zhy/wallpapers/mrx.png"
+
+[lockscreen_widgets]
+enabled = true
+schema_version = 2
+widget_order = [
+    "lockscreen-login-box@HDMI-1",
+    "lockscreen-login-box@eDP-2",
+    "lockscreen-login-box@eDP-1",
+    "lockscreen-login-box@HDMI-A-1",
+    "lockscreen-widget-0000000000000001"
+]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@HDMI-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 898.0
+    output = "HDMI-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@HDMI-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 1280.0
+    cy = 1258.0
+    output = "HDMI-A-1"
+    placement_height = 1440.0
+    placement_width = 2560.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 853.5
+    cy = 824.25750732421875
+    output = "eDP-1"
+    placement_height = 1067.0
+    placement_width = 1707.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@eDP-2"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 854.0
+    cy = 885.0
+    output = "eDP-2"
+    placement_height = 1067.0
+    placement_width = 1707.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@eDP-2".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000001]
+    box_height = 0.0
+    box_width = 0.0
+    cx = 1280.0
+    cy = 720.0
+    output = "HDMI-A-1"
+    placement_height = 1440.0
+    placement_width = 2560.0
+    rotation = 0.0
+    type = "clock"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000001.settings]
+        clock_style = "digital"
+
+[shell]
+launch_apps_as_systemd_services = true
+niri_overview_type_to_launch_enabled = true
+polkit_agent = true
+
+[system.monitor]
+network_poll_seconds = 2
+
+[theme]
+builtin = "Ayu"
+community_palette = "Oxocarbon"
+mode = "dark"
+source = "builtin"
+wallpaper_scheme = "m3-content"
+
+    [theme.templates]
+    builtin_ids = [ "gtk3", "gtk4", "kcolorscheme", "niri", "qt" ]
+
+[wallpaper]
+directory = "/home/zhy/wallpapers"
+transition_on_startup = true
+
+    [wallpaper.automation]
+    enabled = true
+    interval_seconds = 600
+
+    [wallpaper.default]
+    path = "/home/zhy/wallpapers/gufeng.png"
+
+    [wallpaper.last]
+    path = "/home/zhy/wallpapers/gufeng.png"
+
+    [wallpaper.monitors.HDMI-A-1]
+    path = "/home/zhy/wallpapers/gufeng.png"
+
+    [[wallpaper.favorite]]
+    palette_source = "wallpaper"
+    path = "/home/zhy/wallpapers/mrx-swim.png"
+    theme_mode = "dark"
+    wallpaper_scheme = "m3-content"
+
+    [[wallpaper.favorite]]
+    palette_source = "wallpaper"
+    path = "/home/zhy/wallpapers/mrx.png"
+    theme_mode = "dark"
+    wallpaper_scheme = "m3-content"
+
+    [[wallpaper.favorite]]
+    palette_source = "wallpaper"
+    path = "/home/zhy/wallpapers/dac40c_5_Morning2_8k.jpg"
+    theme_mode = "dark"
+    wallpaper_scheme = "m3-content"
+
+    [[wallpaper.favorite]]
+    builtin_palette = "Ayu"
+    palette_source = "builtin"
+    path = "/home/zhy/wallpapers/2.jpg"
+    theme_mode = "dark"
+
+    [[wallpaper.favorite]]
+    builtin_palette = "Ayu"
+    palette_source = "builtin"
+    path = "/home/zhy/wallpapers/7a7da0_Sunset_8k.jpg"
+    theme_mode = "dark"
+
+    [[wallpaper.favorite]]
+    builtin_palette = "Ayu"
+    palette_source = "builtin"
+    path = "/home/zhy/wallpapers/498ca7_26_reading_8k.jpg"
+    theme_mode = "dark"
+
+    [[wallpaper.favorite]]
+    builtin_palette = "Ayu"
+    palette_source = "builtin"
+    path = "/home/zhy/wallpapers/15157c_sin2_8k_wallpaper.jpg"
+    theme_mode = "dark"
+
+    [[wallpaper.favorite]]
+    builtin_palette = "Ayu"
+    palette_source = "builtin"
+    path = "/home/zhy/wallpapers/20211126_173703000_iOS.jpg"
+    theme_mode = "dark"
+
+    [[wallpaper.favorite]]
+    palette_source = "wallpaper"
+    path = "/home/zhy/wallpapers/20140319_224404000_iOS.jpg"
+    theme_mode = "dark"
+    wallpaper_scheme = "m3-content"
+
+    [[wallpaper.favorite]]
+    builtin_palette = "Ayu"
+    palette_source = "builtin"
+    path = "/home/zhy/wallpapers/b-250.jpg"
+    theme_mode = "dark"
+
+[widget.NixOS]
+glyph = ""
+label = ""
+tooltip = "NixOS"
+type = "custom_button"
+
+[widget.clock]
+format = "{:%Y-%m-%d %a %H:%M:%S}"
+
+[widget.control-center]
+enabled = false
+
+[widget.launcher]
+enabled = false
+
+[widget.media]
+album_art_only = true
+enabled = false
+
+[widget.session]
+enabled = false
+
+[widget.wallpaper]
+enabled = false
+
+[widget.weather]
+show_condition = false
