@@ -229,23 +229,270 @@
     };
   };
 
-  # xdg.configFile."kdeglobals".text = ''
-  #   [General]
-  #   ColorScheme=BreezeDark
-  #
-  #   [KDE]
-  #   LookAndFeelPackage=org.kde.breezedark.desktop
-  # '';
-
-  # noctalia config export > ~/projects/dotfiles/noctalia/.config/noctalia/config.toml
+  # # noctalia config export > ~/projects/dotfiles/noctalia/.config/noctalia/config.toml
+  # programs.noctalia = {
+  #   enable = true;
+  #   settings = ../../../noctalia/.config/noctalia/config.toml;
+  # };
   programs.noctalia = {
     enable = true;
-    settings = ../../../noctalia/.config/noctalia/config.toml;
+    settings = {
+      backdrop = {
+        enabled = true;
+      };
+
+      bar.default = {
+        background_opacity = 0.0;
+        capsule = true;
+        margin_ends = 0;
+        shadow = false;
+
+        start = [
+          "NixOS"
+          "workspaces"
+          "active_window"
+        ];
+
+        end = [
+          "audio_visualizer"
+          "media"
+          "tray"
+          "group:g1"
+          "weather"
+          "network"
+          "bluetooth"
+          "volume"
+          "brightness"
+          "battery"
+          "clipboard"
+          "notifications"
+          "control-center"
+          "session"
+        ];
+
+        capsule_group = [
+          {
+            accordion = false;
+            accordion_direction = "end";
+            enabled = true;
+            fill = "surface_variant";
+            id = "g1";
+
+            members = [
+              "network_rx"
+              "network_tx"
+              "cpu"
+              "ram"
+              "temp"
+            ];
+
+            opacity = 1.0;
+            padding = 6.0;
+          }
+        ];
+      };
+
+      idle = {
+        behavior_order = [
+          "lock"
+          "screen-off"
+          "lock-and-suspend"
+        ];
+
+        pre_action_fade_seconds = 0;
+
+        behavior.lock = {
+          action = "lock";
+          enabled = true;
+          timeout = 600.0;
+        };
+
+        behavior.screen-off = {
+          action = "screen_off";
+          enabled = true;
+          timeout = 660.0;
+        };
+
+        behavior.lock-and-suspend = {
+          action = "lock_and_suspend";
+          enabled = true;
+          timeout = 900.0;
+        };
+      };
+
+      location = {
+        address = "Haikou, China";
+      };
+
+      lockscreen = {
+        fingerprint = false;
+        wallpaper = "/home/zhy/wallpapers/mrx.png";
+      };
+
+      shell = {
+        launch_apps_as_systemd_services = true;
+        niri_overview_type_to_launch_enabled = true;
+        polkit_agent = true;
+      };
+
+      system.monitor = {
+        network_poll_seconds = 2;
+      };
+
+      theme = {
+        mode = "dark";
+        source = "wallpaper";
+        wallpaper_scheme = "m3-content";
+
+        templates = {
+          builtin_ids = [
+            "gtk3"
+            "gtk4"
+            "kcolorscheme"
+            "niri"
+            "qt"
+          ];
+        };
+      };
+
+      wallpaper = {
+        directory = "/home/zhy/wallpapers";
+        transition_on_startup = true;
+
+        automation = {
+          enabled = true;
+          interval_seconds = 600;
+        };
+
+        default = {
+          path = "/home/zhy/wallpapers/mrx.png";
+        };
+
+        monitors.HDMI-A-1 = {
+          path = "/home/zhy/wallpapers/mrx.png";
+        };
+
+        favorite = [
+          {
+            path = "/home/zhy/wallpapers/mrx-swim.png";
+            palette_source = "wallpaper";
+            theme_mode = "dark";
+            wallpaper_scheme = "m3-content";
+          }
+
+          {
+            path = "/home/zhy/wallpapers/mrx.png";
+            palette_source = "wallpaper";
+            theme_mode = "dark";
+            wallpaper_scheme = "m3-content";
+          }
+
+          {
+            path = "/home/zhy/wallpapers/dac40c_5_Morning2_8k.jpg";
+            palette_source = "wallpaper";
+            theme_mode = "dark";
+            wallpaper_scheme = "m3-content";
+          }
+
+          {
+            path = "/home/zhy/wallpapers/2.jpg";
+            palette_source = "wallpaper";
+            theme_mode = "dark";
+            wallpaper_scheme = "m3-content";
+          }
+
+          {
+            path = "/home/zhy/wallpapers/7a7da0_Sunset_8k.jpg";
+            palette_source = "wallpaper";
+            theme_mode = "dark";
+            wallpaper_scheme = "m3-content";
+          }
+
+          {
+            path = "/home/zhy/wallpapers/498ca7_26_reading_8k.jpg";
+            palette_source = "wallpaper";
+            theme_mode = "dark";
+            wallpaper_scheme = "m3-content";
+          }
+
+          {
+            path = "/home/zhy/wallpapers/15157c_sin2_8k_wallpaper.jpg";
+            palette_source = "wallpaper";
+            theme_mode = "dark";
+            wallpaper_scheme = "m3-content";
+          }
+
+          {
+            path = "/home/zhy/wallpapers/20211126_173703000_iOS.jpg";
+            palette_source = "wallpaper";
+            theme_mode = "dark";
+            wallpaper_scheme = "m3-content";
+          }
+
+          {
+            path = "/home/zhy/wallpapers/20140319_224404000_iOS.jpg";
+            palette_source = "wallpaper";
+            theme_mode = "dark";
+            wallpaper_scheme = "m3-content";
+          }
+
+          {
+            path = "/home/zhy/wallpapers/b-250.jpg";
+            palette_source = "wallpaper";
+            theme_mode = "dark";
+            wallpaper_scheme = "m3-content";
+          }
+        ];
+      };
+
+      widget.NixOS = {
+        label = "";
+        tooltip = "NixOS";
+        type = "custom_button";
+      };
+
+      widget.clock = {
+        format = "{:%Y-%m-%d %a %H:%M:%S}";
+      };
+
+      widget.control-center = {
+        enabled = false;
+      };
+
+      widget.launcher = {
+        enabled = false;
+      };
+
+      widget.media = {
+        album_art_only = true;
+        enabled = false;
+      };
+
+      widget.session = {
+        enabled = false;
+      };
+
+      widget.wallpaper = {
+        enabled = false;
+      };
+
+      widget.weather = {
+        show_condition = false;
+      };
+    };
   };
 
   # edit files under dotfiles directory, then rebuild
   # do not edit the files under ~/.config
   xdg.configFile = {
+    # "kdeglobals".text = ''
+    #   [General]
+    #   ColorScheme=BreezeDark
+    #
+    #   [KDE]
+    #   LookAndFeelPackage=org.kde.breezedark.desktop
+    # '';
+
     "tmux/tmux.conf".source = ../../../tmux/.config/tmux/tmux.conf;
     "bat/config".source = ../../../bat/.config/bat/config;
     "mimeapps.list".source = ../../../xdg/.config/mimeapps.list;

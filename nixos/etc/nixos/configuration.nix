@@ -394,11 +394,11 @@
     systemd.enable = true;
   };
 
-  # qt = {
-  #   enable = true;
-  #   platformTheme = "qt5ct";
-  #   # style = "breeze";
-  # };
+  qt = {
+    enable = true;
+    platformTheme = "kde";
+    # style = "breeze";
+  };
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
@@ -414,8 +414,8 @@
 
     # GDK_BACKEND = "wayland,x11,*"; # https://github.com/niri-wm/niri/wiki/Important-Software
     # QT_QPA_PLATFORM = "wayland;xcb";
-    # QT_AUTO_SCREEN_SCALE_FACTOR = "1"; # https://wiki.archlinux.org/title/HiDPI#Qt_5
-    # QT_ENABLE_HIGHDPI_SCALING = "1";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "0"; # https://wiki.archlinux.org/title/HiDPI#Qt_5
+    QT_ENABLE_HIGHDPI_SCALING = "0";
     # SDL_VIDEODRIVER = "wayland,x11";
     # CLUTTER_BACKEND = "wayland";
   };
@@ -606,6 +606,10 @@
     kdePackages.breeze-icons
     kdePackages.qt6ct
     libsForQt5.qt5ct
+    # kdePackages.breeze-gtk
+    kdePackages.breeze-icons
+    kdePackages.breeze
+    kdePackages.qqc2-breeze-style
     # sioyek
     mpv
     prismlauncher

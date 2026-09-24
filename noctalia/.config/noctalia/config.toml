@@ -230,10 +230,8 @@ polkit_agent = true
 network_poll_seconds = 2
 
 [theme]
-builtin = "Ayu"
-community_palette = "Oxocarbon"
 mode = "dark"
-source = "builtin"
+source = "wallpaper"
 wallpaper_scheme = "m3-content"
 
     [theme.templates]
@@ -248,13 +246,13 @@ transition_on_startup = true
     interval_seconds = 600
 
     [wallpaper.default]
-    path = "/home/zhy/wallpapers/gufeng.png"
+    path = "/home/zhy/wallpapers/mrx.png"
 
     [wallpaper.last]
-    path = "/home/zhy/wallpapers/gufeng.png"
+    path = "/home/zhy/wallpapers/mrx.png"
 
     [wallpaper.monitors.HDMI-A-1]
-    path = "/home/zhy/wallpapers/gufeng.png"
+    path = "/home/zhy/wallpapers/mrx.png"
 
     [[wallpaper.favorite]]
     palette_source = "wallpaper"
@@ -275,34 +273,34 @@ transition_on_startup = true
     wallpaper_scheme = "m3-content"
 
     [[wallpaper.favorite]]
-    builtin_palette = "Ayu"
-    palette_source = "builtin"
+    palette_source = "wallpaper"
     path = "/home/zhy/wallpapers/2.jpg"
     theme_mode = "dark"
+    wallpaper_scheme = "m3-content"
 
     [[wallpaper.favorite]]
-    builtin_palette = "Ayu"
-    palette_source = "builtin"
+    palette_source = "wallpaper"
     path = "/home/zhy/wallpapers/7a7da0_Sunset_8k.jpg"
     theme_mode = "dark"
+    wallpaper_scheme = "m3-content"
 
     [[wallpaper.favorite]]
-    builtin_palette = "Ayu"
-    palette_source = "builtin"
+    palette_source = "wallpaper"
     path = "/home/zhy/wallpapers/498ca7_26_reading_8k.jpg"
     theme_mode = "dark"
+    wallpaper_scheme = "m3-content"
 
     [[wallpaper.favorite]]
-    builtin_palette = "Ayu"
-    palette_source = "builtin"
+    palette_source = "wallpaper"
     path = "/home/zhy/wallpapers/15157c_sin2_8k_wallpaper.jpg"
     theme_mode = "dark"
+    wallpaper_scheme = "m3-content"
 
     [[wallpaper.favorite]]
-    builtin_palette = "Ayu"
-    palette_source = "builtin"
+    palette_source = "wallpaper"
     path = "/home/zhy/wallpapers/20211126_173703000_iOS.jpg"
     theme_mode = "dark"
+    wallpaper_scheme = "m3-content"
 
     [[wallpaper.favorite]]
     palette_source = "wallpaper"
@@ -311,10 +309,10 @@ transition_on_startup = true
     wallpaper_scheme = "m3-content"
 
     [[wallpaper.favorite]]
-    builtin_palette = "Ayu"
-    palette_source = "builtin"
+    palette_source = "wallpaper"
     path = "/home/zhy/wallpapers/b-250.jpg"
     theme_mode = "dark"
+    wallpaper_scheme = "m3-content"
 
 [widget.NixOS]
 glyph = ""
