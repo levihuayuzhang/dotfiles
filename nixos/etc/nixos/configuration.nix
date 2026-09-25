@@ -109,6 +109,7 @@
       "docker"
       "vboxusers"
       "libvirtd"
+      "kvm"
     ];
 
     packages = with pkgs; [
@@ -414,8 +415,8 @@
 
     # GDK_BACKEND = "wayland,x11,*"; # https://github.com/niri-wm/niri/wiki/Important-Software
     # QT_QPA_PLATFORM = "wayland;xcb";
-    QT_AUTO_SCREEN_SCALE_FACTOR = "0"; # https://wiki.archlinux.org/title/HiDPI#Qt_5
-    QT_ENABLE_HIGHDPI_SCALING = "0";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1"; # https://wiki.archlinux.org/title/HiDPI#Qt_5
+    QT_ENABLE_HIGHDPI_SCALING = "1";
     # SDL_VIDEODRIVER = "wayland,x11";
     # CLUTTER_BACKEND = "wayland";
   };
@@ -538,7 +539,6 @@
     lld
     mold
     openssl
-    # qemu_full
     docker-compose
 
     cudaPackages.cudatoolkit
@@ -589,6 +589,7 @@
     usbutils
     pciutils
     ddcutil
+    vulkan-tools
 
     alacritty
     firefox-devedition
@@ -641,29 +642,42 @@
     fuse3
     appimage-run
     distrobox
-    vulkan-tools
+    dnsmasq
+    # virtio-win
   ];
 
   environment.pathsToLink = [
     "/share/thumbnailers"
   ];
 
-  virtualisation.libvirtd.enable = true;
-  programs.virt-manager.enable = true;
-  virtualisation.spiceUSBRedirection.enable = true;
   # virtualisation.podman = {
   #   enable = true;
   #   dockerCompat = true;
   # };
+
   virtualisation.docker = {
     enable = true;
     enableOnBoot = true;
   };
+
   virtualisation.virtualbox.host = {
     enable = true;
-    # enableKvm = true;
     enableExtensionPack = true;
+    # enableKvm = true;
+    # addNetworkInterface = false;
   };
+
+  # https://wiki.nixos.org/wiki/Virt-manager
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      swtpm.enable = true;
+      vhostUserPackages = with pkgs; [ virtiofsd ];
+    };
+  };
+  programs.virt-manager.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

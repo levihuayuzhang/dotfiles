@@ -91,7 +91,7 @@
       nrs = "sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
       nos = "nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos";
       # system-upgrade = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos && sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
-      system-upgrade = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos && nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos";
+      system-upgrade = "nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos -u";
     };
   };
 
@@ -140,7 +140,7 @@
       nrs = "sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
       nos = "nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos";
       # system-upgrade = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos && sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
-      system-upgrade = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos && nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos";
+      system-upgrade = "nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos -u";
     };
   };
 
