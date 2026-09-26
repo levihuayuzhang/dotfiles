@@ -333,14 +333,14 @@
   };
 
   security.polkit.enable = true;
-  systemd.user.services.polkit-gnome-agent = {
-    description = "Polkit Authentication Agent";
-    wantedBy = [ "graphical-session.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-      Restart = "on-failure";
-    };
-  };
+  # systemd.user.services.polkit-gnome-agent = {
+  #   description = "Polkit Authentication Agent";
+  #   wantedBy = [ "graphical-session.target" ];
+  #   serviceConfig = {
+  #     ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+  #     Restart = "on-failure";
+  #   };
+  # };
 
   security.rtkit.enable = true;
   # services.pulseaudio.enable = true;
@@ -499,7 +499,7 @@
     git
     wget
     curl
-    stow
+    # stow
 
     rustup
     rustc
@@ -561,7 +561,7 @@
     cudaPackages.nsight_systems
 
     # inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
-    awww
+    # awww
     eza
     lolcat
     fastfetch
@@ -585,11 +585,11 @@
     nvtopPackages.full
     htop
     btop
-    mesa-demos
+    # mesa-demos
+    # vulkan-tools
     usbutils
     pciutils
     ddcutil
-    vulkan-tools
 
     alacritty
     firefox-devedition
@@ -603,20 +603,18 @@
     kdePackages.okular
     kdePackages.gwenview
     kdePackages.kdeconnect-kde
-    kdePackages.breeze
-    kdePackages.breeze-icons
-    kdePackages.qt6ct
-    libsForQt5.qt5ct
+    # kdePackages.breeze
+    # kdePackages.breeze-icons
+    # kdePackages.qqc2-breeze-style
+    # kdePackages.qt6ct
+    # libsForQt5.qt5ct
     # kdePackages.breeze-gtk
-    kdePackages.breeze-icons
-    kdePackages.breeze
-    kdePackages.qqc2-breeze-style
     # sioyek
     mpv
     prismlauncher
     hmcl
     rpi-imager
-    polkit_gnome
+    # polkit_gnome
     # (blender.override {
     #   config.cudaSupport = true;
     #   config.rocmSupport = false;
@@ -687,10 +685,7 @@
     enableSSHSupport = true;
   };
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = false;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
