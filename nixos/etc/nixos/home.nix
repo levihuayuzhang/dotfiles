@@ -54,46 +54,46 @@
     };
   };
 
-  programs.bash = {
-    enable = true;
-    shellAliases = {
-      btw = "echo I use nixos, btw";
-    };
-  };
+  # programs.bash = {
+  #   enable = true;
+  #   shellAliases = {
+  #     btw = "echo I use nixos, btw";
+  #   };
+  # };
 
-  programs.zsh = {
-    enable = true;
-
-    oh-my-zsh = {
-      enable = true;
-      theme = "robbyrussell";
-      plugins = [
-        "git"
-        "sudo"
-        "docker"
-      ];
-    };
-
-    enableCompletion = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-
-    initContent = ''
-      export GPG_TTY=$(tty)
-    '';
-    shellAliases = {
-      l = "eza -la --icons always";
-      ls = "eza --icons always";
-      ll = "eza -l --icons always";
-      la = "eza -a --icons always";
-      grep = "grep --color=auto";
-      nfu = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos";
-      nrs = "sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
-      nos = "nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos";
-      # system-upgrade = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos && sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
-      system-upgrade = "nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos -u";
-    };
-  };
+  # programs.zsh = {
+  #   enable = true;
+  #
+  #   oh-my-zsh = {
+  #     enable = true;
+  #     theme = "robbyrussell";
+  #     plugins = [
+  #       "git"
+  #       "sudo"
+  #       "docker"
+  #     ];
+  #   };
+  #
+  #   enableCompletion = true;
+  #   autosuggestion.enable = true;
+  #   syntaxHighlighting.enable = true;
+  #
+  #   initContent = ''
+  #     export GPG_TTY=$(tty)
+  #   '';
+  #   shellAliases = {
+  #     l = "eza -la --icons always";
+  #     ls = "eza --icons always";
+  #     ll = "eza -l --icons always";
+  #     la = "eza -a --icons always";
+  #     grep = "grep --color=auto";
+  #     nfu = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos";
+  #     nrs = "sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
+  #     nos = "nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos";
+  #     # system-upgrade = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos && sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
+  #     system-upgrade = "nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos -u";
+  #   };
+  # };
 
   programs.fish = {
     enable = true;

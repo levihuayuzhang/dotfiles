@@ -46,14 +46,14 @@
       kernelSuspendNotifier = true;
     };
 
-    # # https://wiki.nixos.org/wiki/NVIDIA#Hybrid_graphics_with_PRIME
-    # prime = {
-    #   offload.enable = true;
-    #   offload.enableOffloadCmd = true;
-    #
-    #   amdgpuBusId = "PCI:5@0:0:0";
-    #   nvidiaBusId = "PCI:1@0:0:0";
-    # };
+    # https://wiki.nixos.org/wiki/NVIDIA#Hybrid_graphics_with_PRIME
+    prime = {
+      offload.enable = true;
+      offload.enableOffloadCmd = true; # nvidia-offload
+
+      amdgpuBusId = "PCI:5@0:0:0";
+      nvidiaBusId = "PCI:1@0:0:0";
+    };
   };
   # # https://wiki.nixos.org/wiki/Docker#NVIDIA_Docker_Containers
   # hardware.nvidia-container-toolkit = {
@@ -61,12 +61,12 @@
   # };
   # virtualisation.docker.daemon.settings.features.cdi = true;
 
-  # # https://github.com/NixOS/nixpkgs/issues/562776#issuecomment-5662138287
-  # # nixpkgs.overlays = [
-  # #   (final: prev: {
-  # #     cudaPackages = prev.lib.recurseIntoAttrs prev.cudaPackages_13_4;
-  # #   })
-  # # ];
+  # https://github.com/NixOS/nixpkgs/issues/562776#issuecomment-5662138287
+  # nixpkgs.overlays = [
+  #   (final: prev: {
+  #     cudaPackages = prev.lib.recurseIntoAttrs prev.cudaPackages_13_4;
+  #   })
+  # ];
   # nixpkgs.overlays = [
   #   (final: prev: {
   #     cudaPackages = prev.lib.recurseIntoAttrs (
@@ -96,6 +96,7 @@
   networking.wireless.enable = true;
   networking.networkmanager.enable = true;
 
+  programs.bash.enable = true;
   programs.zsh.enable = true;
   programs.fish = {
     enable = true;
@@ -107,7 +108,7 @@
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
       "docker"
-      "vboxusers"
+      # "vboxusers"
       "libvirtd"
       "kvm"
     ];
@@ -484,6 +485,15 @@
       zlib
       openssl
       curl
+      libX11
+      libXext
+      libXi
+      libXrender
+      libXtst
+      libxcb
+      freetype
+      libGL
+      fontconfig
     ];
   };
 
@@ -495,16 +505,17 @@
     vim
     nano
     vscode-fhs
+    # jetbrains-toolbox
 
     git
     wget
     curl
     # stow
 
-    rustup
-    rustc
-    cargo
-    sccache
+    # rustup
+    # rustc
+    # cargo
+    # sccache
 
     tmux
     nil
@@ -566,6 +577,7 @@
     lolcat
     fastfetch
     wl-clipboard
+    xclip
     # swayidle
     # swaylock
     # mako
@@ -658,12 +670,12 @@
     enableOnBoot = true;
   };
 
-  virtualisation.virtualbox.host = {
-    enable = true;
-    enableExtensionPack = true;
-    # enableKvm = true;
-    # addNetworkInterface = false;
-  };
+  # virtualisation.virtualbox.host = {
+  #   enable = true;
+  #   enableExtensionPack = true;
+  #   # enableKvm = true;
+  #   # addNetworkInterface = false;
+  # };
 
   # https://wiki.nixos.org/wiki/Virt-manager
   virtualisation.libvirtd = {
