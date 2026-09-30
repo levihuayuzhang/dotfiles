@@ -46,14 +46,14 @@
       kernelSuspendNotifier = true;
     };
 
-    # https://wiki.nixos.org/wiki/NVIDIA#Hybrid_graphics_with_PRIME
-    prime = {
-      offload.enable = true;
-      offload.enableOffloadCmd = true; # nvidia-offload
-
-      amdgpuBusId = "PCI:5@0:0:0";
-      nvidiaBusId = "PCI:1@0:0:0";
-    };
+    # # https://wiki.nixos.org/wiki/NVIDIA#Hybrid_graphics_with_PRIME
+    # prime = {
+    #   offload.enable = true;
+    #   offload.enableOffloadCmd = true; # nvidia-offload
+    #
+    #   amdgpuBusId = "PCI:5@0:0:0";
+    #   nvidiaBusId = "PCI:1@0:0:0";
+    # };
   };
   # # https://wiki.nixos.org/wiki/Docker#NVIDIA_Docker_Containers
   # hardware.nvidia-container-toolkit = {
@@ -108,7 +108,7 @@
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
       "docker"
-      # "vboxusers"
+      "vboxusers"
       "libvirtd"
       "kvm"
     ];
@@ -485,17 +485,24 @@
       zlib
       openssl
       curl
+
       libX11
       libXext
       libXi
       libXrender
       libXtst
       libxcb
-      freetype
+      libxkbcommon
+      wayland
       libGL
+
+      freetype
       fontconfig
     ];
   };
+  systemd.tmpfiles.rules = [
+    "L+ /bin/bash - - - - ${pkgs.bash}/bin/bash"
+  ];
 
   services.flatpak.enable = true;
   services.linyaps.enable = true;
@@ -533,8 +540,8 @@
     fd
 
     python3
-    python314
-    python314Packages.pip
+    # python314
+    # python314Packages.pip
     uv
     ruff
     ty
@@ -544,21 +551,29 @@
     ninja
     pkg-config
     gcc
-    clang
-    clang-tools
-    llvm
-    lld
+    llvmPackages_latest.llvm
+    llvmPackages_latest.clang
+    llvmPackages_latest.clang-tools
+    llvmPackages_latest.libcxx
+    llvmPackages_latest.libunwind
+    llvmPackages_latest.bintools
+    # llvmPackages_latest.openmp
+    llvmPackages_latest.lldb
+    llvmPackages_latest.mlir
+    llvmPackages_latest.bolt
+    llvmPackages_latest.lld
     mold
     openssl
     docker-compose
 
-    cudaPackages.cudatoolkit
+    # cudatoolkit
+    # cudaPackages.cudatoolkit
     # cudaPackages.cuda_nvcc
     # cudaPackages.cuda_cudart
     # cudaPackages.cuda_gdb
     # cudaPackages.cuda_cuobjdump
     # cudaPackages.cuda-samples
-    cudaPackages.cutlass
+    # cudaPackages.cutlass
     # cudaPackages.cudnn
     # cudaPackages.libcurand
     # cudaPackages.libcublas
@@ -568,8 +583,8 @@
     # cudaPackages.cccl
     # cudaPackages.nccl
     # cudaPackages.cuda_opencl
-    cudaPackages.nsight_compute
-    cudaPackages.nsight_systems
+    # cudaPackages.nsight_compute
+    # cudaPackages.nsight_systems
 
     # inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     # awww
@@ -670,12 +685,12 @@
     enableOnBoot = true;
   };
 
-  # virtualisation.virtualbox.host = {
-  #   enable = true;
-  #   enableExtensionPack = true;
-  #   # enableKvm = true;
-  #   # addNetworkInterface = false;
-  # };
+  virtualisation.virtualbox.host = {
+    enable = true;
+    enableExtensionPack = true;
+    # enableKvm = true;
+    # addNetworkInterface = false;
+  };
 
   # https://wiki.nixos.org/wiki/Virt-manager
   virtualisation.libvirtd = {
