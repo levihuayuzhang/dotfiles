@@ -16,8 +16,8 @@ local servers = {
   -- "vsrocq",
   -- "fortls",
   -- "ts_ls",
-  -- "nixd",
-  "nil_ls",
+  "nixd",
+  -- "nil_ls",
 }
 vim.lsp.enable(servers)
 
@@ -372,6 +372,8 @@ vim.lsp.config("bashls", {})
 -- https://github.com/nix-community/nixd/blob/main/nixd/docs/configuration.md#where-to-place-the-configuration
 vim.lsp.config("nixd", {
   cmd = { "nixd" },
+  filetypes = { "nix" },
+  root_markers = { "flake.nix", ".git" },
   settings = {
     nixd = {
       nixpkgs = {
@@ -382,10 +384,10 @@ vim.lsp.config("nixd", {
       },
       options = {
         nixos = {
-          expr = '(builtins.getFlake ("git+file://" + toString ./.)).nixosConfigurations.k-on.options',
+          expr = '(builtins.getFlake "/home/zhy/projects/dotfiles/nixos/etc/nixos").nixosConfigurations.levi-pc.options',
         },
         home_manager = {
-          expr = '(builtins.getFlake ("git+file://" + toString ./.)).homeConfigurations."ruixi@k-on".options',
+          expr = '(builtins.getFlake "/home/zhy/projects/dotfiles/nixos/etc/nixos").homeConfigurations."zhy@levi-pc".options',
         },
       },
     },

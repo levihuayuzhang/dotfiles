@@ -566,25 +566,14 @@
     openssl
     docker-compose
 
-    # cudatoolkit
-    # cudaPackages.cudatoolkit
-    # cudaPackages.cuda_nvcc
-    # cudaPackages.cuda_cudart
-    # cudaPackages.cuda_gdb
-    # cudaPackages.cuda_cuobjdump
+    cudaPackages_13_4.cudatoolkit # pkgs/top-level/cuda-packages.nix
     # cudaPackages.cuda-samples
     # cudaPackages.cutlass
-    # cudaPackages.cudnn
-    # cudaPackages.libcurand
-    # cudaPackages.libcublas
-    # cudaPackages.libcufft
-    # cudaPackages.libnvvm
+    cudaPackages_13_4.cudnn
     # cudaPackages.tensorrt
-    # cudaPackages.cccl
-    # cudaPackages.nccl
     # cudaPackages.cuda_opencl
-    # cudaPackages.nsight_compute
-    # cudaPackages.nsight_systems
+    cudaPackages_13_4.nsight_compute
+    cudaPackages_13_4.nsight_systems
 
     # inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     # awww
@@ -660,9 +649,9 @@
     wineWow64Packages.staging
     winetricks
     lutris
-    bottles
+    # bottles
     protonplus
-    protonup-qt
+    # protonup-qt
     fuse
     fuse3
     appimage-run
