@@ -134,7 +134,16 @@
   #   enable = true;
   #   # package = pkgs.vscode-fhs;
   # };
-  services.gnome.gnome-keyring.enable = true;
+
+  # services.gnome.gnome-keyring.enable = true;
+  # for non sddm login
+  security.pam.services.login.kwallet = {
+    enable = true;
+    # forceRun = true;
+  };
+  services.dbus.packages = [
+    pkgs.kdePackages.kwallet
+  ];
 
   programs.nh = {
     enable = true;
@@ -222,31 +231,37 @@
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
+      kdePackages.xdg-desktop-portal-kde
+      kdePackages.kwallet
       xdg-desktop-portal-gnome
       xdg-desktop-portal-gtk
-      # xdg-desktop-portal-hyprland
     ];
     config = {
       common = {
         default = [
+          "kde"
           "gnome"
           "gtk"
         ];
       };
       niri = {
-        default = [
+        default = lib.mkForce [
+          "kde"
           "gnome"
           "gtk"
         ];
         "org.freedesktop.impl.portal.ScreenCast" = [
+          # "kde"
           "gnome"
-          # "gtk"
         ];
         "org.freedesktop.impl.portal.RemoteDesktop" = [
+          # "kde"
           "gnome"
-          # "gtk"
         ];
-        # "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+        "org.freedesktop.impl.portal.Secret" = lib.mkDefault [
+          "kwallet"
+          # "gnome-keyring"
+        ];
       };
     };
   };
@@ -380,7 +395,7 @@
 
   programs.niri = {
     enable = true;
-    useNautilus = true;
+    useNautilus = false;
   };
   # programs.waybar.enable = true;
   # security.pam.services.swaylock = { }; # https://wiki.nixos.org/wiki/Niri#Additional_Setup
@@ -612,10 +627,12 @@
     ffmpeg-headless # https://wiki.nixos.org/wiki/Thumbnails
     ffmpegthumbnailer
     gdk-pixbuf
-    evince
-    nautilus
+    # papers
+    # nautilus
+    # sushi
     # cosmic-files
     # cosmic-monitor
+    kdePackages.dolphin
     kdePackages.okular
     kdePackages.gwenview
     kdePackages.kdeconnect-kde
@@ -628,9 +645,8 @@
     # sioyek
     mpv
     prismlauncher
-    hmcl
+    # hmcl
     rpi-imager
-    # polkit_gnome
     # (blender.override {
     #   config.cudaSupport = true;
     #   config.rocmSupport = false;
@@ -645,6 +661,7 @@
     wpsoffice-cn
     qqmusic
     spotify
+    splayer-next
 
     wineWow64Packages.staging
     winetricks
@@ -688,6 +705,26 @@
       package = pkgs.qemu_kvm;
       swtpm.enable = true;
       vhostUserPackages = with pkgs; [ virtiofsd ];
+      # https://github.com/virt-manager/virt-manager/issues/938#issuecomment-3009548239
+      verbatimConfig = ''
+        namespaces = []
+
+        cgroup_device_acl = [
+          "/dev/null",
+          "/dev/full",
+          "/dev/zero",
+          "/dev/random",
+          "/dev/urandom",
+          "/dev/ptmx",
+          "/dev/kvm",
+          "/dev/nvidiactl",
+          "/dev/nvidia0",
+          "/dev/nvidia-modeset",
+          "/dev/dri/renderD128",
+        ]
+
+        seccomp_sandbox = 0
+      '';
     };
   };
   programs.virt-manager.enable = true;
