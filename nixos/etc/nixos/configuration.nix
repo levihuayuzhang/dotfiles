@@ -135,7 +135,7 @@
   #   # package = pkgs.vscode-fhs;
   # };
 
-  # services.gnome.gnome-keyring.enable = true;
+  services.gnome.gnome-keyring.enable = false;
   # for non sddm login
   security.pam.services.login.kwallet = {
     enable = true;
@@ -258,7 +258,7 @@
           # "kde"
           "gnome"
         ];
-        "org.freedesktop.impl.portal.Secret" = lib.mkDefault [
+        "org.freedesktop.impl.portal.Secret" = lib.mkForce [
           "kwallet"
           # "gnome-keyring"
         ];
@@ -636,6 +636,7 @@
     kdePackages.okular
     kdePackages.gwenview
     kdePackages.kdeconnect-kde
+    kdePackages.kwalletmanager
     # kdePackages.breeze
     # kdePackages.breeze-icons
     # kdePackages.qqc2-breeze-style
