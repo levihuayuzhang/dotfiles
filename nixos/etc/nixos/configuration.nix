@@ -234,15 +234,17 @@
       kdePackages.xdg-desktop-portal-kde
       xdg-desktop-portal-gnome
       xdg-desktop-portal-gtk
+      oo7-portal
     ];
     config = {
       common = {
         default = [
           "kde"
-          "gnome"
-          "gtk"
+          # "gnome"
+          # "gtk"
         ];
       };
+      # https://github.com/niri-wm/niri/wiki/Important-Software
       niri = {
         default = lib.mkForce [
           "kde"
@@ -258,7 +260,9 @@
         "org.freedesktop.impl.portal.RemoteDesktop" = [
           "gnome"
         ];
-        "org.freedesktop.impl.portal.Secret" = [
+        # https://github.com/linux-credentials/oo7#testing-oo7-portal
+        "org.freedesktop.impl.portal.Secret" = lib.mkForce [
+          "oo7-portal"
           "gnome-keyring"
         ];
       };
