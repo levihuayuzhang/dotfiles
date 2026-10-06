@@ -103,8 +103,8 @@
   };
   users.users.zhy = {
     isNormalUser = true;
-    # shell = pkgs.zsh;
-    shell = pkgs.fish;
+    shell = pkgs.zsh;
+    # shell = pkgs.fish;
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
       "docker"
@@ -147,20 +147,35 @@
 
   programs.nh = {
     enable = true;
-    clean = {
-      enable = true;
-      dates = "weekly";
-      extraArgs = "--keep-since 6d --keep 3";
-    };
+    # clean = {
+    #   enable = true;
+    #   dates = "weekly";
+    #   extraArgs = "--keep-since 6d --keep 3";
+    # };
     flake = "/home/zhy/projects/dotfiles/nixos/etc/nixos"; # sets NH_OS_FLAKE
   };
 
-  # nix.gc = {
-  #   automatic = true;
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 6d";
+  };
+  nix.optimise = {
+    automatic = true;
+    dates = "weekly";
+  };
+  boot.loader.systemd-boot.configurationLimit = 10;
+  # system.autoUpgrade = {
+  #   enable = true;
   #   dates = "weekly";
-  #   options = "--delete-older-than 30d";
+  #   flake = inputs.self.outPath;
+  #   flags = [
+  #     "--update-input"
+  #     "nixpkgs"
+  #     # "--commit-lock-file"
+  #     "-L"
+  #   ];
   # };
-  # boot.loader.systemd-boot.configurationLimit = 10;
 
   programs.steam = {
     enable = true;
@@ -286,9 +301,9 @@
   # nix.settings.substituters = lib.mkForce [ "https://mirror.sjtu.edu.cn/nix-channels/store" ];
   nix.settings = {
     substituters = [
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
-      # "https://mirror.sjtu.edu.cn/nix-channels/store"
+      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=10"
+      "https://mirrors.ustc.edu.cn/nix-channels/store?priority=10"
+      # "https://mirror.sjtu.edu.cn/nix-channels/store?priority=11"
       "https://cache.nixos-cuda.org" # https://wiki.nixos.org/wiki/CUDA#Setting_up_CUDA_Binary_Cache
       "https://nix-community.cachix.org" # https://wiki.nixos.org/wiki/Binary_Cache#Using_a_binary_cache
     ];
@@ -535,7 +550,7 @@
     git
     wget
     curl
-    # stow
+    stow
 
     # rustup
     # rustc
@@ -592,6 +607,12 @@
     # cudaPackages.cuda_opencl
     cudaPackages_13_4.nsight_compute
     cudaPackages_13_4.nsight_systems
+
+    # fnm
+    unzip
+    # nodejs_latest
+    # corepack
+    # pnpm
 
     # inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     # awww

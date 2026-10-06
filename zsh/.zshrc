@@ -38,7 +38,7 @@ export BAT_THEME="gruvbox-dark"
 # gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 # gsettings set org.gnome.desktop.interface accent-color 'teal'
 # gsettings set org.gnome.desktop.interface icon-theme 'Tela-green-dark' # (form git) or 'Tela-circle-green-dark' (from arch linux)
-export WINEDEBUG=fps
+# export WINEDEBUG=fps
 
 # homebrew
 export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
@@ -49,10 +49,10 @@ export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bot
 export HOMEBREW_PIP_INDEX_URL="https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 
-# cuda
-export PATH=/usr/local/cuda/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-export CUDA_TOOLKIT_PATH=/usr/local/cuda
+# # cuda
+# export PATH=/usr/local/cuda/bin:$PATH
+# export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
+# export CUDA_TOOLKIT_PATH=/usr/local/cuda
 
 # rust
 alias ct="cargo t"
@@ -64,14 +64,12 @@ export RUST_BACKTRACE=full
 # export CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true
 export RUSTC_WRAPPER=$(which sccache)
 # export SCCACHE_SERVER_PORT=24226
-export SCCACHE_SERVER_UDS=$HOME/sccache.sock
+# export SCCACHE_SERVER_UDS=$HOME/sccache.sock
 
 # proxy
-# export http_proxy="http://127.0.0.1:7890"
-# export https_proxy="http://127.0.0.1:7890"
-export http_proxy="socks5h://127.0.0.1:7891"
-export https_proxy="socks5h://127.0.0.1:7891"
-export all_proxy="socks5h://127.0.0.1:7891"
+export http_proxy="http://127.0.0.1:7890"
+export https_proxy="http://127.0.0.1:7890"
+export all_proxy="socks5://127.0.0.1:7891"
 export no_proxy=127.0.0.1,::1,localhost,*.local,*.lan
 
 # path=(~/.local/bin $path)

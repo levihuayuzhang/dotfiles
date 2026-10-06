@@ -54,46 +54,52 @@
     };
   };
 
-  # programs.bash = {
-  #   enable = true;
-  #   shellAliases = {
-  #     btw = "echo I use nixos, btw";
-  #   };
-  # };
+  programs.bash = {
+    enable = true;
+    shellAliases = {
+      btw = "echo I use nixos, btw";
+    };
+  };
 
-  # programs.zsh = {
-  #   enable = true;
-  #
-  #   oh-my-zsh = {
-  #     enable = true;
-  #     theme = "robbyrussell";
-  #     plugins = [
-  #       "git"
-  #       "sudo"
-  #       "docker"
-  #     ];
-  #   };
-  #
-  #   enableCompletion = true;
-  #   autosuggestion.enable = true;
-  #   syntaxHighlighting.enable = true;
-  #
-  #   initContent = ''
-  #     export GPG_TTY=$(tty)
-  #   '';
-  #   shellAliases = {
-  #     l = "eza -la --icons always";
-  #     ls = "eza --icons always";
-  #     ll = "eza -l --icons always";
-  #     la = "eza -a --icons always";
-  #     grep = "grep --color=auto";
-  #     nfu = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos";
-  #     nrs = "sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
-  #     nos = "nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos";
-  #     # system-upgrade = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos && sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
-  #     system-upgrade = "nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos -u";
-  #   };
-  # };
+  programs.zsh = {
+    enable = true;
+
+    oh-my-zsh = {
+      enable = true;
+      theme = "robbyrussell";
+      plugins = [
+        "git"
+        "sudo"
+        "docker"
+      ];
+    };
+
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+
+    initContent = ''
+      export GPG_TTY=$(tty)
+
+      export PATH="$HOME/.local/share/fnm:$PATH"
+      eval "$(fnm env --use-on-cd --shell zsh)"
+    '';
+    envExtra = ''
+      . "$HOME/.cargo/env"
+    '';
+    shellAliases = {
+      l = "eza -la --icons always";
+      ls = "eza --icons always";
+      ll = "eza -l --icons always";
+      la = "eza -a --icons always";
+      grep = "grep --color=auto";
+      nfu = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos";
+      nrs = "sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
+      nos = "nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos";
+      # system-upgrade = "nix flake update --flake /home/zhy/projects/dotfiles/nixos/etc/nixos && sudo nixos-rebuild switch --flake /home/zhy/projects/dotfiles/nixos/etc/nixos#levi-pc";
+      system-upgrade = "nh os switch /home/zhy/projects/dotfiles/nixos/etc/nixos -u";
+    };
+  };
 
   programs.fish = {
     enable = true;
@@ -484,75 +490,224 @@
 
   # edit files under dotfiles directory, then rebuild
   # do not edit the files under ~/.config
-  xdg.configFile = {
-    # "kdeglobals".text = ''
-    #   [General]
-    #   ColorScheme=BreezeDark
-    #
-    #   [KDE]
-    #   LookAndFeelPackage=org.kde.breezedark.desktop
-    # '';
+  xdg = {
+    configFile = {
+      # "kdeglobals".text = ''
+      #   [General]
+      #   ColorScheme=BreezeDark
+      #
+      #   [KDE]
+      #   LookAndFeelPackage=org.kde.breezedark.desktop
+      # '';
 
-    "tmux/tmux.conf".source = ../../../tmux/.config/tmux/tmux.conf;
-    "bat/config".source = ../../../bat/.config/bat/config;
-    "mimeapps.list".source = ../../../xdg/.config/mimeapps.list;
+      "tmux/tmux.conf".source = ../../../tmux/.config/tmux/tmux.conf;
+      "bat/config".source = ../../../bat/.config/bat/config;
+      # "mimeapps.list".source = ../../../xdg/.config/mimeapps.list;
 
-    # "fish" = {
-    #   source = ../../../fish/.config/fish;
-    #   recursive = true;
+      # "fish" = {
+      #   source = ../../../fish/.config/fish;
+      #   recursive = true;
+      # };
+
+      "nvim" = {
+        source = ../../../nvim/.config/nvim;
+        recursive = true;
+      };
+
+      "alacritty" = {
+        source = ../../../alacritty/.config/alacritty;
+        recursive = true;
+      };
+
+      "niri" = {
+        source = ../../../niri/.config/niri;
+        recursive = true;
+      };
+
+      "waybar" = {
+        source = ../../../waybar/.config/waybar;
+        recursive = true;
+      };
+
+      "fuzzel" = {
+        source = ../../../fuzzel/.config/fuzzel;
+        recursive = true;
+      };
+
+      "mpv" = {
+        source = ../../../mpv/.config/mpv;
+        recursive = true;
+      };
+
+      "sioyek" = {
+        source = ../../../sioyek/.config/sioyek;
+        recursive = true;
+      };
+    };
+
+    # desktopEntries = {
+    #   sioyek = {
+    #     name = "Sioyek";
+    #     comment = "PDF viewer";
+    #     exec = "env QT_QPA_PLATFORM=xcb sioyek %f";
+    #     icon = "sioyek";
+    #     terminal = false;
+    #     type = "Application";
+    #     categories = [
+    #       "Office"
+    #       "Viewer"
+    #     ];
+    #     mimeType = [
+    #       "application/pdf"
+    #     ];
+    #   };
     # };
 
-    "nvim" = {
-      source = ../../../nvim/.config/nvim;
-      recursive = true;
-    };
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "inode/directory" = [ "org.kde.dolphin.desktop" ];
+        "application/x-gnome-saved-search" = [ "org.kde.dolphin.desktop" ];
 
-    "alacritty" = {
-      source = ../../../alacritty/.config/alacritty;
-      recursive = true;
-    };
+        "video/mp4" = [ "mpv.desktop" ];
+        "video/matroska" = [ "mpv.desktop" ];
+        "video/x-matroska" = [ "mpv.desktop" ];
+        "video/mkv" = [ "mpv.desktop" ];
+        "video/webm" = [ "mpv.desktop" ];
+        "video/x-msvideo" = [ "mpv.desktop" ];
+        "video/avi" = [ "mpv.desktop" ];
+        "video/x-avi" = [ "mpv.desktop" ];
+        "video/mpeg" = [ "mpv.desktop" ];
+        "video/x-mpeg2" = [ "mpv.desktop" ];
+        "video/x-mpeg3" = [ "mpv.desktop" ];
+        "video/mp4v-es" = [ "mpv.desktop" ];
+        "video/x-m4v" = [ "mpv.desktop" ];
+        "video/divx" = [ "mpv.desktop" ];
+        "video/vnd.divx" = [ "mpv.desktop" ];
+        "video/msvideo" = [ "mpv.desktop" ];
+        "video/ogg" = [ "mpv.desktop" ];
+        "video/quicktime" = [ "mpv.desktop" ];
+        "video/vnd.rn-realvideo" = [ "mpv.desktop" ];
+        "video/x-ms-afs" = [ "mpv.desktop" ];
+        "video/x-ms-asf" = [ "mpv.desktop" ];
+        "video/x-ms-wmv" = [ "mpv.desktop" ];
+        "video/x-ms-wmx" = [ "mpv.desktop" ];
+        "video/x-ms-wvxvideo" = [ "mpv.desktop" ];
+        "video/x-flic" = [ "mpv.desktop" ];
+        "video/fli" = [ "mpv.desktop" ];
+        "video/x-flc" = [ "mpv.desktop" ];
+        "video/flv" = [ "mpv.desktop" ];
+        "video/x-flv" = [ "mpv.desktop" ];
+        "video/x-theora" = [ "mpv.desktop" ];
+        "video/x-theora+ogg" = [ "mpv.desktop" ];
+        "video/mp2t" = [ "mpv.desktop" ];
+        "video/vnd.mpegurl" = [ "mpv.desktop" ];
+        "video/3gp" = [ "mpv.desktop" ];
+        "video/3gpp" = [ "mpv.desktop" ];
+        "video/3gpp2" = [ "mpv.desktop" ];
+        "video/dv" = [ "mpv.desktop" ];
+        "video/vnd.avi" = [ "mpv.desktop" ];
+        "video/x-ogm+ogg" = [ "mpv.desktop" ];
+        "video/x-ogm" = [ "mpv.desktop" ];
 
-    "niri" = {
-      source = ../../../niri/.config/niri;
-      recursive = true;
-    };
+        "audio/x-vorbis+ogg" = [ "mpv.desktop" ];
+        "audio/aac" = [ "mpv.desktop" ];
+        "audio/x-aac" = [ "mpv.desktop" ];
+        "audio/vnd.dolby.heaac.1" = [ "mpv.desktop" ];
+        "audio/vnd.dolby.heaac.2" = [ "mpv.desktop" ];
+        "audio/aiff" = [ "mpv.desktop" ];
+        "audio/x-aiff" = [ "mpv.desktop" ];
+        "audio/m4a" = [ "mpv.desktop" ];
+        "audio/x-m4a" = [ "mpv.desktop" ];
+        "audio/mp1" = [ "mpv.desktop" ];
+        "audio/x-mp1" = [ "mpv.desktop" ];
+        "audio/mp2" = [ "mpv.desktop" ];
+        "audio/x-mp2" = [ "mpv.desktop" ];
+        "audio/mp3" = [ "mpv.desktop" ];
+        "audio/x-mp3" = [ "mpv.desktop" ];
+        "audio/mpeg" = [ "mpv.desktop" ];
+        "audio/mpeg2" = [ "mpv.desktop" ];
+        "audio/mpeg3" = [ "mpv.desktop" ];
+        "audio/mpegurl" = [ "mpv.desktop" ];
+        "audio/x-mpegurl" = [ "mpv.desktop" ];
+        "audio/mpg" = [ "mpv.desktop" ];
+        "audio/x-mpg" = [ "mpv.desktop" ];
+        "audio/rn-mpeg" = [ "mpv.desktop" ];
+        "audio/musepack" = [ "mpv.desktop" ];
+        "audio/x-musepack" = [ "mpv.desktop" ];
+        "audio/ogg" = [ "mpv.desktop" ];
+        "audio/scpls" = [ "mpv.desktop" ];
+        "audio/x-scpls" = [ "mpv.desktop" ];
+        "audio/vnd.rn-realaudio" = [ "mpv.desktop" ];
+        "audio/wav" = [ "mpv.desktop" ];
+        "audio/x-pn-wav" = [ "mpv.desktop" ];
+        "audio/x-pn-windows-pcm" = [ "mpv.desktop" ];
+        "audio/x-realaudio" = [ "mpv.desktop" ];
+        "audio/x-pn-realaudio" = [ "mpv.desktop" ];
+        "audio/x-ms-wma" = [ "mpv.desktop" ];
+        "audio/x-pls" = [ "mpv.desktop" ];
+        "audio/x-wav" = [ "mpv.desktop" ];
+        "audio/x-ms-asf" = [ "mpv.desktop" ];
+        "audio/x-matroska" = [ "mpv.desktop" ];
+        "audio/webm" = [ "mpv.desktop" ];
+        "audio/vorbis" = [ "mpv.desktop" ];
+        "audio/x-vorbis" = [ "mpv.desktop" ];
+        "audio/x-shorten" = [ "mpv.desktop" ];
+        "audio/x-ape" = [ "mpv.desktop" ];
+        "audio/x-wavpack" = [ "mpv.desktop" ];
+        "audio/x-tta" = [ "mpv.desktop" ];
+        "audio/AMR" = [ "mpv.desktop" ];
+        "audio/ac3" = [ "mpv.desktop" ];
+        "audio/eac3" = [ "mpv.desktop" ];
+        "audio/amr-wb" = [ "mpv.desktop" ];
+        "audio/flac" = [ "mpv.desktop" ];
+        "audio/mp4" = [ "mpv.desktop" ];
+        "audio/x-pn-au" = [ "mpv.desktop" ];
+        "audio/3gpp" = [ "mpv.desktop" ];
+        "audio/3gpp2" = [ "mpv.desktop" ];
+        "audio/dv" = [ "mpv.desktop" ];
+        "audio/opus" = [ "mpv.desktop" ];
+        "audio/vnd.dts" = [ "mpv.desktop" ];
+        "audio/vnd.dts.hd" = [ "mpv.desktop" ];
+        "audio/x-adpcm" = [ "mpv.desktop" ];
+        "audio/m3u" = [ "mpv.desktop" ];
+        "audio/vnd.wave" = [ "mpv.desktop" ];
 
-    "waybar" = {
-      source = ../../../waybar/.config/waybar;
-      recursive = true;
-    };
+        "image/jpeg" = [ "org.kde.gwenview.desktop" ];
+        "image/avif" = [ "org.kde.gwenview.desktop" ];
+        "image/gif" = [ "org.kde.gwenview.desktop" ];
+        "image/heif" = [ "org.kde.gwenview.desktop" ];
+        "image/jxl" = [ "org.kde.gwenview.desktop" ];
+        "image/png" = [ "org.kde.gwenview.desktop" ];
+        "image/bmp" = [ "org.kde.gwenview.desktop" ];
+        "image/x-eps" = [ "org.kde.gwenview.desktop" ];
+        "image/x-icns" = [ "org.kde.gwenview.desktop" ];
+        "image/x-ico" = [ "org.kde.gwenview.desktop" ];
+        "image/x-portable-bitmap" = [ "org.kde.gwenview.desktop" ];
+        "image/x-portable-graymap" = [ "org.kde.gwenview.desktop" ];
+        "image/x-portable-pixmap" = [ "org.kde.gwenview.desktop" ];
+        "image/x-xbitmap" = [ "org.kde.gwenview.desktop" ];
+        "image/x-xpixmap" = [ "org.kde.gwenview.desktop" ];
+        "image/tiff" = [ "org.kde.gwenview.desktop" ];
+        "image/x-psd" = [ "org.kde.gwenview.desktop" ];
+        "image/x-webp" = [ "org.kde.gwenview.desktop" ];
+        "image/webp" = [ "org.kde.gwenview.desktop" ];
+        "image/x-tga" = [ "org.kde.gwenview.desktop" ];
+        "image/x-xcf" = [ "org.kde.gwenview.desktop" ];
+        "image/openraster" = [ "org.kde.gwenview.desktop" ];
+        "image/svg+xml" = [ "org.kde.gwenview.desktop" ];
+        "image/svg+xml-compressed" = [ "org.kde.gwenview.desktop" ];
 
-    "fuzzel" = {
-      source = ../../../fuzzel/.config/fuzzel;
-      recursive = true;
-    };
+        "text/plain" = [ "code.desktop" ];
+        "application/pdf" = [ "sioyek.desktop" ];
 
-    "mpv" = {
-      source = ../../../mpv/.config/mpv;
-      recursive = true;
-    };
-
-    "sioyek" = {
-      source = ../../../sioyek/.config/sioyek;
-      recursive = true;
+        "x-scheme-handler/http" = [ "firefox-devedition.desktop" ];
+        "x-scheme-handler/https" = [ "firefox-devedition.desktop" ];
+        "application/xhtml+xml" = [ "firefox-devedition.desktop" ];
+        "text/html" = [ "firefox-devedition.desktop" ];
+      };
     };
   };
-
-  # xdg.desktopEntries.sioyek = {
-  #   name = "Sioyek";
-  #   comment = "PDF viewer";
-  #   exec = "env QT_QPA_PLATFORM=xcb sioyek %f";
-  #   icon = "sioyek";
-  #   terminal = false;
-  #   type = "Application";
-  #   categories = [
-  #     "Office"
-  #     "Viewer"
-  #   ];
-  #   mimeType = [
-  #     "application/pdf"
-  #   ];
-  # };
 
   home.stateVersion = "26.05";
 }
