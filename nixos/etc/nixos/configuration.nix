@@ -28,6 +28,9 @@
   # boot.kernelPackages = pkgs.linuxPackages;
 
   boot.kernelModules = [ "ntsync" ];
+  boot.blacklistedKernelModules = [
+    "dvb_usb_rtl28xxu"
+  ];
 
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true; # https://wiki.nixos.org/wiki/AMD_GPU
@@ -55,11 +58,11 @@
     #   nvidiaBusId = "PCI:1@0:0:0";
     # };
   };
-  # # https://wiki.nixos.org/wiki/Docker#NVIDIA_Docker_Containers
-  # hardware.nvidia-container-toolkit = {
-  #   enable = true;
-  # };
-  # virtualisation.docker.daemon.settings.features.cdi = true;
+  # https://wiki.nixos.org/wiki/Docker#NVIDIA_Docker_Containers
+  hardware.nvidia-container-toolkit = {
+    enable = true;
+  };
+  virtualisation.docker.daemon.settings.features.cdi = true;
 
   # https://github.com/NixOS/nixpkgs/issues/562776#issuecomment-5662138287
   # nixpkgs.overlays = [
@@ -246,7 +249,8 @@
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      kdePackages.xdg-desktop-portal-kde
+      # kdePackages.xdg-desktop-portal-kde
+      xdg-desktop-portal-cosmic
       xdg-desktop-portal-gnome
       xdg-desktop-portal-gtk
       oo7-portal
@@ -254,20 +258,23 @@
     config = {
       common = {
         default = [
-          "kde"
-          # "gnome"
-          # "gtk"
+          # "kde"
+          "cosmic"
+          "gnome"
+          "gtk"
         ];
       };
       # https://github.com/niri-wm/niri/wiki/Important-Software
       niri = {
         default = lib.mkForce [
-          "kde"
+          # "kde"
+          "cosmic"
           "gnome"
           "gtk"
         ];
         "org.freedesktop.impl.portal.FileChooser" = lib.mkForce [
-          "kde"
+          # "kde"
+          "cosmic"
         ];
         "org.freedesktop.impl.portal.ScreenCast" = [
           "gnome"
@@ -340,6 +347,38 @@
     # nssmdnsFull = true;
   };
 
+  # services.qbittorrent = {
+  #   enable = true;
+  #   user = "zhy";
+  #   group = "users";
+  #   # profileDir = "/var/lib/qBittorrent";
+  #   webuiPort = 50080;
+  #   openFirewall = true;
+  #   # serverConfig = {
+  #   #   LegalNotice.Accepted = true;
+  #   #
+  #   #   Preferences = {
+  #   #     General.Locale = "en";
+  #   #
+  #   #     WebUI = {
+  #   #       Username = "zhy";
+  #   #       Password_PBKDF2 = "kLQcYso2i1/ji24HxWTrNQ==:pjU4bntFzBYQH0JDSXhINg8Oumv7Zy02lNkKXtuT/L8b0ypzm5I1izUkinq4p0De2uqZwKBSQ9ndZ4F2t2/Wnw==";
+  #   #       Address = "127.0.0.1";
+  #   #       Port = 50080;
+  #   #       CSRFProtection = true;
+  #   #       HostHeaderValidation = true;
+  #   #     };
+  #   #
+  #   #     Downloads = {
+  #   #       SavePath = "/home/zhy/hdd/qbit";
+  #   #       TempPath = "/home/zhy/hdd/qbit/temp";
+  #   #       TempPathEnabled = true;
+  #   #       CreateSubfolder = true;
+  #   #     };
+  #   #   };
+  #   # };
+  # };
+
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
     # font = "Lat2-Terminus16";
@@ -393,22 +432,21 @@
   };
   # hardware.xpadneo.enable = true;
 
-  # services.displayManager.defaultSession = "niri";
+  # services.displayManager.defaultSession = lib.mkForce "plasma";
   # services.displayManager.sddm.enable = true;
   # services.desktopManager.plasma6.enable = true;
   # services.desktopManager.gnome.enable = true;
 
-  # services.displayManager.cosmic-greeter.enable = true;
   services.displayManager.noctalia-greeter = {
     enable = true;
     settings = {
-      cursor.size = 24;
+      # cursor.size = 24;
       keyboard.layout = "us";
     };
-    cursorTheme = {
-      name = "Bibata-Modern-Ice";
-      package = pkgs.bibata-cursors;
-    };
+    # cursorTheme = {
+    #   name = "Bibata-Modern-Ice";
+    #   package = pkgs.bibata-cursors;
+    # };
   };
 
   programs.niri = {
@@ -426,7 +464,7 @@
 
     # Enables NetworkManager, Bluetooth, UPower, and a power profile service.
     recommendedServices.enable = true;
-    systemd.enable = true;
+    # systemd.enable = true;
   };
 
   qt = {
@@ -535,6 +573,10 @@
   };
   systemd.tmpfiles.rules = [
     "L+ /bin/bash - - - - ${pkgs.bash}/bin/bash"
+    "d /home/zhy/hdd/qbit 0755 zhy users -"
+    "d /home/zhy/hdd/qbit/temp 0755 zhy users -"
+    "d /home/zhy/hdd/qbit/torrents 0755 zhy users -"
+    "d /home/zhy/hdd/qbit/torrents/done 0755 zhy users -"
   ];
 
   services.flatpak.enable = true;
@@ -556,6 +598,9 @@
     # rustc
     # cargo
     # sccache
+    # typescript-language-server
+    zig
+    zls
 
     tmux
     nil
@@ -571,6 +616,8 @@
     delta
     ripgrep
     fd
+    lsof
+    bandwhich
 
     python3
     # python314
@@ -613,6 +660,7 @@
     # nodejs_latest
     # corepack
     # pnpm
+    go
 
     # inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     # awww
@@ -654,9 +702,9 @@
     # papers
     # nautilus
     # sushi
-    # cosmic-files
-    # cosmic-monitor
-    kdePackages.dolphin
+    cosmic-files
+    cosmic-monitor
+    # kdePackages.dolphin
     kdePackages.okular
     kdePackages.gwenview
     kdePackages.kdeconnect-kde
@@ -687,6 +735,8 @@
     qqmusic
     spotify
     splayer-next
+    sdrpp
+    rtl-sdr
 
     wineWow64Packages.staging
     winetricks
@@ -694,6 +744,7 @@
     # bottles
     protonplus
     # protonup-qt
+    heroic
     fuse
     fuse3
     appimage-run

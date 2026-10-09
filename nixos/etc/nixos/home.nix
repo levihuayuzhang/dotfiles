@@ -40,6 +40,10 @@
       # gpg = {
       #   format = "openpgp";
       # };
+
+      init = {
+        defaultBranch = "main";
+      };
     };
   };
 
@@ -566,8 +570,10 @@
     mimeApps = {
       enable = true;
       defaultApplications = {
-        "inode/directory" = [ "org.kde.dolphin.desktop" ];
-        "application/x-gnome-saved-search" = [ "org.kde.dolphin.desktop" ];
+        # "inode/directory" = [ "org.kde.dolphin.desktop" ];
+        # "application/x-gnome-saved-search" = [ "org.kde.dolphin.desktop" ];
+        "inode/directory" = [ "com.system76.CosmicFiles.desktop" ];
+        "application/x-gnome-saved-search" = [ "com.system76.CosmicFiles.desktop" ];
 
         "video/mp4" = [ "mpv.desktop" ];
         "video/matroska" = [ "mpv.desktop" ];

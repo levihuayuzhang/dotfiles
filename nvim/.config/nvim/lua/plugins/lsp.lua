@@ -15,9 +15,10 @@ local servers = {
   -- "ocamllsp",
   -- "vsrocq",
   -- "fortls",
-  -- "ts_ls",
+  "ts_ls",
   "nixd",
   -- "nil_ls",
+  "zls",
 }
 vim.lsp.enable(servers)
 
