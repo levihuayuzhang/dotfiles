@@ -249,7 +249,7 @@
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      # kdePackages.xdg-desktop-portal-kde
+      kdePackages.xdg-desktop-portal-kde
       xdg-desktop-portal-cosmic
       xdg-desktop-portal-gnome
       xdg-desktop-portal-gtk
@@ -258,7 +258,7 @@
     config = {
       common = {
         default = [
-          # "kde"
+          "kde"
           "cosmic"
           "gnome"
           "gtk"
@@ -267,7 +267,7 @@
       # https://github.com/niri-wm/niri/wiki/Important-Software
       niri = {
         default = lib.mkForce [
-          # "kde"
+          "kde"
           "cosmic"
           "gnome"
           "gtk"
@@ -347,37 +347,41 @@
     # nssmdnsFull = true;
   };
 
-  # services.qbittorrent = {
-  #   enable = true;
-  #   user = "zhy";
-  #   group = "users";
-  #   # profileDir = "/var/lib/qBittorrent";
-  #   webuiPort = 50080;
-  #   openFirewall = true;
-  #   # serverConfig = {
-  #   #   LegalNotice.Accepted = true;
-  #   #
-  #   #   Preferences = {
-  #   #     General.Locale = "en";
-  #   #
-  #   #     WebUI = {
-  #   #       Username = "zhy";
-  #   #       Password_PBKDF2 = "kLQcYso2i1/ji24HxWTrNQ==:pjU4bntFzBYQH0JDSXhINg8Oumv7Zy02lNkKXtuT/L8b0ypzm5I1izUkinq4p0De2uqZwKBSQ9ndZ4F2t2/Wnw==";
-  #   #       Address = "127.0.0.1";
-  #   #       Port = 50080;
-  #   #       CSRFProtection = true;
-  #   #       HostHeaderValidation = true;
-  #   #     };
-  #   #
-  #   #     Downloads = {
-  #   #       SavePath = "/home/zhy/hdd/qbit";
-  #   #       TempPath = "/home/zhy/hdd/qbit/temp";
-  #   #       TempPathEnabled = true;
-  #   #       CreateSubfolder = true;
-  #   #     };
-  #   #   };
-  #   # };
-  # };
+  services.qbittorrent = {
+    enable = true;
+    user = "zhy";
+    group = "users";
+    # profileDir = "/var/lib/qBittorrent";
+    webuiPort = 50080;
+    openFirewall = true;
+    # serverConfig = {
+    #   LegalNotice.Accepted = true;
+    #
+    #   Preferences = {
+    #     General.Locale = "en";
+    #
+    #     WebUI = {
+    #       Username = "zhy";
+    #       Password_PBKDF2 = "kLQcYso2i1/ji24HxWTrNQ==:pjU4bntFzBYQH0JDSXhINg8Oumv7Zy02lNkKXtuT/L8b0ypzm5I1izUkinq4p0De2uqZwKBSQ9ndZ4F2t2/Wnw==";
+    #       Address = "127.0.0.1";
+    #       Port = 50080;
+    #       CSRFProtection = true;
+    #       HostHeaderValidation = true;
+    #     };
+    #
+    #     Downloads = {
+    #       SavePath = "/home/zhy/hdd/qbit";
+    #       TempPath = "/home/zhy/hdd/qbit/temp";
+    #       TempPathEnabled = true;
+    #       CreateSubfolder = true;
+    #     };
+    #   };
+    # };
+  };
+  systemd.services.qbittorrent.serviceConfig = {
+    ProtectHome = lib.mkForce false;
+    # PrivateUsers = lib.mkForce false;
+  };
 
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
@@ -573,10 +577,10 @@
   };
   systemd.tmpfiles.rules = [
     "L+ /bin/bash - - - - ${pkgs.bash}/bin/bash"
-    "d /home/zhy/hdd/qbit 0755 zhy users -"
-    "d /home/zhy/hdd/qbit/temp 0755 zhy users -"
-    "d /home/zhy/hdd/qbit/torrents 0755 zhy users -"
-    "d /home/zhy/hdd/qbit/torrents/done 0755 zhy users -"
+    # "d /home/zhy/hdd/qbit 0755 zhy users -"
+    # "d /home/zhy/hdd/qbit/temp 0755 zhy users -"
+    # "d /home/zhy/hdd/qbit/torrents 0755 zhy users -"
+    # "d /home/zhy/hdd/qbit/torrents/done 0755 zhy users -"
   ];
 
   services.flatpak.enable = true;

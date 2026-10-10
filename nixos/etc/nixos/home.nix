@@ -111,8 +111,8 @@
     shellInit = "
       set -gx GPG_TTY (tty)
 
-      set -gx RUSTUP_DIST_SERVER https://mirrors.tuna.tsinghua.edu.cn/rustup
-      set -gx RUSTUP_UPDATE_ROOT https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
+      # set -gx RUSTUP_DIST_SERVER https://mirrors.tuna.tsinghua.edu.cn/rustup
+      # set -gx RUSTUP_UPDATE_ROOT https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
       set -gx RUST_BACKTRACE full
       set -gx RUSTC_WRAPPER sccache
       # set -gx SCCACHE_SERVER_UDS $HOME/sccache.sock
